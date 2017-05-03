@@ -1,7 +1,7 @@
 {
-  "name": "__BONES_NEEDS_A_NAME__",
+  "name": "tern",
   "version": "0.0.1",
-  "description": "A happy little burning skeleton.",
+  "description": "group travel planner",
   "main": "index.js",
   "engines": {
     "node": ">= 7.0.0"

@@ -13,7 +13,7 @@ const app = require('.')
       lint: task(app.package.scripts['lint-watch'], {color: cyan}),
       test: task(app.package.scripts['test-watch'], {color: yellow})
     })
-
+console.log('ENV:', process.env)
 const taskEnvironment = (path=require('path')) => {
   const env = {}
   for (const key in process.env) {

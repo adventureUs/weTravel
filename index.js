@@ -43,3 +43,4 @@ module.exports = {
   package: pkg,
   env,
 }
+console.log('ENV:', env)

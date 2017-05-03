@@ -1,13 +1,13 @@
 const firebase = require('firebase')
 
 // -- // -- // -- // Firebase Config // -- // -- // -- //
-const config = {
-  apiKey: 'AIzaSyBzz-Wq2dzMgM7E8cdSYnYoX5fbVUT-XQo',
-  authDomain: 'firebones-6bc2a.firebaseapp.com',
-  databaseURL: 'https://firebones-6bc2a.firebaseio.com',
-  projectId: 'firebones-6bc2a',
-  storageBucket: 'firebones-6bc2a.appspot.com',
-  messagingSenderId: '1030378391678'
+var config = {
+  apiKey: 'AIzaSyAnYp3yZT0JJEqJBSQ8wLqRzQYlsMEe-Ow',
+  authDomain: 'tern-2b37d.firebaseapp.com',
+  databaseURL: 'https://tern-2b37d.firebaseio.com',
+  projectId: 'tern-2b37d',
+  storageBucket: 'tern-2b37d.appspot.com',
+  messagingSenderId: '852831908011'
 }
 // -- // -- // -- // -- // -- // -- // -- // -- // -- //
 
@@ -18,6 +18,6 @@ const config = {
 //   initialize the app again, which causes Firebase to throw.
 //
 //   This is why global state makes a sad panda.)
-firebase.__bonesApp || (firebase.__bonesApp = firebase.initializeApp(config))
+firebase.__ternApp || (firebase.__ternApp = firebase.initializeApp(config))
 
 module.exports = firebase
