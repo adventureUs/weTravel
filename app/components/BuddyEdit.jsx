@@ -48,28 +48,40 @@ export default class BuddyEdit extends Component {
         <h1>BUDDIES</h1>
         <div className="container">
           <form className="form-horizontal">
-            <input name="name" type="text" className="form-control" placeholder="Name" />
-            <input readonly name="email" type="email" className="form-control" placeholder="Email from db Goes here" />
-            <select className="col-xs-2">status
-                <option>Invited</option>
-                <option>Going</option>
-                <option>Can't Make It</option>
-            </select>
-            <input name="homebase" type="text" className="form-control" placeholder="Home Base"/>
-            <DatePicker
+            <div className="col-md-3">
+              <input name="name" type="text" className="form-control" placeholder="Name" />
+            </div>
+            <div className="col-md-3">
+              <input readOnly="true" name="email" type="email" className="form-control  col-md-3" placeholder="Email from db Goes here" />
+            </div>
+            <div className="col-md-3">
+              <select className="col-md-3">status
+                  <option>Invited</option>
+                  <option>Going</option>
+                  <option>Can't Make It</option>
+              </select>
+            </div>
+            <div className="col-md-3">            
+              <input name="homebase" type="text" className="form-control  col-md-3" placeholder="Home Base"/>
+            </div>
+            <div className="col-md-3">            
+              <DatePicker
                   selected={this.state.startDate}
                   selectsStart
                   startDate={this.state.startDate}
                   endDate={this.state.endDate}
                   onChange={this.handleChangeStart}
               />
-            <DatePicker
+            </div>
+            <div className="col-md-3">
+              <DatePicker
                   selected={this.state.endDate}
                   selectsEnd
                   startDate={this.state.startDate}
                   endDate={this.state.endDate}
                   onChange={this.handleChangeEnd}
               />
+            </div>
             <button onClick={this.showDate}>Dummy Log Dates Button</button>
           </form>
         </div>
