@@ -3,9 +3,11 @@ import React from 'react'
 import {Router, Route, IndexRedirect, browserHistory} from 'react-router'
 import {render} from 'react-dom'
 
-import WhoAmI from './components/WhoAmI'
+// import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
 import Login from './components/Login'
+import SignUp from './components/SignUp'
+import Dashboard from './components/Dashboard'
 
 import firebase from 'APP/fire'
 
@@ -16,7 +18,7 @@ const auth = firebase.auth()
 
 // Ensure that we have (almost) always have a user ID, by creating
 // an anonymous user if nobody is signed in.
-auth.onAuthStateChanged(user => user || auth.signInAnonymously())
+// auth.onAuthStateChanged(user => user || auth.signInAnonymously())
 
 // Further explanation:
 //
@@ -40,23 +42,21 @@ auth.onAuthStateChanged(user => user || auth.signInAnonymously())
 
 // Our root App component just renders a little frame with a nav
 // and whatever children the router gave us.
-const App = ({children}) =>
-  <div>
-    <nav>
-      {/* WhoAmI takes a firebase auth API and renders either a
-          greeting and a logout button, or sign in buttons, depending
-          on if anyone's logged in */}
-      <WhoAmI auth={auth}/>
-    </nav>
-    {/* Render our children (whatever the router gives us) */}
-    {children}
+const App = () =>
+  <div className='well'>
+  {
+   firebase.auth().currentUser ? <Login/> : <Dashboard/>
+  }
   </div>
 
 render(
   <Router history={browserHistory}>
-    <Route path="/" component={Login}>
-      <Route path="test" component={Login}/>
+    <Route path="/" component={App}>
+      <Route path="login" component={Login}/>
+      <Route path="signup" component={SignUp}/>
+      <Route path="dashboard" component={Dashboard}/>
     </Route>
+    <Route path='*' component={NotFound}/>
   </Router>,
   document.getElementById('main')
 )

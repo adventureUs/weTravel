@@ -1091,6 +1091,7 @@ body {
   line-height: 1.42857143;
   color: #2c3e50;
   background-color: #ffffff;
+  /*margin: 10px; /*INJECTED BODY MARGIN*/
 }
 input,
 button,

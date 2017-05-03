@@ -4,6 +4,8 @@
  * Usage: node dev
  **/
 
+console.log('Environment!!:. ', process.env);
+
 const app = require('.')
     , chalk = require('chalk'), {bold} = chalk
     , {red, green, blue, cyan, yellow} = bold

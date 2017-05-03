@@ -4,19 +4,20 @@ const auth = firebase.auth()
 
 import Login from './Login'
 
-export const name = user => {
-  if (!user) return 'Nobody'
-  if (user.isAnonymous) return 'Anonymous'
-  return user.displayName || user.email
+export const greeting = user => {
+  if (!user || user.isAnonymous) return <h3>Please sign in below!</h3>
+  return `Hello, ${{user.displayName || user.email}}.`
 }
 
 export const WhoAmI = ({user, auth}) =>
-  <div className="whoami">
-    <span className="whoami-user-name">Hello, {name(user)}</span>
+  <div className="whoami well">
+    <span className="whoami-user-name">{greeting(user)}</span>
     { // If nobody is logged in, or the current user is anonymous,
-      (!user || user.isAnonymous)?
+      (!user)?
       // ...then show signin links...
-      <Login auth={auth}/>
+      <div>
+        <Login auth={auth}/>
+      </div>
       /// ...otherwise, show a logout button.
       : <button className='logout' onClick={() => auth.signOut()}>logout</button> }
   </div>

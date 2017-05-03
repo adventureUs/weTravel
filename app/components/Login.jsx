@@ -1,5 +1,8 @@
 import React from 'react'
+import { Link } from 'react-router'
 import firebase from 'APP/fire'
+
+// Do external logins in Login
 
 const google = new firebase.auth.GoogleAuthProvider()
 
@@ -28,58 +31,50 @@ export default ({ auth }) =>
   // signInWithPopup will try to open a login popup, and if it's blocked, it'll
   // redirect. If you prefer, you can signInWithRedirect, which always
   // redirects.
-  // <form className='form-horizontal'>
-  //   <fieldset>
-  //     <div className="form-group">
-  //       <legend>Log In</legend>
-  //       <button className='google login'
-  //         onClick={() => auth.signInWithPopup(google)}>Login with Google</button>
-  //     </div>
-  //     <div className="form-group">
-  //       <label for="inputEmail" className="col-lg-2 control-label">Email</label>
-  //       <div className="col-lg-10">
-  //         <input type="text" className="form-control" id="inputEmail" placeholder="Email" />
-  //       </div>
-  //     </div>
-  //     <div className="form-group">
-  //       <label for="inputPassword" className="col-lg-2 control-label">Password</label>
-  //       <div className="col-lg-10">
-  //         <input type="password" className="form-control" id="inputPassword" placeholder="Password" />
-  //       </div>
 
-  //       <div className="form-group">
-  //         <div className="col-lg-10 col-lg-offset-2">
-  //           <button type="reset" className="btn btn-default">Cancel</button>
-  //           <button type="submit" className="btn btn-primary">Submit</button>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </fieldset>
-  // </form>
 
-  <form className="form-horizontal">
-    <fieldset>
-      <legend className="col-lg-12" >Legend</legend>
-      <div className="form-group">
-        <label htmlFor="inputEmail" className="col-lg-2 control-label">Email</label>
-        <div className="col-lg-10">
-          <input type="text" className="form-control" id="inputEmail" placeholder="Email" />
-        </div>
-      </div>
-      <div className="form-group">
-        <label htmlFor="inputPassword" className="col-lg-2 control-label">Password</label>
-        <div className="col-lg-10">
-          <input type="password" className="form-control" id="inputPassword" placeholder="Password" />
-        </div>
-      </div>  
-      <div className="form-group">
-        <div className="col-lg-10 col-lg-offset-2">
-          <button type="submit" className="btn btn-primary">Submit</button>
-        </div>
-      </div>
-    </fieldset>
-  </form>
+    <form className="form-horizontal">
+        <fieldset>
+          <legend className="col-lg-12" >Login with your email & password</legend>
+          <div className="form-group">
+            <label htmlFor="inputEmail" className="col-lg-2 control-label">Email</label>
+            <div className="col-lg-10">
+              <input type="text" className="form-control" id="inputEmail" placeholder="Email" />
+            </div>
+          </div>
+          <div className="form-group">
+            <label htmlFor="inputPassword" className="col-lg-2 control-label">Password</label>
+            <div className="col-lg-10">
+              <input type="password" className="form-control" id="inputPassword" placeholder="Password" />
+            </div>
+          </div>
+          <div className="form-group">
+            <div className="col-lg-10 col-lg-offset-2">
+              <button type="submit" className="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </fieldset>
 
+        <div>
+          <div>
+              <button className='google login btn btn-primary'
+                onClick={() => auth.signInWithPopup(google)}>Login with Google</button>
+          </div>
+          <br/>
+          <div>
+              <button className='facebook login btn btn-primary'
+                onClick={() => auth.signInWithPopup(facebook)}>Login with Facebook</button>
+          </div>
+        </div>
+
+        <hr/>
+
+        <div>
+            <Link to="/signup"><button className='btn btn-success'
+              >Sign Up</button></Link>
+        </div>
+
+      </form>
 
 
 
