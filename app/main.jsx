@@ -53,7 +53,7 @@ const App = () =>
 render(
   <Router history={browserHistory}>
     <Route path="/" component={App} />
-    <Route path="login" component={Login} />
+    <Route path="login" component={Login} auth={auth} />
     <Route path="dashboard" component={Dashboard} />
     <Route path="signup" component={SignUp} />
     <Route path='*' component={NotFound} />
