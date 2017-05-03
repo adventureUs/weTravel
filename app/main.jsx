@@ -1,7 +1,7 @@
 'use strict'
 import React from 'react'
-import {Router, Route, IndexRedirect, browserHistory} from 'react-router'
-import {render} from 'react-dom'
+import { Router, Route, IndexRedirect, browserHistory } from 'react-router'
+import { render } from 'react-dom'
 
 // import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
@@ -44,19 +44,19 @@ const auth = firebase.auth()
 // and whatever children the router gave us.
 const App = () =>
   <div className='well'>
-  {
-   firebase.auth().currentUser ? <Login/> : <Dashboard/>
-  }
+    {
+      firebase.auth().currentUser ? <Dashboard /> : <Login />
+    }
+
   </div>
 
 render(
   <Router history={browserHistory}>
-    <Route path="/" component={App}>
-      <Route path="login" component={Login}/>
-      <Route path="signup" component={SignUp}/>
-      <Route path="dashboard" component={Dashboard}/>
-    </Route>
-    <Route path='*' component={NotFound}/>
+    <Route path="/" component={App} />
+    <Route path="login" component={Login} />
+    <Route path="dashboard" component={Dashboard} />
+    <Route path="signup" component={SignUp} />
+    <Route path='*' component={NotFound} />
   </Router>,
   document.getElementById('main')
 )
