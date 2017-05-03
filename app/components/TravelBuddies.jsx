@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Route} from 'react-router'
 import DatePicker from 'react-datepicker'
+
 import moment from 'moment'
 import firebase from 'APP/fire'
 const db = firebase.database
@@ -53,7 +54,7 @@ export default class TravelBuddies extends Component {
                         onChange={this.handleChangeEnd}
                     />
                   </div>
-                  <div className="col-lg-4">
+                  <div className="">
                     <DatePicker id="dateMin" name="dateMin" />
                     <DatePicker id="dateMax" name="dateMax" />
                     <div id="dateSlider"></div>

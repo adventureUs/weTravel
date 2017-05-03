@@ -5,7 +5,6 @@ const db = firebase.database()
 
 const Timeline = () =>
   (<div>
-    
   </div>
   )
 
