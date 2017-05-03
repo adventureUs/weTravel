@@ -6,6 +6,7 @@ import {render} from 'react-dom'
 import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
 import Navbar from './components/Navbar'
+import TravelBuddies from './components/TravelBuddies'
 
 import firebase from 'APP/fire'
 
@@ -55,7 +56,9 @@ render(
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRedirect to="demos"/>
+    <Route path="/travelbuddies" component={TravelBuddies} />
       {Demos /* Put all the demos and a description page at /demos */}
+    }
     </Route>
     <Route path='*' component={NotFound}/>
   </Router>,
