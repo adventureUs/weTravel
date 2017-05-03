@@ -17,52 +17,85 @@ export default class TravelBuddies extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleChangeStart = this.handleChangeStart.bind(this)
     this.handleChangeEnd = this.handleChangeEnd.bind(this)
+    this.showDate = this.showDate.bind(this)
   }
 
-  handleChange = e => console.log('TravelBuddies on Change', e.target.name, e.target.value)
-  handleChangeStart = e => {
-    console.log('TravelBuddies Start Date On Change', e.format('MMM Do YY'))
+  handleChange = e => {
+    console.log('TravelBuddies on Change', e.target.name, e.target.value)
   }
-  handleChangeEnd = e => console.log('TravelBuddies End Date On Change', e._d)
+
+  handleChangeStart = m => {
+    this.setState({startDate: m})
+    console.log('TravelBuddies Start Date On Change', this.state.startDate.format('MMM Do YY'))
+  }
+
+  handleChangeEnd = m => {
+    this.setState({endDate: m})
+    console.log('TravelBuddies End Date On Change', this.state)
+  }
+  showDate = (e) => {
+    e.preventDefault()
+    console.log(this.state)
+  }
 
   render() {
     return (
       <div>
         <h1>BUDDIES</h1>
-        <form id='location' className="form-horizontal">
-              <fieldset>
-                <legend>Buddies</legend>
-                <div className="form-group well">
-                  <div className="col-lg-4">
-                    <ul>
-                      <li>BUDDY NAME </li>
-                    </ul>
-                  </div>
-                  <div className="col-lg-4">
-                    <DatePicker
+        <div className="container">
+          <table className="table table-hover">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>HomeBase</th>
+                <th>Available Dates</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <input name="name" type="text" className="form-control" placeholder="Name" />
+                </td>
+                <td>
+                  <input readOnly name="email" type="email" className="form-control" placeholder="Email from db Goes here" />
+                </td>
+                <td>
+                  <select className="col-xs-2">status
+                      <option>Invited</option>
+                      <option>Going</option>
+                      <option>Can't Make It</option>
+                  </select>
+                </td>
+                <td>
+                  <input name="homebase" type="text" className="form-control" placeholder="Home Base"/>
+                </td>
+                <td>
+                  <DatePicker
                         selected={this.state.startDate}
                         selectsStart
                         startDate={this.state.startDate}
                         endDate={this.state.endDate}
                         onChange={this.handleChangeStart}
                     />
-                    <DatePicker
+                </td>
+                <td>
+                  <DatePicker
                         selected={this.state.endDate}
                         selectsEnd
                         startDate={this.state.startDate}
                         endDate={this.state.endDate}
                         onChange={this.handleChangeEnd}
                     />
-                  </div>
-                  <div className="">
-                    <DatePicker id="dateMin" name="dateMin" />
-                    <DatePicker id="dateMax" name="dateMax" />
-                    <div id="dateSlider"></div>
-                    <span id="output"></span>
-                  </div>
-                </div>
-              </fieldset>
-            </form>
+                </td>
+                <td>
+                  <button onClick={this.showDate}>Dummy Log Dates Button</button>
+                </td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     )
   }

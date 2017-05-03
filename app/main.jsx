@@ -7,6 +7,7 @@ import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
 import Navbar from './components/Navbar'
 import TravelBuddies from './components/TravelBuddies'
+import BuddyEdit from './components/BuddyEdit'
 
 import firebase from 'APP/fire'
 
@@ -57,6 +58,7 @@ render(
     <Route path="/" component={App}>
       <IndexRedirect to="demos"/>
     <Route path="/travelbuddies" component={TravelBuddies} />
+    <Route path="/travelbuddies/:email" component={BuddyEdit} />
       {Demos /* Put all the demos and a description page at /demos */}
     }
     </Route>

@@ -10,3 +10,6 @@
 .navbar {
     display: none;
   }
+li.col-xs-2 {
+  list-style: none !important;
+}
