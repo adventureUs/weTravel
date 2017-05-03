@@ -17,6 +17,7 @@ export default class extends React.Component {
     console.log('FROM DASHBOARD.  USER: ', auth.currentUser)
     return <div className='well'>
             <h1>Dashboard Under Construction</h1>
+            <h4>{auth.currentUser ? `${auth.currentUser.displayName}` : 'No one'} is signed in</h4>
             <Link to="/login"><button className='logout' onClick={() => auth.signOut()}>logout</button></Link>
             </div>
   }

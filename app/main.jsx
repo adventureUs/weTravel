@@ -15,6 +15,9 @@ import Demos from 'APP/demos'
 
 // Get the auth API from Firebase.
 const auth = firebase.auth()
+const google = new firebase.auth.GoogleAuthProvider()
+const facebook = new firebase.auth.FacebookAuthProvider()
+const email = new firebase.auth.EmailAuthProvider()
 
 // Ensure that we have (almost) always have a user ID, by creating
 // an anonymous user if nobody is signed in.
@@ -53,9 +56,9 @@ const App = () =>
 render(
   <Router history={browserHistory}>
     <Route path="/" component={App} />
-    <Route path="login" component={Login} auth={auth} />
+    <Route path="login" component={Login} auth={auth} google={google} facebook={facebook} email={email} />
     <Route path="dashboard" component={Dashboard} />
-    <Route path="signup" component={SignUp} />
+    <Route path="signup" component={SignUp} auth={auth} google={google} facebook={facebook} email={email} />
     <Route path='*' component={NotFound} />
   </Router>,
   document.getElementById('main')

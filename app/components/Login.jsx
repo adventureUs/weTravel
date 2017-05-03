@@ -4,15 +4,7 @@ import firebase from 'APP/fire'
 
 // Do external logins in Login
 
-const google = new firebase.auth.GoogleAuthProvider()
 
-// Firebase has several built in auth providers:
-const facebook = new firebase.auth.FacebookAuthProvider()
-// const twitter = new firebase.auth.TwitterAuthProvider()
-// const github = new firebase.auth.GithubAuthProvider()
-// // This last one is the email and password login we all know and
-// // vaguely tolerate:
-const email = new firebase.auth.EmailAuthProvider()
 
 // If you want to request additional permissions, you'd do it
 // like so:
@@ -62,9 +54,12 @@ export default class extends React.Component {
 
   render() {
     const auth = this.props.route.auth
+    const email = this.props.route.email
+    const google = this.props.route.google
+    const facebook = this.props.route.facebook
     return (
-      <form onSubmit={this.onSubmit} className="form-horizontal">
-        <fieldset>
+      <div className="jumbotron">
+        <form onSubmit={this.onSubmit} className="form-horizontal">
           <legend className="col-lg-12" >Login with your email & password</legend>
           <div className="form-group">
             <label htmlFor="inputEmail" className="col-lg-2 control-label">Email</label>
@@ -83,17 +78,22 @@ export default class extends React.Component {
               <button type="submit" className="btn btn-primary">Submit</button>
             </div>
           </div>
-        </fieldset>
-
+        </form>
         <div>
           <div>
             <button className='google login btn btn-primary'
-              onClick={() => auth.signInWithPopup(google)}>Login with Google</button>
+              onClick={() => {
+                auth.signInWithPopup(google)
+                  .then(() => browserHistory.push('/dashboard'))
+              }}>Login with Google</button>
           </div>
           <br />
           <div>
             <button className='facebook login btn btn-primary'
-              onClick={() => auth.signInWithPopup(facebook)}>Login with Facebook</button>
+              onClick={() => {
+                auth.signInWithPopup(facebook)
+                  .then(() => browserHistory.push('/dashboard'))
+              }}>Login with Facebook</button>
           </div>
         </div>
 
@@ -102,7 +102,7 @@ export default class extends React.Component {
         <div>
           <Link to="/signup"><button className='btn btn-success'>Sign Up</button></Link>
         </div>
-      </form>
+      </div>
     )
   }
 }
