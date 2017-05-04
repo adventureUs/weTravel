@@ -2,24 +2,26 @@ import React, { Component } from 'react'
 import { RIEToggle, RIEInput, RIETextArea, REINumber, RIETags, RIESelect } from 'riek'
 import {Route} from 'react-router'
 import DatePicker from 'react-datepicker'
-
+import WhoAmI from './WhoAmI'
 import moment from 'moment'
 import firebase from 'APP/fire'
 const auth = firebase.auth()
 const db = firebase.database()
-const userRef = db.ref('users/' + userId)
+const userRef = db.ref('users/')
 
 export default class InlineBuddyEdit extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
+    // const authInstance = props.route.auth
+    console.log('AUTH', auth.currentUser)
     this.state = {
       name:'Please enter name here',
-      email: auth.currentUser ? auth.currentUser.email : 'no email',
+      email: authInstance.currentUser ? authInstance.currentUser.email : 'no email',
       status: {id: '1', text: 'Invited'},
       statusOptions: [
         {id: '1', text: 'Invited'},
         {id: '2', text: 'Going'},
-        {id: '3', text: 'Can\"t make it'}
+        {id: '3', text: 'Can\'t make it'}
       ],
       homeBase:'New York',
       startDate: moment(),
@@ -29,11 +31,18 @@ export default class InlineBuddyEdit extends Component {
 
   virtualServerCallback = (newState) => {
     this.setState(newState)
+    this.updateDb()
+  }
+
+  udpateDb = () => {
+    const uid = auth.currentUser.uid
+    console.log('UID', uid)
   }
 
   render() {
     return (
       <div>
+      <WhoAmI auth={auth}/>
         <h1>BUDDIES</h1>
         <div className="container">
           <div className="form-horizontal">

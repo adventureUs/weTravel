@@ -12,7 +12,10 @@ import Login from './components/Login'
 import SignUp from './components/SignUp'
 import Dashboard from './components/Dashboard'
 import InlineBuddyEdit from './components/InlineBuddyEdit'
+
+
 import firebase from 'APP/fire'
+
 
 
 // ---- UNCOMMENT TO RESEED DATABASE ----------
@@ -69,7 +72,7 @@ render(
     <Route path="dashboard" component={Dashboard} />
     <Route path="signup" component={SignUp} google={google} facebook={facebook} email={email} />
     <Route path="/travelbuddies" component={TravelBuddies} />
-    <Route path="/travelbuddies/email" component={InlineBuddyEdit} />
+    <Route path="/travelbuddies/email" component={InlineBuddyEdit} auth={auth} />
     <Route path='*' component={NotFound} />
   </Router>,
   document.getElementById('main')
