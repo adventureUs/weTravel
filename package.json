@@ -1,7 +1,7 @@
 {
-  "name": "__BONES_NEEDS_A_NAME__",
+  "name": "tern",
   "version": "0.0.1",
-  "description": "A happy little burning skeleton.",
+  "description": "Helping friends travel",
   "main": "index.js",
   "engines": {
     "node": ">= 7.0.0"
@@ -25,7 +25,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/queerviolet/bones.git"
+    "url": "git+https://github.com/stefsulzer/weTravel"
   },
   "keywords": [
     "react",
@@ -35,9 +35,9 @@
   "author": "Ashi Krishnan <me@ashi.works>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/queerviolet/bones/issues"
+    "url": "https://github.com/stefsulzer/weTravel/issues"
   },
-  "homepage": "https://github.com/queerviolet/bones#readme",
+  "homepage": "https://github.com/stefsulzer/weTravel#readme",
   "dependencies": {
     "axios": "^0.15.2",
     "babel-preset-stage-2": "^6.18.0",

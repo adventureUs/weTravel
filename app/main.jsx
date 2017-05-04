@@ -1,10 +1,13 @@
 'use strict'
 import React from 'react'
-import {Router, Route, IndexRedirect, browserHistory} from 'react-router'
-import {render} from 'react-dom'
+import { Router, Route, IndexRedirect, browserHistory } from 'react-router'
+import { render } from 'react-dom'
 
-import WhoAmI from './components/WhoAmI'
+// import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
+import Login from './components/Login'
+import SignUp from './components/SignUp'
+import Dashboard from './components/Dashboard'
 
 import firebase from 'APP/fire'
 
@@ -12,10 +15,13 @@ import Demos from 'APP/demos'
 
 // Get the auth API from Firebase.
 const auth = firebase.auth()
+const google = new firebase.auth.GoogleAuthProvider()
+const facebook = new firebase.auth.FacebookAuthProvider()
+const email = new firebase.auth.EmailAuthProvider()
 
 // Ensure that we have (almost) always have a user ID, by creating
 // an anonymous user if nobody is signed in.
-auth.onAuthStateChanged(user => user || auth.signInAnonymously())
+// auth.onAuthStateChanged(user => user || auth.signInAnonymously())
 
 // Further explanation:
 //
@@ -39,25 +45,21 @@ auth.onAuthStateChanged(user => user || auth.signInAnonymously())
 
 // Our root App component just renders a little frame with a nav
 // and whatever children the router gave us.
-const App = ({children}) =>
-  <div>
-    <nav>
-      {/* WhoAmI takes a firebase auth API and renders either a
-          greeting and a logout button, or sign in buttons, depending
-          on if anyone's logged in */}
-      <WhoAmI auth={auth}/>
-    </nav>
-    {/* Render our children (whatever the router gives us) */}
-    {children}
+const App = () =>
+  <div className='well'>
+    {
+      firebase.auth().currentUser ? <Dashboard /> : <Login />
+    }
+
   </div>
 
 render(
   <Router history={browserHistory}>
-    <Route path="/" component={App}>
-      <IndexRedirect to="demos"/>
-      {Demos /* Put all the demos and a description page at /demos */}
-    </Route>
-    <Route path='*' component={NotFound}/>
+    <Route path="/" component={App} />
+    <Route path="login" component={Login} auth={auth} google={google} facebook={facebook} email={email} />
+    <Route path="dashboard" component={Dashboard} />
+    <Route path="signup" component={SignUp} auth={auth} google={google} facebook={facebook} email={email} />
+    <Route path='*' component={NotFound} />
   </Router>,
   document.getElementById('main')
 )

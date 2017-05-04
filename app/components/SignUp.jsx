@@ -2,23 +2,6 @@ import React from 'react'
 import { Link, browserHistory } from 'react-router'
 import firebase from 'APP/fire'
 
-// Do external logins in Login
-
-
-
-// If you want to request additional permissions, you'd do it
-// like so:
-//
-// google.addScope('https://www.googleapis.com/auth/plus.login')
-//
-// What kind of permissions can you ask for? There's a lot:
-//   https://developers.google.com/identity/protocols/googlescopes
-//
-// For instance, this line will request the ability to read, send,
-// and generally manage a user's email:
-//
-// google.addScope('https://mail.google.com/')
-
 export default class extends React.Component {
   constructor(props) {
     super(props)
@@ -37,7 +20,7 @@ export default class extends React.Component {
     evt.preventDefault()
     // what we actually want to do is redirect to the dashboard view
     if (this.state.email.length && this.state.password.length) {
-      firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+      firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         // Should we have a pop-up to collect extra information such as zipcode, name
         .then(() => browserHistory.push('/dashboard'))
         .catch(error => {
@@ -48,23 +31,20 @@ export default class extends React.Component {
     }
   }
 
-  // signInWithPopup will try to open a login popup, and if it's blocked, it'll
-  // redirect. If you prefer, you can signInWithRedirect, which always
-  // redirects.
-
   render() {
     const auth = this.props.route.auth
     const email = this.props.route.email
     const google = this.props.route.google
     const facebook = this.props.route.facebook
+    
     return (
       <div className="jumbotron">
-        <form onSubmit={this.onSubmit} className="form-horizontal">
-          <legend className="col-lg-12" >Login with your email & password</legend>
+        <form onSubmit={this.onSubmit} className="form-horizontal well">
+          <legend className="col-lg-12" >Create an account with your e-mail and a password</legend>
           <div className="form-group">
             <label htmlFor="inputEmail" className="col-lg-2 control-label">Email</label>
             <div className="col-lg-10">
-              <input type="text" className="form-control" id="email" placeholder="Email" onChange={this.setEmailPassword} />
+              <input type="email" className="form-control" id="email" placeholder="Email" onChange={this.setEmailPassword} />
             </div>
           </div>
           <div className="form-group">
@@ -75,7 +55,7 @@ export default class extends React.Component {
           </div>
           <div className="form-group">
             <div className="col-lg-10 col-lg-offset-2">
-              <button type="submit" className="btn btn-primary">Submit</button>
+              <button type="submit" className='btn btn-success'>Submit</button>
             </div>
           </div>
         </form>
@@ -96,18 +76,7 @@ export default class extends React.Component {
               }}>Login with Facebook</button>
           </div>
         </div>
-
-        <hr />
-
-        <div>
-          <Link to="/signup"><button className='btn btn-success'>Sign Up</button></Link>
-        </div>
       </div>
     )
   }
 }
-
-
-
-
-
