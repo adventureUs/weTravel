@@ -32,11 +32,10 @@ export default class extends React.Component {
   }
 
   render() {
-    const auth = this.props.route.auth
+    const auth = firebase.auth()
     const email = this.props.route.email
     const google = this.props.route.google
     const facebook = this.props.route.facebook
-    console.log('PROPS from signup', this.props)
     
     return (
       <div className="jumbotron">
