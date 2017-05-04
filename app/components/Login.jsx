@@ -53,10 +53,12 @@ export default class extends React.Component {
   // redirects.
 
   render() {
-    const auth = this.props.route.auth
+    // const auth = this.props.route.auth
+    const auth = firebase.auth()
     const email = this.props.route.email
     const google = this.props.route.google
     const facebook = this.props.route.facebook
+    console.log('PROPS from login', this.props)
     return (
       <div className="jumbotron">
         <form onSubmit={this.onSubmit} className="form-horizontal">

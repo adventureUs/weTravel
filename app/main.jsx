@@ -60,9 +60,9 @@ const App = () =>
 render(
   <Router history={browserHistory}>
     <Route path="/" component={App} />
-    <Route path="login" component={Login} auth={auth} google={google} facebook={facebook} email={email} />
+    <Route path="login" component={Login} google={google} facebook={facebook} email={email} />
     <Route path="dashboard" component={Dashboard} />
-    <Route path="signup" component={SignUp} auth={auth} google={google} facebook={facebook} email={email} />
+    <Route path="signup" component={SignUp} google={google} facebook={facebook} email={email} />
     <Route path="/travelbuddies" component={TravelBuddies} />
     <Route path="/travelbuddies/:email" component={BuddyEdit} />
     <Route path='*' component={NotFound} />
