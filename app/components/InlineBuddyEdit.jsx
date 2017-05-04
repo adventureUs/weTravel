@@ -6,7 +6,8 @@ import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import firebase from 'APP/fire'
 const auth = firebase.auth()
-const db = firebase.database
+const db = firebase.database()
+const userRef = db.ref('users/' + userId)
 
 export default class InlineBuddyEdit extends Component {
   constructor() {
@@ -14,41 +15,18 @@ export default class InlineBuddyEdit extends Component {
     this.state = {
       name:'Please enter name here',
       email: auth.currentUser ? auth.currentUser.email : 'no email',
-      status: {id: "1", text: "Invited"},
+      status: {id: '1', text: 'Invited'},
       statusOptions: [
-        {id: "1", text: "Invited"},
-        {id: "2", text: "Going"},
-        {id: "3", text: "Can\'t make it"}
-        ],
+        {id: '1', text: 'Invited'},
+        {id: '2', text: 'Going'},
+        {id: '3', text: 'Can\"t make it'}
+      ],
       homeBase:'New York',
       startDate: moment(),
       endDate: moment()
     }
-
-    // this.handleChange = this.handleChange.bind(this)
-    // this.handleChangeStart = this.handleChangeStart.bind(this)
-    // this.handleChangeEnd = this.handleChangeEnd.bind(this)
-    // this.showDate = this.showDate.bind(this)
   }
 
-  handleChange = e => {
-    console.log('TravelBuddies on Change', e.target.name, e.target.value)
-  }
-
-
-  handleChangeStart = m => {
-    this.setState({startDate: m})
-    console.log('TravelBuddies Start Date On Change', this.state.startDate.format('MMM Do YY'))
-  }
-
-  handleChangeEnd = m => {
-    this.setState({endDate: m})
-    console.log('TravelBuddies End Date On Change', this.state.startDate.format('MMM Do YY'))
-  }
-  showDate = (e) => {
-    e.preventDefault()
-    console.log(this.state)
-  }
   virtualServerCallback = (newState) => {
     this.setState(newState)
   }
