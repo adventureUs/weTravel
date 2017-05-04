@@ -1,21 +1,31 @@
 import React from 'react'
 import TravelBuddies from './TravelBuddies'
+import Itinerary from './Itinerary'
 
 const TabsAndView = () =>
   (
   <div>
-    <ul class="nav nav-tabs">
-      <li class="active"><a href="#buddies" data-toggle="tab">Buddies</a></li>
-      <li><a href="#itinerary" data-toggle="tab">Itinerary</a></li>
+
+    <ul className="nav nav-tabs">
+      <li className="active">
+        <a href="#buddies"
+            data-toggle="tab">Buddies</a>
+      </li>
+      <li>
+      <a href="#itinerary"
+          data-toggle="tab">Itinerary</a>
+      </li>
     </ul>
-    <div id="myTabContent" class="tab-content">
-      <div class="tab-pane fade active in" id="buddies">
+
+    <div className="tab-content">
+      <div className="tab-pane fade in active" id="buddies">
         <TravelBuddies />
       </div>
-      <div class="tab-pane fade" id="itinerary">
-        <p> Under Construction Items View </p>
+      <div className="tab-pane fade" id="itinerary">
+        <Itinerary/>
       </div>
     </div>
+
   </div>
   )
 

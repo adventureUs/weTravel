@@ -36,7 +36,7 @@ export default class extends React.Component {
     const email = this.props.route.email
     const google = this.props.route.google
     const facebook = this.props.route.facebook
-    
+
     return (
       <div className="jumbotron">
         <form onSubmit={this.onSubmit} className="form-horizontal well">
@@ -65,7 +65,7 @@ export default class extends React.Component {
               onClick={() => {
                 auth.signInWithPopup(google)
                   .then(() => browserHistory.push('/dashboard'))
-              }}>Login with Google</button>
+              }}>Sign Up with Google</button>
           </div>
           <br />
           <div>
@@ -73,7 +73,7 @@ export default class extends React.Component {
               onClick={() => {
                 auth.signInWithPopup(facebook)
                   .then(() => browserHistory.push('/dashboard'))
-              }}>Login with Facebook</button>
+              }}>Sign Up with Facebook</button>
           </div>
         </div>
       </div>

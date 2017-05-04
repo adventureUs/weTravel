@@ -21,11 +21,18 @@ export default class extends React.Component {
 
   render() {
     return (
-      <div className='jumbotron'>
+      <div className='main container'>
         <TitleBar />
         <Timeline />
-        <Chat />
-        <TabsAndViews />
+        <div className="row">
+          <div className="col col-lg-3">
+            <Chat />
+          </div>
+
+          <div className="col col-lg-9">
+            <TabsAndViews />
+          </div>
+          </div>
       </div>
     )
   }

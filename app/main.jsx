@@ -1,19 +1,15 @@
 'use strict'
 import React from 'react'
-import { Router, Route, IndexRedirect, browserHistory } from 'react-router'
-import { render } from 'react-dom'
+import {Router, Route, IndexRedirect, browserHistory} from 'react-router'
+import {render} from 'react-dom'
 
 // import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
-import TravelBuddies from './components/TravelBuddies'
-import BuddyEdit from './components/BuddyEdit'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
 import Dashboard from './components/Dashboard'
 
 import firebase from 'APP/fire'
-
-import Demos from 'APP/demos'
 
 // Get the auth API from Firebase.
 const auth = firebase.auth()
@@ -47,13 +43,11 @@ const email = new firebase.auth.EmailAuthProvider()
 
 // Our root App component just renders a little frame with a nav
 // and whatever children the router gave us.
-
 const App = () =>
-  <div className='well'>
-    {
-      firebase.auth().currentUser ? <Dashboard /> : <Login />
-    }
-
+  <div>
+  {
+   auth && auth.currentUser ? <Login/> : <Dashboard/>
+  }
   </div>
 
 render(

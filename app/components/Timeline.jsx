@@ -6,10 +6,10 @@ const db = firebase.database()
 
 const Timeline = () =>
   (
-    <div class="jumbotron">
+    <div className="jumbotron">
       <h1>Timeline</h1>
       <p>Under Contruction.  Please come back later!</p>
-      <p><a class="btn btn-primary btn-lg">Will convert to a slider</a></p>
+      <p><a className="btn btn-primary btn-lg">Will convert to a slider</a></p>
     </div>
   )
 
