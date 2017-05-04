@@ -55,6 +55,7 @@ export default class extends React.Component {
   render() {
     // const auth = this.props.route.auth
     const auth = firebase.auth()
+    console.log('Props in Login', this.props)
     const email = this.props.route.email
     const google = this.props.route.google
     const facebook = this.props.route.facebook
