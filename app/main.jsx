@@ -14,7 +14,12 @@ import Dashboard from './components/Dashboard'
 
 import firebase from 'APP/fire'
 
-import Demos from 'APP/demos'
+
+// ---- UNCOMMENT TO RESEED DATABASE ----------
+// import {trips, users} from '../seedData'
+// console.log('USERS', users, 'TRIPS', trips)
+// firebase.database().ref('trips/').set(trips)
+// firebase.database().ref('users/').set(users)
 
 // Get the auth API from Firebase.
 const auth = firebase.auth()

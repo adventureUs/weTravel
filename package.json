@@ -50,6 +50,7 @@
     "cookie-session": "^2.0.0-alpha.1",
     "enzyme": "^2.5.1",
     "express": "^4.14.0",
+    "faker": "^4.1.0",
     "finalhandler": "^1.0.0",
     "firebase": "^3.9.0",
     "homedir": "^0.6.0",
