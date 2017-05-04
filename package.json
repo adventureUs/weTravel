@@ -97,6 +97,7 @@
     "mocha": "^3.1.2",
     "nodemon": "^1.11.0",
     "react-datepicker": "^0.46.0",
+    "riek": "^1.0.7",
     "supertest": "^3.0.0",
     "volleyball": "^1.4.1",
     "webpack": "^2.2.1",
