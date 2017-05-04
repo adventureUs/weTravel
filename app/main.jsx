@@ -5,6 +5,9 @@ import { render } from 'react-dom'
 
 // import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
+import Navbar from './components/Navbar'
+import TravelBuddies from './components/TravelBuddies'
+import BuddyEdit from './components/BuddyEdit'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
 import Dashboard from './components/Dashboard'
@@ -45,6 +48,7 @@ const email = new firebase.auth.EmailAuthProvider()
 
 // Our root App component just renders a little frame with a nav
 // and whatever children the router gave us.
+
 const App = () =>
   <div className='well'>
     {
@@ -59,6 +63,8 @@ render(
     <Route path="login" component={Login} auth={auth} google={google} facebook={facebook} email={email} />
     <Route path="dashboard" component={Dashboard} />
     <Route path="signup" component={SignUp} auth={auth} google={google} facebook={facebook} email={email} />
+    <Route path="/travelbuddies" component={TravelBuddies} />
+    <Route path="/travelbuddies/:email" component={BuddyEdit} />
     <Route path='*' component={NotFound} />
   </Router>,
   document.getElementById('main')

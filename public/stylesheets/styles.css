@@ -1,0 +1,15 @@
+.navbar-brand {
+  list-style: none;
+}
+.navbar {
+  position: relative;
+  min-height: 60px;
+  margin-bottom: 21px;
+  border: 1px solid transparent;
+}
+.navbar {
+    display: none;
+  }
+li.col-xs-2 {
+  list-style: none !important;
+}
