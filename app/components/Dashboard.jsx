@@ -23,15 +23,15 @@ export default class extends React.Component {
     const {auth} = this.props
     return (
       <div className="">
-        <TitleBar auth={auth}/>
-        <Timeline auth={auth}/>
+        <TitleBar/>
+        <Timeline/>
         <div className="row">
           <div className="col col-lg-3">
             <Chat />
           </div>
 
           <div className="col col-lg-9">
-            <TabsAndViews auth={auth}/>
+            <TabsAndViews/>
           </div>
           </div>
       </div>

@@ -21,7 +21,7 @@ export default function() {
 
       <div className="col col-lg-2">
       <h4 className="nav navbar navbar-nav"><font color="white"><span>{auth.currentUser
-        ? `${this.auth.currentUser.email}`
+        ? `${auth.currentUser.email}`
         : 'No one'}</span> is signed in</font></h4>
       </div>
 

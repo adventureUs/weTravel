@@ -20,7 +20,7 @@ import firebase from 'APP/fire'
 export default class extends React.Component {
   constructor(props) {
     super(props)
-    console.log('FROM CONSTRUCTOR', this.state.routes.auth)
+
     this.state = {
       email: '',
       password: '',
@@ -28,7 +28,7 @@ export default class extends React.Component {
     }
   }
   componentDidMount() {
-    const auth = this.props.route.auth
+    const auth = firebase.auth()
     this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({user}))
   }
 
@@ -41,15 +41,16 @@ export default class extends React.Component {
   }
 
   onSubmit = (evt) => {
+    console.log('STATE:', this.state)
+    console.log("AUTH IN ONSUBMIT: ", firebase.auth())
     evt.preventDefault()
     // what we actually want to do is redirect to the dashboard view
-    console.log('HERE IN LOGIN', this.props.route.auth.signInWithEmailAndPassword)
     if (this.state.email.length && this.state.password.length) {
-      this.props.route.auth.signInWithEmailAndPassword(this.state.email, this.state.password)
+      firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
         // Should we have a pop-up to collect extra information such as zipcode, name
         .then(() => browserHistory.push('/dashboard'))
         .catch(error => {
-          window.alert(error)
+          console.error(error)
         })
     } else {
       window.alert('Please fill in both your email and password')
@@ -63,7 +64,6 @@ export default class extends React.Component {
   render() {
     // const auth = this.props.route.auth
     const auth = firebase.auth()
-
     const google = new firebase.auth.GoogleAuthProvider()
     const facebook = new firebase.auth.FacebookAuthProvider()
     const email = new firebase.auth.EmailAuthProvider()

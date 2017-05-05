@@ -8,12 +8,12 @@ export default class TabsAndView extends React.Component {
     }
   }
   componentWillMount() {
-    const auth = this.props.route.auth
-    this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({user}))
+    // const auth = this.props.route.auth
+    // this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({user}))
   }
 
   componentWillUnmount() {
-    this.unsubscribe && this.unsubscribe()
+    // this.unsubscribe && this.unsubscribe()
   }
   render() {
     return (

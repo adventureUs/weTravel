@@ -40,7 +40,7 @@ render(
     <Route path="login" component={Login} google={google} facebook={facebook} email={email} />
     <Route path="dashboard" component={Dashboard} />
     <Route path="signup" component={SignUp} google={google} facebook={facebook} email={email} />
-    <Route path="/travelbuddies" component={TravelBuddies} />
+
     <Route path="/travelbuddies/email" component={InlineBuddyEditIndex}/>
 
     <Route path='*' component={NotFound} />
