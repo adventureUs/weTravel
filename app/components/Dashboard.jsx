@@ -10,13 +10,13 @@ import TabsAndViews from './TabsAndViews'
 const auth = firebase.auth()
 
 export default class extends React.Component {
-  componentWillMount() {
-    const auth = this.props.route.auth
-    this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({user}))
+  componentDidMount() {
+//     const auth = this.props.route.auth
+//     this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({user}))
   }
 
   componentWillUnmount() {
-    this.unsubscribe && this.unsubscribe()
+//     this.unsubscribe && this.unsubscribe()
   }
 
   render() {
