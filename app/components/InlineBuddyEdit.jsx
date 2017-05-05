@@ -15,7 +15,6 @@ let currUser = ''
 export default class InlineBuddyEdit extends Component {
   constructor(props) {
     super(props)
-    console.log('CURRUSER FROM CONSTRUCTOR', currUser)
     const auth = this.props.route.auth
     this.state = {
       user: '',
@@ -41,6 +40,7 @@ export default class InlineBuddyEdit extends Component {
     this.unsubscribe = this.props.route.auth.onAuthStateChanged(user => {
       console.log('AUTH STATE CHANGE')
       this.setState({ email: user.email })
+      console.log('STATE:', this.state)
       currUser = user
     })
   }
