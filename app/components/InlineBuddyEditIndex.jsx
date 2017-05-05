@@ -1,4 +1,4 @@
-// A necessary glue? 
+// A necessary glue?
 
 import React from 'react'
 import { Route } from 'react-router'
