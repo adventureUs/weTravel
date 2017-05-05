@@ -7,21 +7,19 @@ import moment from 'moment'
 import firebase from 'APP/fire'
 // const auth = firebase.auth()
 const db = firebase.database()
-const userRef = db.ref('users/')
 let currUser = ''
 
-
+// WHEN CAN YOU DEFINE THE UID?  WE NEED TO GRAB AS SOON AS POSSIBLE
 
 export default class InlineBuddyEdit extends Component {
   constructor(props) {
     super(props)
-    const auth = this.props.route.auth
+    console.log('AUTH', this.props)
     // in the future instead of e-mail add an additional field for preferred contact info
     // set scope on OAuth request and include phone number
     this.state = {
-      user: '',
       name: 'Please enter name here',
-      email: auth.currentUser ? auth.currentUser.email : 'no email',
+      email: this.props.auth.currentUser ? this.props.auth.currentUser.email : 'no email',
       status: { id: '1', text: 'Invited' },
       statusOptions: [
         { id: '1', text: 'Invited' },
@@ -34,39 +32,76 @@ export default class InlineBuddyEdit extends Component {
     }
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   console.log('FROM COMP', nextProps)
-  // }
-
   componentDidMount() {
-    this.unsubscribe = this.props.route.auth.onAuthStateChanged(user => {
-      this.setState({ email: user.email })
-      currUser = user
-    })
+    // When the component mounts, start listening to the userRef
+    // we were given.
+    this.listenTo(this.props.userRef)
   }
 
   componentWillUnmount() {
+    // When we unmount, stop listening.
     this.unsubscribe()
   }
 
+  componentWillReceiveProps(incoming, outgoing) {
+    // When the props sent to us by our parent component change,
+    // start listening to the new firebase reference.
+    this.listenTo(incoming.userRef)
+  }
+
+  listenTo(userRef) {
+    // If we're already listening to a ref, stop listening there.
+    if (this.unsubscribe) this.unsubscribe()
+
+    // Whenever our ref's value changes, set {value} on our state.
+    const listener = userRef.on('value', snapshot => {
+      this.setState(snapshot.val())
+      console.log('THE LISTENER LISTENED ', this.state)
+    })
+
+    // Set unsubscribe to be a function that detaches the listener.
+    this.unsubscribe = () => userRef.off('users', listener)
+  }
+
   // componentDidMount() {
-  //   currUser = auth.onAuthStateChanged(user => {
-  //     if (user) return user
-  //     else return 'NO USER'
+  //   this.unsubscribe = auth.onAuthStateChanged(user => {
+  //     this.setState({ email: user.email })
+  //     currUser = user
   //   })
   // }
 
+  // componentWillUnmount() {
+  //   this.unsubscribe()
+  // }
+
   virtualServerCallback = (newState) => {
-    console.log('NEW STATE', newState)
-    const uid = this.props.route.auth.currentUser.uid
-    console.log('UID', uid)
-    
+    this.setState(newState)
+    // this.updateDb()
+    const uid = this.props.auth.currentUser.uid
+    console.log('UID', uid, 'STATE', this.state)
+    this.props.userRef.child(uid).set({
+      name: this.state.name,
+      homeBase: this.state.homeBase,
+      status: this.state.status
+    })
   }
+
+  // updateDb = () => {
+  //   const uid = this.props.route.auth.currentUser.uid
+  //   console.log('UID', uid, 'STATE', this.state)
+  //   db.ref('users/' + uid).set({
+  //     name: this.state.name,
+  //     homeBase: this.state.homeBase,
+  //     status: this.state.status
+  //   })
+  // }
+
+  // Originally in the render
+  //  <WhoAmI auth={this.props.route.auth} />
 
   render() {
     return (
-      <div>
-        <WhoAmI auth={this.props.route.auth} />
+      <div >
         <h1>BUDDIES</h1>
         <div className="container">
           <div className="form-horizontal">
@@ -128,7 +163,7 @@ export default class InlineBuddyEdit extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </div >
     )
   }
 }
