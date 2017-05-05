@@ -16,6 +16,8 @@ export default class InlineBuddyEdit extends Component {
   constructor(props) {
     super(props)
     const auth = this.props.route.auth
+    // in the future instead of e-mail add an additional field for preferred contact info
+    // set scope on OAuth request and include phone number
     this.state = {
       user: '',
       name: 'Please enter name here',
@@ -38,9 +40,7 @@ export default class InlineBuddyEdit extends Component {
 
   componentDidMount() {
     this.unsubscribe = this.props.route.auth.onAuthStateChanged(user => {
-      console.log('AUTH STATE CHANGE')
       this.setState({ email: user.email })
-      console.log('STATE:', this.state)
       currUser = user
     })
   }
@@ -57,13 +57,10 @@ export default class InlineBuddyEdit extends Component {
   // }
 
   virtualServerCallback = (newState) => {
-    this.setState(newState)
-    this.updateDb()
-  }
-
-  udpateDb = () => {
+    console.log('NEW STATE', newState)
     const uid = this.props.route.auth.currentUser.uid
     console.log('UID', uid)
+    
   }
 
   render() {
@@ -85,15 +82,8 @@ export default class InlineBuddyEdit extends Component {
                 classInvalid="Invalid" />
             </div>
             <div className="col-md-3">
-              <span>Email: </span>
-              <RIEInput
-                value={this.state.email}
-                change={this.virtualServerCallback}
-                propName="email"
-                className={this.state.highlight ? "editable" : ""}
-                validate={this.isStringAcceptable}
-                classLoading="loading"
-                classInvalid="Invalid" />
+              <span>Email: {this.state.email}</span>
+
             </div>
             <div className="col-md-3">
               <span>Status: </span>
