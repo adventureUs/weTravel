@@ -44,7 +44,7 @@ const email = new firebase.auth.EmailAuthProvider()
 // Our root App component just renders a little frame with a nav
 // and whatever children the router gave us.
 const App = () =>
-  <div>
+  <div className="container-fluid">
   {
    auth && auth.currentUser ? <Login/> : <Dashboard/>
   }

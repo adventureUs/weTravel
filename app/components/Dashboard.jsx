@@ -21,7 +21,7 @@ export default class extends React.Component {
 
   render() {
     return (
-      <div className='main container'>
+      <div className="">
         <TitleBar />
         <Timeline />
         <div className="row">
