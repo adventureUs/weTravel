@@ -11,10 +11,15 @@ import BuddyEdit from './components/BuddyEdit'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
 import Dashboard from './components/Dashboard'
-
+import InlineBuddyEdit from './components/InlineBuddyEdit'
 import firebase from 'APP/fire'
 
-import Demos from 'APP/demos'
+
+// ---- UNCOMMENT TO RESEED DATABASE ----------
+// import {trips, users} from '../seedData'
+// console.log('USERS', users, 'TRIPS', trips)
+// firebase.database().ref('trips/').set(trips)
+// firebase.database().ref('users/').set(users)
 
 // Get the auth API from Firebase.
 const auth = firebase.auth()
@@ -64,7 +69,7 @@ render(
     <Route path="dashboard" component={Dashboard} />
     <Route path="signup" component={SignUp} google={google} facebook={facebook} email={email} />
     <Route path="/travelbuddies" component={TravelBuddies} />
-    <Route path="/travelbuddies/:email" component={BuddyEdit} />
+    <Route path="/travelbuddies/email" component={InlineBuddyEdit} />
     <Route path='*' component={NotFound} />
   </Router>,
   document.getElementById('main')

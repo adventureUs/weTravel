@@ -1,0 +1,41 @@
+//DO NOT USE ME!!!!!!!!!
+{
+  "trips": {
+    "1024": {
+      "name": "Galway",
+      "items": {},
+      "users": {
+        "tina@email.com": {
+          "availabilityStart": "1623571253",
+          "availabilityEnd": "1623571253",
+          "status": "Invited",
+          "homebase": "Tempe"
+        }
+      }
+      // "startDate":"2017-03-03",//don't need this ?
+      // "endDate":"2017-06-01",
+    }
+  },
+  "users": {
+    "tina@email.com": {
+      "name": "Tina",
+      "location": "Tempe",
+      "trips": [
+        "128637218",
+        "12837198237"
+      ]
+    },
+    "allison@email.com": {
+      "name": "allison",
+      "location": "New Jersey"
+    },
+    "stefanie@email.com": {
+      "name": "Stefanie",
+      "location": "New York"
+    },
+    "maria@email.com": {
+      "name": "Maria",
+      "location": "New York"
+    }
+  }
+}
