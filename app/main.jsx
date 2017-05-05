@@ -11,11 +11,6 @@ import Dashboard from './components/Dashboard'
 
 import firebase from 'APP/fire'
 
-// Get the auth API from Firebase.
-const auth = firebase.auth()
-const google = new firebase.auth.GoogleAuthProvider()
-const facebook = new firebase.auth.FacebookAuthProvider()
-const email = new firebase.auth.EmailAuthProvider()
 
 // Ensure that we have (almost) always have a user ID, by creating
 // an anonymous user if nobody is signed in.
@@ -43,6 +38,13 @@ const email = new firebase.auth.EmailAuthProvider()
 
 // Our root App component just renders a little frame with a nav
 // and whatever children the router gave us.
+
+// Get the auth API from Firebase.
+const auth = firebase.auth()
+const google = new firebase.auth.GoogleAuthProvider()
+const facebook = new firebase.auth.FacebookAuthProvider()
+const email = new firebase.auth.EmailAuthProvider()
+
 const App = () =>
   <div className="container-fluid">
   {
@@ -53,8 +55,8 @@ const App = () =>
 render(
   <Router history={browserHistory}>
     <Route path="/" component={App} />
-    <Route path="login" component={Login} google={google} facebook={facebook} email={email} />
-    <Route path="dashboard" component={Dashboard} />
+    <Route path="login" component={Login} auth={auth}google={google} facebook={facebook} email={email} />
+    <Route path="dashboard" component={Dashboard} auth={auth}/>
     <Route path="signup" component={SignUp} google={google} facebook={facebook} email={email} />
     <Route path='*' component={NotFound} />
   </Router>,

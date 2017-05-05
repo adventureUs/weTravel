@@ -10,27 +10,28 @@ import TabsAndViews from './TabsAndViews'
 const auth = firebase.auth()
 
 export default class extends React.Component {
-  componentDidMount() {
-    // const {auth} = this.props
-    // this.unsubscribe = auth.onAuthStateChanged(user => this.setState({user}))
+  componentWillMount() {
+    const auth = this.props.route.auth
+    this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({user}))
   }
 
   componentWillUnmount() {
-    // this.unsubscribe()
+    this.unsubscribe && this.unsubscribe()
   }
 
   render() {
+    const {auth} = this.props
     return (
       <div className="">
-        <TitleBar />
-        <Timeline />
+        <TitleBar auth={auth}/>
+        <Timeline auth={auth}/>
         <div className="row">
           <div className="col col-lg-3">
             <Chat />
           </div>
 
           <div className="col col-lg-9">
-            <TabsAndViews />
+            <TabsAndViews auth={auth}/>
           </div>
           </div>
       </div>
