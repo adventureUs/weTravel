@@ -5,9 +5,7 @@ import DatePicker from 'react-datepicker'
 import WhoAmI from './WhoAmI'
 import moment from 'moment'
 import firebase from 'APP/fire'
-// const auth = firebase.auth()
 const db = firebase.database()
-let currUser = ''
 
 
 export default class InlineBuddyEdit extends Component {
@@ -91,7 +89,7 @@ export default class InlineBuddyEdit extends Component {
       name: this.state.name,
       homeBase: this.state.homeBase,
       status: this.state.status,
-      //Trying to deal with date as formatted item from moment object/function
+      // Trying to deal with date as formatted item from moment object/function
       startDate: this.state.startDate,
       endDate: this.state.endDate,
     })
