@@ -8,11 +8,11 @@ export default function() {
     <nav className="navbar nav navbar-default">
       <div className="container-fluid">
       <div className="navbar-collapse row">
-        <div className="well-small col-lg-2">
+        <div className="well-small col-lg-4">
         <img src="favicon.ico" className="navbar-brand img img-thumbnail"/>
         </div>
 
-      <div className="col col-lg-2">
+      <div className="col col-lg-4">
       <select>
         <option>Hawaii</option>
         <option>Rome</option>
