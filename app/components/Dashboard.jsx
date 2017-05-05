@@ -20,7 +20,6 @@ export default class extends React.Component {
   }
 
   render() {
-    const {auth} = this.props
     return (
       <div className="">
         <TitleBar/>
