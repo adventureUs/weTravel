@@ -27,15 +27,15 @@ const email = new firebase.auth.EmailAuthProvider()
 const App = () =>
   <div className="container-fluid">
   {
-   auth && auth.currentUser ? <Login/> : <Dashboard/>
+   firebase.auth().currentUser ? <Dashboard/> : <Login/>
   }
   </div>
 
 render(
   <Router history={browserHistory}>
     <Route path="/" component={App} />
-    <Route path="login" component={Login} auth={auth}google={google} facebook={facebook} email={email} />
-    <Route path="dashboard" component={Dashboard} auth={auth}/>
+    <Route path="login" component={Login} google={google} facebook={facebook} email={email} />
+    <Route path="dashboard" component={Dashboard} />
     <Route path="signup" component={SignUp} google={google} facebook={facebook} email={email} />
     <Route path='*' component={NotFound} />
   </Router>,
