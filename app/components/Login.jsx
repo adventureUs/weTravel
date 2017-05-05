@@ -4,8 +4,6 @@ import firebase from 'APP/fire'
 
 // Do external logins in Login
 
-
-
 // If you want to request additional permissions, you'd do it
 // like so:
 //
@@ -22,11 +20,20 @@ import firebase from 'APP/fire'
 export default class extends React.Component {
   constructor(props) {
     super(props)
-    // no props currently
+    console.log('FROM CONSTRUCTOR', this.state.routes.auth)
     this.state = {
       email: '',
       password: '',
+      user: null
     }
+  }
+  componentDidMount() {
+    const auth = this.props.route.auth
+    this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({user}))
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe && this.unsubscribe()
   }
 
   setEmailPassword = (evt) => {
@@ -36,8 +43,9 @@ export default class extends React.Component {
   onSubmit = (evt) => {
     evt.preventDefault()
     // what we actually want to do is redirect to the dashboard view
+    console.log('HERE IN LOGIN', this.props.route.auth.signInWithEmailAndPassword)
     if (this.state.email.length && this.state.password.length) {
-      firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+      this.props.route.auth.signInWithEmailAndPassword(this.state.email, this.state.password)
         // Should we have a pop-up to collect extra information such as zipcode, name
         .then(() => browserHistory.push('/dashboard'))
         .catch(error => {
@@ -55,10 +63,12 @@ export default class extends React.Component {
   render() {
     // const auth = this.props.route.auth
     const auth = firebase.auth()
+
     const google = new firebase.auth.GoogleAuthProvider()
     const facebook = new firebase.auth.FacebookAuthProvider()
     const email = new firebase.auth.EmailAuthProvider()
     console.log('PROPS from login', this.props)
+
     return (
       <div className="jumbotron">
         <form onSubmit={this.onSubmit} className="form-horizontal">
@@ -108,7 +118,6 @@ export default class extends React.Component {
     )
   }
 }
-
 
 
 
