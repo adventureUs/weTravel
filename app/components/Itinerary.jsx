@@ -6,11 +6,13 @@ export default class extends React.Component {
   }
   render() {
     return (
-      <div className="well col-lg-12">
-      <p>Lorem paragraphum.</p>
-      <p>Lorem paragraphum.</p>
-      <p>Lorem paragraphum.</p>
-      <p>Lorem paragraphum.</p>f
+      <div className="well well-lg">
+        <div >
+        <p>Lorem paragraphum.</p>
+        <p>Lorem paragraphum.</p>
+        <p>Lorem paragraphum.</p>
+        <p>Lorem paragraphum.</p>
+        </div>
       </div>
     )
   }
