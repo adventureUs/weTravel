@@ -58,15 +58,12 @@ export default class InlineBuddyEdit extends Component {
   listenTo(userRef) {
     // If we're already listening to a ref, stop listening there.
     if (this.unsubscribe) this.unsubscribe()
-
     // Whenever our ref's value changes, set {value} on our state.
     const listener = firebase.database()
                             .ref('users/' + this.state.uid)
                             .on('value', snapshot => {
-      console.log('THE LISTENER LISTENED to snapshot', snapshot.val()[this.state.uid])
                               this.setState(snapshot.val()[this.state.uid])
                             })
-
     // Set unsubscribe to be a function that detaches the listener.
     this.unsubscribe = () => userRef.off('users', listener)
   }
@@ -94,29 +91,31 @@ export default class InlineBuddyEdit extends Component {
       name: this.state.name,
       homeBase: this.state.homeBase,
       status: this.state.status,
-      //deal with date as formatted item from moment object/function
+      //Trying to deal with date as formatted item from moment object/function
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
     })
   }
 
-  // updateDb = () => {
-  //   const uid = this.props.route.auth.currentUser.uid
-  //   console.log('UID', uid, 'STATE', this.state)
-  //   db.ref('users/' + uid).set({
-  //     name: this.state.name,
-  //     homeBase: this.state.homeBase,
-  //     status: this.state.status
-  //   })
-  // }
-
-  // Originally in the render
-  //  <WhoAmI auth={this.props.auth} />
+  handleChangeStart = (e) => {
+    const newStart = e.format('YYYY-MM-DD')
+    console.log("NEW START:", newStart)
+    this.setState({
+      startDate: moment(newStart)
+    })
+  }
+  handleChangeEnd = (e) => {
+    const newEnd = e.format('YYYY-MM-DD')
+    console.log("NEW END:", newEnd)
+    this.setState({
+      startDate: moment(newEnd)
+    })
+  }
 
   render() {
     return (
       <form onSubmit={this.postUserInfoToDB}>
-      <WhoAmI auth={this.props.auth} />
         <h1>BUDDIES</h1>
-        <h3>{this.state.uid}</h3>
         <div className="container">
           <div className="form-horizontal">
             <div className="col-md-3">
