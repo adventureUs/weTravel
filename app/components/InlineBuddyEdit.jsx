@@ -9,16 +9,16 @@ import firebase from 'APP/fire'
 const db = firebase.database()
 let currUser = ''
 
-// WHEN CAN YOU DEFINE THE UID?  WE NEED TO GRAB AS SOON AS POSSIBLE
 
 export default class InlineBuddyEdit extends Component {
   constructor(props) {
     super(props)
-    console.log('AUTH', this.props)
+
     // in the future instead of e-mail add an additional field for preferred contact info
     // set scope on OAuth request and include phone number
     this.state = {
-      name: 'Please enter name here',
+      uid: '',
+      name: this.props.auth.currentUser ? this.props.auth.currentUser.name : 'no name',
       email: this.props.auth.currentUser ? this.props.auth.currentUser.email : 'no email',
       status: { id: '1', text: 'Invited' },
       statusOptions: [
@@ -35,7 +35,13 @@ export default class InlineBuddyEdit extends Component {
   componentDidMount() {
     // When the component mounts, start listening to the userRef
     // we were given.
-    this.listenTo(this.props.userRef)
+    this.props.auth.onAuthStateChanged(user => {
+      this.setState({
+       uid: user.uid,
+       email: user.email
+     })
+    })
+    this.listenTo(this.props.userRef.child("/" + this.state.uid))
   }
 
   componentWillUnmount() {
@@ -54,10 +60,12 @@ export default class InlineBuddyEdit extends Component {
     if (this.unsubscribe) this.unsubscribe()
 
     // Whenever our ref's value changes, set {value} on our state.
-    const listener = userRef.on('value', snapshot => {
-      this.setState(snapshot.val())
-      console.log('THE LISTENER LISTENED ', this.state)
-    })
+    const listener = firebase.database()
+                            .ref('users/' + this.state.uid)
+                            .on('value', snapshot => {
+      console.log('THE LISTENER LISTENED to snapshot', snapshot.val()[this.state.uid])
+                              this.setState(snapshot.val()[this.state.uid])
+                            })
 
     // Set unsubscribe to be a function that detaches the listener.
     this.unsubscribe = () => userRef.off('users', listener)
@@ -77,12 +85,16 @@ export default class InlineBuddyEdit extends Component {
   virtualServerCallback = (newState) => {
     this.setState(newState)
     // this.updateDb()
+
+  }
+  postUserInfoToDB = () => {
     const uid = this.props.auth.currentUser.uid
     console.log('UID', uid, 'STATE', this.state)
     this.props.userRef.child(uid).set({
       name: this.state.name,
       homeBase: this.state.homeBase,
-      status: this.state.status
+      status: this.state.status,
+      //deal with date as formatted item from moment object/function
     })
   }
 
@@ -97,12 +109,14 @@ export default class InlineBuddyEdit extends Component {
   // }
 
   // Originally in the render
-  //  <WhoAmI auth={this.props.route.auth} />
+  //  <WhoAmI auth={this.props.auth} />
 
   render() {
     return (
-      <div >
+      <form onSubmit={this.postUserInfoToDB}>
+      <WhoAmI auth={this.props.auth} />
         <h1>BUDDIES</h1>
+        <h3>{this.state.uid}</h3>
         <div className="container">
           <div className="form-horizontal">
             <div className="col-md-3">
@@ -163,7 +177,8 @@ export default class InlineBuddyEdit extends Component {
             </div>
           </div>
         </div>
-      </div >
+        <button>Save Info</button>
+      </form >
     )
   }
 }
