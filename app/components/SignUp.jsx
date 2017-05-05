@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link, browserHistory } from 'react-router'
 import firebase from 'APP/fire'
+const db = firebase.database()
+const userRef = db.ref('users/')
 
 export default class extends React.Component {
   constructor(props) {
@@ -22,6 +24,14 @@ export default class extends React.Component {
     if (this.state.email.length && this.state.password.length) {
       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         // Should we have a pop-up to collect extra information such as zipcode, name
+        .then((user) => {
+          const userId = user.uid
+          return userRef.update({
+            [userId]: {
+              email: user.email
+            }
+          })
+        })
         .then(() => browserHistory.push('/dashboard'))
         .catch(error => {
           window.alert(error)
@@ -33,9 +43,11 @@ export default class extends React.Component {
 
   render() {
     const auth = firebase.auth()
-    const email = this.props.route.email
-    const google = this.props.route.google
-    const facebook = this.props.route.facebook
+
+    const google = new firebase.auth.GoogleAuthProvider()
+    const facebook = new firebase.auth.FacebookAuthProvider()
+    const email = new firebase.auth.EmailAuthProvider()
+
 
     return (
       <div className="jumbotron">
@@ -65,7 +77,9 @@ export default class extends React.Component {
               onClick={() => {
                 auth.signInWithPopup(google)
                   .then(() => browserHistory.push('/dashboard'))
-              }}>Sign Up with Google</button>
+
+              }}>Sign up with Google</button>
+
           </div>
           <br />
           <div>
@@ -73,7 +87,9 @@ export default class extends React.Component {
               onClick={() => {
                 auth.signInWithPopup(facebook)
                   .then(() => browserHistory.push('/dashboard'))
-              }}>Sign Up with Facebook</button>
+
+              }}>Sign up with Facebook</button>
+
           </div>
         </div>
       </div>
