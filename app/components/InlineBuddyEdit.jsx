@@ -5,18 +5,22 @@ import DatePicker from 'react-datepicker'
 import WhoAmI from './WhoAmI'
 import moment from 'moment'
 import firebase from 'APP/fire'
-const auth = firebase.auth()
+// const auth = firebase.auth()
 const db = firebase.database()
 const userRef = db.ref('users/')
+let currUser = ''
+
+
 
 export default class InlineBuddyEdit extends Component {
   constructor(props) {
     super(props)
-    const authInstance = props.route.auth
-    console.log('AUTH', auth.currentUser)
+    console.log('CURRUSER FROM CONSTRUCTOR', currUser)
+    const auth = this.props.route.auth
     this.state = {
+      user: '',
       name: 'Please enter name here',
-      email: authInstance.currentUser ? authInstance.currentUser.email : 'no email',
+      email: auth.currentUser ? auth.currentUser.email : 'no email',
       status: { id: '1', text: 'Invited' },
       statusOptions: [
         { id: '1', text: 'Invited' },
@@ -33,20 +37,39 @@ export default class InlineBuddyEdit extends Component {
   //   console.log('FROM COMP', nextProps)
   // }
 
+  componentDidMount() {
+    this.unsubscribe = this.props.route.auth.onAuthStateChanged(user => {
+      console.log('AUTH STATE CHANGE')
+      this.setState({ email: user.email })
+      currUser = user
+    })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe()
+  }
+
+  // componentDidMount() {
+  //   currUser = auth.onAuthStateChanged(user => {
+  //     if (user) return user
+  //     else return 'NO USER'
+  //   })
+  // }
+
   virtualServerCallback = (newState) => {
     this.setState(newState)
     this.updateDb()
   }
 
   udpateDb = () => {
-    const uid = auth.currentUser.uid
+    const uid = this.props.route.auth.currentUser.uid
     console.log('UID', uid)
   }
 
   render() {
     return (
       <div>
-        <WhoAmI auth={auth} />
+        <WhoAmI auth={this.props.route.auth} />
         <h1>BUDDIES</h1>
         <div className="container">
           <div className="form-horizontal">
