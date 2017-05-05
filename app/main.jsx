@@ -8,8 +8,11 @@ import NotFound from './components/NotFound'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
 import Dashboard from './components/Dashboard'
-import InlineBuddyEdit from './components/InlineBuddyEdit'
+import InlineBuddyEditIndex from './components/InlineBuddyEditIndex'
+
+
 import firebase from 'APP/fire'
+
 
 
 // ---- UNCOMMENT TO RESEED DATABASE ----------
@@ -27,16 +30,19 @@ const email = new firebase.auth.EmailAuthProvider()
 const App = () =>
   <div className="container-fluid">
   {
-   auth && auth.currentUser ? <Login/> : <Dashboard/>
+   firebase.auth().currentUser ? <Dashboard/> : <Login/>
   }
   </div>
 
 render(
   <Router history={browserHistory}>
     <Route path="/" component={App} />
-    <Route path="login" component={Login} auth={auth}google={google} facebook={facebook} email={email} />
-    <Route path="dashboard" component={Dashboard} auth={auth}/>
+    <Route path="login" component={Login} google={google} facebook={facebook} email={email} />
+    <Route path="dashboard" component={Dashboard} />
     <Route path="signup" component={SignUp} google={google} facebook={facebook} email={email} />
+    <Route path="/travelbuddies" component={TravelBuddies} />
+    <Route path="/travelbuddies/email" component={InlineBuddyEditIndex}/>
+
     <Route path='*' component={NotFound} />
   </Router>,
   document.getElementById('main')
