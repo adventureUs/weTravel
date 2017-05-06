@@ -7,18 +7,18 @@ import moment from 'moment'
 import firebase from 'APP/fire'
 // const auth = firebase.auth()
 const db = firebase.database()
-let currUser = ''
 
 // WHEN CAN YOU DEFINE THE UID?  WE NEED TO GRAB AS SOON AS POSSIBLE
+// receives  userRef={db.ref('users')} auth={auth} from container
 
 export default class InlineBuddyEdit extends Component {
   constructor(props) {
     super(props)
-    console.log('AUTH', this.props)
     // in the future instead of e-mail add an additional field for preferred contact info
     // set scope on OAuth request and include phone number
     this.state = {
-      name: 'Please enter name here',
+      uid: '',
+      name: this.props.auth.currentUser ? this.props.currentUser.name : 'Please enter your name',
       email: this.props.auth.currentUser ? this.props.auth.currentUser.email : 'no email',
       status: { id: '1', text: 'Invited' },
       statusOptions: [
@@ -26,7 +26,7 @@ export default class InlineBuddyEdit extends Component {
         { id: '2', text: 'Going' },
         { id: '3', text: 'Can\'t make it' }
       ],
-      homeBase: 'New York',
+      homeBase: this.props.auth.currentUser ? this.props.currentUser.homeBase :'New York',
       startDate: moment(),
       endDate: moment()
     }
@@ -35,7 +35,13 @@ export default class InlineBuddyEdit extends Component {
   componentDidMount() {
     // When the component mounts, start listening to the userRef
     // we were given.
-    this.listenTo(this.props.userRef)
+    this.props.auth.onAuthStateChanged(user => {
+      this.setState({
+        uid: user.uid,
+        email: user.email
+      })
+    })
+    this.listenTo(this.props.userRef.child('/' + this.state.uid))
   }
 
   componentWillUnmount() {
@@ -52,33 +58,24 @@ export default class InlineBuddyEdit extends Component {
   listenTo(userRef) {
     // If we're already listening to a ref, stop listening there.
     if (this.unsubscribe) this.unsubscribe()
-
     // Whenever our ref's value changes, set {value} on our state.
-    const listener = userRef.on('value', snapshot => {
-      this.setState(snapshot.val())
-      console.log('THE LISTENER LISTENED ', this.state)
-    })
-
+    const listener = firebase.database()
+                    .ref('users/' + this.state.uid)
+                    .on('value', snapshot => {
+                      this.setState(snapshot.val()[this.state.uid])
+                    })
     // Set unsubscribe to be a function that detaches the listener.
     this.unsubscribe = () => userRef.off('users', listener)
   }
 
-  // componentDidMount() {
-  //   this.unsubscribe = auth.onAuthStateChanged(user => {
-  //     this.setState({ email: user.email })
-  //     currUser = user
-  //   })
-  // }
-
-  // componentWillUnmount() {
-  //   this.unsubscribe()
-  // }
-
   virtualServerCallback = (newState) => {
     this.setState(newState)
     // this.updateDb()
+  }
+
+  postUserInfoToDB = () => {
     const uid = this.props.auth.currentUser.uid
-    console.log('UID', uid, 'STATE', this.state)
+    console.log('In POST USER WITH UID INFO TO DB INLINEBUDDYEDIT: ', uid, ' WITH STATE: ', this.state)
     this.props.userRef.child(uid).set({
       name: this.state.name,
       homeBase: this.state.homeBase,
@@ -86,23 +83,20 @@ export default class InlineBuddyEdit extends Component {
     })
   }
 
-  // updateDb = () => {
-  //   const uid = this.props.route.auth.currentUser.uid
-  //   console.log('UID', uid, 'STATE', this.state)
-  //   db.ref('users/' + uid).set({
-  //     name: this.state.name,
-  //     homeBase: this.state.homeBase,
-  //     status: this.state.status
-  //   })
-  // }
-
-  // Originally in the render
-  //  <WhoAmI auth={this.props.route.auth} />
+  handleChangeStart = (e) => {
+    const newStart = e.format('YYYY-MM-DD')
+    console.log('NEW START: ', newStart)
+  }
+  handleChangeEnd = (e) => {
+    const newEnd = e.format('YYYY-MM-DD')
+    console.log('NEW END: ', newEnd)
+  }
 
   render() {
     return (
-      <div >
+      <form onSubmit={this.postUserInfoToDB}>
         <h1>BUDDIES</h1>
+        <button name="seeingState" onClick={() => console.log('INLINE BUDDY EDIT STATE ON RENDER: ', this.state)}>this.state</button>
         <div className="container">
           <div className="form-horizontal">
             <div className="col-md-3">
@@ -163,7 +157,8 @@ export default class InlineBuddyEdit extends Component {
             </div>
           </div>
         </div>
-      </div >
+        <button>Save Info</button>
+      </form>
     )
   }
 }
