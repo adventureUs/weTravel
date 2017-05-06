@@ -9,7 +9,7 @@ export default function() {
       <div className="container-fluid">
       <div className="navbar-collapse row">
         <div className="well-small col-lg-4">
-        <img src="favicon.ico" className="navbar-brand img img-thumbnail"/>
+        <img src="/favicon.ico" className="navbar-brand img img-thumbnail"/>
         </div>
 
       <div className="col col-lg-4">

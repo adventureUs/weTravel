@@ -27,8 +27,8 @@ export default class InlineBuddyEdit extends Component {
         { id: '3', text: 'Can\'t make it' }
       ],
       homeBase: this.props.auth.currentUser ? this.props.currentUser.homeBase :'New York',
-      startDate: moment(),
-      endDate: moment()
+      startDate: this.props.auth.currentUser ? this.props.currentUser.startDate : '',
+      endDate: this.props.auth.currentUser ? this.props.currentUser.endDate : ''
     }
   }
 
@@ -75,28 +75,32 @@ export default class InlineBuddyEdit extends Component {
 
   postUserInfoToDB = () => {
     const uid = this.props.auth.currentUser.uid
-    console.log('In POST USER WITH UID INFO TO DB INLINEBUDDYEDIT: ', uid, ' WITH STATE: ', this.state)
     this.props.userRef.child(uid).set({
       name: this.state.name,
       homeBase: this.state.homeBase,
-      status: this.state.status
+      status: this.state.status,
+      startDate: this.state.startDate.toJSON(),
+      endDate: this.state.endDate.toJSON()
     })
   }
 
-  handleChangeStart = (e) => {
-    const newStart = e.format('YYYY-MM-DD')
-    console.log('NEW START: ', newStart)
+  handleChangeStart = (startDate) => {
+    this.setState({
+      startDate: startDate
+    })
   }
-  handleChangeEnd = (e) => {
-    const newEnd = e.format('YYYY-MM-DD')
-    console.log('NEW END: ', newEnd)
+  handleChangeEnd = (endDate) => {
+    console.log("IN SET END DATE: ", endDate)
+    this.setState({
+      endDate: endDate
+    })
   }
 
   render() {
+    console.log("TOP OF RENDER, STARTDATE ON STATE: ", this.state.startDate)
     return (
       <form onSubmit={this.postUserInfoToDB}>
         <h1>BUDDIES</h1>
-        <button name="seeingState" onClick={() => console.log('INLINE BUDDY EDIT STATE ON RENDER: ', this.state)}>this.state</button>
         <div className="container">
           <div className="form-horizontal">
             <div className="col-md-3">
@@ -138,20 +142,14 @@ export default class InlineBuddyEdit extends Component {
             <div className="col-md-3">
               <span>Availability Start Date: </span>
               <DatePicker
-                selected={this.state.startDate}
-                selectsStart
-                startDate={this.state.startDate}
-                endDate={this.state.endDate}
+                selected={this.state.startDate ? moment(this.state.startDate) : null}
                 onChange={this.handleChangeStart}
               />
             </div>
             <div className="col-md-3">
               <span>Availability End Date: </span>
               <DatePicker
-                selected={this.state.endDate}
-                selectsEnd
-                startDate={this.state.startDate}
-                endDate={this.state.endDate}
+                selected={this.state.endDate ? moment(this.state.endDate) : null}
                 onChange={this.handleChangeEnd}
               />
             </div>
