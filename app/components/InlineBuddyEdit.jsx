@@ -26,7 +26,7 @@ export default class InlineBuddyEdit extends Component {
         { id: '2', text: 'Going' },
         { id: '3', text: 'Can\'t make it' }
       ],
-      homeBase: this.props.auth.currentUser ? this.props.currentUser.homeBase :'New York',
+      homeBase: this.props.auth.currentUser ? this.props.currentUser.homeBase :'Please enter your city',
       startDate: this.props.auth.currentUser ? this.props.currentUser.startDate : '',
       endDate: this.props.auth.currentUser ? this.props.currentUser.endDate : ''
     }
@@ -90,14 +90,12 @@ export default class InlineBuddyEdit extends Component {
     })
   }
   handleChangeEnd = (endDate) => {
-    console.log("IN SET END DATE: ", endDate)
     this.setState({
       endDate: endDate
     })
   }
 
   render() {
-    console.log("TOP OF RENDER, STARTDATE ON STATE: ", this.state.startDate)
     return (
       <form onSubmit={this.postUserInfoToDB}>
         <h1>BUDDIES</h1>
