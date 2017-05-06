@@ -42,7 +42,7 @@ export default function() {
 
       </div>
     </nav>
-    )
+  )
 }
 
 //*  */}
@@ -52,11 +52,6 @@ export default function() {
   <div className="collapse navbar-collapse" id="titleNav">
 
     <img className="navbar-brand" src="../../public/favicon.ico" />
-
-
-
-
-
      <Link to="/login" className="nav navbar-nav" >
        <button className='logout'
                onClick={() => this.auth.signOut()}>logout

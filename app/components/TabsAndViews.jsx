@@ -55,8 +55,6 @@ export default class TabsAndView extends React.Component {
   }
 }
 
-
-
 // render() {
 //   return (
 //   <div>
@@ -72,7 +70,6 @@ export default class TabsAndView extends React.Component {
 //       </li>
 //     </ul>
 
-
 //     <div id="myTabContent"
 //           className="tab-content">
 
@@ -81,12 +78,10 @@ export default class TabsAndView extends React.Component {
 //         <TravelBuddies />
 //       </div>
 
-
 //       <div className="tab-pane fade"
 //             id="itinerary">
 //         <Itinerary />
 //       </div>
-
 
 //     </div>
 //   </div>

@@ -61,10 +61,10 @@ export default class BuddyEdit extends Component {
                   <option>Can't Make It</option>
               </select>
             </div>
-            <div className="col-md-3">            
+            <div className="col-md-3">
               <input name="homebase" type="text" className="form-control  col-md-3" placeholder="Home Base"/>
             </div>
-            <div className="col-md-3">            
+            <div className="col-md-3">
               <DatePicker
                   selected={this.state.startDate}
                   selectsStart
