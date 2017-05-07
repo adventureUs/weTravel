@@ -53,6 +53,7 @@
     "faker": "^4.1.0",
     "finalhandler": "^1.0.0",
     "firebase": "^3.9.0",
+    "firebase-admin": "^4.2.1",
     "homedir": "^0.6.0",
     "immutable": "^3.8.1",
     "moment": "^2.18.1",
