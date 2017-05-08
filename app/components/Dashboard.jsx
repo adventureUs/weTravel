@@ -15,7 +15,7 @@ export default class extends React.Component {
     super(props)
     this.state = {
       uid: '',
-      currTrip: '',
+      tripId: '',
       trips: [],
       buddies: []
     }
@@ -26,7 +26,7 @@ export default class extends React.Component {
       this.props.userRef.child('/' + user.uid + '/trips')
         .on('value', snapshot => {
           this.setState({
-            currTrip: snapshot.val()[0],
+            tripId: snapshot.val()[0],
             trips: snapshot.val(),
             uid: user.uid
           })
@@ -60,10 +60,9 @@ export default class extends React.Component {
   }
 
   render() {
-    console.log('state', this.state)
     return (
       <div className="">
-        <TitleBar/>
+        <TitleBar {...this.state} />
         <Timeline/>
         <div className="row">
           <div className="col col-lg-3">
@@ -71,7 +70,7 @@ export default class extends React.Component {
           </div>
 
           <div className="col col-lg-9">
-            <TabsAndViews/>
+            <TabsAndViews />
           </div>
           </div>
       </div>
