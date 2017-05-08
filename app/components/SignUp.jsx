@@ -28,7 +28,8 @@ export default class extends React.Component {
           const userId = user.uid
           return userRef.update({
             [userId]: {
-              email: user.email
+              email: user.email,
+              trips: []
             }
           })
         })

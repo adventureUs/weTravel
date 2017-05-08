@@ -65,7 +65,7 @@ export default class InlineBuddyEdit extends Component {
                       this.setState(snapshot.val()[this.state.uid])
                     })
     // Set unsubscribe to be a function that detaches the listener.
-    this.unsubscribe = () => userRef.off('users', listener)
+    this.unsubscribe = () => userRef.off('value', listener)
   }
 
   virtualServerCallback = (newState) => {
