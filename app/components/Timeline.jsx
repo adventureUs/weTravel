@@ -19,7 +19,7 @@ export default class Timeline extends React.Component {
   }
   render() {
     return (
-      <div className="jumbotron">
+      <div className="well">
         <h1>Timeline</h1>
         <p>Under Contruction.  Please come back later!</p>
         <p><a className="btn btn-primary btn-lg">Will convert to a slider</a></p>
