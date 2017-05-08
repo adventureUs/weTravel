@@ -19,7 +19,6 @@ export default class TabsAndView extends React.Component {
     this.unsubscribe && this.unsubscribe()
   }
   render() {
-    console.log('Ternary', this.state.changeTabs)
     return (
     <div>
       <ul
