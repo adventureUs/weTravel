@@ -48,7 +48,6 @@ export default class extends React.Component {
     const facebook = new firebase.auth.FacebookAuthProvider()
     const email = new firebase.auth.EmailAuthProvider()
 
-
     return (
       <div className="jumbotron">
         <form onSubmit={this.onSubmit} className="form-horizontal well">
@@ -77,7 +76,6 @@ export default class extends React.Component {
               onClick={() => {
                 auth.signInWithPopup(google)
                   .then(() => browserHistory.push('/dashboard'))
-
               }}>Sign up with Google</button>
 
           </div>
@@ -87,7 +85,6 @@ export default class extends React.Component {
               onClick={() => {
                 auth.signInWithPopup(facebook)
                   .then(() => browserHistory.push('/dashboard'))
-
               }}>Sign up with Facebook</button>
 
           </div>
