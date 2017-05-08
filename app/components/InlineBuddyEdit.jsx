@@ -94,16 +94,12 @@ export default class InlineBuddyEdit extends Component {
   postUserInfoToDB = (e) => {
     e.preventDefault()
     const uid = this.props.auth.currentUser.uid
-    console.log('state', this.state)
-    const startDate = this.validateDate(this.state.startDate)
-    const endDate = this.validateDate(this.state.endDate)
-    console.log('end date', endDate)
     this.props.userRef.child(uid).set({
-      name: this.state.name,
-      homeBase: this.state.homeBase,
+      name: this.state.name ? this.state.name : 'Please enter your name',
+      homeBase: this.state.homeBase ? this.state.homeBase : 'Please enter homebase',
       status: this.state.status,
-      startDate: startDate,
-      endDate: endDate
+      startDate: this.validateDate(this.state.startDate),
+      endDate: this.validateDate(this.state.endDate)
       // endDate: this.state.endDate ? this.state.endDate.toJSON() : null
     })
   }
