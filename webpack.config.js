@@ -35,7 +35,15 @@ module.exports = {
           presets: ['react', 'es2015', 'stage-2']
         }
       }]
-    }]
+    }, {
+      test: /\.css$/,
+      use: [
+        'style-loader',
+        'css-loader',
+        'sass-loader'
+      ]
+    }
+    ]
   },
   plugins: devMode
     ? [new LiveReloadPlugin({appendScriptTag: true})]
