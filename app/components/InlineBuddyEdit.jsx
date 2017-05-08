@@ -16,20 +16,38 @@ export default class InlineBuddyEdit extends Component {
     super(props)
     // in the future instead of e-mail add an additional field for preferred contact info
     // set scope on OAuth request and include phone number
+    console.log('inline buddy edit props', this.props.currentUser, this.props)
     this.state = {
       uid: '',
-      name: this.props.auth.currentUser ? this.props.currentUser.name : 'Please enter your name',
-      email: this.props.auth.currentUser ? this.props.auth.currentUser.email : 'no email',
+      name: 'Please enter your name',
+      email: 'no email',
       status: { id: '1', text: 'Invited' },
       statusOptions: [
         { id: '1', text: 'Invited' },
         { id: '2', text: 'Going' },
         { id: '3', text: 'Can\'t make it' }
       ],
-      homeBase: this.props.auth.currentUser ? this.props.currentUser.homeBase :'Please enter your city',
-      startDate: this.props.auth.currentUser ? this.props.currentUser.startDate : '',
-      endDate: this.props.auth.currentUser ? this.props.currentUser.endDate : ''
+      homeBase: 'Please enter your city',
+      startDate: '',
+      endDate:  ''
+
+
     }
+
+    // this.state = {
+    //   uid: '',
+    //   name: this.props.auth.currentUser ? this.props.currentUser.name : 'Please enter your name',
+    //   email: this.props.auth.currentUser ? this.props.auth.currentUser.email : 'no email',
+    //   status: { id: '1', text: 'Invited' },
+    //   statusOptions: [
+    //     { id: '1', text: 'Invited' },
+    //     { id: '2', text: 'Going' },
+    //     { id: '3', text: 'Can\'t make it' }
+    //   ],
+    //   homeBase: this.props.auth.currentUser ? this.props.currentUser.homeBase :'Please enter your city',
+    //   startDate: this.props.auth.currentUser ? this.props.currentUser.startDate : '',
+    //   endDate: this.props.auth.currentUser ? this.props.currentUser.endDate : ''
+    // }
   }
 
   componentDidMount() {
@@ -73,15 +91,28 @@ export default class InlineBuddyEdit extends Component {
     // this.updateDb()
   }
 
-  postUserInfoToDB = () => {
+  postUserInfoToDB = (e) => {
+    e.preventDefault()
     const uid = this.props.auth.currentUser.uid
+    console.log('state', this.state)
+    const startDate = this.validateDate(this.state.startDate)
+    const endDate = this.validateDate(this.state.endDate)
+    console.log('end date', endDate)
     this.props.userRef.child(uid).set({
       name: this.state.name,
       homeBase: this.state.homeBase,
       status: this.state.status,
-      startDate: this.state.startDate.toJSON(),
-      endDate: this.state.endDate.toJSON()
+      startDate: startDate,
+      endDate: endDate
+      // endDate: this.state.endDate ? this.state.endDate.toJSON() : null
     })
+  }
+
+  validateDate = (date) => {
+    console.log('date', date)
+    if (!date) return null
+    else if (typeof date === 'string') return date
+    else return date.toJSON()
   }
 
   handleChangeStart = (startDate) => {
