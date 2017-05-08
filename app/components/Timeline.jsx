@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import firebase from 'APP/fire'
+import Scheduler from 'legit-scheduler'
 
 const db = firebase.database()
 
