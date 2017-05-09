@@ -20,7 +20,7 @@ export default class extends React.Component {
       buddies: []
     }
   }
-
+// for MVP we just dup the user into the first saved trip for them.
   componentDidMount() {
     this.props.auth.onAuthStateChanged(user => {
       this.props.userRef.child('/' + user.uid + '/trips')
