@@ -16,6 +16,11 @@ export default class InlineBuddyEdit extends Component {
     super(props)
     // in the future instead of e-mail add an additional field for preferred contact info
     // set scope on OAuth request and include phone number
+    // We currently handle a case for new signup.
+    // We need to consider the case for when someone is logged in aand has info in the database. In this case, we want to get their
+    // details from the database if they exist and if they don't exist, give the prompts.
+    // some ternary like: if there is a logged in user and they have a name in the db, return the name. Otherwise return 'plase enter a name'.
+    // same double condition needed for homeBase: if user logged in AND user has a homebase, grab it from the db and put it on initial state, otherwise ....
     this.state = {
       uid: '',
       name: 'Please enter your name',
