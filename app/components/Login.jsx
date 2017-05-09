@@ -100,13 +100,6 @@ export default class extends React.Component {
               }}>Login with Google</button>
           </div>
           <br />
-          <div>
-            <button className='facebook login btn btn-primary'
-              onClick={() => {
-                auth.signInWithPopup(facebook)
-                  .then(() => browserHistory.push('/dashboard'))
-              }}>Login with Facebook</button>
-          </div>
         </div>
 
         <hr />

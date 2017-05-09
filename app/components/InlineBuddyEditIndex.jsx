@@ -13,5 +13,5 @@ const auth = firebase.auth()
 // and pass in name to the below function
 export default () =>
   <div>
-    <InlineBuddyEdit userRef={db.ref('users')} auth={auth} />
+    <InlineBuddyEdit tripsRef={db.ref('trips')} usersRef={db.ref('users')} auth={auth} />
   </div>

@@ -8,12 +8,12 @@ import firebase from 'APP/fire'
 // const auth = firebase.auth()
 const db = firebase.database()
 
-// userRef might be bettter as usersRef since that reflects what it actually is; furthermore; removing the listener through userRef
+// usersRef might be bettter as usersRef since that reflects what it actually is; furthermore; removing the listener through usersRef
 // might be problematic;  furthermore; in Dashobard we may be wanting to listen through the particular trip so rerendierng isn't triggered
 // changes to other trips and unrelated users. 
 
 // WHEN CAN YOU DEFINE THE UID?  WE NEED TO GRAB AS SOON AS POSSIBLE
-// receives  userRef={db.ref('users')} auth={auth} from container
+// receives  usersRef={db.ref('users')} auth={auth} from container
 
 export default class InlineBuddyEdit extends Component {
   constructor(props) {
@@ -25,6 +25,9 @@ export default class InlineBuddyEdit extends Component {
     // details from the database if they exist and if they don't exist, give the prompts.
     // some ternary like: if there is a logged in user and they have a name in the db, return the name. Otherwise return 'plase enter a name'.
     // same double condition needed for homeBase: if user logged in AND user has a homebase, grab it from the db and put it on initial state, otherwise ....
+
+    // the goal here is to put buddy info from the buddies key from tripRef on state and keep aligned with the homebase on userRef
+
     this.state = {
       uid: '',
       name: 'Please enter your name',
@@ -37,14 +40,12 @@ export default class InlineBuddyEdit extends Component {
       ],
       homeBase: 'Please enter your city',
       startDate: '',
-      endDate:  ''
-
-
+      endDate: ''
     }
   }
 
   componentDidMount() {
-    // When the component mounts, start listening to the userRef
+    // When the component mounts, start listening to the usersRef
     // we were given.
     this.props.auth.onAuthStateChanged(user => {
       this.setState({
@@ -52,7 +53,7 @@ export default class InlineBuddyEdit extends Component {
         email: user.email
       })
     })
-    this.listenTo(this.props.userRef.child('/' + this.state.uid))
+    this.listenTo(this.props.usersRef.child('/' + this.state.uid))
   }
 
   componentWillUnmount() {
@@ -63,23 +64,24 @@ export default class InlineBuddyEdit extends Component {
   componentWillReceiveProps(incoming, outgoing) {
     // When the props sent to us by our parent component change,
     // start listening to the new firebase reference.
-    this.listenTo(incoming.userRef)
+    this.listenTo(incoming.tripsRef)
+    // this.listenTo(incoming.tripsRef.child(tripId))
   }
 
-  listenTo(userRef) {
+  listenTo(usersRef) {
     // If we're already listening to a ref, stop listening there.
     if (this.unsubscribe) this.unsubscribe()
     // Whenever our ref's value changes, set {value} on our state.
     const listener = firebase.database()
-                    .ref('users/' + this.state.uid)
-                    .on('value', snapshot => {
-                      this.setState(snapshot.val()[this.state.uid])
-                    })
+      .ref('users/' + this.state.uid)
+      .on('value', snapshot => {
+        this.setState(snapshot.val()[this.state.uid])
+      })
     // Set unsubscribe to be a function that detaches the listener.
-    this.unsubscribe = () => userRef.off('value', listener)
+    this.unsubscribe = () => usersRef.off('value', listener)
   }
 
-  virtualServerCallback = (newState) => {
+  setLocalState = (newState) => {
     this.setState(newState)
     // this.updateDb()
   }
@@ -87,7 +89,7 @@ export default class InlineBuddyEdit extends Component {
   postUserInfoToDB = (e) => {
     e.preventDefault()
     const uid = this.props.auth.currentUser.uid
-    this.props.userRef.child(uid).set({
+    this.props.usersRef.child(uid).set({
       name: this.state.name ? this.state.name : 'Please enter your name',
       homeBase: this.state.homeBase ? this.state.homeBase : 'Please enter homebase',
       status: this.state.status,
@@ -124,7 +126,7 @@ export default class InlineBuddyEdit extends Component {
               <span>Name: </span>
               <RIEInput
                 value={this.state.name}
-                change={this.virtualServerCallback}
+                change={this.setLocalState}
                 propName="name"
                 className={this.state.highlight ? "editable" : ""}
                 validate={this.isStringAcceptable}
@@ -141,7 +143,7 @@ export default class InlineBuddyEdit extends Component {
                 value={this.state.status}
                 className={this.state.highlight ? "editable" : ""}
                 options={this.state.statusOptions}
-                change={this.virtualServerCallback}
+                change={this.setLocalState}
                 classLoading="loading"
                 propName="status" />
             </div>
@@ -149,7 +151,7 @@ export default class InlineBuddyEdit extends Component {
               <span>Home Base: </span>
               <RIEInput
                 value={this.state.homeBase}
-                change={this.virtualServerCallback}
+                change={this.setLocalState}
                 propName="homeBase"
                 className={this.state.highlight ? "editable" : ""}
                 validate={this.isStringAcceptable}
