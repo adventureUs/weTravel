@@ -4,6 +4,19 @@ import firebase from 'APP/fire'
 import Timeline from 'react-calendar-timeline'
 import moment from 'moment'
 
+// dummy data, will pull in from db later
+const groups = [
+  {id: 'dlxw3BoFWJMfMpGoBlRhQsRAiMB2', title: 'Tina'},
+  {id: 'n2JCRgwSVuPr1WzifDLia2Ti8gr1', title: 'Allison'}
+]
+
+// this is where we make our connection to the database, we need:
+// user name, user startDate for this trip, user endDate for this trip (currentTripUserStartDate, currentTripUserEndDate)
+const items = [
+  {id: 'dlxw3BoFWJMfMpGoBlRhQsRAiMB2', group: 'dlxw3BoFWJMfMpGoBlRhQsRAiMB2', title: 'Tina', start_time: moment('Tue May 12 2017 12:51:11 GMT-0400'), end_time: moment('Tue May 16 2017 13:00:11 GMT-0400')},
+  {id: 'n2JCRgwSVuPr1WzifDLia2Ti8gr1', group: 'n2JCRgwSVuPr1WzifDLia2Ti8gr1', title: 'Allison', start_time: moment('Tue May 11 2017 12:51:11 GMT-0400'), end_time: moment('Tue May 14 2017 13:00:11 GMT-0400')}
+]
+
 const db = firebase.database()
 
 export default class extends Component {
@@ -35,17 +48,6 @@ export default class extends Component {
   }
 
   render() {
-    const groups = [
-      {id: 'dlxw3BoFWJMfMpGoBlRhQsRAiMB2', title: 'Tina'},
-      {id: 'n2JCRgwSVuPr1WzifDLia2Ti8gr1', title: 'Allison'}
-    ]
-
-// this is where we make our connection to the database, we need:
-// user name, user startDate for this trip, user endDate for this trip (currentTripUserStartDate, currentTripUserEndDate)
-    const items = [
-      {id: 'dlxw3BoFWJMfMpGoBlRhQsRAiMB2', group: 'dlxw3BoFWJMfMpGoBlRhQsRAiMB2', title: 'Tina', start_time: moment('Tue May 12 2017 12:51:11 GMT-0400'), end_time: moment('Tue May 16 2017 13:00:11 GMT-0400')},
-      {id: 'n2JCRgwSVuPr1WzifDLia2Ti8gr1', group: 'n2JCRgwSVuPr1WzifDLia2Ti8gr1', title: 'Allison', start_time: moment('Tue May 11 2017 12:51:11 GMT-0400'), end_time: moment('Tue May 14 2017 13:00:11 GMT-0400')}
-    ]
 
 // This object sets the untis on the timeline.
 // Currently, it is set to display days, months and years
@@ -68,6 +70,7 @@ export default class extends Component {
             timeSteps={timeSteps}
             visibleTimeStart={this.findMinStartDate(items)}
             visibleTimeEnd={this.findMaxEndDate(items)}
+            sidebarWidth={70}
             />
       </div>
     )
@@ -88,7 +91,7 @@ export default class extends Component {
 //   }
 // }
 //
-//{
+// {
     //   buddyTimelineData: {
     //     'dlxw3BoFWJMfMpGoBlRhQsRAiMB2': {
     //       currentTripUserName: 'Tina',
