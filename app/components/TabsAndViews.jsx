@@ -9,6 +9,7 @@ export default class TabsAndView extends React.Component {
     this.state={
       changeTabs: true
     }
+
   }
   componentWillMount() {
     const auth = firebase.auth()
@@ -18,8 +19,8 @@ export default class TabsAndView extends React.Component {
   componentWillUnmount() {
     this.unsubscribe && this.unsubscribe()
   }
+
   render() {
-    console.log('Ternary', this.state.changeTabs)
     return (
     <div>
       <ul
