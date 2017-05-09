@@ -22,7 +22,10 @@ const db = firebase.database()
 export default class extends Component {
   constructor(props) {
     super(props)
-    this.state
+    this.state = {
+      startTime: moment(),
+      endTime: moment().add(1, 'days')
+    }
   }
   componentWillMount() {
     // const auth = this.props.route.auth
@@ -48,18 +51,33 @@ export default class extends Component {
     let renderMaxEndDate = moment(tempMaxDate).add(1, 'days')
     return renderMaxEndDate.unix()*1000
   }
-  onItemClick = (itemId, e) => {
-    // returns the id of the item selected
-    console.log('ON ITEM CLICK HANDLER, itemId: ', itemId, 'e: ', e)
-  }
-  onItemSelect = (itemId, e) => {
-    // returns the id of the item selected
-    console.log('ON ITEM SELECT HANDLER, itemId: ', itemId, 'e: ', e)
-  }
-  onItemResize = (itemId,time,edge) => {
-    console.log('ON ITEM RESIZE HANDLER, itemId: ', itemId, 'time: ', time, 'edge: ', edge)
+
+  // onItemClick = (itemId, e) => {
+  //   // returns the id of the item selected
+  //   // console.log('ON ITEM CLICK HANDLER, itemId: ', itemId, 'e: ', e)
+  // }
+
+  // onItemSelect = (itemId, e) => {
+  //   // returns the id of the item selected
+  //   // console.log('ON ITEM SELECT HANDLER, itemId: ', itemId, 'e: ', e)
+  // }
+
+  onItemResize = (itemId, time, edge) => {
     // we get back the itemId, the time changed to in unix number format and the edge that was changed
+    console.log('ON ITEM RESIZE HANDLER, itemId: ', itemId, 'time: ', moment(time), 'edge: ', edge)
+    if (edge === 'left') {
+      let startTime = moment(time)
+      items[0].start_time = startTime
+      this.setState({startTime: startTime})
+    } else {
+      let endTime = moment(time)
+      items[0].end_time = endTime
+      this.setState({endTime: endTime})
+      console.log('ON ITEM RESIZE HANDLER, itemEndTime: ', endTime)
+    }
+    console.log('ITEMS[0] AFTER SETTING END TIME: ', items[0])
   }
+
   render() {
 // This object sets the untis on the timeline.
 // Currently, it is set to display days, months and years
@@ -83,8 +101,6 @@ export default class extends Component {
             visibleTimeStart={this.findMinStartDate(items)}
             visibleTimeEnd={this.findMaxEndDate(items)}
             sidebarWidth={70}
-            onItemClick={this.onItemClick}
-            onItemSelect={this.onItemSelect}
             onItemResize={this.onItemResize}
             />
       </div>
