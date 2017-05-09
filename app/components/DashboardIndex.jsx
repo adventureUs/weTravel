@@ -4,7 +4,7 @@ import React from 'react'
 import { Route } from 'react-router'
 import firebase from 'APP/fire'
 const db = firebase.database()
-import InlineBuddyEdit from './InlineBuddyEdit'
+import Dashboard from './Dashboard'
 const auth = firebase.auth()
 
 // the reason for this container is to allow for an enhancement
@@ -13,5 +13,5 @@ const auth = firebase.auth()
 // and pass in name to the below function
 export default () =>
   <div>
-    <InlineBuddyEdit userRef={db.ref('users')} auth={auth} />
+    <Dashboard userRef={db.ref('users')} auth={auth} />
   </div>

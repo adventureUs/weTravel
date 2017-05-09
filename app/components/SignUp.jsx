@@ -23,12 +23,21 @@ export default class extends React.Component {
     // what we actually want to do is redirect to the dashboard view
     if (this.state.email.length && this.state.password.length) {
       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-        // Should we have a pop-up to collect extra information such as zipcode, name
+        // This then creates a new user in the db
         .then((user) => {
           const userId = user.uid
-          return userRef.update({
+          var newTrip = {
+            name: 'Please Name Your Trip Here!',
+            users: [userId]
+          }
+          var newTripKey = db.ref('trips/').push().key
+          var updates = {}
+          updates[newTripKey] = newTrip
+          db.ref('trips/').update(updates)
+          userRef.update({
             [userId]: {
-              email: user.email
+              email: user.email,
+              trips: [newTripKey]
             }
           })
         })

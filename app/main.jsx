@@ -7,7 +7,7 @@ import {render} from 'react-dom'
 import NotFound from './components/NotFound'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
-import Dashboard from './components/Dashboard'
+import DashboardIndex from './components/DashboardIndex'
 import InlineBuddyEditIndex from './components/InlineBuddyEditIndex'
 
 import firebase from 'APP/fire'
@@ -34,7 +34,7 @@ render(
   <Router history={browserHistory}>
     <Route path="/" component={App} />
     <Route path="login" component={Login} google={google} facebook={facebook} email={email} />
-    <Route path="dashboard" component={Dashboard} />
+    <Route path="dashboard" component={DashboardIndex} />
     <Route path="signup" component={SignUp} google={google} facebook={facebook} email={email} />
     <Route path="/travelbuddies/email" component={InlineBuddyEditIndex}/>
     <Route path='*' component={NotFound} />

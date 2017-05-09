@@ -8,6 +8,10 @@ import firebase from 'APP/fire'
 // const auth = firebase.auth()
 const db = firebase.database()
 
+// userRef might be bettter as usersRef since that reflects what it actually is; furthermore; removing the listener through userRef
+// might be problematic;  furthermore; in Dashobard we may be wanting to listen through the particular trip so rerendierng isn't triggered
+// changes to other trips and unrelated users. 
+
 // WHEN CAN YOU DEFINE THE UID?  WE NEED TO GRAB AS SOON AS POSSIBLE
 // receives  userRef={db.ref('users')} auth={auth} from container
 
@@ -16,19 +20,26 @@ export default class InlineBuddyEdit extends Component {
     super(props)
     // in the future instead of e-mail add an additional field for preferred contact info
     // set scope on OAuth request and include phone number
+    // We currently handle a case for new signup.
+    // We need to consider the case for when someone is logged in aand has info in the database. In this case, we want to get their
+    // details from the database if they exist and if they don't exist, give the prompts.
+    // some ternary like: if there is a logged in user and they have a name in the db, return the name. Otherwise return 'plase enter a name'.
+    // same double condition needed for homeBase: if user logged in AND user has a homebase, grab it from the db and put it on initial state, otherwise ....
     this.state = {
       uid: '',
-      name: this.props.auth.currentUser ? this.props.currentUser.name : 'Please enter your name',
-      email: this.props.auth.currentUser ? this.props.auth.currentUser.email : 'no email',
+      name: 'Please enter your name',
+      email: 'no email',
       status: { id: '1', text: 'Invited' },
       statusOptions: [
         { id: '1', text: 'Invited' },
         { id: '2', text: 'Going' },
         { id: '3', text: 'Can\'t make it' }
       ],
-      homeBase: this.props.auth.currentUser ? this.props.currentUser.homeBase :'Please enter your city',
-      startDate: this.props.auth.currentUser ? this.props.currentUser.startDate : '',
-      endDate: this.props.auth.currentUser ? this.props.currentUser.endDate : ''
+      homeBase: 'Please enter your city',
+      startDate: '',
+      endDate:  ''
+
+
     }
   }
 
@@ -65,7 +76,7 @@ export default class InlineBuddyEdit extends Component {
                       this.setState(snapshot.val()[this.state.uid])
                     })
     // Set unsubscribe to be a function that detaches the listener.
-    this.unsubscribe = () => userRef.off('users', listener)
+    this.unsubscribe = () => userRef.off('value', listener)
   }
 
   virtualServerCallback = (newState) => {
@@ -73,15 +84,23 @@ export default class InlineBuddyEdit extends Component {
     // this.updateDb()
   }
 
-  postUserInfoToDB = () => {
+  postUserInfoToDB = (e) => {
+    e.preventDefault()
     const uid = this.props.auth.currentUser.uid
     this.props.userRef.child(uid).set({
-      name: this.state.name,
-      homeBase: this.state.homeBase,
+      name: this.state.name ? this.state.name : 'Please enter your name',
+      homeBase: this.state.homeBase ? this.state.homeBase : 'Please enter homebase',
       status: this.state.status,
-      startDate: this.state.startDate.toJSON(),
-      endDate: this.state.endDate.toJSON()
+      startDate: this.validateDate(this.state.startDate),
+      endDate: this.validateDate(this.state.endDate)
+      // endDate: this.state.endDate ? this.state.endDate.toJSON() : null
     })
+  }
+
+  validateDate = (date) => {
+    if (!date) return null
+    else if (typeof date === 'string') return date
+    else return date.toJSON()
   }
 
   handleChangeStart = (startDate) => {
