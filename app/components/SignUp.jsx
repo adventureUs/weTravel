@@ -21,27 +21,38 @@ export default class extends React.Component {
   onSubmit = (evt) => {
     evt.preventDefault()
     // what we actually want to do is redirect to the dashboard view
+
     if (this.state.email.length && this.state.password.length) {
       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+        // 'redcuer' logic
         // This then creates a new user in the db
         .then((user) => {
           const userId = user.uid
-          var newTrip = {
+          var newTripData = {
             name: 'Please Name Your Trip Here!',
-            users: [userId]
+            buddies: {
+              [userId]: {
+                status: 'Going'
+              }
+            }
           }
           var newTripKey = db.ref('trips/').push().key
-          var updates = {}
-          updates[newTripKey] = newTrip
-          db.ref('trips/').update(updates)
+          var newTrip = {}
+          newTrip[newTripKey] = newTripData
+          db.ref('trips/').update(newTrip)
           userRef.update({
             [userId]: {
               email: user.email,
-              trips: [newTripKey]
+              trips: [newTripKey],
+              currTrip: newTripKey
             }
           })
+          return newTripKey
         })
-        .then(() => browserHistory.push('/dashboard'))
+        .then((newTripKey) => {
+          console.log('Trying to grap default new Trip key', newTripKey)
+          browserHistory.push('/dashboard/' + newTripKey)
+        })
         .catch(error => {
           window.alert(error)
         })

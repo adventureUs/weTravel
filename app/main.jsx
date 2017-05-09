@@ -34,7 +34,7 @@ render(
   <Router history={browserHistory}>
     <Route path="/" component={App} />
     <Route path="login" component={Login} google={google} facebook={facebook} email={email} />
-    <Route path="dashboard" component={DashboardIndex} />
+    <Route path="dashboard/:tripId" component={DashboardIndex} />
     <Route path="signup" component={SignUp} google={google} facebook={facebook} email={email} />
     <Route path="/travelbuddies/email" component={InlineBuddyEditIndex}/>
     <Route path='*' component={NotFound} />
