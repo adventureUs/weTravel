@@ -6,7 +6,7 @@ import moment from 'moment'
 
 const db = firebase.database()
 
-export default class extends React.Component {
+export default class extends Component {
   constructor(props) {
     super(props)
     this.state
@@ -22,14 +22,13 @@ export default class extends React.Component {
 
   render() {
     const groups = [
-      {id: 1, title: 'group 1'},
-      {id: 2, title: 'group 2'}
+      {id: 'dlxw3BoFWJMfMpGoBlRhQsRAiMB2', title: 'Tina'}
     ]
 
+// this is where we make our connection to the database, we need:
+// user name, user startDate for this trip, user endDate for this trip (currentTripUserStartDate, currentTripUserEndDate)
     const items = [
-      {id: 1, group: 1, title: 'item 1', start_time: moment(), end_time: moment().add(1, 'hour')},
-      {id: 2, group: 2, title: 'item 2', start_time: moment().add(-0.5, 'hour'), end_time: moment().add(0.5, 'hour')},
-      {id: 3, group: 1, title: 'item 3', start_time: moment().add(2, 'hour'), end_time: moment().add(3, 'hour')}
+      {id: 'dlxw3BoFWJMfMpGoBlRhQsRAiMB2', group: 'dlxw3BoFWJMfMpGoBlRhQsRAiMB2', title: 'Tina', start_time: moment('Tue May 09 2017 12:51:11 GMT-0400'), end_time: moment('Tue May 16 2017 13:00:11 GMT-0400')}
     ]
 
     return (
@@ -44,3 +43,27 @@ export default class extends React.Component {
     )
   }
 }
+
+// Database structure
+// db = {
+// "TRIPS": {
+//    "tripID_uniquelygeneratedbyFirebase": {
+//      "USERS": {
+//        "userID_uniquelygeneratedbyFirebase": {
+//          "start_date_moment_instance_in_string_form",
+//          "end_date_moment_instance_in_string_form"
+//        }
+//      }
+//    }
+//   }
+// }
+//
+//{
+    //   buddyTimelineData: {
+    //     'dlxw3BoFWJMfMpGoBlRhQsRAiMB2': {
+    //       currentTripUserName: 'Tina',
+    //       currentTripUserStartDate: 'Tue May 09 2017 12:51:11 GMT-0400',
+    //       currentTripUserEndDate: 'Tue May 16 2017 13:00:11 GMT-0400'
+    //     }
+    //   }
+    // }
