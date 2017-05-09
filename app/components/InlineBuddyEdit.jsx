@@ -8,6 +8,10 @@ import firebase from 'APP/fire'
 // const auth = firebase.auth()
 const db = firebase.database()
 
+// userRef might be bettter as usersRef since that reflects what it actually is; furthermore; removing the listener through userRef
+// might be problematic;  furthermore; in Dashobard we may be wanting to listen through the particular trip so rerendierng isn't triggered
+// changes to other trips and unrelated users. 
+
 // WHEN CAN YOU DEFINE THE UID?  WE NEED TO GRAB AS SOON AS POSSIBLE
 // receives  userRef={db.ref('users')} auth={auth} from container
 
