@@ -10,7 +10,7 @@ const db = firebase.database()
 
 // usersRef might be bettter as usersRef since that reflects what it actually is; furthermore; removing the listener through usersRef
 // might be problematic;  furthermore; in Dashobard we may be wanting to listen through the particular trip so rerendierng isn't triggered
-// changes to other trips and unrelated users. 
+// changes to other trips and unrelated users.
 
 // WHEN CAN YOU DEFINE THE UID?  WE NEED TO GRAB AS SOON AS POSSIBLE
 // receives  usersRef={db.ref('users')} auth={auth} from container
@@ -40,7 +40,8 @@ export default class InlineBuddyEdit extends Component {
       ],
       homeBase: 'Please enter your city',
       startDate: '',
-      endDate: ''
+      endDate: '',
+      currTrip: ''
     }
   }
 
@@ -54,6 +55,9 @@ export default class InlineBuddyEdit extends Component {
       })
     })
     this.listenTo(this.props.usersRef.child('/' + this.state.uid))
+    // get currTrip id.
+    // Add listener for the specific user's buddy entry too.
+    // this.listenTo(this.props.)
   }
 
   componentWillUnmount() {
@@ -84,6 +88,21 @@ export default class InlineBuddyEdit extends Component {
   setLocalState = (newState) => {
     this.setState(newState)
     // this.updateDb()
+  }
+
+  listenTo2(ref) {
+    // If we're already listening to a ref, stop listening there.
+    if (this.unsubscribe) this.unsubscribe()
+    // Whenever our ref's value changes, set {value} on our state.
+    const listener = ref.on('value', snapshot =>
+                      this.setState(snapshot.val())
+                    )
+    // Set unsubscribe to be a function that detaches the listener.
+    return listener
+  }
+
+  unlistenAllListeners() { // params of listeners
+    this.unsubscribe = () => ref.off('value', listener)
   }
 
   postUserInfoToDB = (e) => {

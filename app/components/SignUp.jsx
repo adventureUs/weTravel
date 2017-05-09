@@ -50,7 +50,7 @@ export default class extends React.Component {
           return newTripKey
         })
         .then((newTripKey) => {
-          console.log('Trying to grap default new Trip key', newTripKey)
+          // console.log('Trying to grap default new Trip key', newTripKey)
           browserHistory.push('/dashboard/' + newTripKey)
         })
         .catch(error => {
