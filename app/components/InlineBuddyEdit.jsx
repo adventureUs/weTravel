@@ -5,15 +5,8 @@ import DatePicker from 'react-datepicker'
 import WhoAmI from './WhoAmI'
 import moment from 'moment'
 import firebase from 'APP/fire'
-// const auth = firebase.auth()
-const db = firebase.database()
 
-// usersRef might be bettter as usersRef since that reflects what it actually is; furthermore; removing the listener through usersRef
-// might be problematic;  furthermore; in Dashobard we may be wanting to listen through the particular trip so rerendierng isn't triggered
-// changes to other trips and unrelated users.
-
-// WHEN CAN YOU DEFINE THE UID?  WE NEED TO GRAB AS SOON AS POSSIBLE
-// receives  usersRef={db.ref('users')} auth={auth} from container
+// const db = firebase.database()
 
 export default class InlineBuddyEdit extends Component {
   constructor(props) {
@@ -29,7 +22,7 @@ export default class InlineBuddyEdit extends Component {
     // the goal here is to put buddy info from the buddies key from tripRef on state and keep aligned with the homebase on userRef
 
     this.state = {
-      uid: '',
+      userId: props.userId,
       name: 'Please enter your name',
       email: 'no email',
       status: { id: '1', text: 'Invited' },
@@ -41,7 +34,7 @@ export default class InlineBuddyEdit extends Component {
       homeBase: 'Please enter your city',
       startDate: '',
       endDate: '',
-      currTrip: ''
+      listeners: []
     }
   }
 
@@ -50,21 +43,30 @@ export default class InlineBuddyEdit extends Component {
     // we were given.
     this.props.auth.onAuthStateChanged(user => {
       this.setState({
-        uid: user.uid,
         email: user.email
       })
     })
-    // this.listenTo(this.props.usersRef.child('/' + this.state.uid))
-    // get currTrip id.
-    // Add listener for the specific user's buddy entry too.
-    // this.listenTo(this.props.)
+    this.listenTo(
+      this.props.usersRef
+      .child(this.props.userId ? this.props.userId : 'test')
+    )
+    this.listenTo(
+      this.props.tripRef
+      .child('buddies')
+      .child(this.props.userId ? this.props.userId : 'test')
+    )
   }
 
   componentWillUnmount() {
     // When we unmount, stop listening.
     this.unsubscribe()
   }
-
+  unsubscribe = () => {
+    this.state.listeners.forEach(obj =>
+      obj.ref.off('value', obj.listener)
+    )
+    this.setState({listeners: []})
+  }
   componentWillReceiveProps(incoming, outgoing) {
     // When the props sent to us by our parent component change,
     // start listening to the new firebase reference.
@@ -72,50 +74,31 @@ export default class InlineBuddyEdit extends Component {
     // this.listenTo(incoming.tripsRef.child(tripId))
   }
 
-  listenTo(usersRef) {
-    // If we're already listening to a ref, stop listening there.
-    if (this.unsubscribe) this.unsubscribe()
-    // Whenever our ref's value changes, set {value} on our state.
-    const listener = firebase.database()
-      .ref('users/' + this.state.uid)
-      .on('value', snapshot => {
-        this.setState(snapshot.val()[this.state.uid])
-      })
-    // Set unsubscribe to be a function that detaches the listener.
-    this.unsubscribe = () => usersRef.off('value', listener)
+  listenTo(ref) {
+    if (this.usnsubscribe) this.unsubscribe()
+    const listener = ref.on('value', snapshot =>
+        this.setState(snapshot.val())
+        )
+    this.state.listeners.push({ref: ref, listener: listener})
+    return listener
   }
-
   setLocalState = (newState) => {
     this.setState(newState)
     // this.updateDb()
   }
 
-  listenTo2(ref) {
-    // If we're already listening to a ref, stop listening there.
-    if (this.unsubscribe) this.unsubscribe()
-    // Whenever our ref's value changes, set {value} on our state.
-    const listener = ref.on('value', snapshot =>
-                      this.setState(snapshot.val())
-                    )
-    // Set unsubscribe to be a function that detaches the listener.
-    return listener
-  }
-
-  unlistenAllListeners() { // params of listeners
-    this.unsubscribe = () => ref.off('value', listener)
-  }
-
   postUserInfoToDB = (e) => {
     e.preventDefault()
-    const uid = this.props.auth.currentUser.uid
-    this.props.usersRef.child(uid).set({
-      name: this.state.name ? this.state.name : 'Please enter your name',
-      homeBase: this.state.homeBase ? this.state.homeBase : 'Please enter homebase',
-      status: this.state.status,
-      startDate: this.validateDate(this.state.startDate),
-      endDate: this.validateDate(this.state.endDate)
-      // endDate: this.state.endDate ? this.state.endDate.toJSON() : null
-    })
+    this.props.usersRef.child(this.props.userId)
+      .update({
+        name: this.state.name ? this.state.name : 'Please enter your name',
+        homeBase: this.state.homeBase ? this.state.homeBase : 'Please enter homebase',
+        status: this.state.status,
+        startDate: this.validateDate(this.state.startDate),
+        endDate: this.validateDate(this.state.endDate)
+      })
+    // this.props.tripRef
+    //   .child('buddies')
   }
 
   validateDate = (date) => {

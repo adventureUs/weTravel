@@ -20,7 +20,7 @@ export default (props) => {
         tripRef={props.tripRef}
         tripId={props.tripId}
         tripsRef={db.ref('trips')}
-        usersRef={props.usersRef}
+        usersRef={db.ref('users')}
         auth={auth} />
     </div>
   )
