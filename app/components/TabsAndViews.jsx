@@ -21,6 +21,7 @@ export default class TabsAndView extends React.Component {
   }
 
   render() {
+    // console.log('TABS AND VIEWS PROPS', this.props)
     return (
     <div>
       <ul

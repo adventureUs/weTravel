@@ -136,7 +136,7 @@ export default class InlineBuddyEdit extends Component {
   }
 
   render() {
-    // console.log('state in InlineBuddyEdit', this.state)
+    // console.log('PROPS in INLINEBUDDY', this.props)
     return (
       <form onSubmit={this.postUserInfoToDB}>
         <div className="container">
