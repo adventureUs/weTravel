@@ -5,9 +5,9 @@ import Timeline from 'react-calendar-timeline'
 import moment from 'moment'
 
 // dummy data, will pull in from db later
-const groups = [
+let groups = [
   {id: 'dlxw3BoFWJMfMpGoBlRhQsRAiMB2', title: 'Tina'},
-  {id: 'n2JCRgwSVuPr1WzifDLia2Ti8gr1', title: 'Allison'}
+  {id: 'n2JCRgwSVuPr1WzifDLia2Ti8gr1', title: 'stef'}
 ]
 
 // this is where we make our connection to the database, we need:
@@ -18,22 +18,23 @@ const groups = [
 //  we have tripRef, userRef, usersRef passed in
 let items = [
   {id: 'dlxw3BoFWJMfMpGoBlRhQsRAiMB2', group: 'dlxw3BoFWJMfMpGoBlRhQsRAiMB2', title: 'Tina', start_time: moment('Tue May 12 2017 12:51:11 GMT-0400'), end_time: moment('Tue May 16 2017 13:00:11 GMT-0400')},
-  {id: 'n2JCRgwSVuPr1WzifDLia2Ti8gr1', group: 'n2JCRgwSVuPr1WzifDLia2Ti8gr1', title: 'Allison', start_time: moment('Tue May 11 2017 12:51:11 GMT-0400'), end_time: moment('Tue June 14 2017 13:00:11 GMT-0400')}
+  {id: 'n2JCRgwSVuPr1WzifDLia2Ti8gr1', group: 'n2JCRgwSVuPr1WzifDLia2Ti8gr1', title: 'Stef', start_time: moment('Tue May 11 2017 12:51:11 GMT-0400'), end_time: moment('Tue June 14 2017 13:00:11 GMT-0400')}
 ]
 
 const db = firebase.database()
 
-export default class extends Component {
+export default class AdventureUsTimeline extends Component {
   constructor(props) {
     super(props)
     this.state = {
       startTime: moment(),
-      endTime: moment().add(1, 'days')
+      endTime: moment().add(1, 'days'),
+      items: []
     }
   }
   componentWillMount() {
     // Getting data from trip part of db
-    let itemsData = []
+    let itemsData = [], groupData = []
     const tripRef = this.props.tripRef
     tripRef.on('value', function(snapshot) {
       const buddiesObject = snapshot.val().buddies
@@ -43,13 +44,20 @@ export default class extends Component {
         return {
           id: key,
           group: key,
-          title: 'WILL GET IN A BIT',
-          start_time: buddiesObject[key].availabilityStart,
-          end_time: buddiesObject[key].availabilityEnd
+          title: buddiesObject[key].buddyName,
+          start_time: moment(buddiesObject[key].availabilityStart),
+          end_time: moment(buddiesObject[key].availabilityEnd)
         }
       })
+      groupData = Object.keys(buddiesObject).map((key) => {
+        return {
+          id: key,
+          title: buddiesObject[key].buddyName
+        }
+      })
+      groups = groupData
+      items = itemsData
     })
-    console.log('***************ITEMSDATA?************:', itemsData)
     // Getting data from users part of db
     // map over the itemsData and grab the ids to find the users we need from the users in the db
     // Then we update the itemsData with the users name
@@ -68,6 +76,10 @@ export default class extends Component {
     // console.log("***************ITEMS?************:", items)
     // const auth = this.props.route.auth
     // this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({user}))
+  }
+
+  componentDidMount() {
+
   }
 
   componentWillUnmount() {
@@ -118,6 +130,8 @@ export default class extends Component {
       month: 1,
       year: 1
     }
+
+    console.log('Data from DB in render:', items)
 
     return (
       <div className="well">
