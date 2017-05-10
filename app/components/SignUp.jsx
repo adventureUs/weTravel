@@ -32,7 +32,7 @@ export default class extends React.Component {
             tripName: 'Please Name Your Trip Here!',
             buddies: {
               [userId]: {
-                status: 'Going'
+                status: { id: '2', text: 'Going' }
               }
             }
           }

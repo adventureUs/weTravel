@@ -23,7 +23,7 @@ export default class InlineBuddyEdit extends Component {
 
     this.state = {
       userId: props.userId,
-      name: 'Please enter your name',
+      name: '',
       email: 'no email',
       status: { id: '1', text: 'Invited' },
       statusOptions: [
@@ -75,6 +75,7 @@ export default class InlineBuddyEdit extends Component {
     this.unsubscribe = () => ref.off('value', listener)
     return listener
   }
+
   setLocalState = (newState) => {
     this.setState(newState)
     // this.updateDb()
@@ -82,6 +83,7 @@ export default class InlineBuddyEdit extends Component {
 
   postUserInfoToDB = (e) => {
     e.preventDefault()
+    console.log('FROM POST TO DB', this.state)
     this.props.usersRef.child(this.props.userId)
       .update({
         name: this.state.name ? this.state.name : 'Please enter your name',
