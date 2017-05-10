@@ -29,7 +29,7 @@ export default class extends React.Component {
     }
   }
   componentDidMount() {
-    this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({user}))
+    this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({ user }))
   }
 
   componentWillUnmount() {
@@ -50,12 +50,22 @@ export default class extends React.Component {
         .then(() => {
           // use auth to get currentUser Id,  look up userRef and get list of user trips.
           // UNDER CONSTRUCTION HERE: WANTED TO COMMENT OUT PREVENT DEFAULT NEXT.
-          console.log('DOes auth.uid exist?', auth.uid)
+
           this.unsubscribe = auth.onAuthStateChanged(user => {
             // this.setState({userId: user.uid})
+            firebase.database().ref('users')
+              .child(user.uid)
+              .child('trips')
+              .once('value')
+              .then(snapshot => {
+                const tripsArr = snapshot.val()
+                if (tripsArr.length === 1) {
+                  return tripsArr[0]
+                }
+              })
+              .then((tripId) => browserHistory.push('/dashboard/' + tripId))
           })
         })
-        .then((tripId) => browserHistory.push('/dashboard'+ tripId))
         .catch(error => {
           console.error(error)
         })

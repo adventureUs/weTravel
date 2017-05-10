@@ -42,7 +42,7 @@ export default class extends React.Component {
     console.log('State in App looking at userId', this.state)
     return (
       <div>
-
+        <TitleBar/>
         <Dashboard
           tripRef={db.ref('trips').child(this.state.tripId)}
           auth={auth}
