@@ -37,6 +37,10 @@ export default class extends React.Component {
       currChat: e.target.value
     })
   }
+// Notes from Ashi
+// Remove lines 50-60
+// dont use prevChats constant
+// use the listener and update state at the same time
 
   handleChat = e => {
     e.preventDefault()
