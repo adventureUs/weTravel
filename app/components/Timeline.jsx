@@ -52,18 +52,9 @@ export default class extends Component {
     return renderMaxEndDate.unix()*1000
   }
 
-  // onItemClick = (itemId, e) => {
-  //   // returns the id of the item selected
-  //   // console.log('ON ITEM CLICK HANDLER, itemId: ', itemId, 'e: ', e)
-  // }
-
-  // onItemSelect = (itemId, e) => {
-  //   // returns the id of the item selected
-  //   // console.log('ON ITEM SELECT HANDLER, itemId: ', itemId, 'e: ', e)
-  // }
-
   onItemResize = (itemId, time, edge) => {
     // we get back the itemId, the time changed to in unix number format and the edge that was changed
+    // we then set the new time based on what it's changed to.
     console.log('ON ITEM RESIZE HANDLER, itemId: ', itemId, 'time: ', moment(time), 'edge: ', edge)
     if (edge === 'left') {
       let startTime = moment(time)
