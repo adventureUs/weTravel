@@ -21,7 +21,7 @@ export default class TabsAndView extends React.Component {
   }
 
   render() {
-    // console.log('TABS AND VIEWS PROPS', this.props)
+    console.log('TABS AND VIEWS PROPS', this.props)
     return (
     <div>
       <ul
@@ -42,7 +42,11 @@ export default class TabsAndView extends React.Component {
         this.state.changeTabs ?
           <div className="tab-pane fade active in"
                 id="buddies">
-            <InlineBuddyEditIndex userId={this.props.userId}/>
+            <InlineBuddyEditIndex
+              userId={this.props.userId}
+              tripRef={this.props.tripRef}
+              tripId={this.props.tripId}
+              />
           </div>
         :
           <div className="tab-pane fade active in"

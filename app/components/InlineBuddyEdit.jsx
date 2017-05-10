@@ -54,7 +54,7 @@ export default class InlineBuddyEdit extends Component {
         email: user.email
       })
     })
-    this.listenTo(this.props.usersRef.child('/' + this.state.uid))
+    // this.listenTo(this.props.usersRef.child('/' + this.state.uid))
     // get currTrip id.
     // Add listener for the specific user's buddy entry too.
     // this.listenTo(this.props.)
@@ -136,7 +136,7 @@ export default class InlineBuddyEdit extends Component {
   }
 
   render() {
-    // console.log('PROPS in INLINEBUDDY', this.props)
+    console.log('PROPS in INLINEBUDDY', this.props)
     return (
       <form onSubmit={this.postUserInfoToDB}>
         <div className="container">
