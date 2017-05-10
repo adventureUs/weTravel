@@ -6,7 +6,7 @@ import WhoAmI from './WhoAmI'
 import moment from 'moment'
 import firebase from 'APP/fire'
 
-// const db = firebase.database()
+const db = firebase.database()
 
 export default class InlineBuddyEdit extends Component {
   constructor(props) {
@@ -34,7 +34,6 @@ export default class InlineBuddyEdit extends Component {
       homeBase: 'Please enter your city',
       startDate: '',
       endDate: '',
-      listeners: []
     }
   }
 
@@ -46,14 +45,9 @@ export default class InlineBuddyEdit extends Component {
         email: user.email
       })
     })
+    console.log('INLINE BUDDY DID MOUNT TRIP REF', this.props.tripRef)
     this.listenTo(
-      this.props.usersRef
-      .child(this.props.userId ? this.props.userId : 'test')
-    )
-    this.listenTo(
-      this.props.tripRef
-      .child('buddies')
-      .child(this.props.userId ? this.props.userId : 'test')
+      db.ref('/trips/'+ this.props.tripId + '/buddies').child(this.props.userId || 'test')
     )
   }
 
@@ -61,12 +55,7 @@ export default class InlineBuddyEdit extends Component {
     // When we unmount, stop listening.
     this.unsubscribe()
   }
-  unsubscribe = () => {
-    this.state.listeners.forEach(obj =>
-      obj.ref.off('value', obj.listener)
-    )
-    this.setState({listeners: []})
-  }
+
   componentWillReceiveProps(incoming, outgoing) {
     // When the props sent to us by our parent component change,
     // start listening to the new firebase reference.
@@ -76,10 +65,11 @@ export default class InlineBuddyEdit extends Component {
 
   listenTo(ref) {
     if (this.usnsubscribe) this.unsubscribe()
-    const listener = ref.on('value', snapshot =>
-        this.setState(snapshot.val())
-        )
-    this.state.listeners.push({ref: ref, listener: listener})
+    const listener = ref.on('value', snapshot => {
+      console.log('listenTo VAL in INLINE BUDDY EDIT', snapshot.val())
+      this.setState(snapshot.val())
+    })
+    this.unsubscribe = () => ref.off('value', listener)
     return listener
   }
   setLocalState = (newState) => {
@@ -119,7 +109,8 @@ export default class InlineBuddyEdit extends Component {
   }
 
   render() {
-    console.log('PROPS in INLINEBUDDY', this.props)
+    console.log('INLINEBUDDY PROPS', this.props)
+    console.log('INLINE BUDDY LISTENTO SELFBUDDY', db.ref('/trips/'+ this.props.tripId + '/buddies').child(this.props.userId ? this.props.userId : 'test'))
     return (
       <form onSubmit={this.postUserInfoToDB}>
         <div className="container">
