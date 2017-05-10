@@ -15,8 +15,9 @@ export default class TitleBar extends React.Component {
   }
 
   componentDidMount() {
-    db.ref('trips').child('/' + this.props.tripId + '/name')
+    this.props.tripsRef.child('/' + this.props.tripId + '/name')
       .on('value', snapshot => {
+        console.log('SNAPSHOT VAL', snapshot.val())
         this.setState({ tripName: snapshot.val() })
       })
     console.log('STATE', this.state)
@@ -39,7 +40,15 @@ export default class TitleBar extends React.Component {
 
   setLocalState = (newState) => {
     this.setState(newState)
-    // this.updateDb()
+    console.log('newState', newState)
+    this.postTripNameToDB(newState.tripName)
+  }
+
+  postTripNameToDB = (tripName) => {
+    this.props.tripsRef.child('/' + this.props.tripId)
+    .set({
+      name: tripName ? tripName : 'Please Name Your Trip Here!',
+    })
   }
 
   render() {
