@@ -30,7 +30,7 @@ export default class AdventureUsTimeline extends Component {
     // Getting data from trip part of db
     let itemsData = [], groupData = []
     const tripRef = this.props.tripRef
-    let userRef = this.props.userRef
+    const userRef = this.props.userRef
     tripRef.on('value', function(snapshot) {
       const buddiesObject = snapshot.val().buddies
       const buddiesIds = Object.keys(buddiesObject)
@@ -43,15 +43,15 @@ export default class AdventureUsTimeline extends Component {
           start_time: moment(buddiesObject[key].availabilityStart),
           end_time: moment(buddiesObject[key].availabilityEnd),
           canResize: key === userRef ? 'both' : false,
-          canChangeGroup: false //if we oneday get to items do conditional checks for item categories here
+          canChangeGroup: false // if we oneday get to items do conditional checks for item categories here
         }
       }, this)
-      groupData = Object.keys(buddiesObject).map((key) => {
-        return {
-          id: key,
-          title: buddiesObject[key].buddyName
-        }
-      })
+      groupData = Object.keys(buddiesObject).map((key) =>
+         ({
+           id: key,
+           title: buddiesObject[key].buddyName
+         })
+      )
       groups = groupData
       items = itemsData
     })
@@ -63,9 +63,11 @@ export default class AdventureUsTimeline extends Component {
 
   findMinStartDate = (items) => {
     // takes start dates from each buddy and returns the min of these minus 1 day in unix number form casts from 1970 ('* 1000')
-    let tempMinDate = items.map(item => item.start_time)
-    .reduce((minDate, dateMoment) => { return dateMoment < minDate ? dateMoment : minDate }, moment().add(10, 'years'))
-    let renderMinStartDate = moment(tempMinDate).add(-1, 'days')
+    const tempMinDate = items.map(item => item.start_time)
+    .reduce((minDate, dateMoment) => {
+      return dateMoment < minDate ? dateMoment : minDate
+    }, moment().add(10, 'years'))
+    const renderMinStartDate = moment(tempMinDate).add(-1, 'days')
     return renderMinStartDate.unix()*1000
   }
 
