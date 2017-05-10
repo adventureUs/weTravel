@@ -12,7 +12,7 @@ const auth = firebase.auth()
 // userRef will equal db.ref('users').child({name})
 // and pass in name to the below function
 export default (props) => {
-  console.log('INDEX PROPS', props)
+  // console.log('INDEX PROPS', props)
   return (
     <div>
       <InlineBuddyEdit

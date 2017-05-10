@@ -17,10 +17,8 @@ export default class TitleBar extends React.Component {
   componentDidMount() {
     this.props.tripRef.child('/tripName')
       .on('value', snapshot => {
-        console.log('SNAPSHOT VAL', snapshot.val())
         this.setState({ tripName: snapshot.val() })
       })
-    console.log('STATE', this.state)
   }
 
   getAllTrips = () =>
@@ -51,7 +49,7 @@ export default class TitleBar extends React.Component {
   }
 
   render() {
-    console.log('STATE in TITLEBAR', this.state)
+    // console.log('STATE in TITLEBAR', this.state)
     return (
       <nav className="nav navbar-default">
         <div className="" style={{

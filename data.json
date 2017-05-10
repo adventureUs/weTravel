@@ -7,13 +7,11 @@
 {
  "trips": {
    "1024": {
-     "name": "Galway",
+     "tripName": "Please Name Your Trip Here!" || "Galway",
      "items": {},
      "buddies": {
        "uid": {
         "name": "",
-
-         "tripName": "Please Name Your Trip Here!",
          "availabilityStart": "1623571253",
          "availabilityEnd": "1623571253",
          "status": {"id": "1",  "text": "Invited"},

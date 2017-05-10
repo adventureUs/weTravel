@@ -34,7 +34,7 @@ export default class extends React.Component {
   }
 
   render() {
-    console.log('STATE in APP:', this.state)
+    // console.log('STATE in APP:', this.state)
     //console.log('TRIP REF in APP:', db.ref('/trips/'+ this.props.params.tripId))
     return (
       <div>

@@ -45,10 +45,11 @@ export default class InlineBuddyEdit extends Component {
         email: user.email
       })
     })
-    console.log('INLINE BUDDY DID MOUNT TRIP REF', this.props.tripRef)
-    this.listenTo(
-      db.ref('/trips/'+ this.props.tripId + '/buddies').child(this.props.userId || 'test')
-    )
+
+    // console.log('TRIP REF', this.props.tripRef.child('/buddies').child(this.props.userId || 'test'))
+    // this.listenTo(
+    //   this.props.tripRef.child('/buddies').child(this.props.userId || 'test')
+    // )
   }
 
   componentWillUnmount() {
@@ -59,14 +60,16 @@ export default class InlineBuddyEdit extends Component {
   componentWillReceiveProps(incoming, outgoing) {
     // When the props sent to us by our parent component change,
     // start listening to the new firebase reference.
-    this.listenTo(incoming.tripsRef)
+    // console.log('FROM RECEIVE PROPS', incoming)
+    this.listenTo(incoming.tripRef.child('/buddies').child(incoming.userId || 'test'))
     // this.listenTo(incoming.tripsRef.child(tripId))
   }
 
   listenTo(ref) {
-    if (this.usnsubscribe) this.unsubscribe()
+    if (this.unsubscribe) this.unsubscribe()
+    
     const listener = ref.on('value', snapshot => {
-      console.log('listenTo VAL in INLINE BUDDY EDIT', snapshot.val())
+      console.log('SNAPSHOT VAL', snapshot.val())
       this.setState(snapshot.val())
     })
     this.unsubscribe = () => ref.off('value', listener)
@@ -83,12 +86,15 @@ export default class InlineBuddyEdit extends Component {
       .update({
         name: this.state.name ? this.state.name : 'Please enter your name',
         homeBase: this.state.homeBase ? this.state.homeBase : 'Please enter homebase',
+      })
+    this.props.tripRef.child('/buddies').child(this.props.userId || 'test')
+      .update({
+        name: this.state.name ? this.state.name : 'Please enter your name',
+        homeBase: this.state.homeBase ? this.state.homeBase : 'Please enter homebase',
         status: this.state.status,
         startDate: this.validateDate(this.state.startDate),
         endDate: this.validateDate(this.state.endDate)
       })
-    // this.props.tripRef
-    //   .child('buddies')
   }
 
   validateDate = (date) => {
@@ -109,8 +115,8 @@ export default class InlineBuddyEdit extends Component {
   }
 
   render() {
-    console.log('INLINEBUDDY PROPS', this.props)
-    console.log('INLINE BUDDY LISTENTO SELFBUDDY', db.ref('/trips/'+ this.props.tripId + '/buddies').child(this.props.userId ? this.props.userId : 'test'))
+    // console.log('REF FROM RENDER', db.ref('/trips/'+ this.props.tripId + '/buddies').child(this.props.userId || 'test'))
+    console.log('REF FROM RENDER', this.props.tripRef.child('/buddies').child(this.props.userId || 'test'))
     return (
       <form onSubmit={this.postUserInfoToDB}>
         <div className="container">
