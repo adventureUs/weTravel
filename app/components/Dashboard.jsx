@@ -3,7 +3,7 @@ import {Link} from 'react-router'
 import firebase from 'APP/fire'
 
 import TitleBar from './TitleBar'
-import Timeline from './Timeline'
+import TimelineIndex from './TimelineIndex'
 import Chat from './Chat'
 import TabsAndViews from './TabsAndViews'
 
@@ -63,7 +63,7 @@ export default class extends React.Component {
     return (
       <div className="">
         <TitleBar {...this.state} />
-        <Timeline/>
+        <TimelineIndex/>
         <div className="row">
           <div className="col col-lg-3">
             <Chat />

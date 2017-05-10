@@ -12,7 +12,11 @@ const groups = [
 
 // this is where we make our connection to the database, we need:
 // user name, user startDate for this trip, user endDate for this trip (currentTripUserStartDate, currentTripUserEndDate)
-const items = [
+// loop over buddies in trip and grab info
+// From trips (ie. tripsRef) we need: buddiesid -> id, buddiesid -> group, availabilityStart -> start_time, availabilityEnd -> end_time
+//  From users (ie. userRef) we need: user name -> title
+//  we have tripRef, userRef, usersRef passed in
+let items = [
   {id: 'dlxw3BoFWJMfMpGoBlRhQsRAiMB2', group: 'dlxw3BoFWJMfMpGoBlRhQsRAiMB2', title: 'Tina', start_time: moment('Tue May 12 2017 12:51:11 GMT-0400'), end_time: moment('Tue May 16 2017 13:00:11 GMT-0400')},
   {id: 'n2JCRgwSVuPr1WzifDLia2Ti8gr1', group: 'n2JCRgwSVuPr1WzifDLia2Ti8gr1', title: 'Allison', start_time: moment('Tue May 11 2017 12:51:11 GMT-0400'), end_time: moment('Tue June 14 2017 13:00:11 GMT-0400')}
 ]
@@ -28,6 +32,40 @@ export default class extends Component {
     }
   }
   componentWillMount() {
+    // Getting data from trip part of db
+    let itemsData = []
+    const tripRef = this.props.tripRef
+    tripRef.on('value', function(snapshot) {
+      const buddiesObject = snapshot.val().buddies
+      const buddiesIds = Object.keys(buddiesObject)
+      // now map over the buddies Ids and grab the start and end dates
+      itemsData = Object.keys(buddiesObject).map((key) => {
+        return {
+          id: key,
+          group: key,
+          title: 'WILL GET IN A BIT',
+          start_time: buddiesObject[key].availabilityStart,
+          end_time: buddiesObject[key].availabilityEnd
+        }
+      })
+    })
+    console.log('***************ITEMSDATA?************:', itemsData)
+    // Getting data from users part of db
+    // map over the itemsData and grab the ids to find the users we need from the users in the db
+    // Then we update the itemsData with the users name
+
+    // const usersRef = this.props.usersRef
+    // let items = itemsData.map((item) => {
+    //   usersRef.on('value', function(snapshot) {
+    //     const name = snapshot.val()[item.id].name
+    //     return {id: item.id,
+    //       group: item.group,
+    //       title: name,
+    //       start_time: item.start_time,
+    //       end_time: item.end_time}
+    //   })
+    // })
+    // console.log("***************ITEMS?************:", items)
     // const auth = this.props.route.auth
     // this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({user}))
   }

@@ -4,8 +4,8 @@
     "1024": {
       "name": "Galway",
       "items": {},
-      "users": {
-        "tina@email.com": {
+      "buddies": {
+        "uid": {
           "availabilityStart": "1623571253",
           "availabilityEnd": "1623571253",
           "status": "Invited",
@@ -17,25 +17,27 @@
     }
   },
   "users": {
-    "tina@email.com": {
+    "uid": {
+      "email": "tina@email.com",
       "name": "Tina",
-      "location": "Tempe",
+      "homebase": "Tempe",
       "trips": [
         "128637218",
         "12837198237"
-      ]
+      ],
+      "currTrip": "128637218"
     },
-    "allison@email.com": {
+    "uid": {
       "name": "allison",
-      "location": "New Jersey"
+      "homebase": "New Jersey"
     },
-    "stefanie@email.com": {
+    "uid": {
       "name": "Stefanie",
-      "location": "New York"
+      "homebase": "New York"
     },
-    "maria@email.com": {
+    "uid": {
       "name": "Maria",
-      "location": "New York"
+      "homebase": "New York"
     }
   }
 }
