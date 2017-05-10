@@ -19,19 +19,20 @@ export default class extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      userId: '',
+      userId: props.route.userId,
       tripId: props.params.tripId,
       // buddies: []
     }
+    console.log('APP CONSTRUCTOR PROPS', props)
   }
 
-  componentDidMount() {
-    auth.onAuthStateChanged(user => {
-      this.setState({
-        userId: user.uid
-      })
-    })
-  }
+  // componentDidMount() {
+  //   auth.onAuthStateChanged(user => {
+  //     this.setState({
+  //       userId: user.uid
+  //     })
+  //   })
+  // }
 
   render() {
     console.log('STATE in APP:', this.state)
@@ -44,7 +45,7 @@ export default class extends React.Component {
           userRef={db.ref('users').child(this.state.userId ? this.state.userId : 'test')}
           tripRef={db.ref('trips').child(this.state.tripId)} />
         <Dashboard
-          userId={this.state.userId}
+          userId={this.state.userId ? this.state.userId : 'test'}
           tripRef={db.ref('trips').child(this.state.tripId)}
           auth={auth}
           tripId={this.state.tripId} />

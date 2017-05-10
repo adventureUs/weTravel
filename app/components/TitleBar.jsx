@@ -20,7 +20,6 @@ export default class TitleBar extends React.Component {
         console.log('SNAPSHOT VAL', snapshot.val())
         this.setState({ tripName: snapshot.val() })
       })
-    console.log('STATE', this.state)
   }
 
   getAllTrips = () =>

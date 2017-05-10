@@ -21,7 +21,10 @@ const auth = firebase.auth()
 const google = new firebase.auth.GoogleAuthProvider()
 const email = new firebase.auth.EmailAuthProvider()
 // Deleted facebook --> can reimplement if we have time, hahahahhaahahaahhah
-
+auth.onAuthStateChanged(user => {
+  console.log('USER IN MAIN.JS', user)
+  window.userId = user.uid
+})
 
 const Container = () =>
   <div className="container-fluid">
@@ -34,7 +37,7 @@ render(
   <Router history={browserHistory}>
     <Route path="/" component={Container} />
     <Route path="login" component={Login} google={google} email={email} />
-    <Route path="dashboard/:tripId" component={App} />
+    <Route path="dashboard/:tripId" component={App} userId={window.userId} />
     <Route path="signup" component={SignUp} google={google} email={email} />
     <Route path="/travelbuddies/email" component={InlineBuddyEditIndex} />
     <Route path='*' component={NotFound} />
