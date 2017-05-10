@@ -29,7 +29,7 @@ export default class extends React.Component {
         .then((user) => {
           const userId = user.uid
           var newTripData = {
-            name: 'Please Name Your Trip Here!',
+            tripName: 'Please Name Your Trip Here!',
             buddies: {
               [userId]: {
                 status: 'Going'

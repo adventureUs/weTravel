@@ -15,14 +15,13 @@ export default class TitleBar extends React.Component {
   }
 
   componentDidMount() {
-    this.props.tripsRef.child('/' + this.props.tripId + '/name')
+    this.props.tripRef.child('/tripName')
       .on('value', snapshot => {
         console.log('SNAPSHOT VAL', snapshot.val())
         this.setState({ tripName: snapshot.val() })
       })
     console.log('STATE', this.state)
   }
-
 
   getAllTrips = () =>
     // Get other trip name via currentUser's associated trip Ids
@@ -46,8 +45,8 @@ export default class TitleBar extends React.Component {
 
   postTripNameToDB = (tripName) => {
     this.props.tripsRef.child('/' + this.props.tripId)
-    .set({
-      name: tripName ? tripName : 'Please Name Your Trip Here!',
+    .update({
+      tripName: tripName ? tripName : 'Please Name Your Trip Here!',
     })
   }
 
