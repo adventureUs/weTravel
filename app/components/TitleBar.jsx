@@ -43,7 +43,7 @@ export default class TitleBar extends React.Component {
   }
 
   render() {
-    console.log('STATE', this.state)
+    console.log('STATE in TITLEBAR', this.state)
     return (
       <nav className="nav navbar-default">
         <div className="" style={{

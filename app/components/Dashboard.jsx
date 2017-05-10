@@ -10,7 +10,7 @@ import TabsAndViews from './TabsAndViews'
 const auth = firebase.auth()
 const db = firebase.database()
 
-export default () =>
+export default (props) =>
   (
     <div className="">
       <Timeline />
@@ -20,7 +20,7 @@ export default () =>
         </div>
 
         <div className="col col-lg-9">
-          <TabsAndViews />
+          <TabsAndViews userId={props.userId}/>
         </div>
         </div>
     </div>

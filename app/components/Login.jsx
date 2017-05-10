@@ -41,8 +41,7 @@ export default class extends React.Component {
   }
 
   onSubmit = (evt) => {
-    console.log('IN LOGIN STATE:', this.state)
-    console.log('IN LOGIN AUTH IN ONSUBMIT: ', firebase.auth())
+    console.log('STATE in LOGIN:', this.state)
     evt.preventDefault()
     // what we actually want to do is redirect to the dashboard view
     if (this.state.email.length && this.state.password.length) {

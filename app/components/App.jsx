@@ -19,7 +19,7 @@ export default class extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      userId: props.route.userId,
+      userId: '',
       tripId: props.params.tripId,
       // buddies: []
     }
@@ -34,7 +34,7 @@ export default class extends React.Component {
   }
 
   render() {
-    console.log('State in App looking at userId', this.state)
+    console.log('STATE in APP:', this.state)
     return (
       <div>
         <TitleBar
@@ -43,6 +43,7 @@ export default class extends React.Component {
           tripsRef={db.ref('trips')}
           userRef={db.ref('users').child(this.state.userId ? this.state.userId : 'test')} />
         <Dashboard
+          userId={this.state.userId}
           tripRef={db.ref('trips').child(this.state.tripId)}
           auth={auth}
           tripId={this.state.tripId} />

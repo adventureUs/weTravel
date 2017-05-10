@@ -139,7 +139,6 @@ export default class InlineBuddyEdit extends Component {
     // console.log('state in InlineBuddyEdit', this.state)
     return (
       <form onSubmit={this.postUserInfoToDB}>
-        <h1>BUDDIES</h1>
         <div className="container">
           <div className="form-horizontal">
             <div className="col-md-3">

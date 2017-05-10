@@ -11,7 +11,11 @@ const auth = firebase.auth()
 // to parameterize the route
 // userRef will equal db.ref('users').child({name})
 // and pass in name to the below function
-export default () =>
+export default (props) =>
   <div>
-    <InlineBuddyEdit tripsRef={db.ref('trips')} usersRef={db.ref('users')} auth={auth} />
+    <InlineBuddyEdit
+    tripsRef={db.ref('trips')}
+    usersRef={db.ref('users')}
+    auth={auth}
+    userId={props.userId} />
   </div>

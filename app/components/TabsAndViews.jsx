@@ -9,8 +9,8 @@ export default class TabsAndView extends React.Component {
     this.state={
       changeTabs: true
     }
-
   }
+
   componentWillMount() {
     const auth = firebase.auth()
     this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({user}))
@@ -41,7 +41,7 @@ export default class TabsAndView extends React.Component {
         this.state.changeTabs ?
           <div className="tab-pane fade active in"
                 id="buddies">
-            <InlineBuddyEditIndex />
+            <InlineBuddyEditIndex userId={this.props.userId}/>
           </div>
         :
           <div className="tab-pane fade active in"
