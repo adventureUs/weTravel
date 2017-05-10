@@ -20,8 +20,8 @@ import firebase from 'APP/fire'
 // Get the auth API from Firebase.
 const auth = firebase.auth()
 const google = new firebase.auth.GoogleAuthProvider()
-const facebook = new firebase.auth.FacebookAuthProvider()
 const email = new firebase.auth.EmailAuthProvider()
+// Deleted facebook --> can reimplement if we have time, hahahahhaahahaahhah
 
 const Container = () =>
   <div className="container-fluid">
@@ -33,9 +33,9 @@ const Container = () =>
 render(
   <Router history={browserHistory}>
     <Route path="/" component={Container} />
-    <Route path="login" component={Login} google={google} facebook={facebook} email={email} />
+    <Route path="login" component={Login} google={google} email={email} />
     <Route path="dashboard/:tripId" component={ App } />
-    <Route path="signup" component={SignUp} google={google} facebook={facebook} email={email} />
+    <Route path="signup" component={SignUp} google={google} email={email} />
     <Route path="/travelbuddies/email" component={InlineBuddyEditIndex}/>
     <Route path='*' component={NotFound} />
   </Router>,

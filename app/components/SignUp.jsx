@@ -65,7 +65,6 @@ export default class extends React.Component {
     const auth = firebase.auth()
 
     const google = new firebase.auth.GoogleAuthProvider()
-    const facebook = new firebase.auth.FacebookAuthProvider()
     const email = new firebase.auth.EmailAuthProvider()
 
     return (
@@ -100,14 +99,7 @@ export default class extends React.Component {
 
           </div>
           <br />
-          <div>
-            <button className='facebook login btn btn-primary'
-              onClick={() => {
-                auth.signInWithPopup(facebook)
-                  .then(() => browserHistory.push('/dashboard'))
-              }}>Sign up with Facebook</button>
 
-          </div>
         </div>
       </div>
     )
