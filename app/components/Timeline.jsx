@@ -4,11 +4,10 @@ import firebase from 'APP/fire'
 import Timeline from 'react-calendar-timeline'
 import moment from 'moment'
 
+
+
 // dummy data, will pull in from db later
-let groups = [
-  {id: 'dlxw3BoFWJMfMpGoBlRhQsRAiMB2', title: 'Tina'},
-  {id: 'n2JCRgwSVuPr1WzifDLia2Ti8gr1', title: 'stef'}
-]
+let groups = []
 
 // this is where we make our connection to the database, we need:
 // user name, user startDate for this trip, user endDate for this trip (currentTripUserStartDate, currentTripUserEndDate)
@@ -16,10 +15,7 @@ let groups = [
 // From trips (ie. tripsRef) we need: buddiesid -> id, buddiesid -> group, availabilityStart -> start_time, availabilityEnd -> end_time
 //  From users (ie. userRef) we need: user name -> title
 //  we have tripRef, userRef, usersRef passed in
-let items = [
-  {id: 'dlxw3BoFWJMfMpGoBlRhQsRAiMB2', group: 'dlxw3BoFWJMfMpGoBlRhQsRAiMB2', title: 'Tina', start_time: moment('Tue May 12 2017 12:51:11 GMT-0400'), end_time: moment('Tue May 16 2017 13:00:11 GMT-0400')},
-  {id: 'n2JCRgwSVuPr1WzifDLia2Ti8gr1', group: 'n2JCRgwSVuPr1WzifDLia2Ti8gr1', title: 'Stef', start_time: moment('Tue May 11 2017 12:51:11 GMT-0400'), end_time: moment('Tue June 14 2017 13:00:11 GMT-0400')}
-]
+let items = []
 
 const db = firebase.database()
 
@@ -58,24 +54,6 @@ export default class AdventureUsTimeline extends Component {
       groups = groupData
       items = itemsData
     })
-    // Getting data from users part of db
-    // map over the itemsData and grab the ids to find the users we need from the users in the db
-    // Then we update the itemsData with the users name
-
-    // const usersRef = this.props.usersRef
-    // let items = itemsData.map((item) => {
-    //   usersRef.on('value', function(snapshot) {
-    //     const name = snapshot.val()[item.id].name
-    //     return {id: item.id,
-    //       group: item.group,
-    //       title: name,
-    //       start_time: item.start_time,
-    //       end_time: item.end_time}
-    //   })
-    // })
-    // console.log("***************ITEMS?************:", items)
-    // const auth = this.props.route.auth
-    // this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({user}))
   }
 
   componentDidMount() {
@@ -103,20 +81,20 @@ export default class AdventureUsTimeline extends Component {
   }
 
   onItemResize = (itemId, time, edge) => {
+    const tripRef = this.props.tripRef
     // we get back the itemId, the time changed to in unix number format and the edge that was changed
     // we then set the new time based on what it's changed to.
-    console.log('ON ITEM RESIZE HANDLER, itemId: ', itemId, 'time: ', moment(time), 'edge: ', edge)
     if (edge === 'left') {
       let startTime = moment(time)
       items[0].start_time = startTime
       this.setState({startTime: startTime})
+      tripRef.child(`buddies/${itemId}`).update({availabilityStart: startTime.toJSON()})
     } else {
       let endTime = moment(time)
       items[0].end_time = endTime
       this.setState({endTime: endTime})
-      console.log('ON ITEM RESIZE HANDLER, itemEndTime: ', endTime)
+      tripRef.child(`buddies/${itemId}`).update({availabilityEnd: endTime.toJSON()})
     }
-    console.log('ITEMS[0] AFTER SETTING END TIME: ', items[0])
   }
 
   render() {
@@ -130,8 +108,6 @@ export default class AdventureUsTimeline extends Component {
       month: 1,
       year: 1
     }
-
-    console.log('Data from DB in render:', items)
 
     return (
       <div className="well">
@@ -151,26 +127,3 @@ export default class AdventureUsTimeline extends Component {
   }
 }
 
-// Database structure
-// db = {
-// "TRIPS": {
-//    "tripID_uniquelygeneratedbyFirebase": {
-//      "USERS": {
-//        "userID_uniquelygeneratedbyFirebase": {
-//          "start_date_moment_instance_in_string_form",
-//          "end_date_moment_instance_in_string_form"
-//        }
-//      }
-//    }
-//   }
-// }
-//
-// {
-    //   buddyTimelineData: {
-    //     'dlxw3BoFWJMfMpGoBlRhQsRAiMB2': {
-    //       currentTripUserName: 'Tina',
-    //       currentTripUserStartDate: 'Tue May 09 2017 12:51:11 GMT-0400',
-    //       currentTripUserEndDate: 'Tue May 16 2017 13:00:11 GMT-0400'
-    //     }
-    //   }
-    // }
