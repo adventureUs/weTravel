@@ -84,14 +84,18 @@ export default class AdventureUsTimeline extends Component {
     const tripRef = this.props.tripRef
     // we get back the itemId, the time changed to in unix number format and the edge that was changed
     // we then set the new time based on what it's changed to.
+    const itemArrayIndex = items.findIndex((item) => item.id === itemId)
     if (edge === 'left') {
       let startTime = moment(time)
-      items[0].start_time = startTime
+      // loop through item array and find the item where the id matches the itemId, then update the startTime here
+      items[itemArrayIndex].start_time = startTime
+      this.findMinStartDate(items)
       this.setState({startTime: startTime})
       tripRef.child(`buddies/${itemId}`).update({availabilityStart: startTime.toJSON()})
     } else {
       let endTime = moment(time)
-      items[0].end_time = endTime
+      items[itemArrayIndex].end_time = endTime
+      this.findMaxEndDate(items)
       this.setState({endTime: endTime})
       tripRef.child(`buddies/${itemId}`).update({availabilityEnd: endTime.toJSON()})
     }
