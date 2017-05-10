@@ -33,7 +33,7 @@ export default class AdventureUsTimeline extends Component {
     const userRef = this.props.userRef
     tripRef.on('value', function(snapshot) {
       const buddiesObject = snapshot.val().buddies
-      const buddiesIds = Object.keys(buddiesObject)
+      const buddiesIds = Object.keys(buddiesObject) // do not need this line of code
       // now map over the buddies Ids and grab the start and end dates
       itemsData = Object.keys(buddiesObject).map((key) => {
         return {
