@@ -4,8 +4,6 @@ import firebase from 'APP/fire'
 import Timeline from 'react-calendar-timeline'
 import moment from 'moment'
 
-
-
 // dummy data, will pull in from db later
 let groups = []
 
@@ -25,13 +23,14 @@ export default class AdventureUsTimeline extends Component {
     this.state = {
       startTime: moment(),
       endTime: moment().add(1, 'days'),
-      items: []
+      items: [],
     }
   }
   componentWillMount() {
     // Getting data from trip part of db
     let itemsData = [], groupData = []
     const tripRef = this.props.tripRef
+    let userRef = this.props.userRef
     tripRef.on('value', function(snapshot) {
       const buddiesObject = snapshot.val().buddies
       const buddiesIds = Object.keys(buddiesObject)
@@ -42,9 +41,11 @@ export default class AdventureUsTimeline extends Component {
           group: key,
           title: buddiesObject[key].buddyName,
           start_time: moment(buddiesObject[key].availabilityStart),
-          end_time: moment(buddiesObject[key].availabilityEnd)
+          end_time: moment(buddiesObject[key].availabilityEnd),
+          canResize: key === userRef ? 'both' : false,
+          canChangeGroup: false //if we oneday get to items do conditional checks for item categories here
         }
-      })
+      }, this)
       groupData = Object.keys(buddiesObject).map((key) => {
         return {
           id: key,
@@ -54,10 +55,6 @@ export default class AdventureUsTimeline extends Component {
       groups = groupData
       items = itemsData
     })
-  }
-
-  componentDidMount() {
-
   }
 
   componentWillUnmount() {
@@ -74,9 +71,11 @@ export default class AdventureUsTimeline extends Component {
 
   findMaxEndDate = (items) => {
     // takes end dates from each buddy and returns the max of these minus 1 day in unix number form and casts from 1970 ('* 1000')
-    let tempMaxDate = items.map(item => item.end_time)
-    .reduce((maxDate, dateMoment) => { return dateMoment > maxDate ? dateMoment : maxDate }, moment())
-    let renderMaxEndDate = moment(tempMaxDate).add(1, 'days')
+    const tempMaxDate = items.map(item => item.end_time)
+    .reduce((maxDate, dateMoment) => {
+      return dateMoment > maxDate ? dateMoment : maxDate
+    }, moment())
+    const renderMaxEndDate = moment(tempMaxDate).add(1, 'days')
     return renderMaxEndDate.unix()*1000
   }
 
@@ -86,14 +85,14 @@ export default class AdventureUsTimeline extends Component {
     // we then set the new time based on what it's changed to.
     const itemArrayIndex = items.findIndex((item) => item.id === itemId)
     if (edge === 'left') {
-      let startTime = moment(time)
+      const startTime = moment(time)
       // loop through item array and find the item where the id matches the itemId, then update the startTime here
       items[itemArrayIndex].start_time = startTime
       this.findMinStartDate(items)
       this.setState({startTime: startTime})
       tripRef.child(`buddies/${itemId}`).update({availabilityStart: startTime.toJSON()})
     } else {
-      let endTime = moment(time)
+      const endTime = moment(time)
       items[itemArrayIndex].end_time = endTime
       this.findMaxEndDate(items)
       this.setState({endTime: endTime})
@@ -130,4 +129,3 @@ export default class AdventureUsTimeline extends Component {
     )
   }
 }
-
