@@ -160,14 +160,14 @@ export default class InlineBuddyEdit extends Component {
                 classInvalid="Invalid" />
             </div>
             <div className="col-md-3">
-              <span>Availability Start Date: </span>
+              <span>Free from: </span>
               <DatePicker
                 selected={this.state.startDate ? moment(this.state.startDate) : null}
                 onChange={this.handleChangeStart}
               />
             </div>
             <div className="col-md-3">
-              <span>Availability End Date: </span>
+              <span>Free until: </span>
               <DatePicker
                 selected={this.state.endDate ? moment(this.state.endDate) : null}
                 onChange={this.handleChangeEnd}

@@ -1,0 +1,8 @@
+li.trip-buddies {
+  list-style-type: none;
+}
+.buddiesListItem {
+  display: inline;
+  padding-left: 1vw;
+  padding-right: 9vw;
+}
