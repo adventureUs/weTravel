@@ -34,12 +34,28 @@ export default class extends React.Component {
 
   makeNewBuddy = () => {
     const newBuddyEmail = document.getElementById('newBuddyEmail').value
-    this.props.tripRef
-      .update({
-        pendingBuddies: {
-          email: newBuddyEmail
-        }
+    var hasPendingBuddies = this.props.tripRef
+      .once('value')
+      .then(snapshot => {
+        snapshot.child('pendingBuddies').exists()
       })
+
+    if (hasPendingBuddies) {
+      this.props.tripRef.child('pendingBuddies').push({
+        // this creates a uid for each pending buddy
+        // the uid is a key, the value is {email: newBuddyEmail}
+        email: newBuddyEmail
+      })
+    } else {
+      this.props.tripRef
+        .update({
+          // this creates a uid for each pending buddy
+          // the uid is a key, the value is {email: newBuddyEmail}
+          pendingBuddies: {
+            email: newBuddyEmail
+          }
+        })
+    }
   }
 
   render() {
