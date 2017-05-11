@@ -32,22 +32,30 @@ export default class extends React.Component {
     return listener
   }
 
+  makeNewBuddy = () => {
+    const newBuddyEmail = document.getElementById('newBuddyEmail').value
+    this.props.tripRef
+      .update({
+        pendingBuddies: {
+          email: newBuddyEmail
+        }
+      })
+  }
+
   render() {
-    console.log('In BUDDIES RENDER STATE OBJECT.KEYS OF SNAPSHOT VAL: ', Object.keys(this.state.buddies) || 'no buddies yet')
-    console.log('In BUDDIES RENDER STATE OF SNAPSHOT VAL: ', this.state.buddies || 'no buddies yet')
     return (
       <div className="well well-lg">
         <div>
           <ul >
             {Object.keys(this.state.buddies).map((key) => {
               return (key === this.props.userId) ?
-                <li className='trip-buddies'>
+                <li key={key} className='trip-buddies'>
                   <InlineBuddyEditIndex
                     userId={this.props.userId}
                     tripRef={this.props.tripRef}
                     tripId={this.props.tripId}
                   />
-                </li> : <li className='trip-buddies'>
+                </li> : <li key={key} className='trip-buddies'>
                   <div className='buddiesListItem'>Name: {this.state.buddies[key].name}</div>
                   <div className='buddiesListItem'>Home Base: {this.state.buddies[key].homeBase}</div>
                   <div className='buddiesListItem' >Status: {this.state.buddies[key].status.text}</div>
@@ -85,9 +93,10 @@ export default class extends React.Component {
                 <p> Step 1: Enter your buddy's e-mail here: </p>
                 <input type="text" id="newBuddyEmail"></input>
                 <button
-                type="button"
-                className="btn btn-primary"
-                > Add a buddy! </button>
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={this.makeNewBuddy}
+                >Add a buddy! </button>
               </div>
               <div className="modal-footer"
                 style={{
@@ -95,7 +104,7 @@ export default class extends React.Component {
                   justifyContent: 'space-around'
                 }}>
                 <p>Step 2: Share this link with your buddy: </p>
-                <br/>
+                <br />
                 <p>{`https://tern-2b37d.firebaseapp.com${window.location.pathname}`}</p>
               </div>
             </div>
