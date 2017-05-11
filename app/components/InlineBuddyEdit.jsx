@@ -67,7 +67,6 @@ export default class InlineBuddyEdit extends Component {
 
   listenTo(ref) {
     if (this.unsubscribe) this.unsubscribe()
-
     const listener = ref.on('value', snapshot => {
       // console.log('SNAPSHOT VAL', snapshot.val())
       this.setState(snapshot.val())
