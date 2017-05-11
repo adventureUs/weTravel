@@ -33,8 +33,6 @@ export default class extends React.Component {
   }
 
   render() {
-    console.log('In BUDDIES RENDER STATE OBJECT.KEYS OF SNAPSHOT VAL: ', Object.keys(this.state.buddies) || 'no buddies yet')
-    console.log('In BUDDIES RENDER STATE OF SNAPSHOT VAL: ', this.state.buddies || 'no buddies yet')
     return (
       <div className="well well-lg">
         <div>

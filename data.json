@@ -8,7 +8,16 @@
  "trips": {
    "1024": {
      "tripName": "Galway",
-     "items": {},
+     "ideas": {
+        "ideaUid": {
+          "ideaName": "",
+          "link": "",
+          "category": "",
+          "addedBy": "",
+          "likes": ""
+        }, etc.
+      
+    },
      "buddies": {
        "uid": {
         "name": "",

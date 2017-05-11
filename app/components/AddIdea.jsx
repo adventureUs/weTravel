@@ -20,14 +20,15 @@ export default class AddIdea extends Component {
 
     this.state = {
       ideaName: 'Please enter idea name here',
-      link: '',
+      link: 'Please enter a url.',
       status: { id: '1', text: 'Invited' },
-      category: [
+      categoryOptions: [
         { id: '1', text: 'Food' },
         { id: '2', text: 'Activity' },
         { id: '3', text: 'Accomodation' },
         { id: '4', text: 'Miscellaneous' }
-      ]
+      ],
+      category: { id: '4', text: 'Miscellaneous' }
     }
   }
 
@@ -55,17 +56,18 @@ export default class AddIdea extends Component {
 
   setLocalState = (newState) => {
     this.setState(newState)
-    // this.updateDb()
+    console.log('in setLocalState', newState)
   }
 
   postIdeaToDB = (e) => {
     e.preventDefault()
-    console.log('FROM POST IDEA TO DB ideasRef', this.props.ideasRef)
     this.props.ideasRef
-      .update({
+      .push({
         ideaName: this.state.ideaName || 'Please enter idea name',
-        link: this.state.link || 'Please enter url',
+        link: this.state.link || 'Please enter a url',
         category: this.state.category || { id: '4', text: 'Miscellaneous' },
+        addedBy: this.props.userId,
+        likes: 0
       })
   }
 
@@ -79,7 +81,7 @@ export default class AddIdea extends Component {
   }
 
   render() {
-    console.log('Add Idea props', this.props)
+   // console.log('Add Idea props', this.props)
     return (
       <form onSubmit={this.postIdeaToDB}>
         <div className="container">
@@ -103,7 +105,7 @@ export default class AddIdea extends Component {
                 options={this.state.categoryOptions}
                 change={this.setLocalState}
                 classLoading="loading"
-                propName="status" />
+                propName="category" />
             </div>
             <div className="col-md-3">
               <span>Link: </span>

@@ -12,16 +12,18 @@ export default class IdeaBox extends Component {
     }
   }
 
+  componentDidMount() {
+    console.log('COMPONENT DID MOUNT PROPS', this.props)
+    this.listenTo(this.props.ideasRef)
+  }
+
   componentWillReceiveProps(incoming, outgoing) {
-    // When the props sent to us by our parent component change,
-    // start listening to the new firebase reference.
-    // console.log('FROM RECEIVE PROPS', incoming)
+    console.log('COMPONENT WILL RECEIVE PROPS', this.props)
+
     this.listenTo(incoming.ideasRef)
-    // this.listenTo(incoming.tripsRef.child(tripId))
   }
 
   listenTo(ref) {
-    console.log('in listenTo in IdeaBpox ref.key', ref.key)
     if (this.unsubscribe) this.unsubscribe()
     const listener = ref.on('value', snapshot => {
       this.setState({ideas: snapshot.val()})
@@ -30,18 +32,22 @@ export default class IdeaBox extends Component {
   }
 
   render() {
-    console.log('in Idea Box props', this.props)
+    console.log('IN IDEA BOX ', this.state.ideas, 'OBJECT KEYS', Object.keys(this.state.ideas))
+
     return (
        <div className="well well-lg">
         <div>
         <ul >
-        { Object.keys(this.state.ideas).map((key) =>
-          <li key={key} className='trip-buddies'>
-            <div className='buddiesListItem'>Name: {this.state.idea.ideaName}</div>
-            <div className='buddiesListItem'>Link: {this.state.idea.link}</div>
-            <div className='buddiesListItem' >Status: {this.state.idea.category}</div>
-          </li>
-        )
+        {
+        Object.keys(this.state.ideas).map(key => {
+          return (
+            <li key={key} className='trip-buddies'>
+              <div className='buddiesListItem'>Name: {this.state.ideas[key].ideaName}</div>
+              <div className='buddiesListItem'>Link: {this.state.ideas[key].link}</div>
+              <div className='buddiesListItem' >Category: {this.state.ideas[key].category.text}</div>
+            </li>
+          )
+        })
         }
           <li className='trip-buddies'>
               <AddIdea
