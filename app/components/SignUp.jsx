@@ -34,7 +34,8 @@ export default class extends React.Component {
               [userId]: {
                 status: { id: '2', text: 'Going' }
               }
-            }
+            },
+            // pendingBuddies: {}
           }
           var newTripKey = db.ref('trips/').push().key
           var newTrip = {}
