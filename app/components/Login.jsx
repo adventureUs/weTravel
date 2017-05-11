@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, browserHistory } from 'react-router'
 import firebase from 'APP/fire'
+const auth = firebase.auth()
 
 // Do external logins in Login
 
@@ -28,8 +29,7 @@ export default class extends React.Component {
     }
   }
   componentDidMount() {
-    const auth = firebase.auth()
-    this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({user}))
+    this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({ user }))
   }
 
   componentWillUnmount() {
@@ -41,14 +41,30 @@ export default class extends React.Component {
   }
 
   onSubmit = (evt) => {
-    console.log('IN LOGIN STATE:', this.state)
-    console.log('IN LOGIN AUTH IN ONSUBMIT: ', firebase.auth())
+    // console.log('STATE in LOGIN:', this.state)
     evt.preventDefault()
     // what we actually want to do is redirect to the dashboard view
     if (this.state.email.length && this.state.password.length) {
       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-        // Should we have a pop-up to collect extra information such as zipcode, name
-        .then(() => browserHistory.push('/dashboard'))
+        .then(() => {
+          // use auth to get currentUser Id,  look up userRef and get list of user trips.
+          // UNDER CONSTRUCTION HERE: WANTED TO COMMENT OUT PREVENT DEFAULT NEXT.
+
+          this.unsubscribe = auth.onAuthStateChanged(user => {
+            // this.setState({userId: user.uid})
+            firebase.database().ref('users')
+              .child(user.uid)
+              .child('trips')
+              .once('value')
+              .then(snapshot => {
+                const tripsArr = snapshot.val()
+                if (tripsArr.length === 1) {
+                  return tripsArr[0]
+                }
+              })
+              .then((tripId) => browserHistory.push('/dashboard/' + tripId))
+          })
+        })
         .catch(error => {
           console.error(error)
         })
@@ -65,7 +81,6 @@ export default class extends React.Component {
     // const auth = this.props.route.auth
     const auth = firebase.auth()
     const google = new firebase.auth.GoogleAuthProvider()
-    const facebook = new firebase.auth.FacebookAuthProvider()
     const email = new firebase.auth.EmailAuthProvider()
 
     // console.log('PROPS from login', this.props)
@@ -100,13 +115,6 @@ export default class extends React.Component {
               }}>Login with Google</button>
           </div>
           <br />
-          <div>
-            <button className='facebook login btn btn-primary'
-              onClick={() => {
-                auth.signInWithPopup(facebook)
-                  .then(() => browserHistory.push('/dashboard'))
-              }}>Login with Facebook</button>
-          </div>
         </div>
 
         <hr />
