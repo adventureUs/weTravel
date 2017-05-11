@@ -3,6 +3,7 @@ import { Link, browserHistory } from 'react-router'
 import firebase from 'APP/fire'
 const db = firebase.database()
 const userRef = db.ref('users/')
+const queryString = window.location.search
 
 export default class extends React.Component {
   constructor(props) {
@@ -20,12 +21,21 @@ export default class extends React.Component {
 
   onSubmit = (evt) => {
     evt.preventDefault()
+    queryString ?
+      this.addToTrip(evt)
+      : this.createNewTrip(evt)
+  }
+
+  addToTrip = (evt) => {
+    console.log('WE HAVE A QUERY STRING', queryString)
+
+  }
+
+  createNewTrip = (evt) => {
     // what we actually want to do is redirect to the dashboard view
 
     if (this.state.email.length && this.state.password.length) {
       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-        // 'redcuer' logic
-        // This then creates a new user in the db
         .then((user) => {
           const userId = user.uid
           var newTripData = {
@@ -44,8 +54,7 @@ export default class extends React.Component {
           userRef.update({
             [userId]: {
               email: user.email,
-              trips: [newTripKey],
-              currTrip: newTripKey
+              trips: [newTripKey]
             }
           })
           return newTripKey
