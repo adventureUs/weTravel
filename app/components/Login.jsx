@@ -111,7 +111,12 @@ export default class extends React.Component {
             <button className='google login btn btn-primary'
               onClick={() => {
                 auth.signInWithPopup(google)
-                  .then(() => browserHistory.push('/dashboard'))
+                  .then(() => {
+                    window.location.search ?
+                      browserHistory.push('/dashboard/' + window.location.search.slice(1))
+                      // : browserHistory.push('/dashboard') // eventually needs to grab tripId to render dashboard properyly
+                      : console.log("OOPS")
+                  })
               }}>Login with Google</button>
           </div>
           <br />
@@ -120,9 +125,14 @@ export default class extends React.Component {
         <hr />
 
         <div>
-          <Link to="/signup"><button className='btn btn-success'>Sign Up</button></Link>
+          {
+            window.location.search ?
+              <Link to={'/signup' + window.location.search}><button className='btn btn-success'>Sign Up</button></Link>
+              // : browserHistory.push('/dashboard') // eventually needs to grab tripId to render dashboard properyly
+              : <Link to="/signup"><button className='btn btn-success'>Sign Up</button></Link>
+          }
         </div>
-      </div>
+      </div >
     )
   }
 }

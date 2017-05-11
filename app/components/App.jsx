@@ -30,7 +30,7 @@ export default class extends React.Component {
       user ?
       this.setState({
         userId: user.uid
-      }) : browserHistory.push('/login?tripId' + this.props.params.tripId)
+      }) : browserHistory.push('/login?' + this.props.params.tripId)
     })
   }
 
