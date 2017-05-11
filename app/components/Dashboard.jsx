@@ -20,7 +20,11 @@ export default (props) =>
         </div>
 
         <div className="col col-lg-9">
-          <TabsAndViews userId={props.userId}/>
+          <TabsAndViews
+            userId={props.userId}
+            tripRef={props.tripRef}
+            tripId={props.tripId}
+            usersRef={db.ref('users')}/>
         </div>
         </div>
     </div>

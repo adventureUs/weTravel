@@ -1,15 +1,20 @@
-//DO NOT USE ME!!!!!!!!!
+//REFERENCE FOR DB STRUCTURE; NOT A SEED FILE!
+// NOTE ABOUTE BUDDY STATUS OPTIONS:
+  // statusOptions: [
+  //   { id: '1', text: 'Invited' },
+  //   { id: '2', text: 'Going' },
+  //   { id: '3', text: 'Can\'t make it' }
 {
  "trips": {
    "1024": {
-     "name": "Galway",
+     "tripName": "Please Name Your Trip Here!" || "Galway",
      "items": {},
      "buddies": {
        "uid": {
-         "tripName": "Please Name Your Trip Here!",
+        "name": "",
          "availabilityStart": "1623571253",
          "availabilityEnd": "1623571253",
-         "status": "Invited",
+         "status": {"id": "1",  "text": "Invited"},
          "homebase": "Tempe"
        }
      }

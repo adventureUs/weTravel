@@ -34,7 +34,8 @@ export default class extends React.Component {
   }
 
   render() {
-    console.log('STATE in APP:', this.state)
+    // console.log('STATE in APP:', this.state)
+    //console.log('TRIP REF in APP:', db.ref('/trips/'+ this.props.params.tripId))
     return (
       <div>
         <TitleBar
@@ -45,7 +46,7 @@ export default class extends React.Component {
           tripRef={db.ref('trips').child(this.state.tripId)} />
         <Dashboard
           userId={this.state.userId}
-          tripRef={db.ref('trips').child(this.state.tripId)}
+          tripRef={db.ref('/trips/'+ this.props.params.tripId)}
           auth={auth}
           tripId={this.state.tripId} />
       </div>

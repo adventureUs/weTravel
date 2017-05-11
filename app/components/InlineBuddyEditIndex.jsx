@@ -16,10 +16,12 @@ export default (props) => {
   return (
     <div>
       <InlineBuddyEdit
+        userId={props.userId}
+        tripRef={props.tripRef}
+        tripId={props.tripId}
         tripsRef={db.ref('trips')}
         usersRef={db.ref('users')}
-        auth={auth}
-        userId={props.userId} />
+        auth={auth} />
     </div>
   )
 }
