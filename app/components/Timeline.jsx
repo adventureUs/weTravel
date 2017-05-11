@@ -22,34 +22,7 @@ export default class AdventureUsTimeline extends Component {
     this.onItemResize = this.onItemResize.bind(this)
   }
   componentWillMount() {
-    // // Getting data from trip part of db
-    // let itemsData = [], groupData = []
-    // const tripRef = this.props.tripRef
-    // const userId = this.props.userId
-    // tripRef.on('value', function(snapshot) {
-    //   const buddiesObject = snapshot.val().buddies
-    //   const buddiesIds = Object.keys(buddiesObject) // do not need this line of code
-    //   // now map over the buddies Ids and grab the start and end dates
-    //   itemsData = Object.keys(buddiesObject).map((key) => {
-    //     return {
-    //       id: key,
-    //       group: key,
-    //       title: buddiesObject[key].name,
-    //       start_time: moment(buddiesObject[key].availabilityStart),
-    //       end_time: moment(buddiesObject[key].availabilityEnd),
-    //       canResize: key === userId ? 'both' : false,
-    //       canChangeGroup: false // if we oneday get to items do conditional checks for item categories here
-    //     }
-    //   }, this)
-    //   groupData = Object.keys(buddiesObject).map((key) =>
-    //      ({
-    //        id: key,
-    //        title: buddiesObject[key].name
-    //      })
-    //   )
-    //   groups = groupData
-    //   items = itemsData
-    // })
+
   }
 
   componentWillUnmount() {
@@ -63,7 +36,7 @@ export default class AdventureUsTimeline extends Component {
       return dateMoment < minDate ? dateMoment : minDate
     }, moment().add(10, 'years'))
     const renderMinStartDate = moment(tempMinDate).add(-1, 'days')
-    return renderMinStartDate.unix()*1000
+    return moment(renderMinStartDate.unix()*1000)
   }
 
   findMaxEndDate = (items) => {
@@ -73,7 +46,7 @@ export default class AdventureUsTimeline extends Component {
       return dateMoment > maxDate ? dateMoment : maxDate
     }, moment())
     const renderMaxEndDate = moment(tempMaxDate).add(1, 'days')
-    return renderMaxEndDate.unix()*1000
+    return moment(renderMaxEndDate.unix()*1000)
   }
 
   onItemResize = (userId, time, edge) => {
@@ -100,6 +73,7 @@ export default class AdventureUsTimeline extends Component {
   render() {
 // This object sets the untis on the timeline.
 // Currently, it is set to display days, months and years
+    // console.log('TIMELINE, PROPS', this.props)
     const timeSteps = {
       second: 0,
       minute: 0,
@@ -114,8 +88,8 @@ export default class AdventureUsTimeline extends Component {
         <h1>Timeline</h1>
           <Timeline groups={this.props.groups}
             items={this.props.items}
-            defaultTimeStart={this.findMinStartDate(this.props.items)}
-            defaultTimeEnd={this.findMaxEndDate(this.props.items)}
+            visibleTimeStart={this.findMinStartDate(this.props.items)}
+            visibleTimeEnd={this.findMaxEndDate(this.props.items)}
             timeSteps={timeSteps}
             sidebarWidth={70}
             onItemResize={this.onItemResize}
@@ -127,3 +101,6 @@ export default class AdventureUsTimeline extends Component {
 
 // visibleTimeStart={this.findMinStartDate(this.props.items)}
 //          visibleTimeEnd={this.findMaxEndDate(this.props.items)}
+
+// defaultTimeStart={this.findMinStartDate(this.props.items)}
+//             defaultTimeEnd={this.findMaxEndDate(this.props.items)}

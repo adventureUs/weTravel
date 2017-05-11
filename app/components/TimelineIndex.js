@@ -11,6 +11,8 @@ import moment from 'moment'
 // From trip (ie. tripRef) we need: buddiesid -> id, buddiesid -> group, availabilityStart -> start_time, availabilityEnd -> end_time
 // Note: title in an sliderData group will be the name of a buddy or self
 
+// BUGS IN HERE:  DID MOUNT AND SO ALSO LISTEN FOR SLIDERS DO NOT TRIGGER AGAIN ONCE USERID IS IN PROPS, SO CANRESIZE IS NEVER BECOMING TURE;  SIMILARLY SUSPECT THAT CHANGES IN BUDDIES WON"T RERENDER IN THE TIMELINE.
+
 export default class TimelineIndex extends React.Component {
   constructor(props) {
     super(props)
@@ -25,7 +27,7 @@ export default class TimelineIndex extends React.Component {
     this.unsubscribe()
   }
   componentDidMount() {
-    console.log('ENTERED COMPONENENT-DID-MOUNT')
+    // console.log('ENTERED COMPONENENT-DID-MOUNT PROPS', this.props)
     this.listenForSliders(this.props.tripRef, this.props.userId)
   }
   // For mysteriosu reasons,  DidMount works but WillReceiveProps below did not .... Learning lesson??
@@ -38,30 +40,30 @@ export default class TimelineIndex extends React.Component {
     // LOGIC HERE BEACUSE FOR NOW WE ONLY RENDER A SLIDER TIMELINE:
     // Getting data from trip part of db
     let sliderData = [], namesData = []
-    console.log('ENTERED LISTEN-FOR-SLIDERS', namesData, sliderData)
+    // console.log('TIMELINE_INDEX, OUTSIDE LISTENER USERID:', this.props.userId, userId)
     const listener = tripRef.on('value', snapshot => {
       const buddiesObject = snapshot.val().buddies
       const buddiesIds = Object.keys(buddiesObject) // do not need this line of code
       // now map over the buddies Ids and grab the start and end dates
-      sliderData = Object.keys(buddiesObject).map((key, _id, _arr, userId) => {
+      sliderData = Object.keys(buddiesObject).map(key => {
+        // console.log('TIMELINE_INDEX, LISTENER USERID: ', userId)
         return {
           id: key,
           group: key,
           title: buddiesObject[key].name,
-          start_time: moment(buddiesObject[key].availabilityStart),
-          end_time: moment(buddiesObject[key].availabilityEnd),
+          start_time: moment(buddiesObject[key].startDate),
+          end_time: moment(buddiesObject[key].endDate),
           canResize: key === userId ? 'both' : false,
           canChangeGroup: false // if we oneday get to items do conditional checks for item categories here
         }
       })
-      console.log('LISTEN-FOR-SLIDERS, names, slider', namesData, sliderData)
       namesData = Object.keys(buddiesObject).map((key) =>
          ({
            id: key,
            title: buddiesObject[key].name
          })
       )
-      console.log('LISTEN-FOR-SLIDERS, names, slider', namesData, sliderData)
+      // console.log('TIMELINE_INDEX LISTEN-FOR-SLIDERS, names, slider', namesData, sliderData)
       this.setState({groups: namesData})
       this.setState({items: sliderData})
     })
@@ -69,7 +71,7 @@ export default class TimelineIndex extends React.Component {
   }
 
   render() {
-    console.log('TIMELINE-INDEX, PROPS', this.props)
+    // console.log('TIMELINE-INDEX, PROPS', this.props)
     return (
       <div>
         <AdventureUsTimeline
