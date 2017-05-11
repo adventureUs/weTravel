@@ -50,7 +50,7 @@ export default class TimelineIndex extends React.Component {
         return {
           id: key,
           group: key,
-          title: buddiesObject[key].name,
+          title: buddiesObject[key].status.text,
           start_time: moment(buddiesObject[key].startDate),
           end_time: moment(buddiesObject[key].endDate),
           canResize: key === userId ? 'both' : false,
