@@ -13,11 +13,11 @@ import AdventureUsTimeline from './Timeline'
 // we need tripRef, userRef (logged in user) and usersRef so we can get their names
 //  we're using all this hard coded stuff in the timeline component. It should work when we pass in real props and data.
 const dummyTripRef = firebase.database().ref('trips/' + '-KjiydWj11D-d4b5FbQP')
-const dummyUserRef = '5yOrpwkmkobSCtirjteNFoKPsJl1'
+const dummyUserId = '5yOrpwkmkobSCtirjteNFoKPsJl1'
 
 export default () =>
   <div>
-    <AdventureUsTimeline tripRef={dummyTripRef} userRef={dummyUserRef} usersRef={db.ref('users')}/>
+    <AdventureUsTimeline tripRef={dummyTripRef} userId={dummyUserId} usersRef={db.ref('users')}/>
   </div>
 // need to replace dummyTripRef with props.tripRef
 // need to replace dummyUserRef with props.userRef
