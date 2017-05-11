@@ -30,7 +30,7 @@ export default class AdventureUsTimeline extends Component {
     // Getting data from trip part of db
     let itemsData = [], groupData = []
     const tripRef = this.props.tripRef
-    const userRef = this.props.userRef
+    const userId = this.props.userId
     tripRef.on('value', function(snapshot) {
       const buddiesObject = snapshot.val().buddies
       const buddiesIds = Object.keys(buddiesObject) // do not need this line of code
@@ -42,7 +42,7 @@ export default class AdventureUsTimeline extends Component {
           title: buddiesObject[key].buddyName,
           start_time: moment(buddiesObject[key].availabilityStart),
           end_time: moment(buddiesObject[key].availabilityEnd),
-          canResize: key === userRef ? 'both' : false,
+          canResize: key === userId ? 'both' : false,
           canChangeGroup: false // if we oneday get to items do conditional checks for item categories here
         }
       }, this)
