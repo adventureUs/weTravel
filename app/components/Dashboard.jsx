@@ -13,7 +13,10 @@ const db = firebase.database()
 export default (props) =>
   (
     <div className="">
-      <TimelineIndex />
+      <TimelineIndex
+        userId={props.userId}
+        tripRef={props.tripRef}
+        />
       <div className="row">
         <div className="col col-lg-3">
           <Chat />
@@ -24,7 +27,8 @@ export default (props) =>
             userId={props.userId}
             tripRef={props.tripRef}
             tripId={props.tripId}
-            usersRef={db.ref('users')}/>
+            usersRef={db.ref('users')}
+            />
         </div>
         </div>
     </div>

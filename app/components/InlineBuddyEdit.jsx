@@ -67,9 +67,8 @@ export default class InlineBuddyEdit extends Component {
 
   listenTo(ref) {
     if (this.unsubscribe) this.unsubscribe()
-  
     const listener = ref.on('value', snapshot => {
-      console.log('SNAPSHOT VAL', snapshot.val())
+      // console.log('SNAPSHOT VAL', snapshot.val())
       this.setState(snapshot.val())
     })
     this.unsubscribe = () => ref.off('value', listener)
@@ -83,7 +82,7 @@ export default class InlineBuddyEdit extends Component {
 
   postUserInfoToDB = (e) => {
     e.preventDefault()
-    console.log('FROM POST TO DB', this.state)
+    // console.log('FROM POST TO DB', this.state)
     this.props.usersRef.child(this.props.userId)
       .update({
         name: this.state.name || 'Please enter your name',

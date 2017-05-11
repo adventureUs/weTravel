@@ -4,16 +4,11 @@ import firebase from 'APP/fire'
 import Timeline from 'react-calendar-timeline'
 import moment from 'moment'
 
-// dummy data, will pull in from db later
-let groups = []
-
 // this is where we make our connection to the database, we need:
 // user name, user startDate for this trip, user endDate for this trip (currentTripUserStartDate, currentTripUserEndDate)
 // loop over buddies in trip and grab info
-// From trips (ie. tripsRef) we need: buddiesid -> id, buddiesid -> group, availabilityStart -> start_time, availabilityEnd -> end_time
-//  From users (ie. userRef) we need: user name -> title
-//  we have tripRef, userRef, usersRef passed in
-let items = []
+// From trip (ie. tripRef) we need: buddiesid -> id, buddiesid -> group, availabilityStart -> start_time, availabilityEnd -> end_time
+// Note: title in an itemsData group will be the name of a buddy or self
 
 const db = firebase.database()
 
@@ -23,38 +18,38 @@ export default class AdventureUsTimeline extends Component {
     this.state = {
       startTime: moment(),
       endTime: moment().add(1, 'days'),
-      items: [],
     }
+    this.onItemResize = this.onItemResize.bind(this)
   }
   componentWillMount() {
-    // Getting data from trip part of db
-    let itemsData = [], groupData = []
-    const tripRef = this.props.tripRef
-    const userId = this.props.userId
-    tripRef.on('value', function(snapshot) {
-      const buddiesObject = snapshot.val().buddies
-      const buddiesIds = Object.keys(buddiesObject) // do not need this line of code
-      // now map over the buddies Ids and grab the start and end dates
-      itemsData = Object.keys(buddiesObject).map((key) => {
-        return {
-          id: key,
-          group: key,
-          title: buddiesObject[key].buddyName,
-          start_time: moment(buddiesObject[key].availabilityStart),
-          end_time: moment(buddiesObject[key].availabilityEnd),
-          canResize: key === userId ? 'both' : false,
-          canChangeGroup: false // if we oneday get to items do conditional checks for item categories here
-        }
-      }, this)
-      groupData = Object.keys(buddiesObject).map((key) =>
-         ({
-           id: key,
-           title: buddiesObject[key].buddyName
-         })
-      )
-      groups = groupData
-      items = itemsData
-    })
+    // // Getting data from trip part of db
+    // let itemsData = [], groupData = []
+    // const tripRef = this.props.tripRef
+    // const userId = this.props.userId
+    // tripRef.on('value', function(snapshot) {
+    //   const buddiesObject = snapshot.val().buddies
+    //   const buddiesIds = Object.keys(buddiesObject) // do not need this line of code
+    //   // now map over the buddies Ids and grab the start and end dates
+    //   itemsData = Object.keys(buddiesObject).map((key) => {
+    //     return {
+    //       id: key,
+    //       group: key,
+    //       title: buddiesObject[key].name,
+    //       start_time: moment(buddiesObject[key].availabilityStart),
+    //       end_time: moment(buddiesObject[key].availabilityEnd),
+    //       canResize: key === userId ? 'both' : false,
+    //       canChangeGroup: false // if we oneday get to items do conditional checks for item categories here
+    //     }
+    //   }, this)
+    //   groupData = Object.keys(buddiesObject).map((key) =>
+    //      ({
+    //        id: key,
+    //        title: buddiesObject[key].name
+    //      })
+    //   )
+    //   groups = groupData
+    //   items = itemsData
+    // })
   }
 
   componentWillUnmount() {
@@ -81,24 +76,24 @@ export default class AdventureUsTimeline extends Component {
     return renderMaxEndDate.unix()*1000
   }
 
-  onItemResize = (itemId, time, edge) => {
+  onItemResize = (userId, time, edge) => {
     const tripRef = this.props.tripRef
-    // we get back the itemId, the time changed to in unix number format and the edge that was changed
+    // we get back the userId, the time changed to in unix number format and the edge that was changed
     // we then set the new time based on what it's changed to.
-    const itemArrayIndex = items.findIndex((item) => item.id === itemId)
+    const itemArrayIndex = this.props.items.findIndex((item) => item.id === userId)
     if (edge === 'left') {
       const startTime = moment(time)
-      // loop through item array and find the item where the id matches the itemId, then update the startTime here
-      items[itemArrayIndex].start_time = startTime
-      this.findMinStartDate(items)
+      // loop through item array and find the item where the id matches the userId, then update the startTime here
+      this.props.items[itemArrayIndex].start_time = startTime
+      this.findMinStartDate(this.props.items)
       this.setState({startTime: startTime})
-      tripRef.child(`buddies/${itemId}`).update({availabilityStart: startTime.toJSON()})
+      tripRef.child(`buddies/${userId}`).update({availabilityStart: startTime.toJSON()})
     } else {
       const endTime = moment(time)
-      items[itemArrayIndex].end_time = endTime
-      this.findMaxEndDate(items)
+      this.props.items[itemArrayIndex].end_time = endTime
+      this.findMaxEndDate(this.props.items)
       this.setState({endTime: endTime})
-      tripRef.child(`buddies/${itemId}`).update({availabilityEnd: endTime.toJSON()})
+      tripRef.child(`buddies/${userId}`).update({availabilityEnd: endTime.toJSON()})
     }
   }
 
@@ -113,17 +108,15 @@ export default class AdventureUsTimeline extends Component {
       month: 1,
       year: 1
     }
-
+    // console.log('TIMELINE, PROPS', this.props)
     return (
       <div className="well">
         <h1>Timeline</h1>
-          <Timeline groups={groups}
-            items={items}
-            defaultTimeStart={moment().add(-12, 'hour')}
-            defaultTimeEnd={moment().add(12, 'hour')}
+          <Timeline groups={this.props.groups}
+            items={this.props.items}
+            defaultTimeStart={this.findMinStartDate(this.props.items)}
+            defaultTimeEnd={this.findMaxEndDate(this.props.items)}
             timeSteps={timeSteps}
-            visibleTimeStart={this.findMinStartDate(items)}
-            visibleTimeEnd={this.findMaxEndDate(items)}
             sidebarWidth={70}
             onItemResize={this.onItemResize}
             />
@@ -131,3 +124,6 @@ export default class AdventureUsTimeline extends Component {
     )
   }
 }
+
+// visibleTimeStart={this.findMinStartDate(this.props.items)}
+//          visibleTimeEnd={this.findMaxEndDate(this.props.items)}
