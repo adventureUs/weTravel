@@ -23,7 +23,7 @@ export default class InlineBuddyEdit extends Component {
 
     this.state = {
       userId: props.userId,
-      name: '',
+      name: 'Please enter your name here',
       email: 'no email',
       status: { id: '1', text: 'Invited' },
       statusOptions: [
@@ -67,7 +67,7 @@ export default class InlineBuddyEdit extends Component {
 
   listenTo(ref) {
     if (this.unsubscribe) this.unsubscribe()
-    
+  
     const listener = ref.on('value', snapshot => {
       console.log('SNAPSHOT VAL', snapshot.val())
       this.setState(snapshot.val())
@@ -86,13 +86,13 @@ export default class InlineBuddyEdit extends Component {
     console.log('FROM POST TO DB', this.state)
     this.props.usersRef.child(this.props.userId)
       .update({
-        name: this.state.name ? this.state.name : 'Please enter your name',
-        homeBase: this.state.homeBase ? this.state.homeBase : 'Please enter homebase',
+        name: this.state.name || 'Please enter your name',
+        homeBase: this.state.homeBase || 'Please enter homebase',
       })
     this.props.tripRef.child('/buddies').child(this.props.userId || 'test')
       .update({
-        name: this.state.name ? this.state.name : 'Please enter your name',
-        homeBase: this.state.homeBase ? this.state.homeBase : 'Please enter homebase',
+        name: this.state.name || 'Please enter your name',
+        homeBase: this.state.homeBase || 'Please enter homebase',
         status: this.state.status,
         startDate: this.validateDate(this.state.startDate),
         endDate: this.validateDate(this.state.endDate)
@@ -118,7 +118,7 @@ export default class InlineBuddyEdit extends Component {
 
   render() {
     // console.log('REF FROM RENDER', db.ref('/trips/'+ this.props.tripId + '/buddies').child(this.props.userId || 'test'))
-    console.log('REF FROM RENDER', this.props.tripRef.child('/buddies').child(this.props.userId || 'test'))
+    // console.log('REF FROM RENDER', this.props.tripRef.child('/buddies').child(this.props.userId || 'test'))
     return (
       <form onSubmit={this.postUserInfoToDB}>
         <div className="container">
