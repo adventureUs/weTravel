@@ -1,5 +1,5 @@
 import React from 'react'
-import InlineBuddyEditIndex from './InlineBuddyEditIndex'
+import Buddies from './Buddies'
 import Itinerary from './Itinerary'
 import firebase from 'APP/fire'
 
@@ -31,8 +31,8 @@ export default class TabsAndView extends React.Component {
               >Buddies</a>
         </li>
         <li className={this.state.changeTabs ? '' : 'active'} onClick={() => this.setState({changeTabs: false})}>
-          <a href="#itinerary"
-              >Itinerary</a>
+          <a href="#ideabox"
+              >Idea Box</a>
         </li>
       </ul>
 
@@ -42,7 +42,7 @@ export default class TabsAndView extends React.Component {
         this.state.changeTabs ?
           <div className="tab-pane fade active in"
                 id="buddies">
-            <InlineBuddyEditIndex
+            <Buddies
               userId={this.props.userId}
               tripRef={this.props.tripRef}
               tripId={this.props.tripId}
