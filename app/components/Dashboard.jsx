@@ -3,7 +3,7 @@ import {Link} from 'react-router'
 import firebase from 'APP/fire'
 
 import TitleBar from './TitleBar'
-import Timeline from './Timeline'
+import TimelineIndex from './TimelineIndex'
 import Chat from './Chat'
 import TabsAndViews from './TabsAndViews'
 
@@ -13,7 +13,7 @@ const db = firebase.database()
 export default (props) =>
   (
     <div className="">
-      <Timeline />
+      <TimelineIndex />
       <div className="row">
         <div className="col col-lg-3">
           <Chat />
