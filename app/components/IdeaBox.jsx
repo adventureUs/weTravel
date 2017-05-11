@@ -35,28 +35,35 @@ export default class IdeaBox extends Component {
     console.log('IN IDEA BOX ', this.state.ideas, 'OBJECT KEYS', Object.keys(this.state.ideas))
 
     return (
-       <div className="well well-lg">
-        <div>
-        <ul >
-        {
-        Object.keys(this.state.ideas).map(key => {
-          return (
-            <li key={key} className='trip-buddies'>
-              <div className='buddiesListItem'>Name: {this.state.ideas[key].ideaName}</div>
-              <div className='buddiesListItem'>Link: {this.state.ideas[key].link}</div>
-              <div className='buddiesListItem' >Category: {this.state.ideas[key].category.text}</div>
-            </li>
-          )
-        })
-        }
-          <li className='trip-buddies'>
-              <AddIdea
-                userId={this.props.userId}
-                ideasRef={this.props.ideasRef}
-              />
-          </li>
-        </ul>
-        </div>
+       <div className="well">
+        <table className="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Idea</th>
+              <th>Link</th>
+              <th>Category</th>
+            </tr>
+          </thead>
+          <tbody>
+          {
+            Object.keys(this.state.ideas).map(key => {
+              return (
+                <tr key={key} className='trip-buddies'>
+                  <td >{this.state.ideas[key].ideaName}</td>
+                  <td >{this.state.ideas[key].link}</td>
+                  <td >{this.state.ideas[key].category.text}</td>
+                </tr>
+              )
+            })
+          }
+          </tbody>
+          </table>
+            <div className='trip-buddies well'>
+                <AddIdea
+                  userId={this.props.userId}
+                  ideasRef={this.props.ideasRef}
+                />
+            </div>
       </div>
     )
   }
