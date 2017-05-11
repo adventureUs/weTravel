@@ -62,27 +62,6 @@ export default class extends React.Component {
     return (
       <div className="well well-lg">
         <div>
-<<<<<<< HEAD
-        <ul >
-        { Object.keys(this.state.buddies).map((key) => {
-          return (key === this.props.userId) ?
-          <li key={key} className='trip-buddies'>
-            <InlineBuddyEditIndex
-              userId={this.props.userId}
-              tripRef={this.props.tripRef}
-              tripId={this.props.tripId}
-            />
-          </li> : <li className='trip-buddies'>
-            <div className='buddiesListItem'>Name: {this.state.buddies[key].name}</div>
-            <div className='buddiesListItem'>Home Base: {this.state.buddies[key].homeBase}</div>
-            <div className='buddiesListItem' >Status: {this.state.buddies[key].status.text}</div>
-            <div className='buddiesListItem'>Free from: {this.state.buddies[key].startDate.slice(0, 10)}</div>
-            <div className='buddiesListItem'>Free until: {this.state.buddies[key].endDate.slice(0, 10)}</div>
-          </li>
-        }
-          )}
-        </ul>
-=======
           <ul >
             {Object.keys(this.state.buddies).map((key) => {
               return (key === this.props.userId) ?
@@ -146,7 +125,6 @@ export default class extends React.Component {
               </div>
             </div>
           </div>
->>>>>>> master
         </div>
       </div>
     )
