@@ -1,5 +1,11 @@
-//DO NOT USE ME!!!!!!!!!
+//REFERENCE FOR DB STRUCTURE; NOT A SEED FILE!
+// NOTE ABOUTE BUDDY STATUS OPTIONS:
+  // statusOptions: [
+  //   { id: '1', text: 'Invited' },
+  //   { id: '2', text: 'Going' },
+  //   { id: '3', text: 'Can\'t make it' }
 {
+
   "trips": {
     "1024": {
       "name": "Galway",

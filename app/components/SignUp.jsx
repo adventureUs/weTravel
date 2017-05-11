@@ -21,27 +21,38 @@ export default class extends React.Component {
   onSubmit = (evt) => {
     evt.preventDefault()
     // what we actually want to do is redirect to the dashboard view
+
     if (this.state.email.length && this.state.password.length) {
       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+        // 'redcuer' logic
         // This then creates a new user in the db
         .then((user) => {
           const userId = user.uid
-          var newTrip = {
-            name: 'Please Name Your Trip Here!',
-            users: [userId]
+          var newTripData = {
+            tripName: 'Please Name Your Trip Here!',
+            buddies: {
+              [userId]: {
+                status: { id: '2', text: 'Going' }
+              }
+            }
           }
           var newTripKey = db.ref('trips/').push().key
-          var updates = {}
-          updates[newTripKey] = newTrip
-          db.ref('trips/').update(updates)
+          var newTrip = {}
+          newTrip[newTripKey] = newTripData
+          db.ref('trips/').update(newTrip)
           userRef.update({
             [userId]: {
               email: user.email,
-              trips: [newTripKey]
+              trips: [newTripKey],
+              currTrip: newTripKey
             }
           })
+          return newTripKey
         })
-        .then(() => browserHistory.push('/dashboard'))
+        .then((newTripKey) => {
+          // console.log('Trying to grap default new Trip key', newTripKey)
+          browserHistory.push('/dashboard/' + newTripKey)
+        })
         .catch(error => {
           window.alert(error)
         })
@@ -54,7 +65,6 @@ export default class extends React.Component {
     const auth = firebase.auth()
 
     const google = new firebase.auth.GoogleAuthProvider()
-    const facebook = new firebase.auth.FacebookAuthProvider()
     const email = new firebase.auth.EmailAuthProvider()
 
     return (
@@ -89,14 +99,7 @@ export default class extends React.Component {
 
           </div>
           <br />
-          <div>
-            <button className='facebook login btn btn-primary'
-              onClick={() => {
-                auth.signInWithPopup(facebook)
-                  .then(() => browserHistory.push('/dashboard'))
-              }}>Sign up with Facebook</button>
 
-          </div>
         </div>
       </div>
     )
