@@ -41,7 +41,7 @@ export default class extends React.Component {
         <ul >
         { Object.keys(this.state.buddies).map((key) => {
           return (key === this.props.userId) ?
-          <li className='trip-buddies'>
+          <li key={key} className='trip-buddies'>
             <InlineBuddyEditIndex
               userId={this.props.userId}
               tripRef={this.props.tripRef}

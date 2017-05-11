@@ -1,6 +1,6 @@
 import React from 'react'
 import Buddies from './Buddies'
-import Itinerary from './Itinerary'
+import IdeaBox from './IdeaBox'
 import firebase from 'APP/fire'
 
 export default class TabsAndView extends React.Component {
@@ -50,8 +50,11 @@ export default class TabsAndView extends React.Component {
           </div>
         :
           <div className="tab-pane fade active in"
-                id="itinerary">
-            <Itinerary />
+                id="ideaBox">
+            <IdeaBox
+              userId={this.props.userId}
+              ideasRef={this.props.tripRef.child('ideas')}
+              />
           </div>
         }
 
@@ -71,8 +74,8 @@ export default class TabsAndView extends React.Component {
 //             data-toggle="tab">Buddies</a>
 //       </li>
 //       <li>
-//         <a href="#itinerary"
-//             data-toggle="tab">Itinerary</a>
+//         <a href="#ideaBox"
+//             data-toggle="tab">IdeaBox</a>
 //       </li>
 //     </ul>
 
@@ -85,8 +88,8 @@ export default class TabsAndView extends React.Component {
 //       </div>
 
 //       <div className="tab-pane fade"
-//             id="itinerary">
-//         <Itinerary />
+//             id="ideaBox">
+//         <IdeaBox />
 //       </div>
 
 //     </div>
