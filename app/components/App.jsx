@@ -1,7 +1,7 @@
 // A necessary glue?
 
 import React from 'react'
-import { Route } from 'react-router'
+import { Route, browserHistory } from 'react-router'
 import firebase from 'APP/fire'
 const db = firebase.database()
 import Dashboard from './Dashboard'
@@ -27,9 +27,10 @@ export default class extends React.Component {
 
   componentDidMount() {
     auth.onAuthStateChanged(user => {
+      user ?
       this.setState({
         userId: user.uid
-      })
+      }) : browserHistory.push('/login')
     })
   }
 
