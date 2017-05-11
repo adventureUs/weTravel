@@ -6,7 +6,7 @@ export default class extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      buddies:{}
+      buddies: {}
     }
   }
   componentWillMount() {
@@ -26,7 +26,7 @@ export default class extends React.Component {
       var buddies = {}
       // for (var buddy in snapshot.val()) { buddies.push({[buddy]: snapshot.val()[buddy]}) }
       // changed to an object
-      this.setState({buddies: snapshot.val()})
+      this.setState({ buddies: snapshot.val() })
     })
     this.unsubscribe = () => ref.off('value', listener)
     return listener
@@ -38,42 +38,72 @@ export default class extends React.Component {
     return (
       <div className="well well-lg">
         <div>
-        <ul >
-        { Object.keys(this.state.buddies).map((key) => {
-          return (key === this.props.userId) ?
-          <li className='trip-buddies'>
-            <InlineBuddyEditIndex
-              userId={this.props.userId}
-              tripRef={this.props.tripRef}
-              tripId={this.props.tripId}
-            />
-          </li> : <li className='trip-buddies'>
-            <div className='buddiesListItem'>Name: {this.state.buddies[key].name}</div>
-            <div className='buddiesListItem'>Home Base: {this.state.buddies[key].homeBase}</div>
-            <div className='buddiesListItem' >Status: {this.state.buddies[key].status.text}</div>
-            <div className='buddiesListItem'>Free from: {this.state.buddies[key].startDate.slice(0, 10)}</div>
-            <div className='buddiesListItem'>Free until: {this.state.buddies[key].endDate.slice(0, 10)}</div>
-          </li>
-        }
-          )}
-        </ul>
+          <ul >
+            {Object.keys(this.state.buddies).map((key) => {
+              return (key === this.props.userId) ?
+                <li className='trip-buddies'>
+                  <InlineBuddyEditIndex
+                    userId={this.props.userId}
+                    tripRef={this.props.tripRef}
+                    tripId={this.props.tripId}
+                  />
+                </li> : <li className='trip-buddies'>
+                  <div className='buddiesListItem'>Name: {this.state.buddies[key].name}</div>
+                  <div className='buddiesListItem'>Home Base: {this.state.buddies[key].homeBase}</div>
+                  <div className='buddiesListItem' >Status: {this.state.buddies[key].status.text}</div>
+                  <div className='buddiesListItem'>Free from: {this.state.buddies[key].startDate.slice(0, 10)}</div>
+                  <div className='buddiesListItem'>Free until: {this.state.buddies[key].endDate.slice(0, 10)}</div>
+                </li>
+            }
+            )}
+          </ul>
+        </div>
+        <div>
+          <button style={{
+            color: '#18bc9c',
+            backgroundColor: '#ffffff',
+            borderRadius: '5px',
+            padding: '1px 6px'
+          }}
+            type="button"
+            onClick={() =>
+              document.getElementById('addBuddyModal').style.display = 'block'}
+          >Add Buddy!</button>
+        </div>
+        <div className="modal" id="addBuddyModal">
+          <div className="modal-dialog modal-sm">
+            <div className="modal-content">
+              <div className="modal-header">
+                <button type="button" className="close"
+                  onClick={() =>
+                    document.getElementById('addBuddyModal').style.display = 'none'}
+                >&times;
+                    </button>
+                <h4 className="modal-title">Follow these steps:</h4>
+              </div>
+              <div className="modal-body">
+                <p> Step 1: Enter your buddy's e-mail here: </p>
+                <input type="text" id="newBuddyEmail"></input>
+                <button
+                type="button"
+                className="btn btn-primary"
+                > Add a buddy! </button>
+              </div>
+              <div className="modal-footer"
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-around'
+                }}>
+                <p>Step 2: Share this link with your buddy: </p>
+                <br/>
+                <p>{`https://tern-2b37d.firebaseapp.com${window.location.pathname}`}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     )
   }
 }
 
-// { Object.keys(this.state.buddies).forEach((key) => {
-//           key === this.props.userId ?
-//             <li>
-//               <InlineBuddyEditIndex
-//                   userId={this.props.userId}
-//                   tripRef={this.props.tripRef}
-//                   tripId={this.props.tripId}
-//                 />
-//             </li> : <li>BUDDY</li>
-//         })
-//         }
-// console.log('************THIS IS THE KEY*******: ', key)
-//           console.log('************THIS IS THE USERID*******: ', this.props.userId, this.props.tripRef, this.props.tripId)
-//           console.log('************THIS IS THE this.state.buddies[key]*******: ', this.state.buddies[key])
+
