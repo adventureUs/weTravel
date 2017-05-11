@@ -5,48 +5,45 @@
   //   { id: '2', text: 'Going' },
   //   { id: '3', text: 'Can\'t make it' }
 {
- "trips": {
-   "1024": {
-     "tripName": "Please Name Your Trip Here!" || "Galway",
-     "items": {},
-     "buddies": {
-       "uid": {
-        "name": "",
-         "availabilityStart": "1623571253",
-         "availabilityEnd": "1623571253",
-         "status": {"id": "1",  "text": "Invited"},
-         "homebase": "Tempe"
-       }
-     }
-     "pendingBuddies" {
-       "email": ""
-     }
-     // "startDate":"2017-03-03",//don't need this ?
-     // "endDate":"2017-06-01",
-   }
- },
- "users": {
-   "uid": {
-     "email": "tina@email.com",
-     "name": "Tina",
-     "homebase": "Tempe",
-     "trips": [
-       "128637218",
-       "12837198237"
-     ],
-     "currTrip": "128637218"
-   },
-   "uid": {
-     "name": "allison",
-     "homebase": "New Jersey"
-   },
-   "uid": {
-     "name": "Stefanie",
-     "homebase": "New York"
-   },
-   "uid": {
-     "name": "Maria",
-     "homebase": "New York"
-   }
- }
+
+  "trips": {
+    "1024": {
+      "name": "Galway",
+      "items": {},
+      "buddies": {
+        "uid": {
+          "availabilityStart": "1623571253",
+          "availabilityEnd": "1623571253",
+          "status": "Invited",
+          "homebase": "Tempe"
+        }
+      }
+      // "startDate":"2017-03-03",//don't need this ?
+      // "endDate":"2017-06-01",
+    }
+  },
+  "users": {
+    "uid": {
+      "email": "tina@email.com",
+      "name": "Tina",
+      "homebase": "Tempe",
+      "trips": [
+        "128637218",
+        "12837198237"
+      ],
+      "currTrip": "128637218"
+    },
+    "uid": {
+      "name": "allison",
+      "homebase": "New Jersey"
+    },
+    "uid": {
+      "name": "Stefanie",
+      "homebase": "New York"
+    },
+    "uid": {
+      "name": "Maria",
+      "homebase": "New York"
+    }
+  }
 }
