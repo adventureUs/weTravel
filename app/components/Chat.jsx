@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router'
+import { Link } from 'react-router'
 import firebase from 'APP/fire'
 
 import idToNameOrEmail from '../../src/idToNameOrEmail'
@@ -39,71 +39,72 @@ export default class extends React.Component {
       currChat: e.target.value
     })
   }
-// Notes from Ashi
-// Remove lines 50-60
-// dont use prevChats constant
-// use the listener and update state at the same time
+  // Notes from Ashi
+  // Remove lines 50-60
+  // dont use prevChats constant
+  // use the listener and update state at the same time
 
   handleChat = e => {
     e.preventDefault()
-    const prevChats=[]
+    const prevChats = []
     const chatRef = firebase.database().ref('chat')
 
-    chatRef.push({
-      chat: this.state.currChat,
-      user: auth.currentUser.email
-    })
-    .then(() => chatRef.on('value', function(snapshot) {
-      // loops through chats in database
-      snapshot.forEach(function(childSnapshot) {
-        console.log('PREVCHATS', prevChats)
-        prevChats.push(childSnapshot.val())
+    idToNameOrEmail(this.props.userId)
+      .then(user => {
+        chatRef.push({
+          chat: this.state.currChat,
+          user: user
+        })
+          .then(() => chatRef.on('value', function(snapshot) {
+            // loops through chats in database
+            snapshot.forEach(function(childSnapshot) {
+              // console.log('PREVCHATS', prevChats)
+              prevChats.push(childSnapshot.val())
+            })
+          }, function(error) {
+            console.log('Error: ' + error.code)
+          }))
+          .then(() => this.setState({ currChat: '', prevChats: prevChats }))
+          .catch(err => console.error(err))
       })
-    }, function(error) {
-      console.log('Error: ' + error.code)
-    }))
-    .then(() => this.setState({currChat: '', prevChats: prevChats}))
-    .catch(err => console.error(err))
   }
 
   render() {
-    idToNameOrEmail(this.props.userId)
-    .then(result => console.log('TESTING RESULT', result))
     return (
-    <div className="row">
-     <div className = "col-lg-3" >
-      <form className="form" >
-        <table>
-          <thead></thead>
-          <tbody>
-            {this.state.prevChats.map((chat, i) =>
-             (
-             <tr key={i}
-                className="well well-sm" >
-              <div className="scroll">
-                <td >
-                  {`${chat.user}:  ${chat.chat}`}
-                </td>
-              </div>
-              <hr />
-             </tr>
-             )
-           )}
-          </tbody>
-        </table>
-        <div class="form-group">
-        <input type="text"
+      <div className="row">
+        <div className="col-lg-3" >
+          <form className="form" >
+            <table>
+              <thead></thead>
+              <tbody>
+                {this.state.prevChats.map((chat, i) =>
+                  (
+                    <tr key={i}
+                      className="well well-sm" >
+                      <div className="scroll">
+                        <td >
+                          {`${chat.user}:  ${chat.chat}`}
+                        </td>
+                      </div>
+                      <hr />
+                    </tr>
+                  )
+                )}
+              </tbody>
+            </table>
+            <div class="form-group">
+              <input type="text"
                 className="form-control"
                 id="chat"
-                onChange={ this.handleInput } />
-        <button className="btn btn-primary"
-                onClick={ this.handleChat } >
+                onChange={this.handleInput} />
+              <button className="btn btn-primary"
+                onClick={this.handleChat} >
                 chat
         </button>
+            </div>
+          </form>
         </div>
-      </form>
       </div>
-    </div>
     )
   }
 }

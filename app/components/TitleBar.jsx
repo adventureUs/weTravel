@@ -37,7 +37,6 @@ export default class TitleBar extends React.Component {
 
   setLocalState = (newState) => {
     this.setState(newState)
-    console.log('newState', newState)
     this.postTripNameToDB(newState.tripName)
   }
 
