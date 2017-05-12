@@ -10,6 +10,7 @@ export default class IdeaBox extends Component {
     this.state = {
       ideas: {}
     }
+    this.deleteIdea = this.deleteIdea.bind(this)
   }
 
   componentDidMount() {
@@ -31,10 +32,15 @@ export default class IdeaBox extends Component {
     this.unsubscribe = () => ref.off('value', listener)
   }
 
+  deleteIdea(e) {
+    this.props.ideasRef.child(e.target.id).remove()
+  }
+
   render() {
     console.log('IN IDEA BOX ', this.state.ideas, 'OBJECT KEYS', Object.keys(this.state.ideas))
 
     return (
+      <div>
        <div className="well">
         <table className="table table-striped table-hover">
           <thead>
@@ -52,18 +58,29 @@ export default class IdeaBox extends Component {
                   <td >{this.state.ideas[key].ideaName}</td>
                   <td >{this.state.ideas[key].link}</td>
                   <td >{this.state.ideas[key].category.text}</td>
+                  <button style={{
+                    color: '#18bc9c',
+                    backgroundColor: '#ffffff',
+                    borderRadius: '5px',
+                    padding: '1px 6px'
+                  }}
+                      type="button"
+                      id={key}
+                      onClick={ this.deleteIdea}>Delete
+                  </button>
                 </tr>
               )
             })
           }
           </tbody>
           </table>
-            <div className='trip-buddies well'>
-                <AddIdea
-                  userId={this.props.userId}
-                  ideasRef={this.props.ideasRef}
-                />
-            </div>
+        </div>
+        <div className='trip-buddies well well-sm'>
+            <AddIdea
+              userId={this.props.userId}
+              ideasRef={this.props.ideasRef}
+            />
+        </div>
       </div>
     )
   }
