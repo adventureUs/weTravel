@@ -66,7 +66,7 @@ export default class extends React.Component {
           })
         })
         .catch(error => {
-          console.error(error)
+          window.alert(error)
         })
     } else {
       window.alert('Please fill in both your email and password')
