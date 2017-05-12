@@ -92,7 +92,6 @@ export default class AddIdea extends Component {
           <div className="form-horizontal row"
             style={{ display: 'flex',
               alignItems: 'center'}}>
-            <label>Do More!</label>
             <div className="col-md-3">
               <label>New Idea: </label>
               <div style={{ color: 'lightSlateGray' }} >
