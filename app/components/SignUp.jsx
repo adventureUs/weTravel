@@ -7,7 +7,6 @@ const userRef = db.ref('users/')
 export default class extends React.Component {
   constructor(props) {
     super(props)
-    // no props currently
     this.state = {
       email: '',
       password: '',
@@ -20,19 +19,75 @@ export default class extends React.Component {
 
   onSubmit = (evt) => {
     evt.preventDefault()
-    // what we actually want to do is redirect to the dashboard view
+    const queryString = window.location.search
+    queryString ?
+      this.addToTrip(evt)
+      : this.createNewTrip(evt)
+  }
+
+  addToTrip = (evt) => {
+    const queryString = window.location.search
+    const tripId = queryString.slice(1)
+    // console.log('REF', db.ref('trips/').child(tripId).child('buddies'))
     if (this.state.email.length && this.state.password.length) {
       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-        // Should we have a pop-up to collect extra information such as zipcode, name
         .then((user) => {
           const userId = user.uid
-          return userRef.update({
+          // In the users table, create a new user with the querystring as the the trip
+          userRef.update({
             [userId]: {
-              email: user.email
+              email: user.email,
+              trips: [tripId]
+            }
+          })
+          // In the trips table, add this particular userId to the buddies array
+          // NOT WORKING --> creates brand new trip
+          // db.ref('trips/').child(tripId).update({
+          //   buddies: {
+          //     [userId]: {
+          //       status: { id: '1', text: 'Invited' }
+          //     }
+          //   }
+          // })
+          db.ref('trips/').child(tripId).child('buddies').update({
+            [userId]: {
+              status: { id: '1', text: 'Invited' }
             }
           })
         })
-        .then(() => browserHistory.push('/dashboard'))
+    } else {
+      window.alert('Please fill in both your email and password')
+    }
+  }
+
+  createNewTrip = (evt) => {
+    if (this.state.email.length && this.state.password.length) {
+      firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then((user) => {
+          const userId = user.uid
+          var newTripData = {
+            tripName: 'Please Name Your Trip Here!',
+            buddies: {
+              [userId]: {
+                status: { id: '2', text: 'Going' }
+              }
+            }
+          }
+          var newTripKey = db.ref('trips/').push().key
+          var newTrip = {}
+          newTrip[newTripKey] = newTripData
+          db.ref('trips/').update(newTrip)
+          userRef.update({
+            [userId]: {
+              email: user.email,
+              trips: [newTripKey]
+            }
+          })
+          return newTripKey
+        })
+        .then((newTripKey) => {
+          browserHistory.push('/dashboard/' + newTripKey)
+        })
         .catch(error => {
           window.alert(error)
         })
@@ -43,12 +98,8 @@ export default class extends React.Component {
 
   render() {
     const auth = firebase.auth()
-
     const google = new firebase.auth.GoogleAuthProvider()
-    const facebook = new firebase.auth.FacebookAuthProvider()
     const email = new firebase.auth.EmailAuthProvider()
-
-
     return (
       <div className="jumbotron">
         <form onSubmit={this.onSubmit} className="form-horizontal well">
@@ -77,20 +128,9 @@ export default class extends React.Component {
               onClick={() => {
                 auth.signInWithPopup(google)
                   .then(() => browserHistory.push('/dashboard'))
-
               }}>Sign up with Google</button>
-
           </div>
           <br />
-          <div>
-            <button className='facebook login btn btn-primary'
-              onClick={() => {
-                auth.signInWithPopup(facebook)
-                  .then(() => browserHistory.push('/dashboard'))
-
-              }}>Sign up with Facebook</button>
-
-          </div>
         </div>
       </div>
     )

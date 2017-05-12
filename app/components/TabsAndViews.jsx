@@ -1,6 +1,6 @@
 import React from 'react'
-import TravelBuddies from './TravelBuddies'
-import Itinerary from './Itinerary'
+import Buddies from './Buddies'
+import IdeaBox from './IdeaBox'
 import firebase from 'APP/fire'
 
 export default class TabsAndView extends React.Component {
@@ -10,6 +10,7 @@ export default class TabsAndView extends React.Component {
       changeTabs: true
     }
   }
+
   componentWillMount() {
     const auth = firebase.auth()
     this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({user}))
@@ -18,8 +19,9 @@ export default class TabsAndView extends React.Component {
   componentWillUnmount() {
     this.unsubscribe && this.unsubscribe()
   }
+
   render() {
-    console.log('Ternary', this.state.changeTabs)
+    // console.log('TABS AND VIEWS PROPS', this.props)
     return (
     <div>
       <ul
@@ -29,8 +31,8 @@ export default class TabsAndView extends React.Component {
               >Buddies</a>
         </li>
         <li className={this.state.changeTabs ? '' : 'active'} onClick={() => this.setState({changeTabs: false})}>
-          <a href="#itinerary"
-              >Itinerary</a>
+          <a href="#ideabox"
+              >Idea Box</a>
         </li>
       </ul>
 
@@ -40,12 +42,19 @@ export default class TabsAndView extends React.Component {
         this.state.changeTabs ?
           <div className="tab-pane fade active in"
                 id="buddies">
-            <TravelBuddies />
+            <Buddies
+              userId={this.props.userId}
+              tripRef={this.props.tripRef}
+              tripId={this.props.tripId}
+              />
           </div>
         :
           <div className="tab-pane fade active in"
-                id="itinerary">
-            <Itinerary />
+                id="ideaBox">
+            <IdeaBox
+              userId={this.props.userId}
+              ideasRef={this.props.tripRef.child('ideas')}
+              />
           </div>
         }
 
@@ -54,8 +63,6 @@ export default class TabsAndView extends React.Component {
     )
   }
 }
-
-
 
 // render() {
 //   return (
@@ -67,26 +74,23 @@ export default class TabsAndView extends React.Component {
 //             data-toggle="tab">Buddies</a>
 //       </li>
 //       <li>
-//         <a href="#itinerary"
-//             data-toggle="tab">Itinerary</a>
+//         <a href="#ideaBox"
+//             data-toggle="tab">IdeaBox</a>
 //       </li>
 //     </ul>
-
 
 //     <div id="myTabContent"
 //           className="tab-content">
 
 //       <div className="tab-pane fade active in"
 //             id="buddies">
-//         <TravelBuddies />
+//         <InlineBuddyEditIndex />
 //       </div>
-
 
 //       <div className="tab-pane fade"
-//             id="itinerary">
-//         <Itinerary />
+//             id="ideaBox">
+//         <IdeaBox />
 //       </div>
-
 
 //     </div>
 //   </div>

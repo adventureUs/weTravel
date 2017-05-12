@@ -5,37 +5,51 @@ import DatePicker from 'react-datepicker'
 import WhoAmI from './WhoAmI'
 import moment from 'moment'
 import firebase from 'APP/fire'
-// const auth = firebase.auth()
-const db = firebase.database()
-let currUser = ''
 
-// WHEN CAN YOU DEFINE THE UID?  WE NEED TO GRAB AS SOON AS POSSIBLE
+const db = firebase.database()
 
 export default class InlineBuddyEdit extends Component {
   constructor(props) {
     super(props)
-    console.log('AUTH', this.props)
     // in the future instead of e-mail add an additional field for preferred contact info
     // set scope on OAuth request and include phone number
+    // We currently handle a case for new signup.
+    // We need to consider the case for when someone is logged in aand has info in the database. In this case, we want to get their
+    // details from the database if they exist and if they don't exist, give the prompts.
+    // some ternary like: if there is a logged in user and they have a name in the db, return the name. Otherwise return 'plase enter a name'.
+    // same double condition needed for homeBase: if user logged in AND user has a homebase, grab it from the db and put it on initial state, otherwise ....
+
+    // the goal here is to put buddy info from the buddies key from tripRef on state and keep aligned with the homebase on userRef
+
     this.state = {
-      name: 'Please enter name here',
-      email: this.props.auth.currentUser ? this.props.auth.currentUser.email : 'no email',
+      userId: props.userId,
+      name: 'Please enter your name here',
+      email: 'no email',
       status: { id: '1', text: 'Invited' },
       statusOptions: [
         { id: '1', text: 'Invited' },
         { id: '2', text: 'Going' },
         { id: '3', text: 'Can\'t make it' }
       ],
-      homeBase: 'New York',
-      startDate: moment(),
-      endDate: moment()
+      homeBase: 'Please enter your city',
+      startDate: '',
+      endDate: '',
     }
   }
 
   componentDidMount() {
-    // When the component mounts, start listening to the userRef
+    // When the component mounts, start listening to the usersRef
     // we were given.
-    this.listenTo(this.props.userRef)
+    this.props.auth.onAuthStateChanged(user => {
+      this.setState({
+        email: user.email
+      })
+    })
+
+    // console.log('TRIP REF', this.props.tripRef.child('/buddies').child(this.props.userId || 'test'))
+    // this.listenTo(
+    //   this.props.tripRef.child('/buddies').child(this.props.userId || 'test')
+    // )
   }
 
   componentWillUnmount() {
@@ -46,70 +60,73 @@ export default class InlineBuddyEdit extends Component {
   componentWillReceiveProps(incoming, outgoing) {
     // When the props sent to us by our parent component change,
     // start listening to the new firebase reference.
-    this.listenTo(incoming.userRef)
+    // console.log('FROM RECEIVE PROPS', incoming)
+    this.listenTo(incoming.tripRef.child('/buddies').child(incoming.userId || 'test'))
+    // this.listenTo(incoming.tripsRef.child(tripId))
   }
 
-  listenTo(userRef) {
-    // If we're already listening to a ref, stop listening there.
+  listenTo(ref) {
     if (this.unsubscribe) this.unsubscribe()
-
-    // Whenever our ref's value changes, set {value} on our state.
-    const listener = userRef.on('value', snapshot => {
+    const listener = ref.on('value', snapshot => {
+      // console.log('SNAPSHOT VAL', snapshot.val())
       this.setState(snapshot.val())
-      console.log('THE LISTENER LISTENED ', this.state)
     })
-
-    // Set unsubscribe to be a function that detaches the listener.
-    this.unsubscribe = () => userRef.off('users', listener)
+    this.unsubscribe = () => ref.off('value', listener)
+    return listener
   }
 
-  // componentDidMount() {
-  //   this.unsubscribe = auth.onAuthStateChanged(user => {
-  //     this.setState({ email: user.email })
-  //     currUser = user
-  //   })
-  // }
-
-  // componentWillUnmount() {
-  //   this.unsubscribe()
-  // }
-
-  virtualServerCallback = (newState) => {
+  setLocalState = (newState) => {
     this.setState(newState)
     // this.updateDb()
-    const uid = this.props.auth.currentUser.uid
-    console.log('UID', uid, 'STATE', this.state)
-    this.props.userRef.child(uid).set({
-      name: this.state.name,
-      homeBase: this.state.homeBase,
-      status: this.state.status
+  }
+
+  postUserInfoToDB = (e) => {
+    e.preventDefault()
+    // console.log('FROM POST TO DB', this.state)
+    this.props.usersRef.child(this.props.userId)
+      .update({
+        name: this.state.name || 'Please enter your name',
+        homeBase: this.state.homeBase || 'Please enter homebase',
+      })
+    this.props.tripRef.child('/buddies').child(this.props.userId || 'test')
+      .update({
+        name: this.state.name || 'Please enter your name',
+        homeBase: this.state.homeBase || 'Please enter homebase',
+        status: this.state.status,
+        startDate: this.validateDate(this.state.startDate),
+        endDate: this.validateDate(this.state.endDate)
+      })
+  }
+
+  validateDate = (date) => {
+    if (!date) return null
+    else if (typeof date === 'string') return date
+    else return date.toJSON()
+  }
+
+  handleChangeStart = (startDate) => {
+    this.setState({
+      startDate: startDate
+    })
+  }
+  handleChangeEnd = (endDate) => {
+    this.setState({
+      endDate: endDate
     })
   }
 
-  // updateDb = () => {
-  //   const uid = this.props.route.auth.currentUser.uid
-  //   console.log('UID', uid, 'STATE', this.state)
-  //   db.ref('users/' + uid).set({
-  //     name: this.state.name,
-  //     homeBase: this.state.homeBase,
-  //     status: this.state.status
-  //   })
-  // }
-
-  // Originally in the render
-  //  <WhoAmI auth={this.props.route.auth} />
-
   render() {
+    // console.log('REF FROM RENDER', db.ref('/trips/'+ this.props.tripId + '/buddies').child(this.props.userId || 'test'))
+    // console.log('REF FROM RENDER', this.props.tripRef.child('/buddies').child(this.props.userId || 'test'))
     return (
-      <div >
-        <h1>BUDDIES</h1>
+      <form onSubmit={this.postUserInfoToDB}>
         <div className="container">
           <div className="form-horizontal">
             <div className="col-md-3">
               <span>Name: </span>
               <RIEInput
                 value={this.state.name}
-                change={this.virtualServerCallback}
+                change={this.setLocalState}
                 propName="name"
                 className={this.state.highlight ? "editable" : ""}
                 validate={this.isStringAcceptable}
@@ -126,7 +143,7 @@ export default class InlineBuddyEdit extends Component {
                 value={this.state.status}
                 className={this.state.highlight ? "editable" : ""}
                 options={this.state.statusOptions}
-                change={this.virtualServerCallback}
+                change={this.setLocalState}
                 classLoading="loading"
                 propName="status" />
             </div>
@@ -134,7 +151,7 @@ export default class InlineBuddyEdit extends Component {
               <span>Home Base: </span>
               <RIEInput
                 value={this.state.homeBase}
-                change={this.virtualServerCallback}
+                change={this.setLocalState}
                 propName="homeBase"
                 className={this.state.highlight ? "editable" : ""}
                 validate={this.isStringAcceptable}
@@ -142,28 +159,23 @@ export default class InlineBuddyEdit extends Component {
                 classInvalid="Invalid" />
             </div>
             <div className="col-md-3">
-              <span>Availability Start Date: </span>
+              <span>Free from: </span>
               <DatePicker
-                selected={this.state.startDate}
-                selectsStart
-                startDate={this.state.startDate}
-                endDate={this.state.endDate}
+                selected={this.state.startDate ? moment(this.state.startDate) : null}
                 onChange={this.handleChangeStart}
               />
             </div>
             <div className="col-md-3">
-              <span>Availability End Date: </span>
+              <span>Free until: </span>
               <DatePicker
-                selected={this.state.endDate}
-                selectsEnd
-                startDate={this.state.startDate}
-                endDate={this.state.endDate}
+                selected={this.state.endDate ? moment(this.state.endDate) : null}
                 onChange={this.handleChangeEnd}
               />
             </div>
           </div>
         </div>
-      </div >
+        <button>Save Info</button>
+      </form>
     )
   }
 }
