@@ -2,6 +2,8 @@ import React from 'react'
 import {Link} from 'react-router'
 import firebase from 'APP/fire'
 
+import idToNameOrEmail from '../../src/idToNameOrEmail'
+
 const auth = firebase.auth()
 
 export default class extends React.Component {
@@ -17,19 +19,19 @@ export default class extends React.Component {
   }
 
   componentWillMount() {
-    const prevChats=[]
-    const chatRef = firebase.database().ref('chat')
+    // const prevChats=[]
+    // const chatRef = firebase.database().ref('chat')
 
-    chatRef.on('value', function(snapshot) {
-      // loops through chats in database
-      snapshot.forEach(function(childSnapshot) {
-        console.log('PREVCHATS ***', prevChats)
-        prevChats.push(childSnapshot.val())
-      })
-      .then(() => this.setState({currChat: '', prevChats: prevChats}))
-    }, function(error) {
-      console.log('Error: ' + error.code)
-    })
+    // chatRef.on('value', function(snapshot) {
+    //   // loops through chats in database
+    //   snapshot.forEach(function(childSnapshot) {
+    //     console.log('PREVCHATS ***', prevChats)
+    //     prevChats.push(childSnapshot.val())
+    //   })
+    //   .then(() => this.setState({currChat: '', prevChats: prevChats}))
+    // }, function(error) {
+    //   console.log('Error: ' + error.code)
+    // })
   }
 
   handleInput = (e) => {
@@ -37,6 +39,10 @@ export default class extends React.Component {
       currChat: e.target.value
     })
   }
+// Notes from Ashi
+// Remove lines 50-60
+// dont use prevChats constant
+// use the listener and update state at the same time
 
   handleChat = e => {
     e.preventDefault()
@@ -61,6 +67,7 @@ export default class extends React.Component {
   }
 
   render() {
+    console.log('name from utility function', idToNameOrEmail(this.props.userId))
     return (
     <div className="row">
      <div className = "col-lg-3" >
@@ -70,17 +77,20 @@ export default class extends React.Component {
           <tbody>
             {this.state.prevChats.map((chat, i) =>
              (
-             <tr key={i} >
+             <tr key={i}
+                className="well well-sm" >
               <div className="scroll">
-                <td className="well well-sm" >
+                <td >
                   {`${chat.user}:  ${chat.chat}`}
                 </td>
               </div>
+              <hr />
              </tr>
              )
            )}
           </tbody>
         </table>
+        <div class="form-group">
         <input type="text"
                 className="form-control"
                 id="chat"
@@ -89,6 +99,7 @@ export default class extends React.Component {
                 onClick={ this.handleChat } >
                 chat
         </button>
+        </div>
       </form>
       </div>
     </div>

@@ -19,7 +19,7 @@ export default (props) => {
             />
           <div className="row">
             <div className="col col-lg-3">
-              <Chat />
+              <Chat userId={props.userId}/>
             </div>
 
             <div className="col col-lg-9">
