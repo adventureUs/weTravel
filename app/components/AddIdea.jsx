@@ -166,7 +166,7 @@ export default class AddIdea extends Component {
               </div>
             </div>
             <div className="col-md-3">
-              <span>Free from: </span>
+              <span>Date: </span>
               <DatePicker
                 selected={this.state.startDate ? moment(this.state.startDate) : null}
                 onChange={this.handleChangeStart}

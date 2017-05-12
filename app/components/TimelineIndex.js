@@ -74,7 +74,7 @@ export default class TimelineIndex extends React.Component {
           console.log('TIMELINE_INDEX, MAKE LISTENER IDEAS: ', dbObject)
           return {
             id: key,
-            group: dbObject[key].category.id,
+            group: key,
             title: dbObject[key].ideaName,
             start_time: moment(dbObject[key].startDate),
             end_time: moment(dbObject[key].endDate),
@@ -82,12 +82,14 @@ export default class TimelineIndex extends React.Component {
             canChangeGroup: false // if we oneday get to items do conditional checks for item categories here
           }
         })
+        console.log('****************BODYDATA*****************:', bodyData)
         namesData = Object.keys(dbObject).map((key) =>
          ({
            id: key,
-           title: dbObject[key].ideaName
+           title: dbObject[key].category.text
          })
           )
+        console.log('****************NAMESDATA*****************:', namesData)
       }
 
       // console.log('TIMELINE_INDEX LISTEN-FOR-SLIDERS, names, body', namesData, bodyData)
