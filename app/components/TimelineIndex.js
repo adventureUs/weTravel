@@ -23,7 +23,7 @@ export default class TimelineIndex extends React.Component {
     this.listenForSliders = this.listenForSliders.bind(this)
   }
   componentWillUnmount() {
-    this.unsubscribe()
+    this.unsubscribe && this.unsubscribe()
   }
   componentDidMount() {
     // console.log('ENTERED COMPONENENT-DID-MOUNT PROPS', this.props)
@@ -102,6 +102,7 @@ export default class TimelineIndex extends React.Component {
           groups={this.state.groups}
           items={this.state.items}
           tripRef={this.props.tripRef}
+          whichTab={this.props.whichTab}
           />
       </div>
     )

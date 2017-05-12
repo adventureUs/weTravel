@@ -15,7 +15,7 @@
           "category": { id:"",  text:""},
           "addedBy": "",
           "likes": "",
-          "startDate": "1234567"
+          "startDate": "1234567",
           "endDate": "1234"
         }, etc.
 
@@ -23,7 +23,7 @@
      "buddies": {
        "uid": {
         "name": "",
-        "whichTab": true
+        "whichTab": true,
          "startDate": "1623571253",
          "endDate": "1623571253",
          "status": {"id": "1",  "text": "Invited"},
