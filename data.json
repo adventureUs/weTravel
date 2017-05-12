@@ -12,7 +12,7 @@
         "ideaUid": {
           "ideaName": "",
           "link": "",
-          "category": "",
+          "category": { id:"",  text:""},
           "addedBy": "",
           "likes": "",
           "startDate": "1234567"
