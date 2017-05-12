@@ -6,9 +6,6 @@ import firebase from 'APP/fire'
 export default class TabsAndView extends React.Component {
   constructor(props) {
     super(props)
-    this.state={
-      changeTabs: true
-    }
   }
 
   componentWillMount() {
@@ -19,19 +16,22 @@ export default class TabsAndView extends React.Component {
   componentWillUnmount() {
     this.unsubscribe && this.unsubscribe()
   }
+  componentWilReceiveProps(incomming, outgoing) {
+    console.log('******TABS AND VIEWS WILL RECEIVE PROPS***INCOMMING: ', incomming)
+  }
 
   render() {
-    // console.log('TABS AND VIEWS PROPS', this.props)
+    console.log('TABS AND VIEWS STATE', this.props)
     return (
     <div>
       <ul
           className="nav nav-tabs">
-        <li className={this.state.changeTabs ? 'active' : ''} onClick={() => this.setState({changeTabs: true})}>
-          <a href="#buddies"
+        <li className={this.props.whichTab ? 'active' : ''}>
+          <a id='Buddies' href="#buddies" onClick={this.props.changeTabs}
               >Buddies</a>
         </li>
-        <li className={this.state.changeTabs ? '' : 'active'} onClick={() => this.setState({changeTabs: false})}>
-          <a href="#ideabox"
+        <li className={this.props.whichTab ? '' : 'active'}>
+          <a id='Idea Box' href="#ideabox" onClick={this.props.changeTabs}
               >Idea Box</a>
         </li>
       </ul>
@@ -39,7 +39,7 @@ export default class TabsAndView extends React.Component {
       <div id="myTabContent"
             className="tab-content">
         {
-        this.state.changeTabs ?
+        this.props.whichTab === 'Buddies' ?
           <div className="tab-pane fade active in"
                 id="buddies">
             <Buddies
@@ -67,7 +67,7 @@ export default class TabsAndView extends React.Component {
 // render() {
 //   return (
 //   <div>
-//     <ul onClick={() => this.setState({changeTabs: !this.state.changeTabs})}
+//     <ul onClick={() => this.setState({whichTab: !this.state.changeTabs})}
 //         className="nav nav-tabs">
 //       <li className="active">
 //         <a href="#buddies"
