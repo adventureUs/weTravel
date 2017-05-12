@@ -52,14 +52,9 @@ export default class AdventureUsTimeline extends Component {
   onItemResize = (itemId, time, edge) => {
     const branch = this.props.whichTab === 'Buddies' ? 'buddies' : 'ideas'
     const tripRef = this.props.tripRef || 'test'
-    // we get back the userId, the time changed to in unix number format and the edge that was changed
+    // we get back the itemId, the time changed to in unix number format and the edge that was changed
     // we then set the new time based on what it's changed to.
-<<<<<<< HEAD
-    const itemArrayIndex = this.props.items.findIndex((item) => item.id === userId)
-
-=======
     const itemArrayIndex = this.props.items.findIndex((item) => item.id === itemId)
->>>>>>> 4000249dc0b9a14e469cc0c9ee84909d3b72ea48
     if (edge === 'left') {
       const startTime = moment(time)
       // loop through item array and find the item where the id matches the itemId, then update the startTime here
@@ -83,7 +78,7 @@ export default class AdventureUsTimeline extends Component {
     const timeSteps = {
       second: 0,
       minute: 0,
-      hour: 0,
+      hour: 1,
       day: 1,
       month: 1,
       year: 1

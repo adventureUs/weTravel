@@ -85,7 +85,7 @@ export default class TimelineIndex extends React.Component {
         namesData = Object.keys(dbObject).map((key) =>
          ({
            id: key,
-           title: dbObject[key].category.text
+           title: dbObject[key].ideaName
          })
           )
       }
