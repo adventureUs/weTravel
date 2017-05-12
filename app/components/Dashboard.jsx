@@ -19,7 +19,9 @@ export default (props) => {
             />
           <div className="row">
             <div className="col col-lg-3">
-              <Chat userId={props.userId}/>
+              <Chat
+              userId={props.userId}
+              tripRef={props.tripRef}/>
             </div>
 
             <div className="col col-lg-9">

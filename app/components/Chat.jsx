@@ -47,12 +47,14 @@ export default class extends React.Component {
   handleChat = e => {
     e.preventDefault()
     const prevChats = []
-    const chatRef = firebase.database().ref('chat')
+    this.props.tripRef.update({chat: []})
+    const chatRef = this.props.tripRef.child('chatLog')
+    console.log('Check out my path!', chatRef)
 
     idToNameOrEmail(this.props.userId)
       .then(user => {
         chatRef.push({
-          chat: this.state.currChat,
+          message: this.state.currChat,
           user: user
         })
           .then(() => chatRef.on('value', function(snapshot) {
@@ -83,7 +85,7 @@ export default class extends React.Component {
                       className="well well-sm" >
                       <div className="scroll">
                         <td >
-                          {`${chat.user}:  ${chat.chat}`}
+                          {`${chat.user}:  ${chat.message}`}
                         </td>
                       </div>
                       <hr />
