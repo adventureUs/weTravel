@@ -63,7 +63,7 @@ export default class extends React.Component {
   }
 
   componentWillUnmount() {
-    this.unsubscribe()
+   this.unsubscribe && this.unsubscribe()
   }
 
   onChange = (e) => {
