@@ -3,7 +3,6 @@ import {Link} from 'react-router'
 import firebase from 'APP/fire'
 
 import TitleBar from './TitleBar'
-import TimelineIndex from './TimelineIndex'
 import Chat from './Chat'
 import TabsAndViews from './TabsAndViews'
 
@@ -27,16 +26,12 @@ export default class Dashboard extends Component {
   render() {
     return (
       <div className="">
-        <TimelineIndex
-          userId={this.props.userId}
-          tripRef={this.props.tripRef}
-          whichTab={this.state.whichTab}
-          />
-        <div className="row">
-          <div className="col col-lg-3">
-            <Chat />
-          </div>
-
+          <div className="row">
+            <div className="col col-lg-3">
+              <Chat
+              userId={props.userId}
+              tripRef={props.tripRef}/>
+            </div>
           <div className="col col-lg-9">
             <TabsAndViews
               userId={this.props.userId}
