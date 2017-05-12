@@ -29,8 +29,8 @@ export default class Dashboard extends Component {
           <div className="row">
             <div className="col col-lg-3">
               <Chat
-              userId={props.userId}
-              tripRef={props.tripRef}/>
+              userId={this.props.userId}
+              tripRef={this.props.tripRef}/>
             </div>
           <div className="col col-lg-9">
             <TabsAndViews

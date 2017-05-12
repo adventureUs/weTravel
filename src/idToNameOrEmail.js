@@ -7,7 +7,7 @@ const userRef = db.ref('users/')
 // when a valid UID is passed in,
 // if the user entered in their name, the name is returned
 // otherwise, the email is returned
-export default function (uid) {
+export default function(uid) {
   return userRef.child(uid)
     .once('value')
     .then(snapshot => {

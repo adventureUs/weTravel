@@ -42,7 +42,7 @@ export default class extends React.Component {
     // }, function(error) {
     //   console.log('Error: ' + error.code)
     // })
-    idToNameOrEmail(this.props.userId)
+    if (this.props.userId) idToNameOrEmail(this.props.userId)
       .then(user => this.setState({ userChatHandle: user }))
   }
 

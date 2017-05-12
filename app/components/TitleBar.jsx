@@ -33,7 +33,7 @@ export default class TitleBar extends React.Component {
   makeNewTrip = () =>
     // Make a new trip with id, and add that id to currentUser.
     // Set the new trip Id to currentTrip, trigger rerender of new Dashboard
-    // console.log(document.getElementById('newTripInput').value)
+    console.log(document.getElementById('newTripInput').value)
 
   setLocalState = (newState) => {
     this.setState(newState)
@@ -42,9 +42,9 @@ export default class TitleBar extends React.Component {
 
   postTripNameToDB = (tripName) => {
     this.props.tripsRef.child('/' + this.props.tripId)
-    .update({
-      tripName: tripName ? tripName : 'Please Name Your Trip Here!',
-    })
+      .update({
+        tripName: tripName || 'Please Name Your Trip Here!',
+      })
   }
 
   render() {

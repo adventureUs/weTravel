@@ -31,6 +31,7 @@ export default class TimelineIndex extends React.Component {
       :
       this.listenFor('ideas') // For Ideas Box Timeline View
   }
+
   /* For mysteriosu reasons,  DidMount works but WillReceiveProps below did not .... Learning lesson?? */
   componentWillReceiveProps(nextProps) {
     nextProps.whichTab && nextProps.whichTab === 'Buddies' ?
@@ -44,7 +45,10 @@ export default class TimelineIndex extends React.Component {
     let bodyData = [], namesData = []
     const listener = this.props.tripRef.on('value', snapshot => {
       const dbObject = snapshot.val()[branch]
-      const branchIds = Object.keys(dbObject)
+      var branchIds = []
+      if (dbObject) {
+        branchIds = Object.keys(dbObject)
+      }
       // now map over the db Ids and grab info as necessary depending
       // on the branch typs.
       if (branch === 'buddies') { // Make Buddies Timeline Data
@@ -60,7 +64,7 @@ export default class TimelineIndex extends React.Component {
             canChangeGroup: false // if we oneday get to items do conditional checks for item categories here
           }
         })
-        namesData = Object.keys(dbObject).map((key) =>
+        if (dbObject) namesData = Object.keys(dbObject).map((key) =>
          ({
            id: key,
            title: dbObject[key].name
@@ -78,7 +82,7 @@ export default class TimelineIndex extends React.Component {
             canChangeGroup: false // if we oneday get to items do conditional checks for item categories here
           }
         })
-        namesData = Object.keys(dbObject).map((key) =>
+        if (dbObject) namesData = Object.keys(dbObject).map((key) =>
          ({
            id: key,
            title: dbObject[key].category.text
