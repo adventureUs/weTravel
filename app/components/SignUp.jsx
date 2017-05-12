@@ -3,7 +3,6 @@ import { Link, browserHistory } from 'react-router'
 import firebase from 'APP/fire'
 const db = firebase.database()
 const userRef = db.ref('users/')
-const queryString = window.location.search
 
 export default class extends React.Component {
   constructor(props) {
@@ -20,14 +19,16 @@ export default class extends React.Component {
 
   onSubmit = (evt) => {
     evt.preventDefault()
+    const queryString = window.location.search
     queryString ?
       this.addToTrip(evt)
       : this.createNewTrip(evt)
   }
 
   addToTrip = (evt) => {
+    const queryString = window.location.search
     const tripId = queryString.slice(1)
-    console.log('REF', db.ref('trips/').child(tripId).child('buddies'))
+    // console.log('REF', db.ref('trips/').child(tripId).child('buddies'))
     if (this.state.email.length && this.state.password.length) {
       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((user) => {
@@ -40,8 +41,15 @@ export default class extends React.Component {
             }
           })
           // In the trips table, add this particular userId to the buddies array
-          // Set does not seem to work here, neither does update or push
-          db.ref('trips/').child(tripId).child('buddies').updateChildren({
+          // NOT WORKING --> creates brand new trip
+          // db.ref('trips/').child(tripId).update({
+          //   buddies: {
+          //     [userId]: {
+          //       status: { id: '1', text: 'Invited' }
+          //     }
+          //   }
+          // })
+          db.ref('trips/').child(tripId).child('buddies').update({
             [userId]: {
               status: { id: '1', text: 'Invited' }
             }
@@ -78,7 +86,6 @@ export default class extends React.Component {
           return newTripKey
         })
         .then((newTripKey) => {
-          // console.log('Trying to grap default new Trip key', newTripKey)
           browserHistory.push('/dashboard/' + newTripKey)
         })
         .catch(error => {
