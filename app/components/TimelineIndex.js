@@ -26,7 +26,6 @@ export default class TimelineIndex extends React.Component {
   //   this.unsubscribe && this.unsubscribe()
   // }
   componentDidMount() {
-    console.log('TIMELINE_INDEX COMPONENENT-DID-MOUNT PROPS', this.props)
     this.props.whichTab && this.props.whichTab === 'Buddies' ?
       this.listenFor('buddies') // For Buddies Slider Timelne View
       :
@@ -34,7 +33,6 @@ export default class TimelineIndex extends React.Component {
   }
   /* For mysteriosu reasons,  DidMount works but WillReceiveProps below did not .... Learning lesson?? */
   componentWillReceiveProps(nextProps) {
-    console.log('TIMELINE_INDEX COMPONENENT_WILL_RECEIVE_PROPS', nextProps)
     nextProps.whichTab && nextProps.whichTab === 'Buddies' ?
       this.listenFor('buddies') // For Buddies Slider Timelne View
       :
@@ -44,7 +42,6 @@ export default class TimelineIndex extends React.Component {
     if (this.unsubscribe) this.unsubscribe()
     // Getting data from branch part of db
     let bodyData = [], namesData = []
-    console.log('TIMELINE_INDEX, LISTEN_FOR', branch)
     const listener = this.props.tripRef.on('value', snapshot => {
       const dbObject = snapshot.val()[branch]
       const branchIds = Object.keys(dbObject)
@@ -52,7 +49,7 @@ export default class TimelineIndex extends React.Component {
       // on the branch typs.
       if (branch === 'buddies') { // Make Buddies Timeline Data
         bodyData = branchIds.map(key => {
-          // console.log('TIMELINE_INDEX, LISTENER USERID: ', userId)
+          //
           return {
             id: key,
             group: key,
@@ -71,7 +68,6 @@ export default class TimelineIndex extends React.Component {
           )
       } else { //  Make Ideas Timeline Data
         bodyData = branchIds.map(key => {
-          console.log('TIMELINE_INDEX, MAKE LISTENER IDEAS: ', dbObject)
           return {
             id: key,
             group: key,
@@ -82,17 +78,13 @@ export default class TimelineIndex extends React.Component {
             canChangeGroup: false // if we oneday get to items do conditional checks for item categories here
           }
         })
-        console.log('****************BODYDATA*****************:', bodyData)
         namesData = Object.keys(dbObject).map((key) =>
          ({
            id: key,
            title: dbObject[key].category.text
          })
           )
-        console.log('****************NAMESDATA*****************:', namesData)
       }
-
-      // console.log('TIMELINE_INDEX LISTEN-FOR-SLIDERS, names, body', namesData, bodyData)
       this.setState({groups: namesData})
       this.setState({items: bodyData})
     })
@@ -100,8 +92,6 @@ export default class TimelineIndex extends React.Component {
   }
 
   render() {
-    console.log('TIMELINE-INDEX, PROPS', this.props)
-    console.log('TIMELINE-INDEX, STATE', this.state)
     return (
       <div>
         <AdventureUsTimeline

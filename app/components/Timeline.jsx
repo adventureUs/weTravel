@@ -83,7 +83,6 @@ export default class AdventureUsTimeline extends Component {
       month: 1,
       year: 1
     }
-    console.log('TIMELINE, PROPS', this.props)
     return (
       <div className="well">
         <h1>Timeline</h1>

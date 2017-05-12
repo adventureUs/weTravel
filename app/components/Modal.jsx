@@ -24,13 +24,13 @@ export default class extends React.Component {
   }
   changeTrip(e) {
     // Note: change map over trips to reflect actualy trip id and names.
-    console.log(e.target.id)
+    // console.log(e.target.id)
     // e.target.id set to currentTrip
     browserHistory.push('/dashboard')
   }
   makeNewTrip() {
     // Make a new trip with id, and add that id to currentUser.
     // Set the new trip Id to currentTrip, trigger rerender of new Dashboard
-    console.log(document.getElementById('newTripInput').value)
+    // console.log(document.getElementById('newTripInput').value)
   }
 }
