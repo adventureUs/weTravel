@@ -1,19 +1,20 @@
 import React from 'react'
 import Buddies from './Buddies'
 import IdeaBox from './IdeaBox'
+import TimelineIndex from './TimelineIndex'
 import firebase from 'APP/fire'
 
 export default class TabsAndView extends React.Component {
   constructor(props) {
     super(props)
-    this.state={
+    this.state = {
       changeTabs: true
     }
   }
 
   componentWillMount() {
     const auth = firebase.auth()
-    this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({user}))
+    this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({ user }))
   }
 
   componentWillUnmount() {
@@ -23,43 +24,52 @@ export default class TabsAndView extends React.Component {
   render() {
     // console.log('TABS AND VIEWS PROPS', this.props)
     return (
-    <div>
-      <ul
+      <div>
+        <ul
           className="nav nav-tabs">
-        <li className={this.state.changeTabs ? 'active' : ''} onClick={() => this.setState({changeTabs: true})}>
-          <a href="#buddies"
-              >Buddies</a>
-        </li>
-        <li className={this.state.changeTabs ? '' : 'active'} onClick={() => this.setState({changeTabs: false})}>
-          <a href="#ideabox"
-              >Idea Box</a>
-        </li>
-      </ul>
+          <li className={this.state.changeTabs ? 'active' : ''} onClick={() => this.setState({ changeTabs: true })}>
+            <a href="#buddies"
+            >Buddies</a>
+          </li>
+          <li className={this.state.changeTabs ? '' : 'active'} onClick={() => this.setState({ changeTabs: false })}>
+            <a href="#ideabox"
+            >Idea Box</a>
+          </li>
+        </ul>
 
-      <div id="myTabContent"
-            className="tab-content">
-        {
-        this.state.changeTabs ?
-          <div className="tab-pane fade active in"
+        <div id="myTabContent"
+          className="tab-content">
+          {
+            this.state.changeTabs ?
+              <div className="tab-pane fade active in"
                 id="buddies">
-            <Buddies
-              userId={this.props.userId}
-              tripRef={this.props.tripRef}
-              tripId={this.props.tripId}
-              />
-          </div>
-        :
-          <div className="tab-pane fade active in"
-                id="ideaBox">
-            <IdeaBox
-              userId={this.props.userId}
-              ideasRef={this.props.tripRef.child('ideas')}
-              />
-          </div>
-        }
+                <TimelineIndex
+                  userId={this.props.userId}
+                  tripRef={this.props.tripRef}
+                />
+                <Buddies
+                  userId={this.props.userId}
+                  tripRef={this.props.tripRef}
+                  tripId={this.props.tripId}
+                />
+              </div>
 
+              :
+              <div className="tab-pane fade active in"
+                id="ideaBox">
+                <TimelineIndex
+                  userId={this.props.userId}
+                  tripRef={this.props.tripRef}
+                />
+                <IdeaBox
+                  userId={this.props.userId}
+                  ideasRef={this.props.tripRef.child('ideas')}
+                />
+              </div>
+          }
+
+        </div>
       </div>
-    </div>
     )
   }
 }
