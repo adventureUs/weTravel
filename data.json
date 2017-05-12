@@ -1,41 +1,62 @@
-//DO NOT USE ME!!!!!!!!!
+//REFERENCE FOR DB STRUCTURE; NOT A SEED FILE!
+// NOTE ABOUTE BUDDY STATUS OPTIONS:
+  // statusOptions: [
+  //   { id: '1', text: 'Invited' },
+  //   { id: '2', text: 'Going' },
+  //   { id: '3', text: 'Can\'t make it' }
 {
-  "trips": {
-    "1024": {
-      "name": "Galway",
-      "items": {},
-      "users": {
-        "tina@email.com": {
-          "availabilityStart": "1623571253",
-          "availabilityEnd": "1623571253",
-          "status": "Invited",
-          "homebase": "Tempe"
-        }
-      }
-      // "startDate":"2017-03-03",//don't need this ?
-      // "endDate":"2017-06-01",
-    }
-  },
-  "users": {
-    "tina@email.com": {
-      "name": "Tina",
-      "location": "Tempe",
-      "trips": [
-        "128637218",
-        "12837198237"
-      ]
+ "trips": {
+   "1024": {
+     "tripName": "Galway",
+     "ideas": {
+        "ideaUid": {
+          "ideaName": "",
+          "link": "",
+          "category": "",
+          "addedBy": "",
+          "likes": ""
+        }, etc.
+      
     },
-    "allison@email.com": {
-      "name": "allison",
-      "location": "New Jersey"
-    },
-    "stefanie@email.com": {
-      "name": "Stefanie",
-      "location": "New York"
-    },
-    "maria@email.com": {
-      "name": "Maria",
-      "location": "New York"
-    }
-  }
+     "buddies": {
+       "uid": {
+        "name": "",
+         "availabilityStart": "1623571253",
+         "availabilityEnd": "1623571253",
+         "status": {"id": "1",  "text": "Invited"},
+         "homebase": "Tempe"
+       }
+     }
+     "pendingBuddies" {
+       "email": ""
+     }
+     // "startDate":"2017-03-03",//don't need this ?
+     // "endDate":"2017-06-01",
+   }
+ },
+ "users": {
+   "uid": {
+    "name": "",
+    "email": "tina@email.com",
+    "userName": "Tina",
+    "homebase": "Tempe",
+    "trips": [
+      "128637218",
+      "12837198237"
+     ],
+     "currTrip": "128637218"
+   },
+   "uid": {
+     "name": "allison",
+     "homebase": "New Jersey"
+   },
+   "uid": {
+     "name": "Stefanie",
+     "homebase": "New York"
+   },
+   "uid": {
+     "name": "Maria",
+     "homebase": "New York"
+   }
+ }
 }

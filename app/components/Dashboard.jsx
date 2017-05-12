@@ -3,37 +3,33 @@ import {Link} from 'react-router'
 import firebase from 'APP/fire'
 
 import TitleBar from './TitleBar'
-import Timeline from './Timeline'
+import TimelineIndex from './TimelineIndex'
 import Chat from './Chat'
 import TabsAndViews from './TabsAndViews'
 
 const auth = firebase.auth()
+const db = firebase.database()
 
-export default class extends React.Component {
-  componentDidMount() {
-//     const auth = this.props.route.auth
-//     this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({user}))
-  }
-
-  componentWillUnmount() {
-//     this.unsubscribe && this.unsubscribe()
-  }
-
-  render() {
-    return (
+export default (props) => {
+  return props.userId ?
       <div className="">
-        <TitleBar/>
-        <Timeline/>
-        <div className="row">
-          <div className="col col-lg-3">
-            <Chat />
-          </div>
+          <TimelineIndex
+            userId={props.userId}
+            tripRef={props.tripRef}
+            />
+          <div className="row">
+            <div className="col col-lg-3">
+              <Chat />
+            </div>
 
-          <div className="col col-lg-9">
-            <TabsAndViews/>
-          </div>
-          </div>
-      </div>
-    )
-  }
+            <div className="col col-lg-9">
+              <TabsAndViews
+                userId={props.userId}
+                tripRef={props.tripRef}
+                tripId={props.tripId}
+                usersRef={db.ref('users')}
+                />
+            </div>
+            </div>
+        </div> : <div>REDIRECT TO LOGIN</div>
 }

@@ -8,6 +8,7 @@ export const name = user => {
   if (user.isAnonymous) return 'Anonymous'
   return user.displayName || user.email
 }
+// receives user and auth as objects from render
 export const WhoAmI = ({user, auth}) =>
   <div className="whoami">
     <span className="whoami-user-name">Hello, {name(user)}</span>
@@ -18,6 +19,7 @@ export const WhoAmI = ({user, auth}) =>
       /// ...otherwise, show a logout button.
       : <button className='logout' onClick={() => auth.signOut()}>logout</button> }
   </div>
+
 export default class extends React.Component {
   componentDidMount() {
     const {auth} = this.props
