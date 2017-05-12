@@ -1,9 +1,4 @@
 
-.scroll {
-  overflow-y: scroll;
-  height: 500px;
-}
-
 li.trip-buddies {
   list-style-type: none;
 }

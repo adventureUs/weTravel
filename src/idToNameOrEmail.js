@@ -1,4 +1,4 @@
-import firebase from '/APP'
+import firebase from 'APP/fire'
 const db = firebase.database()
 const userRef = db.ref('users/')
 
@@ -6,21 +6,30 @@ const userRef = db.ref('users/')
 // if the user entered in their name, the name is returned
 // otherwise, the email is returned
 export default function(uid) {
-  userRef.child(uid)
-    .child('name')
-    .exists()
-      ?
-      userRef.child(uid)
-        .child('name')
-        .once('value')
-        .then(snapshot => {
-          return snapshot.val()
-        })
+  let result = userRef.child(uid)
+    .once('value')
+    .then(snapshot => {
+      const nameExists = snapshot.child('name').exists()
+      nameExists
+        ?
+          userRef.child(uid)
+            .child('name')
+            .once('value')
+            .then(snapshot => {
+              return snapshot.val()
+            })
         :
-        userRef.child(uid)
-        .child('email')
-        .once('value')
-        .then(snapshot => {
-          return snapshot.val()
-        })
+          userRef.child(uid)
+            .child('email')
+            .once('value')
+            .then(snapshot => {
+              return snapshot.val()
+            })
+      .then(result => {
+        console.log('should be the result of the utility function', result)
+        return result
+      })
+      .catch(err => console.error(err))
+    })
+  return result
 }

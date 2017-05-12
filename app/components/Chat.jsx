@@ -2,6 +2,8 @@ import React from 'react'
 import {Link} from 'react-router'
 import firebase from 'APP/fire'
 
+import idToNameOrEmail from '../../src/idToNameOrEmail'
+
 const auth = firebase.auth()
 
 export default class extends React.Component {
@@ -17,19 +19,19 @@ export default class extends React.Component {
   }
 
   componentWillMount() {
-    const prevChats=[]
-    const chatRef = firebase.database().ref('chat')
+    // const prevChats=[]
+    // const chatRef = firebase.database().ref('chat')
 
-    chatRef.on('value', function(snapshot) {
-      // loops through chats in database
-      snapshot.forEach(function(childSnapshot) {
-        console.log('PREVCHATS ***', prevChats)
-        prevChats.push(childSnapshot.val())
-      })
-      .then(() => this.setState({currChat: '', prevChats: prevChats}))
-    }, function(error) {
-      console.log('Error: ' + error.code)
-    })
+    // chatRef.on('value', function(snapshot) {
+    //   // loops through chats in database
+    //   snapshot.forEach(function(childSnapshot) {
+    //     console.log('PREVCHATS ***', prevChats)
+    //     prevChats.push(childSnapshot.val())
+    //   })
+    //   .then(() => this.setState({currChat: '', prevChats: prevChats}))
+    // }, function(error) {
+    //   console.log('Error: ' + error.code)
+    // })
   }
 
   handleInput = (e) => {
@@ -65,6 +67,7 @@ export default class extends React.Component {
   }
 
   render() {
+    console.log('name from utility function', idToNameOrEmail(this.props.userId))
     return (
     <div className="row">
      <div className = "col-lg-3" >
