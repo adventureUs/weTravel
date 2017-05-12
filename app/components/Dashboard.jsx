@@ -25,14 +25,13 @@ export default class Dashboard extends Component {
     }
   }
   render() {
-    console.log('***************DASHBOARD**********WHICH TAB?***********: ', this.state.whichTab)
+    // console.log('***************DASHBOARD**********WHICH TAB?***********: ', this.state.whichTab)
     return (
       <div className="">
         <TimelineIndex
           userId={this.props.userId}
           tripRef={this.props.tripRef}
           whichTab={this.state.whichTab}
-          changeTabs={this.changeTabs}
           />
         <div className="row">
           <div className="col col-lg-3">
