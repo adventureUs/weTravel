@@ -48,7 +48,7 @@ export default class IdeaBox extends Component {
 
     return (
       <div>
-       <div className="well">
+       <div className="well well-sm">
         <table className="table table-striped table-hover">
           <thead>
             <tr>
@@ -64,7 +64,7 @@ export default class IdeaBox extends Component {
               return (
                 <tr key={key} className='trip-buddies'>
                   <td >{this.state.ideas[key].ideaName}</td>
-                  <td >{this.state.ideas[key].link}</td>
+                  <td ><a href={'//'+this.state.ideas[key].link}>{this.state.ideas[key].link}</a></td>
                   <td >{this.state.ideas[key].category.text}</td>
                   <td>
                     <button style={{
@@ -78,16 +78,18 @@ export default class IdeaBox extends Component {
                         onClick={ this.addLikes}>{this.state.ideas[key].likes}
                     </button>
                   </td>
-                  <button style={{
-                    color: '#18bc9c',
-                    backgroundColor: '#ffffff',
-                    borderRadius: '5px',
-                    padding: '1px 6px'
-                  }}
-                      type="button"
-                      id={key}
-                      onClick={ this.deleteIdea}>Delete
-                  </button>
+                  <td>
+                    <button style={{
+                      color: '#18bc9c',
+                      backgroundColor: '#ffffff',
+                      borderRadius: '5px',
+                      padding: '1px 6px'
+                    }}
+                        type="button"
+                        id={key}
+                        onClick={ this.deleteIdea}>Delete
+                    </button>
+                  </td>
                 </tr>
               )
             })

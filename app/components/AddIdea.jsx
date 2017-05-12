@@ -18,20 +18,20 @@ export default class AddIdea extends Component {
 
     // the goal here is to put buddy info from the buddies key from tripRef on state and keep aligned with the homebase on userRef
 
-    this.state = {
-      ideaName: 'Please enter idea name here',
-      link: 'Please enter a url.',
-      status: { id: '1', text: 'Invited' },
-      categoryOptions: [
-        { id: '1', text: 'Food' },
-        { id: '2', text: 'Activity' },
-        { id: '3', text: 'Accomodation' },
-        { id: '4', text: 'Miscellaneous' }
-      ],
-      category: { id: '4', text: 'Miscellaneous' }
-    }
+    this.state = this.defaultState
   }
-
+  defaultState = {
+    ideaName: 'Enter name here',
+    link: 'Enter a url',
+    status: { id: '1', text: 'Invited' },
+    categoryOptions: [
+      { id: '1', text: 'Food' },
+      { id: '2', text: 'Activity' },
+      { id: '3', text: 'Accomodation' },
+      { id: '4', text: 'Miscellaneous' }
+    ],
+    category: { id: '4', text: 'Miscellaneous' }
+  }
   componentDidMount() {
   }
 
@@ -69,6 +69,7 @@ export default class AddIdea extends Component {
         addedBy: this.props.userId,
         likes: 0
       })
+    this.setState(this.defaultState)
   }
 
   validateField = (field) => {
@@ -82,55 +83,65 @@ export default class AddIdea extends Component {
 
   render() {
    // console.log('Add Idea props', this.props)
+   //       <h4> Enter you new idea here </h4>
     return (
       <div>
-      <h4> Enter you new idea here </h4>
+
       <form onSubmit={this.postIdeaToDB}>
         <div className="container">
-          <div className="form-horizontal">
-
+          <div className="form-horizontal row"
+            style={{ display: 'flex',
+              alignItems: 'center'}}>
+            <label>Do More!</label>
             <div className="col-md-3">
-              <label>Idea Name: </label>
+              <label>New Idea: </label>
               <div style={{ color: 'lightSlateGray' }} >
-              <RIEInput
-                value={this.state.ideaName}
-                change={this.setLocalState}
-                propName="ideaName"
-                className={this.state.highlight ? 'editable': ''}
-                validate={this.isStringAcceptable}
-                classLoading="loading"
-                classInvalid="Invalid"
-                />
-            </div>
-            </div>
-            <div className="col-md-3">
-              <label>Category: </label>
-              <div style={{ color: 'lightSlateGray' }} >
-              <RIESelect
-                value={this.state.category}
-                className={this.state.highlight ? 'editable' : ''}
-                options={this.state.categoryOptions}
-                change={this.setLocalState}
-                classLoading="loading"
-                propName="category" />
-            </div>
+                <RIEInput
+                  value={this.state.ideaName}
+                  change={this.setLocalState}
+                  propName="ideaName"
+                  className={this.state.highlight ? 'editable': ''}
+                  validate={this.isStringAcceptable}
+                  classLoading="loading"
+                  classInvalid="Invalid"
+                  />
+              </div>
             </div>
             <div className="col-md-3">
               <label>Link: </label>
               <div style={{ color: 'lightSlateGray' }} >
-              <RIEInput
-                value={this.state.link}
-                change={this.setLocalState}
-                propName="link"
-                className={this.state.highlight ? 'editable' : ''}
-                validate={this.isStringAcceptable}
-                classLoading="loading"
-                classInvalid="Invalid" />
+                <RIEInput
+                  value={this.state.link}
+                  change={this.setLocalState}
+                  propName="link"
+                  className={this.state.highlight ? 'editable' : ''}
+                  validate={this.isStringAcceptable}
+                  classLoading="loading"
+                  classInvalid="Invalid" />
+              </div>
             </div>
+            <div className="col-md-3">
+              <label>Category: </label>
+              <div style={{ color: 'lightSlateGray' }} >
+                <RIESelect
+                  value={this.state.category}
+                  className={this.state.highlight ? 'editable' : ''}
+                  options={this.state.categoryOptions}
+                  change={this.setLocalState}
+                  classLoading="loading"
+                  propName="category" />
+              </div>
+            </div>
+            <div className="col-md-3">
+              <button style={{
+                color: '#18bc9c',
+                backgroundColor: '#ffffff',
+                borderRadius: '5px',
+                padding: '1px 6px'
+              }}>Submit</button>
             </div>
           </div>
         </div>
-        <button>Save Info</button>
       </form>
       </div>
     )
