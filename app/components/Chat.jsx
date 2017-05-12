@@ -74,7 +74,7 @@ export default class extends React.Component {
   render() {
     return (
       <div className="row">
-        <div className="col-lg-3" >
+        <div >
           <form className="form" >
             <table>
               <thead></thead>
