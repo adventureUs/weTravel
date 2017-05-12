@@ -89,8 +89,8 @@ export default class AdventureUsTimeline extends Component {
         <h1>Timeline</h1>
           <Timeline groups={this.props.groups}
             items={this.props.items}
-            visibleTimeStart={this.findMinStartDate(this.props.items)}
-            visibleTimeEnd={this.findMaxEndDate(this.props.items)}
+            visibleTimeStart={this.findMinStartDate(this.props.items).unix()*1000}
+            visibleTimeEnd={this.findMaxEndDate(this.props.items).unix()*1000}
             timeSteps={timeSteps}
             sidebarWidth={70}
             onItemResize={this.onItemResize}

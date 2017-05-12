@@ -20,7 +20,7 @@ export default class TimelineIndex extends React.Component {
       groups: [],
       items: []
     }
-    this.listenForSliders = this.listenForSliders.bind(this)
+    this.listenFor = this.listenFor.bind(this)
   }
   componentWillUnmount() {
     this.unsubscribe && this.unsubscribe()
@@ -47,7 +47,7 @@ export default class TimelineIndex extends React.Component {
       const branchIds = Object.keys(dbObject)
       // now map over the db Ids and grab info as necessary depending
       // on the branch typs.
-      if (branch === 'Buddies') {
+      if (branch === 'buddies') { // Make Buddies Timeline Data
         bodyData = branchIds.map(key => {
           // console.log('TIMELINE_INDEX, LISTENER USERID: ', userId)
           return {
@@ -66,9 +66,9 @@ export default class TimelineIndex extends React.Component {
            title: dbObject[key].name
          })
           )
-      } else { // Item Timeline Data
+      } else { //  Make Ideas Timeline Data
         bodyData = branchIds.map(key => {
-        // console.log('TIMELINE_INDEX, LISTENER USERID: ', userId)
+          console.log('TIMELINE_INDEX, MAKE LISTENER IDEAS: ', dbObject)
           return {
             id: key,
             group: dbObject[key].category.id,
