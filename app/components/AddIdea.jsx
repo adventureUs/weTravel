@@ -77,19 +77,19 @@ export default class AddIdea extends Component {
   calculateDefaultDuration() {
     let hours = 0
     switch (this.state.category.id) {
-    case 1: // Food
+    case '1': // Food
       this.state.startDate.add(12, 'hours')
       hours = 1
       break
-    case 2: // Activity
+    case '2': // Activity
       this.state.startDate.add(14, 'hours')
       hours = 4
       break
-    case 3: // Accomodation
+    case '3': // Accomodation
       this.state.startDate.add(18, 'hours')
       hours = 12
       break
-    case 4: // Miscellaneous
+    case '4': // Miscellaneous
       this.state.startDate.add(10, 'hours')
       hours = 2
       break
