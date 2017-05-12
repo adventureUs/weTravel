@@ -86,16 +86,13 @@ export default class extends React.Component {
                   ?
                   <div key={i}
                     className="from-me">
-                    <p >
-                      {`${chat.user}:  ${chat.message}`}
-                    </p>
+                    <p >{`${chat.message}`}</p>
                   </div>
                   :
                   <div key={i}
                     className="from-them">
-                    <p >
-                      {`${chat.user}:  ${chat.message}`}
-                    </p>
+                    <p className="chatName"> {`${chat.user}:`}</p>
+                    <p> {`${chat.message}`}</p>
                   </div>
               )
             )}

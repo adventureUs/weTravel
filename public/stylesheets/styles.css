@@ -21,11 +21,15 @@ section {
 }
 
 section div {
-		max-width: 255px;
+		max-width: 100%;
 		word-wrap: break-word;
 		margin-bottom: 20px;
     line-height: 24px;
 	}
+
+  p.chatName {
+    font-weight: bold;
+  }
 
 .clear {clear: both}
 .from-me {
@@ -35,6 +39,7 @@ section div {
 	background:#0B93F6;
 	border-radius:25px;
 	float: right;
+  
 }
 
 .from-me	:before {
@@ -48,6 +53,7 @@ section div {
 		border-bottom-left-radius: 16px 14px;
 		-webkit-transform:translate(0, -2px);
 }
+
 
 .from-me	:after {
 		content:"";
