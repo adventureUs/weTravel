@@ -54,6 +54,7 @@ export default class AdventureUsTimeline extends Component {
     // we get back the userId, the time changed to in unix number format and the edge that was changed
     // we then set the new time based on what it's changed to.
     const itemArrayIndex = this.props.items.findIndex((item) => item.id === userId)
+
     if (edge === 'left') {
       const startTime = moment(time)
       // loop through item array and find the item where the id matches the userId, then update the startTime here
