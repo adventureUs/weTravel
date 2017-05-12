@@ -20,32 +20,36 @@ export default class TabsAndView extends React.Component {
   componentWillUnmount() {
     this.unsubscribe && this.unsubscribe()
   }
+  componentWilReceiveProps(incomming, outgoing) {
+    // console.log('******TABS AND VIEWS WILL RECEIVE PROPS***INCOMMING: ', incomming)
+  }
 
   render() {
-    // console.log('TABS AND VIEWS PROPS', this.props)
+    // console.log('TABS AND VIEWS STATE', this.props)
     return (
       <div>
         <ul
           className="nav nav-tabs">
-          <li className={this.state.changeTabs ? 'active' : ''} onClick={() => this.setState({ changeTabs: true })}>
-            <a href="#buddies"
-            >Buddies</a>
-          </li>
-          <li className={this.state.changeTabs ? '' : 'active'} onClick={() => this.setState({ changeTabs: false })}>
-            <a href="#ideabox"
-            >Idea Box</a>
-          </li>
-        </ul>
+        <li className={this.props.whichTab ? 'active' : ''}>
+          <a id='Buddies' href="#buddies" onClick={this.props.changeTabs}
+              >Buddies</a>
+        </li>
+        <li className={this.props.whichTab ? '' : 'active'}>
+          <a id='Idea Box' href="#ideabox" onClick={this.props.changeTabs}
+              >Idea Box</a>
+        </li>
+      </ul>
 
-        <div id="myTabContent"
-          className="tab-content">
-          {
-            this.state.changeTabs ?
-              <div className="tab-pane fade active in"
+      <div id="myTabContent"
+            className="tab-content">
+        {
+        this.props.whichTab === 'Buddies' ?
+          <div className="tab-pane fade active in"
                 id="buddies">
                 <TimelineIndex
                   userId={this.props.userId}
                   tripRef={this.props.tripRef}
+                  whichTab={this.state.whichTab}
                 />
                 <Buddies
                   userId={this.props.userId}
@@ -60,6 +64,7 @@ export default class TabsAndView extends React.Component {
                 <TimelineIndex
                   userId={this.props.userId}
                   tripRef={this.props.tripRef}
+                  whichTab={this.state.whichTab}
                 />
                 <IdeaBox
                   userId={this.props.userId}
@@ -77,7 +82,7 @@ export default class TabsAndView extends React.Component {
 // render() {
 //   return (
 //   <div>
-//     <ul onClick={() => this.setState({changeTabs: !this.state.changeTabs})}
+//     <ul onClick={() => this.setState({whichTab: !this.state.changeTabs})}
 //         className="nav nav-tabs">
 //       <li className="active">
 //         <a href="#buddies"
