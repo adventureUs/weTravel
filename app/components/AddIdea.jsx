@@ -35,11 +35,6 @@ export default class AddIdea extends Component {
   componentDidMount() {
   }
 
-  componentWillUnmount() {
-    // When we unmount, stop listening.
-    this.unsubscribe()
-  }
-
   componentWillReceiveProps(incoming, outgoing) {
   }
 
