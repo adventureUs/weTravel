@@ -75,8 +75,9 @@ export default class extends React.Component {
                   <div className='buddiesListItem'>Name: {this.state.buddies[key].name}</div>
                   <div className='buddiesListItem'>Home Base: {this.state.buddies[key].homeBase}</div>
                   <div className='buddiesListItem' >Status: {this.state.buddies[key].status.text}</div>
-                  <div className='buddiesListItem'>Free from: {this.state.buddies[key].startDate.slice(0, 10)}</div>
-                  <div className='buddiesListItem'>Free until: {this.state.buddies[key].endDate.slice(0, 10)}</div>
+                  <div className='buddiesListItem'>Free from: {this.state.buddies[key] ? this.state.buddies[key].startDate.slice(0, 10) : null }</div>
+                  <div className='buddiesListItem'>Free until: {this.state.buddies[key] ? this.state.buddies[key].endDate.slice(0, 10) :
+                  null }</div>
                 </li>
             }
             )}

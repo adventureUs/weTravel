@@ -130,7 +130,7 @@ export default class extends React.Component {
         <form className="form" >
           <section className="chat">
             {Object.keys(this.state.prevChats || {}).map((chat, index) => {
-              console.log('CHAT', this.state.prevChats[chat])
+              // console.log('CHAT', this.state.prevChats[chat])
               return ( // add logic about from whom the chat is
                 this.state.prevChats[chat].user === this.state.userChatHandle
                   ?
