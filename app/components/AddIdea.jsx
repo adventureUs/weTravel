@@ -83,11 +83,15 @@ export default class AddIdea extends Component {
   render() {
    // console.log('Add Idea props', this.props)
     return (
+      <div>
+      <h4> Enter you new idea here </h4>
       <form onSubmit={this.postIdeaToDB}>
         <div className="container">
           <div className="form-horizontal">
+
             <div className="col-md-3">
-              <span>Idea Name: </span>
+              <label>Idea Name: </label>
+              <div style={{ color: 'lightSlateGray' }} >
               <RIEInput
                 value={this.state.ideaName}
                 change={this.setLocalState}
@@ -95,10 +99,13 @@ export default class AddIdea extends Component {
                 className={this.state.highlight ? 'editable': ''}
                 validate={this.isStringAcceptable}
                 classLoading="loading"
-                classInvalid="Invalid" />
+                classInvalid="Invalid"
+                />
+            </div>
             </div>
             <div className="col-md-3">
-              <span>Category: </span>
+              <label>Category: </label>
+              <div style={{ color: 'lightSlateGray' }} >
               <RIESelect
                 value={this.state.category}
                 className={this.state.highlight ? 'editable' : ''}
@@ -107,8 +114,10 @@ export default class AddIdea extends Component {
                 classLoading="loading"
                 propName="category" />
             </div>
+            </div>
             <div className="col-md-3">
-              <span>Link: </span>
+              <label>Link: </label>
+              <div style={{ color: 'lightSlateGray' }} >
               <RIEInput
                 value={this.state.link}
                 change={this.setLocalState}
@@ -118,10 +127,12 @@ export default class AddIdea extends Component {
                 classLoading="loading"
                 classInvalid="Invalid" />
             </div>
+            </div>
           </div>
         </div>
         <button>Save Info</button>
       </form>
+      </div>
     )
   }
 }

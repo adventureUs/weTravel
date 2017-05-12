@@ -10,6 +10,8 @@ export default class IdeaBox extends Component {
     this.state = {
       ideas: {}
     }
+    this.deleteIdea = this.deleteIdea.bind(this)
+    this.addLikes = this.addLikes.bind(this)
   }
 
   componentDidMount() {
@@ -31,31 +33,73 @@ export default class IdeaBox extends Component {
     this.unsubscribe = () => ref.off('value', listener)
   }
 
+  deleteIdea(e) {
+    this.props.ideasRef.child(e.target.id).remove()
+  }
+
+  addLikes(e) {
+    this.props.ideasRef.child(e.target.id).child('likes')
+      .transaction(likes => ++likes
+      )
+  }
+
   render() {
     console.log('IN IDEA BOX ', this.state.ideas, 'OBJECT KEYS', Object.keys(this.state.ideas))
 
     return (
-       <div className="well well-lg">
-        <div>
-        <ul >
-        {
-        Object.keys(this.state.ideas).map(key => {
-          return (
-            <li key={key} className='trip-buddies'>
-              <div className='buddiesListItem'>Name: {this.state.ideas[key].ideaName}</div>
-              <div className='buddiesListItem'>Link: {this.state.ideas[key].link}</div>
-              <div className='buddiesListItem' >Category: {this.state.ideas[key].category.text}</div>
-            </li>
-          )
-        })
-        }
-          <li className='trip-buddies'>
-              <AddIdea
-                userId={this.props.userId}
-                ideasRef={this.props.ideasRef}
-              />
-          </li>
-        </ul>
+      <div>
+       <div className="well">
+        <table className="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Idea</th>
+              <th>Link</th>
+              <th>Category</th>
+              <th>Likes</th>
+            </tr>
+          </thead>
+          <tbody>
+          {
+            Object.keys(this.state.ideas).map(key => {
+              return (
+                <tr key={key} className='trip-buddies'>
+                  <td >{this.state.ideas[key].ideaName}</td>
+                  <td >{this.state.ideas[key].link}</td>
+                  <td >{this.state.ideas[key].category.text}</td>
+                  <td>
+                    <button style={{
+                      color: '#18bc9c',
+                      backgroundColor: '#ffffff',
+                      borderRadius: '5px',
+                      padding: '1px 6px'
+                    }}
+                        type="button"
+                        id={key}
+                        onClick={ this.addLikes}>{this.state.ideas[key].likes}
+                    </button>
+                  </td>
+                  <button style={{
+                    color: '#18bc9c',
+                    backgroundColor: '#ffffff',
+                    borderRadius: '5px',
+                    padding: '1px 6px'
+                  }}
+                      type="button"
+                      id={key}
+                      onClick={ this.deleteIdea}>Delete
+                  </button>
+                </tr>
+              )
+            })
+          }
+          </tbody>
+          </table>
+        </div>
+        <div className='trip-buddies well well-sm'>
+            <AddIdea
+              userId={this.props.userId}
+              ideasRef={this.props.ideasRef}
+            />
         </div>
       </div>
     )
