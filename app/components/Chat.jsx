@@ -54,12 +54,12 @@ export default class extends React.Component {
     if (this.unsubscribe) this.unsubscribe()
 
     const listener = ref.on('value', snapshot => {
-      console.log('IN LISTEN TO SHOULD BE PREV CHATS', ref)
-      this.setState({prevChats: snapshot.val()})
+      // console.log('IN LISTEN TO SHOULD BE PREV CHATS', snapshot.val())
+      this.setState({ prevChats: snapshot.val() })
     })
 
     this.unsubscribe = () => ref.off('value', listener)
-    return listener 
+    return listener
   }
 
   componentWillUnmount() {
@@ -129,21 +129,24 @@ export default class extends React.Component {
       <div >
         <form className="form" >
           <section className="chat">
-            {Object.keys(this.state.prevChats || {}).map((chat, key) =>
-              ( // add logic about from whom the chat is
-                chat.user === this.state.userChatHandle
+            {Object.keys(this.state.prevChats || {}).map((chat, index) => {
+              console.log('CHAT', this.state.prevChats[chat])
+              return ( // add logic about from whom the chat is
+                this.state.prevChats[chat].user === this.state.userChatHandle
                   ?
-                  <div key={key}
+                  <div key={index}
                     className="from-me">
-                    <p >{`${chat[key].message}`}</p>
+                    <p >{`${this.state.prevChats[chat].message}`}</p>
                   </div>
                   :
-                  <div key={key}
+                  <div key={index}
                     className="from-them">
-                    <p className="chatName"> {`${chat[key].user}:`}</p>
-                    <p> {`${chat[key].message}`}</p>
+                    <p className="chatName"> {`${this.state.prevChats[chat].user}:`}</p>
+                    <p> {`${this.state.prevChats[chat].message}`}</p>
                   </div>
               )
+            }
+
             )}
           </section>
           <div id="chatInput" className="form-group">

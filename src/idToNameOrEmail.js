@@ -29,7 +29,6 @@ export default function (uid) {
           })
     })
     .then(result => {
-      console.log('result', result)
       return result
     })
     .catch(err => console.error(err))
