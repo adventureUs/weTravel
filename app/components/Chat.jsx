@@ -74,17 +74,20 @@ export default class extends React.Component {
           <tbody>
             {this.state.prevChats.map((chat, i) =>
              (
-             <tr key={i} >
+             <tr key={i}
+                className="well well-sm" >
               <div className="scroll">
-                <td className="well well-sm" >
+                <td >
                   {`${chat.user}:  ${chat.chat}`}
                 </td>
               </div>
+              <hr />
              </tr>
              )
            )}
           </tbody>
         </table>
+        <div class="form-group">
         <input type="text"
                 className="form-control"
                 id="chat"
@@ -93,6 +96,7 @@ export default class extends React.Component {
                 onClick={ this.handleChat } >
                 chat
         </button>
+        </div>
       </form>
       </div>
     </div>
