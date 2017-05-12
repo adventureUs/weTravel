@@ -1,6 +1,8 @@
 import firebase from 'APP/fire'
 const db = firebase.database()
 const userRef = db.ref('users/')
+// NOTA BENE: RETURNS A PROMISE, YOU MUST .THEN() OFF OF IT 
+
 
 // when a valid UID is passed in,
 // if the user entered in their name, the name is returned

@@ -67,7 +67,8 @@ export default class extends React.Component {
   }
 
   render() {
-    console.log('name from utility function', idToNameOrEmail(this.props.userId))
+    idToNameOrEmail(this.props.userId)
+    .then(result => console.log('TESTING RESULT', result))
     return (
     <div className="row">
      <div className = "col-lg-3" >
