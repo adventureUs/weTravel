@@ -15,13 +15,12 @@ export default class IdeaBox extends Component {
   }
 
   componentDidMount() {
-    console.log('COMPONENT DID MOUNT PROPS', this.props)
+    // console.log('COMPONENT DID MOUNT PROPS', this.props)
     this.listenTo(this.props.ideasRef)
   }
 
   componentWillReceiveProps(incoming, outgoing) {
-    console.log('COMPONENT WILL RECEIVE PROPS', this.props)
-
+    // console.log('COMPONENT WILL RECEIVE PROPS', this.props)
     this.listenTo(incoming.ideasRef)
   }
 
@@ -34,7 +33,7 @@ export default class IdeaBox extends Component {
   }
 
   deleteIdea(e) {
-    console.log('IN IDEA DELETE BTTN', 'ID', e.target.id)
+    // console.log('IN IDEA DELETE BTTN', 'ID', e.target.id)
     this.props.ideasRef.child(e.target.id).remove()
   }
 
@@ -45,8 +44,7 @@ export default class IdeaBox extends Component {
   }
 
   render() {
-    console.log('IN IDEA BOX ', this.state.ideas)
-
+    // console.log('IN IDEA BOX ', this.state.ideas)
     return (
       <div>
        <div className="well well-sm">
