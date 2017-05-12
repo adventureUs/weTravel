@@ -8,7 +8,6 @@ const queryString = window.location.search
 export default class extends React.Component {
   constructor(props) {
     super(props)
-    // no props currently
     this.state = {
       email: '',
       password: '',
@@ -27,13 +26,33 @@ export default class extends React.Component {
   }
 
   addToTrip = (evt) => {
-    console.log('WE HAVE A QUERY STRING', queryString)
-
+    const tripId = queryString.slice(1)
+    console.log('REF', db.ref('trips/').child(tripId).child('buddies'))
+    if (this.state.email.length && this.state.password.length) {
+      firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then((user) => {
+          const userId = user.uid
+          // In the users table, create a new user with the querystring as the the trip
+          userRef.update({
+            [userId]: {
+              email: user.email,
+              trips: [tripId]
+            }
+          })
+          // In the trips table, add this particular userId to the buddies array
+          // Set does not seem to work here, neither does update or push
+          db.ref('trips/').child(tripId).child('buddies').updateChildren({
+            [userId]: {
+              status: { id: '1', text: 'Invited' }
+            }
+          })
+        })
+    } else {
+      window.alert('Please fill in both your email and password')
+    }
   }
 
   createNewTrip = (evt) => {
-    // what we actually want to do is redirect to the dashboard view
-
     if (this.state.email.length && this.state.password.length) {
       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((user) => {
@@ -44,8 +63,7 @@ export default class extends React.Component {
               [userId]: {
                 status: { id: '2', text: 'Going' }
               }
-            },
-            // pendingBuddies: {}
+            }
           }
           var newTripKey = db.ref('trips/').push().key
           var newTrip = {}
@@ -73,10 +91,8 @@ export default class extends React.Component {
 
   render() {
     const auth = firebase.auth()
-
     const google = new firebase.auth.GoogleAuthProvider()
     const email = new firebase.auth.EmailAuthProvider()
-
     return (
       <div className="jumbotron">
         <form onSubmit={this.onSubmit} className="form-horizontal well">
@@ -106,10 +122,8 @@ export default class extends React.Component {
                 auth.signInWithPopup(google)
                   .then(() => browserHistory.push('/dashboard'))
               }}>Sign up with Google</button>
-
           </div>
           <br />
-
         </div>
       </div>
     )
