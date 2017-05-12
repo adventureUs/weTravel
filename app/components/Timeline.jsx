@@ -50,7 +50,7 @@ export default class AdventureUsTimeline extends Component {
   }
 
   onItemResize = (itemId, time, edge) => {
-    const branch = this.props.whichTab ? 'buddies' : 'ideas'
+    const branch = this.props.whichTab === 'Buddies' ? 'buddies' : 'ideas'
     const tripRef = this.props.tripRef || 'test'
     // we get back the userId, the time changed to in unix number format and the edge that was changed
     // we then set the new time based on what it's changed to.
@@ -83,7 +83,7 @@ export default class AdventureUsTimeline extends Component {
       month: 1,
       year: 1
     }
-    // console.log('TIMELINE, PROPS', this.props)
+    console.log('TIMELINE, PROPS', this.props)
     return (
       <div className="well">
         <h1>Timeline</h1>

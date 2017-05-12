@@ -22,21 +22,24 @@ export default class TimelineIndex extends React.Component {
     }
     this.listenFor = this.listenFor.bind(this)
   }
-  componentWillUnmount() {
-    this.unsubscribe && this.unsubscribe()
-  }
+  // componentWillUnmount() {
+  //   this.unsubscribe && this.unsubscribe()
+  // }
   componentDidMount() {
-    // console.log('ENTERED COMPONENENT-DID-MOUNT PROPS', this.props)
+    console.log('TIMELINE_INDEX COMPONENENT-DID-MOUNT PROPS', this.props)
     this.props.whichTab && this.props.whichTab === 'Buddies' ?
       this.listenFor('buddies') // For Buddies Slider Timelne View
       :
       this.listenFor('ideas') // For Ideas Box Timeline View
   }
   /* For mysteriosu reasons,  DidMount works but WillReceiveProps below did not .... Learning lesson?? */
-// componentWilReceiveProps(incoming, outgoing) {
-//   console.log('ENTERED COMPONENENT-WILL-RECEIVE-PROPS')
-//   this.listenForSliders(incoming.tripRef, incoming.userId)
-// }
+  componentWillReceiveProps(nextProps) {
+    console.log('TIMELINE_INDEX COMPONENENT_WILL_RECEIVE_PROPS', nextProps)
+    nextProps.whichTab && nextProps.whichTab === 'Buddies' ?
+      this.listenFor('buddies') // For Buddies Slider Timelne View
+      :
+      this.listenFor('ideas') // For Ideas Box Timeline View
+  }
   listenFor(branch) {
     if (this.unsubscribe) this.unsubscribe()
     // Getting data from branch part of db
@@ -95,7 +98,8 @@ export default class TimelineIndex extends React.Component {
   }
 
   render() {
-    // console.log('TIMELINE-INDEX, PROPS', this.props)
+    console.log('TIMELINE-INDEX, PROPS', this.props)
+    console.log('TIMELINE-INDEX, STATE', this.state)
     return (
       <div>
         <AdventureUsTimeline
