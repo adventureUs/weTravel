@@ -10,6 +10,7 @@ export default class extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      userChatHandle: '',
       currChat: '',
       prevChats: []
     }
@@ -32,6 +33,8 @@ export default class extends React.Component {
     // }, function(error) {
     //   console.log('Error: ' + error.code)
     // })
+    idToNameOrEmail(this.props.userId)
+      .then(user => this.setState({ userChatHandle: user }))
   }
 
   handleInput = (e) => {
@@ -47,7 +50,7 @@ export default class extends React.Component {
   handleChat = e => {
     e.preventDefault()
     const prevChats = []
-    this.props.tripRef.update({chat: []})
+    this.props.tripRef.update({ chat: [] })
     const chatRef = this.props.tripRef.child('chatLog')
     console.log('Check out my path!', chatRef)
 
@@ -57,13 +60,13 @@ export default class extends React.Component {
           message: this.state.currChat,
           user: user
         })
-          .then(() => chatRef.on('value', function(snapshot) {
+          .then(() => chatRef.on('value', function (snapshot) {
             // loops through chats in database
-            snapshot.forEach(function(childSnapshot) {
+            snapshot.forEach(function (childSnapshot) {
               // console.log('PREVCHATS', prevChats)
               prevChats.push(childSnapshot.val())
             })
-          }, function(error) {
+          }, function (error) {
             console.log('Error: ' + error.code)
           }))
           .then(() => this.setState({ currChat: '', prevChats: prevChats }))
@@ -72,28 +75,30 @@ export default class extends React.Component {
   }
 
   render() {
+    console.log('STATE', this.state)
     return (
-      <div className="row">
-        <div className="col-lg-3" >
-          <form className="form" >
-            <table>
-              <thead></thead>
-              <tbody>
-                {this.state.prevChats.map((chat, i) =>
-                  (
-                    <tr key={i}
-                      className="well well-sm" >
-                      <div className="scroll">
-                        <td >
-                          {`${chat.user}:  ${chat.message}`}
-                        </td>
-                      </div>
-                      <hr />
-                    </tr>
-                  )
-                )}
-              </tbody>
-            </table>
+      <div className="chat">
+        <form className="form" >
+          <section>
+            {this.state.prevChats.map((chat, i) =>
+              ( // add logic about from whom the chat is
+                chat.user === this.state.userChatHandle
+                  ?
+                  <div key={i}
+                    className="from-me">
+                    <p >
+                      {`${chat.user}:  ${chat.message}`}
+                    </p>
+                  </div>
+                  :
+                  <div key={i}
+                    className="from-them">
+                    <p >
+                      {`${chat.user}:  ${chat.message}`}
+                    </p>
+                  </div>
+              )
+            )}
             <div class="form-group">
               <input type="text"
                 className="form-control"
@@ -104,8 +109,8 @@ export default class extends React.Component {
                 chat
         </button>
             </div>
-          </form>
-        </div>
+          </section>
+        </form>
       </div>
     )
   }
