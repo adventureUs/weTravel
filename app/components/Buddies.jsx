@@ -1,23 +1,30 @@
 import React from 'react'
 import firebase from 'APP/fire'
 import InlineBuddyEditIndex from './InlineBuddyEditIndex'
+import moment from 'moment'
 
 export default class extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      buddies: {}
+      buddies: {} //there's nothing on state when we go to the buddies tab
     }
   }
   componentWillMount() {
     // we want to loop over the buddies in the current trip and have them render out in the list of items.
     // We need to check if the user we're looping over is the current user, if so, pass them through to InlineBuddyEditIndex
+    // console.log('***************BUDDIES COMONENT WILL MOUNT*******this.props.tripRef.child("/buddies"):', this.props)
   }
+  componentDidMount() {
+    this.listenTo(this.props.tripRef.child('buddies'))
+    console.log('COMPONENT DID MOUNT PROPS', this.props.tripRef.child('buddies'))
+  }
+
   componentWillReceiveProps(incoming, outgoing) {
     // When the props sent to us by our parent component change,
     // start listening to the new firebase reference.
     // console.log('FROM RECEIVE PROPS', incoming)
-    this.listenTo(incoming.tripRef.child('/buddies'))
+    this.listenTo(incoming.tripRef.child('buddies')) // this ref is undefined
     // this.listenTo(incoming.tripsRef.child(tripId))
   }
   listenTo(ref) {
@@ -63,20 +70,21 @@ export default class extends React.Component {
       <div className="well well-lg">
         <div>
           <ul >
-            {Object.keys(this.state.buddies).map((key) => {
-              return (key === this.props.userId) ?
-                <li key={key} className='trip-buddies'>
+            {Object.keys(this.state.buddies).map((buddyId, index) => {
+              console.log('*********IN BUDDIES RENDER********:', buddyId)
+              return (buddyId === this.props.userId) ?
+                <li key={index} className='trip-buddies'>
                   <InlineBuddyEditIndex
                     userId={this.props.userId}
                     tripRef={this.props.tripRef}
                     tripId={this.props.tripId}
                   />
-                </li> : <li key={key} className='trip-buddies'>
-                  <div className='buddiesListItem'>Name: {this.state.buddies[key].name}</div>
-                  <div className='buddiesListItem'>Home Base: {this.state.buddies[key].homeBase}</div>
-                  <div className='buddiesListItem' >Status: {this.state.buddies[key].status.text}</div>
-                  <div className='buddiesListItem'>Free from: {this.state.buddies[key].startDate.slice(0, 10)}</div>
-                  <div className='buddiesListItem'>Free until: {this.state.buddies[key].endDate.slice(0, 10)}</div>
+                </li> : <li key={buddyId} className='trip-buddies'>
+                  <div className='buddiesListItem'>Name: {this.state.buddies[buddyId].name}</div>
+                  <div className='buddiesListItem'>Home Base: {this.state.buddies[buddyId].homeBase}</div>
+                  <div className='buddiesListItem' >Status: {this.state.buddies[buddyId].status.text}</div>
+                  <div className='buddiesListItem'>Free from: {(this.state.buddies[buddyId].startDate) ? this.state.buddies[buddyId].startDate.slice(0, 10) : 'TBD'}</div>
+                  <div className='buddiesListItem'>Free until: {(this.state.buddies[buddyId].endDate) ? this.state.buddies[buddyId].endDate.slice(0, 10) : 'TBD'}</div>
                 </li>
             }
             )}
