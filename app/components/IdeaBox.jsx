@@ -11,6 +11,7 @@ export default class IdeaBox extends Component {
       ideas: {}
     }
     this.deleteIdea = this.deleteIdea.bind(this)
+    this.addLikes = this.addLikes.bind(this)
   }
 
   componentDidMount() {
@@ -36,6 +37,12 @@ export default class IdeaBox extends Component {
     this.props.ideasRef.child(e.target.id).remove()
   }
 
+  addLikes(e) {
+    this.props.ideasRef.child(e.target.id).child('likes')
+      .transaction(likes => ++likes
+      )
+  }
+
   render() {
     console.log('IN IDEA BOX ', this.state.ideas, 'OBJECT KEYS', Object.keys(this.state.ideas))
 
@@ -48,6 +55,7 @@ export default class IdeaBox extends Component {
               <th>Idea</th>
               <th>Link</th>
               <th>Category</th>
+              <th>Likes</th>
             </tr>
           </thead>
           <tbody>
@@ -58,6 +66,18 @@ export default class IdeaBox extends Component {
                   <td >{this.state.ideas[key].ideaName}</td>
                   <td >{this.state.ideas[key].link}</td>
                   <td >{this.state.ideas[key].category.text}</td>
+                  <td>
+                    <button style={{
+                      color: '#18bc9c',
+                      backgroundColor: '#ffffff',
+                      borderRadius: '5px',
+                      padding: '1px 6px'
+                    }}
+                        type="button"
+                        id={key}
+                        onClick={ this.addLikes}>{this.state.ideas[key].likes}
+                    </button>
+                  </td>
                   <button style={{
                     color: '#18bc9c',
                     backgroundColor: '#ffffff',
