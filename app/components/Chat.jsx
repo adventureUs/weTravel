@@ -11,7 +11,7 @@ export default class extends React.Component {
     super(props)
     this.state = {
       userChatHandle: '',
-      currChat: '',
+      currMessage: 'Type a message...',
       prevChats: []
     }
 
@@ -29,7 +29,7 @@ export default class extends React.Component {
     //     console.log('PREVCHATS ***', prevChats)
     //     prevChats.push(childSnapshot.val())
     //   })
-    //   .then(() => this.setState({currChat: '', prevChats: prevChats}))
+    //   .then(() => this.setState({currMessage: '', prevChats: prevChats}))
     // }, function(error) {
     //   console.log('Error: ' + error.code)
     // })
@@ -39,9 +39,17 @@ export default class extends React.Component {
 
   handleInput = (e) => {
     this.setState({
-      currChat: e.target.value
+      currMessage: e.target.value
     })
   }
+
+  handleFocus = (el) => {
+    if (el.value === 'Type a message...') {
+      console.log('SHOULD CLEAR?')
+      el.value = ''
+    }
+  }
+
   // Notes from Ashi
   // Remove lines 50-60
   // dont use prevChats constant
@@ -57,7 +65,7 @@ export default class extends React.Component {
     idToNameOrEmail(this.props.userId)
       .then(user => {
         chatRef.push({
-          message: this.state.currChat,
+          message: this.state.currMessage,
           user: user
         })
           .then(() => chatRef.on('value', function (snapshot) {
@@ -69,7 +77,7 @@ export default class extends React.Component {
           }, function (error) {
             console.log('Error: ' + error.code)
           }))
-          .then(() => this.setState({ currChat: '', prevChats: prevChats }))
+          .then(() => this.setState({ currMessage: '', prevChats: prevChats }))
           .catch(err => console.error(err))
       })
   }
@@ -77,9 +85,9 @@ export default class extends React.Component {
   render() {
     console.log('STATE', this.state)
     return (
-      <div className="chat">
+      <div >
         <form className="form" >
-          <section>
+          <section className="chat">
             {this.state.prevChats.map((chat, i) =>
               ( // add logic about from whom the chat is
                 chat.user === this.state.userChatHandle
@@ -96,17 +104,23 @@ export default class extends React.Component {
                   </div>
               )
             )}
-            <div class="form-group">
+          </section>
+          <div id="chatInput" className="form-group">
+            <div id="messageInput">
               <input type="text"
                 className="form-control"
                 id="chat"
-                onChange={this.handleInput} />
+                value={this.state.currMessage}
+                onChange={this.handleInput}
+                onFocus={this.handleFocus} />
+            </div>
+            <div id="submitMessage">
               <button className="btn btn-primary"
                 onClick={this.handleChat} >
-                chat
-        </button>
+                Send
+              </button>
             </div>
-          </section>
+          </div>
         </form>
       </div>
     )
