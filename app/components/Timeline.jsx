@@ -49,24 +49,25 @@ export default class AdventureUsTimeline extends Component {
     return moment(renderMaxEndDate.unix()*1000)
   }
 
-  onItemResize = (userId, time, edge) => {
-    const tripRef = this.props.tripRef
-    // we get back the userId, the time changed to in unix number format and the edge that was changed
+  onItemResize = (itemId, time, edge) => {
+    const branch = this.props.whichTab === 'Buddies' ? 'buddies' : 'ideas'
+    const tripRef = this.props.tripRef || 'test'
+    // we get back the itemId, the time changed to in unix number format and the edge that was changed
     // we then set the new time based on what it's changed to.
-    const itemArrayIndex = this.props.items.findIndex((item) => item.id === userId)
+    const itemArrayIndex = this.props.items.findIndex((item) => item.id === itemId)
     if (edge === 'left') {
       const startTime = moment(time)
-      // loop through item array and find the item where the id matches the userId, then update the startTime here
+      // loop through item array and find the item where the id matches the itemId, then update the startTime here
       this.props.items[itemArrayIndex].start_time = startTime
       this.findMinStartDate(this.props.items)
       this.setState({startTime: startTime})
-      tripRef.child(`buddies/${userId}`).update({availabilityStart: startTime.toJSON()})
+      tripRef.child(`${branch}/${itemId}`).update({startDate: startTime.toJSON()})
     } else {
       const endTime = moment(time)
       this.props.items[itemArrayIndex].end_time = endTime
       this.findMaxEndDate(this.props.items)
       this.setState({endTime: endTime})
-      tripRef.child(`buddies/${userId}`).update({availabilityEnd: endTime.toJSON()})
+      tripRef.child(`${branch}/${itemId}`).update({endDate: endTime.toJSON()})
     }
   }
 
@@ -77,19 +78,18 @@ export default class AdventureUsTimeline extends Component {
     const timeSteps = {
       second: 0,
       minute: 0,
-      hour: 0,
+      hour: 1,
       day: 1,
       month: 1,
       year: 1
     }
-    // console.log('TIMELINE, PROPS', this.props)
     return (
       <div className="well">
         <h1>Timeline</h1>
           <Timeline groups={this.props.groups}
             items={this.props.items}
-            visibleTimeStart={this.findMinStartDate(this.props.items)}
-            visibleTimeEnd={this.findMaxEndDate(this.props.items)}
+            visibleTimeStart={this.findMinStartDate(this.props.items).unix()*1000}
+            visibleTimeEnd={this.findMaxEndDate(this.props.items).unix()*1000}
             timeSteps={timeSteps}
             sidebarWidth={70}
             onItemResize={this.onItemResize}

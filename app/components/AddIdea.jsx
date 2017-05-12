@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { RIEToggle, RIEInput, RIETextArea, REINumber, RIETags, RIESelect } from 'riek'
 import { Route } from 'react-router'
+import DatePicker from 'react-datepicker'
+import moment from 'moment'
 import firebase from 'APP/fire'
 
 const db = firebase.database()
@@ -30,7 +32,9 @@ export default class AddIdea extends Component {
       { id: '3', text: 'Accomodation' },
       { id: '4', text: 'Miscellaneous' }
     ],
-    category: { id: '4', text: 'Miscellaneous' }
+    category: { id: '4', text: 'Miscellaneous' },
+    startDate: '', // Used for Date Picker
+    endDate: '' // Not used for mvp
   }
   componentDidMount() {
   }
@@ -51,20 +55,50 @@ export default class AddIdea extends Component {
 
   setLocalState = (newState) => {
     this.setState(newState)
-    console.log('in setLocalState', newState)
+    // console.log('in setLocalState', newState)
   }
 
   postIdeaToDB = (e) => {
     e.preventDefault()
+    const endDate = this.calculateDefaultDuration()
+    // console.log('ADDIDEA', 'POSTING TO DB', 'start and end', this.state.startDate, endDate)
     this.props.ideasRef
       .push({
         ideaName: this.state.ideaName || 'Please enter idea name',
         link: this.state.link || 'Please enter a url',
         category: this.state.category || { id: '4', text: 'Miscellaneous' },
         addedBy: this.props.userId,
-        likes: 0
+        likes: 0,
+        startDate: this.state.startDate.toJSON() || moment().toJSON(),
+        endDate: endDate.toJSON()
       })
     this.setState(this.defaultState)
+  }
+  calculateDefaultDuration() {
+    let hours = 0
+    switch (this.state.category.id) {
+    case '1': // Food
+      this.state.startDate.add(12, 'hours')
+      hours = 1
+      break
+    case '2': // Activity
+      this.state.startDate.add(14, 'hours')
+      hours = 4
+      break
+    case '3': // Accomodation
+      this.state.startDate.add(18, 'hours')
+      hours = 12
+      break
+    case '4': // Miscellaneous
+      this.state.startDate.add(10, 'hours')
+      hours = 2
+      break
+    default:  // Default in case we messed up
+      hours = 1
+    }
+    return this.state.startDate ?
+      moment(this.state.startDate).add(hours, 'hours') :
+      moment()
   }
 
   validateField = (field) => {
@@ -75,10 +109,15 @@ export default class AddIdea extends Component {
       })
     }
   }
+  // Note: this handleChangeStart is bound to AddIdea.
+  handleChangeStart = (startDate) => {
+    this.setState({
+      startDate: startDate
+    })
+  }
 
   render() {
-   // console.log('Add Idea props', this.props)
-   //       <h4> Enter you new idea here </h4>
+    // console.log('ADDIDEA', 'RENDER', 'STATE', this.state)
     return (
       <div>
 
@@ -125,6 +164,13 @@ export default class AddIdea extends Component {
                   classLoading="loading"
                   propName="category" />
               </div>
+            </div>
+            <div className="col-md-3">
+              <span>Date: </span>
+              <DatePicker
+                selected={this.state.startDate ? moment(this.state.startDate) : null}
+                onChange={this.handleChangeStart}
+              />
             </div>
             <div className="col-md-3">
               <button style={{

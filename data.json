@@ -12,17 +12,20 @@
         "ideaUid": {
           "ideaName": "",
           "link": "",
-          "category": "",
+          "category": { id:"",  text:""},
           "addedBy": "",
-          "likes": ""
+          "likes": "",
+          "startDate": "1234567",
+          "endDate": "1234"
         }, etc.
-      
+
     },
      "buddies": {
        "uid": {
         "name": "",
-         "availabilityStart": "1623571253",
-         "availabilityEnd": "1623571253",
+        "whichTab": true,
+         "startDate": "1623571253",
+         "endDate": "1623571253",
          "status": {"id": "1",  "text": "Invited"},
          "homebase": "Tempe"
        }

@@ -52,10 +52,9 @@ export default class InlineBuddyEdit extends Component {
     // )
   }
 
-  componentWillUnmount() {
-    // When we unmount, stop listening.
-    this.unsubscribe()
-  }
+  // componentWillUnmount() {
+  //   this.unsubscribe()
+  // }
 
   componentWillReceiveProps(incoming, outgoing) {
     // When the props sent to us by our parent component change,

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import firebase from 'APP/fire'
 import AddIdea from './AddIdea'
+import moment from 'moment'
 
 // props will be ideas ref and user id
 
@@ -54,6 +55,7 @@ export default class IdeaBox extends Component {
               <th>Idea</th>
               <th>Link</th>
               <th>Category</th>
+              <th>Start Time</th>
               <th>Likes</th>
             </tr>
           </thead>
@@ -66,6 +68,7 @@ export default class IdeaBox extends Component {
                   <td ><a href={'//'+this.state.ideas[key].link}
                     target='_blank'>{this.state.ideas[key].link}</a></td>
                   <td >{this.state.ideas[key].category.text}</td>
+                  <td>{moment(this.state.ideas[key].startDate).calendar()}</td>
                   <td>
                     <button style={{
                       color: '#18bc9c',

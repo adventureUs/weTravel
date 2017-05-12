@@ -24,7 +24,6 @@ export default class Dashboard extends Component {
     }
   }
   render() {
-    // console.log('***************DASHBOARD**********WHICH TAB?***********: ', this.state.whichTab)
     return (
       <div className="">
           <div className="row">

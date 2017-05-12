@@ -24,22 +24,22 @@ export default class BuddyEdit extends Component {
   }
 
   handleChange = e => {
-    console.log('TravelBuddies on Change', e.target.name, e.target.value)
+    // console.log('TravelBuddies on Change', e.target.name, e.target.value)
   }
 
 
   handleChangeStart = m => {
     this.setState({startDate: m})
-    console.log('TravelBuddies Start Date On Change', this.state.startDate.format('MMM Do YY'))
+    // console.log('TravelBuddies Start Date On Change', this.state.startDate.format('MMM Do YY'))
   }
 
   handleChangeEnd = m => {
     this.setState({endDate: m})
-    console.log('TravelBuddies End Date On Change', this.state)
+    // console.log('TravelBuddies End Date On Change', this.state)
   }
   showDate = (e) => {
     e.preventDefault()
-    console.log(this.state)
+    // console.log(this.state)
   }
 
   render() {
