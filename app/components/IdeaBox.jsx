@@ -15,13 +15,12 @@ export default class IdeaBox extends Component {
   }
 
   componentDidMount() {
-    console.log('COMPONENT DID MOUNT PROPS', this.props)
+    // console.log('COMPONENT DID MOUNT PROPS', this.props)
     this.listenTo(this.props.ideasRef)
   }
 
   componentWillReceiveProps(incoming, outgoing) {
-    console.log('COMPONENT WILL RECEIVE PROPS', this.props)
-
+    // console.log('COMPONENT WILL RECEIVE PROPS', this.props)
     this.listenTo(incoming.ideasRef)
   }
 
@@ -34,6 +33,7 @@ export default class IdeaBox extends Component {
   }
 
   deleteIdea(e) {
+    // console.log('IN IDEA DELETE BTTN', 'ID', e.target.id)
     this.props.ideasRef.child(e.target.id).remove()
   }
 
@@ -44,8 +44,7 @@ export default class IdeaBox extends Component {
   }
 
   render() {
-    console.log('IN IDEA BOX ', this.state.ideas, 'OBJECT KEYS', Object.keys(this.state.ideas))
-
+    // console.log('IN IDEA BOX ', this.state.ideas)
     return (
       <div>
        <div className="well well-sm">
@@ -60,11 +59,12 @@ export default class IdeaBox extends Component {
           </thead>
           <tbody>
           {
-            Object.keys(this.state.ideas).map(key => {
+            this.state.ideas && Object.keys(this.state.ideas).map(key => {
               return (
                 <tr key={key} className='trip-buddies'>
                   <td >{this.state.ideas[key].ideaName}</td>
-                  <td ><a href={'//'+this.state.ideas[key].link}>{this.state.ideas[key].link}</a></td>
+                  <td ><a href={'//'+this.state.ideas[key].link}
+                    target='_blank'>{this.state.ideas[key].link}</a></td>
                   <td >{this.state.ideas[key].category.text}</td>
                   <td>
                     <button style={{
@@ -87,7 +87,7 @@ export default class IdeaBox extends Component {
                     }}
                         type="button"
                         id={key}
-                        onClick={ this.deleteIdea}>Delete
+                        onClick={this.deleteIdea}>Delete
                     </button>
                   </td>
                 </tr>
