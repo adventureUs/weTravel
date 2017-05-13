@@ -42,12 +42,19 @@ export default class extends React.Component {
     // }, function(error) {
     //   console.log('Error: ' + error.code)
     // })
-    if (this.props.userId) idToNameOrEmail(this.props.userId)
-      .then(user => this.setState({ userChatHandle: user }))
+    if (this.props.userId) {
+      idToNameOrEmail(this.props.userId)
+        .then(user => this.setState({ userChatHandle: user }))
+    }
   }
 
   componentWillReceiveProps(incoming) {
+
     this.listenTo(incoming.tripRef.child('/chatLog'))
+    if (incoming.userId) {
+      idToNameOrEmail(incoming.userId)
+        .then(user => this.setState({ userChatHandle: user }))
+    }
   }
 
   listenTo(ref) {
@@ -63,7 +70,7 @@ export default class extends React.Component {
   }
 
   componentWillUnmount() {
-   this.unsubscribe && this.unsubscribe()
+    this.unsubscribe && this.unsubscribe()
   }
 
   onChange = (e) => {
@@ -136,17 +143,21 @@ export default class extends React.Component {
                   ?
                   <div key={index}
                     className="from-me">
-                    <p >{`${this.state.prevChats[chat].message}`}</p>
+                    <div className="lilnebreaks">{`${this.state.prevChats[chat].message}`}
+                    </div>
                   </div>
                   :
                   <div key={index}
                     className="from-them">
-                    <p className="chatName"> {`${this.state.prevChats[chat].user}:`}</p>
-                    <p> {`${this.state.prevChats[chat].message}`}</p>
+                    <div className="chatName"> {`${this.state.prevChats[chat].user}:`}
+                    </div>
+                    <div> {`${this.state.prevChats[chat].message}`}
+                    </div>
+
                   </div>
+
               )
             }
-
             )}
           </section>
           <div id="chatInput" className="form-group">
@@ -154,7 +165,7 @@ export default class extends React.Component {
               <input type="text"
                 className="form-control"
                 id="chat"
-                value={this.state.currMessage}
+                placeholder={this.state.currMessage}
                 onChange={this.onChange}
                 onFocus={this.handleFocus} />
             </div>
