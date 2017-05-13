@@ -76,13 +76,43 @@ export default class extends React.Component {
   googleSubmit = (userCredential) => {
     console.log('MADE IT TO GOOGLE SUBMIT, here is the credential', userCredential)
     const queryString = window.location.search
-    queryString ? this.goToTrip(queryString) : this.findAndGo(userCredential.user)
+    queryString ? this.goToTrip(userCredential.user, queryString) : this.findAndGo(userCredential.user)
   }
 
-  goToTrip = (queryString) => {
+  goToTrip = (user, queryString) => {
     console.log('MADE IT TO GO TO TRIP', queryString)
-    browserHistory.push('/dashboard/' + queryString.slice(1))
+    var tripId = queryString.slice(1)
+    // Check to see if this user is in the database
+    firebase.database().ref('users')
+      .once('value')
+      .then(snapshot => {
+        const userExists = snapshot.hasChild(user.uid)
+        console.log('does this user exist in the db?', userExists)
+        if (!userExists) {
+          console.alert('guess we got to make a new one!')
+          this.createNewUserWithTrip(user, tripId)
+        } else {
+          browserHistory.push('/dashboard/' + queryString.slice(1))
+        }
+      })
+      .catch(err => console.error(err))
     // might have to add some additional logic -- if they are erroneously logging in (instead of signing in) for the first time to a trip they were invited to, we have to do some of the trips/buddies updating here too
+  }
+
+  createNewUserWithTrip = (user, tripId) => {
+    const userId = user.uid
+    firebase.database().ref('users/').update({
+      [userId]: {
+        email: user.email,
+        trips: [tripId]
+      }
+    })
+      .then(() => {
+        browserHistory.push('/dashboard/' + tripId)
+      })
+      .catch(error => {
+        window.alert(error)
+      })
   }
 
   findAndGo = (user) => {
