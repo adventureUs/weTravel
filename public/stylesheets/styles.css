@@ -1,4 +1,8 @@
 
+.titleBarTitle {
+  background-color: darkslategrey !important;
+}
+
 li.trip-buddies {
   list-style-type: none;
 }
@@ -47,11 +51,11 @@ section div {
 .from-me {
 	position:relative;
 	padding:10px 20px;
-	color:white; 
+	color:white;
 	background:#0B93F6;
 	border-radius:25px;
 	float: right;
-  
+
 }
 
 .from-me	:before {
@@ -82,12 +86,12 @@ section div {
 .from-them {
 	position:relative;
 	padding:10px 20px;
-	background:#E5E5EA;
+	background: whitesmoke;
 	border-radius:25px;
 	color: black;
   float: left;
 }
-		
+
 .from-them :before {
 		content:"";
 		position:absolute;
