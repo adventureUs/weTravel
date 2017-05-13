@@ -87,7 +87,7 @@ export default class AdventureUsTimeline extends Component {
     return (
       <div>
         <div className="well"
-              data-tip="View available dates on the timeline, and drag, drop or extend to change dates.">
+              data-tip="View availability dates on the timeline, and drag, drop or extend to change dates.">
             <Timeline groups={this.props.groups}
               items={this.props.items}
               visibleTimeStart={this.findMinStartDate(this.props.items).unix()*1000}

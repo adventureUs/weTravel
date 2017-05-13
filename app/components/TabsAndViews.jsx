@@ -35,7 +35,7 @@ export default class TabsAndView extends React.Component {
           <a id='Buddies'
               href="#buddies"
               onClick={this.props.changeTabs}
-              data-tip="Buddies shows all of your buddies who are attending the trip."
+              data-tip="Click here to see all of your buddies invited to the trip."
               >Buddies</a>
               <ReactTooltip />
         </li>
@@ -43,7 +43,7 @@ export default class TabsAndView extends React.Component {
           <a id='Idea Box'
               href="#ideabox"
               onClick={this.props.changeTabs}
-              data-tip="Click here to add ideas for your trip"
+              data-tip="Click here to view and add ideas for your trip."
               >Idea Box</a>
               <ReactTooltip />
         </li>
