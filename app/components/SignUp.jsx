@@ -51,13 +51,13 @@ export default class extends React.Component {
           //     }
           //   }
           // })
-         // console.log('GOT PAST USER UPDATE')
+          // console.log('GOT PAST USER UPDATE')
           db.ref('trips/').child(tripId).child('buddies').update({
             [userId]: {
               status: { id: '1', text: 'Invited' }
             }
           })
-          .then(() => browserHistory.push('/dashboard/' + tripId))
+            .then(() => browserHistory.push('/dashboard/' + tripId))
         })
     } else {
       window.alert('Please fill in both your email and password')
@@ -133,7 +133,12 @@ export default class extends React.Component {
               onClick={() => {
                 auth.signInWithPopup(google)
                   // this is problematic, since you NEED a parametrized dashboard
-                  .then(() => browserHistory.push('/dashboard'))
+                  .then(() => {
+                    window.location.search ?
+                      browserHistory.push('/dashboard/' + window.location.search.slice(1))
+                      // : browserHistory.push('/dashboard') // eventually needs to grab tripId to render dashboard properyly
+                      : console.log("OOPS")
+                  })
               }}>Sign up with Google</button>
           </div>
           <br />
