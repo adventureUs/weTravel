@@ -22,20 +22,13 @@ li.trip-buddies {
   text-decoration: underline;
 }
 
-/* used for line breaks in chat box */
-.linebreaks {
-white-space:pre;            
-}
-
-
 /* ------------- CHAT STYLING ------------- */
-.chat {
+#chat-log {
   padding: 20px;
-  height: 500px;
+  height: 75vh;
   overflow-y: scroll;
 	font-size: 15px;
 	font-weight: normal;
-  height: 100%;
   /*border-right: thin solid lightgray;*/
 }
 
