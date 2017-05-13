@@ -12,9 +12,13 @@ li.trip-buddies {
   padding-right: 9vw;
 }
 
-table th td {
-    border: 1px solid black; 
+.me {
+  font-weight: bold;
+  background-color: purple;
+}
 
+.them {
+  background-color: blue;
 }
 
 /* ------------- CHAT STYLING ------------- */

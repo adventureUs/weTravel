@@ -65,14 +65,58 @@ export default class extends React.Component {
     }
   }
 
+  editYourInfo = () => {
+    return (<InlineBuddyEditIndex
+      userId={this.props.userId}
+      tripRef={this.props.tripRef}
+      tripId={this.props.tripId}
+    />
+    )
+  }
+
+  buildRow = (buddyId) => {
+    var setClass = React.addons.classSet
+    const buddyClass= setClass({
+      'me': buddyId === this.props.userId,
+      'them': buddyId !== this.props.userId
+    })
+
+    return (
+      <tr key={buddyId} className='trip-buddies'>
+        <td className="buddyClass">{this.state.buddies[buddyId].name}</td>
+        <td className="buddyClass"> {this.state.buddies[buddyId].homeBase}</td>
+        <td className="buddyClass"> {this.state.buddies[buddyId].status.text}</td>
+        <td className="buddyClass">
+          {(this.state.buddies[buddyId].startDate)
+            ? this.state.buddies[buddyId].startDate.slice(0, 10)
+            : 'TBD'}</td>
+        <td className="buddyClass">
+          {(this.state.buddies[buddyId].endDate)
+            ? this.state.buddies[buddyId].endDate.slice(0, 10)
+            : 'TBD'}</td>
+        <td className="buddyClass">
+          { (buddyId === this.props.userId)
+            ?
+            <button style={{
+              color: '#18bc9c',
+              backgroundColor: '#ffffff',
+              borderRadius: '5px',
+              padding: '1px 6px'
+            }}
+                    type="button"
+                    onClick={() =>
+              document.getElementById('editYourInfoModal').style.display = 'block'}
+          >Edit</button>
+            :<div></div>
+          }
+        </td>
+      </tr>
+    )
+  }
+
   render() {
     return (
       <div className="well well-lg">
-        <InlineBuddyEditIndex
-          userId={this.props.userId}
-          tripRef={this.props.tripRef}
-          tripId={this.props.tripId}
-        />
         <table className="table table-striped table-hover">
           <thead>
             <tr>
@@ -81,28 +125,14 @@ export default class extends React.Component {
               <th>Status</th>
               <th>Free From</th>
               <th>Free until</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
         {
-          this.state.buddies && Object.keys(this.state.buddies).map((buddyId, index) =>
-//               console.log('*********IN BUDDIES RENDER********:', buddyId)
-            (
-            <tr key={buddyId} className='trip-buddies'>
-              <td >{this.state.buddies[buddyId].name}</td>
-              <td > {this.state.buddies[buddyId].homeBase}</td>
-              <td > {this.state.buddies[buddyId].status.text}</td>
-              <td >
-                {(this.state.buddies[buddyId].startDate)
-                  ? this.state.buddies[buddyId].startDate.slice(0, 10)
-                  : 'TBD'}</td>
-              <td >
-                {(this.state.buddies[buddyId].endDate)
-                  ? this.state.buddies[buddyId].endDate.slice(0, 10)
-                  : 'TBD'}</td>
-            </tr>
-            )
-        )}
+          this.state.buddies && Object.keys(this.state.buddies)
+            .map((buddyId) => { return this.buildRow(buddyId) })
+        }
           </tbody>
         </table>
         <div>
@@ -154,7 +184,16 @@ export default class extends React.Component {
   }
 }
 
- /* } (buddyId !== this.props.userId)
+ /* }
+
+        <InlineBuddyEditIndex
+          userId={this.props.userId}
+          tripRef={this.props.tripRef}
+          tripId={this.props.tripId}
+        />
+
+ {(buddyId === this.props.userId)
+              ? <button className="btn">Edit</button>}
 ? */
 
 /* render() {
