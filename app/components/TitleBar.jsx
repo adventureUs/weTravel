@@ -58,12 +58,12 @@ export default class TitleBar extends React.Component {
         }}>
 
           <img className="img"
-            src="favicon.ico"
+            src="https://image.flaticon.com/icons/png/128/146/146267.png"
             style={{
               color: '#18bc9c',
               padding: '6px',
               height: '60px',
-              filter: 'invert(100%)'
+              // filter: 'invert(100%)'
             }} />
 
           <div style={{
@@ -71,7 +71,10 @@ export default class TitleBar extends React.Component {
             alignItems: 'center',
             padding: '5px'
           }}>
-            <h4 style={{ color: '#ffffff' }}>
+            <h4 style={{ color: '#ffffff',
+              backgroundColor: 'darkslategray',
+              borderRadius: '10px'
+            }}>
               <RIEInput
                 value={this.state.tripName}
                 change={this.setLocalState}
@@ -80,18 +83,9 @@ export default class TitleBar extends React.Component {
                 validate={this.isStringAcceptable}
                 classLoading="loading"
                 classInvalid="Invalid"
+                className="titleBarTitle"
               />
             </h4>
-            <button style={{
-              color: '#18bc9c',
-              backgroundColor: '#ffffff',
-              borderRadius: '5px',
-              padding: '1px 6px'
-            }}
-              type="button"
-              onClick={() =>
-                document.getElementById('tripsModal').style.display = 'block'}
-            >+</button>
             <div className="modal" id="tripsModal">
               <div className="modal-dialog modal-sm">
                 <div className="modal-content">
@@ -169,3 +163,14 @@ export default class TitleBar extends React.Component {
     )
   }
 }
+
+// <button style={{
+//               color: '#18bc9c',
+//               backgroundColor: '#ffffff',
+//               borderRadius: '5px',
+//               padding: '1px 6px'
+//             }}
+//               type="button"
+//               onClick={() =>
+//                 document.getElementById('tripsModal').style.display = 'block'}
+//             >+</button>
