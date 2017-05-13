@@ -73,6 +73,19 @@ export default class extends React.Component {
     }
   }
 
+  googleSubmit = (userCredential) => {
+    console.log('MADE IT TO GOOGLE SUBMIT, here is the credential', userCredential)
+    const queryString = window.location.search
+    queryString ? this.goToTrip(userCredential.user, queryString) : this.findAndGo(userCredential.user)
+  }
+
+  goToTrip = (user, queryString) => {
+    console.log('MADE IT TO GO TO TRIP', queryString)
+    browserHistory.push('/dashboard/' + queryString.slice(1))
+  }
+
+
+
   // signInWithPopup will try to open a login popup, and if it's blocked, it'll
   // redirect. If you prefer, you can signInWithRedirect, which always
   // redirects.
@@ -111,11 +124,15 @@ export default class extends React.Component {
             <button className='google login btn btn-primary'
               onClick={() => {
                 auth.signInWithPopup(google)
-                  .then(() => {
-                    window.location.search ?
-                      browserHistory.push('/dashboard/' + window.location.search.slice(1))
-                      // : browserHistory.push('/dashboard') // eventually needs to grab tripId to render dashboard properyly
-                      : console.log("OOPS")
+                  // .then(() => {
+                  //   window.location.search ?
+                  //     browserHistory.push('/dashboard/' + window.location.search.slice(1))
+                  //     // : browserHistory.push('/dashboard') // eventually needs to grab tripId to render dashboard properyly
+                  //     : console.log("OOPS")
+                  // })
+                  .then((userCredential) => {
+                    // console.log('THE RES', userCredential)
+                    this.googleSubmit(userCredential)
                   })
               }}>Login with Google</button>
           </div>
