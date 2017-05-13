@@ -39,6 +39,7 @@ export default class TimelineIndex extends React.Component {
       :
       this.listenFor('ideas') // For Ideas Box Timeline View
   }
+
   listenFor(branch) {
     if (this.unsubscribe) this.unsubscribe()
     // Getting data from branch part of db

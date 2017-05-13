@@ -43,9 +43,19 @@ export default class IdeaBox extends Component {
       .transaction(likes => ++likes
       )
   }
+  handleClick(e, idea) {
+    //will eventuall
+    console.log(e.target, idea)
+  }
+  renderIdeas(idea, idx) {
+    return(
+     <div className='idea-container' key={idx} name='selected' value={idea.selected} onClick={(e) => this.handleClick(e, idea)}>
+     </div>
+    )
+  }
 
   render() {
-    // console.log('IN IDEA BOX ', this.state.ideas)
+    console.log('IN IDEA BOX ', Object.values(this.state.ideas))
     return (
       <div>
        <div className="well well-sm">
@@ -70,28 +80,12 @@ export default class IdeaBox extends Component {
                   <td >{this.state.ideas[key].category.text}</td>
                   <td>{moment(this.state.ideas[key].startDate).calendar()}</td>
                   <td>
-                    <button style={{
-                      color: '#18bc9c',
-                      backgroundColor: '#ffffff',
-                      borderRadius: '5px',
-                      padding: '1px 6px'
-                    }}
-                        type="button"
-                        id={key}
-                        onClick={ this.addLikes}>{this.state.ideas[key].likes}
-                    </button>
+                    <button style={{color: '#18bc9c', backgroundColor: '#ffffff', borderRadius: '5px', padding: '1px 6px'}}
+                        type="button" id={key} onClick={ this.addLikes}>{this.state.ideas[key].likes}</button>
                   </td>
                   <td>
-                    <button style={{
-                      color: '#18bc9c',
-                      backgroundColor: '#ffffff',
-                      borderRadius: '5px',
-                      padding: '1px 6px'
-                    }}
-                        type="button"
-                        id={key}
-                        onClick={this.deleteIdea}>Delete
-                    </button>
+                    <button style={{color: '#18bc9c', backgroundColor: '#ffffff', borderRadius: '5px', padding: '1px 6px'}}
+                        type="button" id={key} onClick={this.deleteIdea}>Delete</button>
                   </td>
                 </tr>
               )
