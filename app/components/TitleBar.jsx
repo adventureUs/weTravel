@@ -5,12 +5,14 @@ const db = firebase.database()
 const auth = firebase.auth()
 let trips = ['Rome', 'Montenegro']
 import { RIEInput } from 'riek'
+import idToNameOrEmail from '../../src/idToNameOrEmail'
 
 export default class TitleBar extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      tripName: ''
+      tripName: '',
+      userName: ''
     }
   }
 
@@ -19,6 +21,8 @@ export default class TitleBar extends React.Component {
       .on('value', snapshot => {
         this.setState({ tripName: snapshot.val() })
       })
+    idToNameOrEmail(auth.currentUser.uid)
+                    .then(name => this.setState({userName: name}))
   }
 
   getAllTrips = () =>
