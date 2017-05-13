@@ -7,7 +7,7 @@ export default class extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      buddies: {} //there's nothing on state when we go to the buddies tab
+      buddies: {} // there's nothing on state when we go to the buddies tab
     }
   }
   componentWillMount() {
@@ -68,6 +68,11 @@ export default class extends React.Component {
   render() {
     return (
       <div className="well well-lg">
+        <InlineBuddyEditIndex
+          userId={this.props.userId}
+          tripRef={this.props.tripRef}
+          tripId={this.props.tripId}
+        />
         <table className="table table-striped table-hover">
           <thead>
             <tr>
@@ -79,32 +84,25 @@ export default class extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {
-              this.state.buddies && Object.keys(this.state.buddies).map((buddyId, index) => {
+        {
+          this.state.buddies && Object.keys(this.state.buddies).map((buddyId, index) =>
 //               console.log('*********IN BUDDIES RENDER********:', buddyId)
-                return (
-                (buddyId === this.props.userId)
-                ?
-                <tr key={index} className='trip-buddies'>
-                  <td>
-                    <InlineBuddyEditIndex
-                      userId={this.props.userId}
-                      tripRef={this.props.tripRef}
-                      tripId={this.props.tripId}
-                    />
-                  </td>
-                </tr>
-                :
-                <tr key={buddyId} className='trip-buddies'>
-                  <td className='buddiesListItem'>{this.state.buddies[buddyId].name}</td>
-                  <td className='buddiesListItem'>{this.state.buddies[buddyId].homeBase}</td>
-                  <td className='buddiesListItem'>{this.state.buddies[buddyId].status.text}</td>
-                  <td className='buddiesListItem'>{(this.state.buddies[buddyId].startDate) ? this.state.buddies[buddyId].startDate.slice(0, 10) : 'TBD'}</td>
-                  <td className='buddiesListItem'>{(this.state.buddies[buddyId].endDate) ? this.state.buddies[buddyId].endDate.slice(0, 10) : 'TBD'}</td>
-                </tr>
-                )
-              }
-            )}
+            (
+            <tr key={buddyId} className='trip-buddies'>
+              <td >{this.state.buddies[buddyId].name}</td>
+              <td > {this.state.buddies[buddyId].homeBase}</td>
+              <td > {this.state.buddies[buddyId].status.text}</td>
+              <td >
+                {(this.state.buddies[buddyId].startDate)
+                  ? this.state.buddies[buddyId].startDate.slice(0, 10)
+                  : 'TBD'}</td>
+              <td >
+                {(this.state.buddies[buddyId].endDate)
+                  ? this.state.buddies[buddyId].endDate.slice(0, 10)
+                  : 'TBD'}</td>
+            </tr>
+            )
+        )}
           </tbody>
         </table>
         <div>
@@ -155,6 +153,9 @@ export default class extends React.Component {
     )
   }
 }
+
+ /* } (buddyId !== this.props.userId)
+? */
 
 /* render() {
     return (

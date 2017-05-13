@@ -12,6 +12,10 @@ li.trip-buddies {
   padding-right: 9vw;
 }
 
+table th td {
+    border: 1px solid black; 
+
+}
 
 /* ------------- CHAT STYLING ------------- */
 .chat {
