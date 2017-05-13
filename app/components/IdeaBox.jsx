@@ -13,6 +13,7 @@ export default class IdeaBox extends Component {
     }
     this.deleteIdea = this.deleteIdea.bind(this)
     this.addLikes = this.addLikes.bind(this)
+
   }
 
   componentDidMount() {
@@ -44,55 +45,36 @@ export default class IdeaBox extends Component {
       )
   }
   handleClick(e, idea) {
-    //will eventuall
+    // will eventuall
     console.log(e.target, idea)
-  }
-  renderIdeas(idea, idx) {
-    return(
-     <div className='idea-container' key={idx} name='selected' value={idea.selected} onClick={(e) => this.handleClick(e, idea)}>
-     </div>
-    )
   }
 
   render() {
-    console.log('IN IDEA BOX ', Object.values(this.state.ideas))
+    // console.log('IN IDEA BOX ', Object.values(this.state.ideas))
     return (
       <div>
        <div className="well well-sm">
-        <table className="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th>Idea</th>
-              <th>Link</th>
-              <th>Category</th>
-              <th>Start Time</th>
-              <th>Likes</th>
-            </tr>
-          </thead>
-          <tbody>
           {
             this.state.ideas && Object.keys(this.state.ideas).map(key => {
               return (
-                <tr key={key} className='trip-buddies'>
-                  <td >{this.state.ideas[key].ideaName}</td>
-                  <td ><a href={'//'+this.state.ideas[key].link}
-                    target='_blank'>{this.state.ideas[key].link}</a></td>
-                  <td >{this.state.ideas[key].category.text}</td>
-                  <td>{moment(this.state.ideas[key].startDate).calendar()}</td>
-                  <td>
-                    <button style={{color: '#18bc9c', backgroundColor: '#ffffff', borderRadius: '5px', padding: '1px 6px'}}
+                <div key={key} className='idea-container'>
+                  <div >{this.state.ideas[key].ideaName}</div>
+                  <div ><a href={'//'+this.state.ideas[key].link}
+                    target='_blank'>{this.state.ideas[key].link}</a></div>
+                  <div >{this.state.ideas[key].category.text}</div>
+                  <div>{moment(this.state.ideas[key].startDate).calendar()}</div>
+                  <div>
+                    <button style={{color: '#18bc9c', backgroundColor: '#ffffff', borderRadius: '5px', padding: '1px 6px'}}className='trip-buddies-likes-button'
                         type="button" id={key} onClick={ this.addLikes}>{this.state.ideas[key].likes}</button>
-                  </td>
-                  <td>
-                    <button style={{color: '#18bc9c', backgroundColor: '#ffffff', borderRadius: '5px', padding: '1px 6px'}}
+                  </div>
+                  <div>
+                    <button style={{color: '#18bc9c', backgroundColor: '#ffffff', borderRadius: '5px', padding: '1px 6px'}}className='trip-buddies-delete-button'
                         type="button" id={key} onClick={this.deleteIdea}>Delete</button>
-                  </td>
-                </tr>
+                  </div>
+                </div>
               )
             })
           }
-          </tbody>
-          </table>
         </div>
         <div className='trip-buddies well well-sm'>
             <AddIdea

@@ -160,3 +160,77 @@ section div {
 		border-bottom-right-radius: 10px;
 		-webkit-transform:translate(-30px, -2px);
 }
+/* ------------- START IDEASBOX STYLING ------------- */
+.idea-container {
+  position: relative;
+  height: 33.3%; /* here */
+  perspective: 800px;
+  display: inline-block;
+  flex: 1 1 12.5%;
+}
+.idea {
+  padding: 5%; /* here */
+  width: 90%; /* here */
+  height: 90%; /* here */
+  position: absolute;
+  transition-duration: 0.3s;
+  transition-property: transform;
+  transform-style: preserve-3d;
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+.idea:hover {
+  transform: scale(1.05);
+}
+.idea .face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  border-width: 0.1%;
+  border-color: white;
+  border-style: solid;
+  background-color: white;
+  box-shadow: 0 0 3px black;
+  overflow: hidden;
+  backface-visibility: hidden;
+}
+.idea .front {
+  transform: rotateY(180deg);
+}
+.idea .back {
+
+}
+.idea .name {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  color: white;
+  opacity: 0.8;
+  font-family: 'Baloo', sans-serif;
+  text-shadow: 0 0 2px black;
+}
+.idea.selected {
+  transform: rotateY(180deg) scale(1.05) translateX(-10%); /* here */
+}
+.idea.selected .front {
+  border-color: gold;
+}
+.idea.matched {
+  transform: rotateY(180deg) translateX(-10%);
+}
+
+button.trip-buddies-likes-button {
+  color: '#18bc9c';
+  background-color: '#ffffff';
+  border-radius: '5px';
+  padding: '1px 6px'
+}
+button.trip-buddies-delete-button {
+  color: '#18bc9c';
+  background-color: '#ffffff';
+  border-radius: '5px';
+   padding: '1px 6px'
+  }
+/* ------------- END IDEASBOX STYLING ------------- */
