@@ -124,8 +124,9 @@ export default class extends React.Component {
 
   render() {
     return (
-      <div >
-        <form className="form" >
+      <div>
+        <div className="chat-container">
+          <div id="chat-title">Discussion board</div>
           <section id="chat-log">
             {Object.keys(this.state.prevChats || {}).map((chat, index) => {
               // console.log('CHAT', this.state.prevChats[chat])
@@ -144,13 +145,13 @@ export default class extends React.Component {
                     </div>
                     <div> {`${this.state.prevChats[chat].message}`}
                     </div>
-
                   </div>
-
               )
             }
             )}
           </section>
+        </div>
+        <form className="form" >
           <div id="chatInput" className="form-group">
             <div id="messageInput">
               <input

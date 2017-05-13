@@ -23,9 +23,23 @@ li.trip-buddies {
 }
 
 /* ------------- CHAT STYLING ------------- */
+
+.chat-container {
+border-right: 2px solid gray;
+border-bottom: 1px solid gray;
+}
+
+#chat-title {
+  text-align: center;
+  padding: 10px;
+  background-color:#18bc9c;
+  color: white;
+  border-bottom: 1px solid gray;
+}
+
 #chat-log {
   padding: 20px;
-  height: 75vh;
+  height: 80vh;
   overflow-y: scroll;
 	font-size: 15px;
 	font-weight: normal;
@@ -33,17 +47,28 @@ li.trip-buddies {
 }
 
 #chatInput {
-   display: flex;
-   position:absolute;
+   /*display: flex;*/
+   /*position:absolute;*/
    left:20px;
    bottom:0px;
    height:30px;
    width:100%;
 }
 
+#messageInput {
+width: 80%;
+float: left;
+}
+
+#submitMessage {
+width: 20%;
+float: left;
+}
+
+
 section {
 	max-width: 100%;
-	margin: 50px auto;
+	margin: 0px auto;
 }
 
 section div {
