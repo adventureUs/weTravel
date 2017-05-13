@@ -1,4 +1,5 @@
 import React from 'react'
+import SetClass from 'react-classset'
 import firebase from 'APP/fire'
 import InlineBuddyEditIndex from './InlineBuddyEditIndex'
 import moment from 'moment'
@@ -7,7 +8,7 @@ export default class extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      buddies: {} //there's nothing on state when we go to the buddies tab
+      buddies: {} // there's nothing on state when we go to the buddies tab
     }
   }
   componentWillMount() {
@@ -65,46 +66,64 @@ export default class extends React.Component {
     }
   }
 
+  buildRow = (buddyId) => {
+    const buddyClass= SetClass({
+      'me': buddyId === this.props.userId,
+      'them': buddyId !== this.props.userId
+    })
+
+    return (
+      <tr key={buddyId} className='trip-buddies'>
+        <td className={buddyClass}>{this.state.buddies[buddyId].name}</td>
+        <td className={buddyClass}> {this.state.buddies[buddyId].homeBase}</td>
+        <td className={buddyClass}> {this.state.buddies[buddyId].status.text}</td>
+        <td className={buddyClass}>
+          {(this.state.buddies[buddyId].startDate)
+            ? this.state.buddies[buddyId].startDate.slice(0, 10)
+            : 'TBD'}</td>
+        <td className={buddyClass}>
+          {(this.state.buddies[buddyId].endDate)
+            ? this.state.buddies[buddyId].endDate.slice(0, 10)
+            : 'TBD'}</td>
+        <td className={buddyClass}>
+          { (buddyId === this.props.userId)
+            ?
+            <button style={{
+              color: '#18bc9c',
+              backgroundColor: '#ffffff',
+              borderRadius: '5px',
+              padding: '1px 6px'
+            }}
+                    type="button"
+                    onClick={() =>
+              document.getElementById('editYourInfoModal').style.display = 'block'}
+          >Edit</button>
+            :<div></div>
+          }
+        </td>
+      </tr>
+    )
+  }
+
   render() {
     return (
       <div className="well well-lg">
         <table className="table table-striped table-hover">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Home Base</th>
-              <th>Status</th>
-              <th>Free From</th>
-              <th>Free until</th>
+              <th className="buddyHeader">Name</th>
+              <th className="buddyHeader">Home Base</th>
+              <th className="buddyHeader">Status</th>
+              <th className="buddyHeader">Free From</th>
+              <th className="buddyHeader">Free until</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            {
-              this.state.buddies && Object.keys(this.state.buddies).map((buddyId, index) => {
-//               console.log('*********IN BUDDIES RENDER********:', buddyId)
-                return (
-                (buddyId === this.props.userId)
-                ?
-                <tr key={index} className='trip-buddies'>
-                  <td>
-                    <InlineBuddyEditIndex
-                      userId={this.props.userId}
-                      tripRef={this.props.tripRef}
-                      tripId={this.props.tripId}
-                    />
-                  </td>
-                </tr>
-                :
-                <tr key={buddyId} className='trip-buddies'>
-                  <td className='buddiesListItem'>{this.state.buddies[buddyId].name}</td>
-                  <td className='buddiesListItem'>{this.state.buddies[buddyId].homeBase}</td>
-                  <td className='buddiesListItem'>{this.state.buddies[buddyId].status.text}</td>
-                  <td className='buddiesListItem'>{(this.state.buddies[buddyId].startDate) ? this.state.buddies[buddyId].startDate.slice(0, 10) : 'TBD'}</td>
-                  <td className='buddiesListItem'>{(this.state.buddies[buddyId].endDate) ? this.state.buddies[buddyId].endDate.slice(0, 10) : 'TBD'}</td>
-                </tr>
-                )
-              }
-            )}
+        {
+          this.state.buddies && Object.keys(this.state.buddies)
+            .map((buddyId) => { return this.buildRow(buddyId) })
+        }
           </tbody>
         </table>
         <div>
@@ -151,10 +170,44 @@ export default class extends React.Component {
             </div>
           </div>
         </div>
+
+        <div className="modal" id="editYourInfoModal">
+          <div className="modal-dialog modal-md">
+            <div className="modal-content">
+              <div className="modal-header">
+                <button type="button" className="close"
+                  onClick={() =>
+                    document.getElementById('editYourInfoModal').style.display = 'none'}
+                    >&times;
+                </button>
+                <h4 className="modal-title">Edit Your Personal Info</h4>
+              </div>
+              <div className="modal-body">
+              <InlineBuddyEditIndex
+                userId={this.props.userId}
+                tripRef={this.props.tripRef}
+                tripId={this.props.tripId}
+              />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
 }
+
+ /* }
+
+        <InlineBuddyEditIndex
+          userId={this.props.userId}
+          tripRef={this.props.tripRef}
+          tripId={this.props.tripId}
+        />
+
+ {(buddyId === this.props.userId)
+              ? <button className="btn">Edit</button>}
+? */
 
 /* render() {
     return (
