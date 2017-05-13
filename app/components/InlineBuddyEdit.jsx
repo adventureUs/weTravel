@@ -121,7 +121,7 @@ export default class InlineBuddyEdit extends Component {
       <form onSubmit={this.postUserInfoToDB}>
         <div className="container">
           <div className="form-horizontal">
-            <div className="col-md-3">
+            <div>
               <span>Name: </span>
               <RIEInput
                 value={this.state.name}
@@ -132,11 +132,8 @@ export default class InlineBuddyEdit extends Component {
                 classLoading="loading"
                 classInvalid="Invalid" />
             </div>
-            <div className="col-md-3">
-              <span>Email: {this.state.email}</span>
-
-            </div>
-            <div className="col-md-3">
+            <br />
+            <div>
               <span>Status: </span>
               <RIESelect
                 value={this.state.status}
@@ -146,7 +143,8 @@ export default class InlineBuddyEdit extends Component {
                 classLoading="loading"
                 propName="status" />
             </div>
-            <div className="col-md-3">
+            <br />
+            <div>
               <span>Home Base: </span>
               <RIEInput
                 value={this.state.homeBase}
@@ -157,14 +155,16 @@ export default class InlineBuddyEdit extends Component {
                 classLoading="loading"
                 classInvalid="Invalid" />
             </div>
-            <div className="col-md-3">
+            <br />
+            <div>
               <span>Free from: </span>
               <DatePicker
                 selected={this.state.startDate ? moment(this.state.startDate) : null}
                 onChange={this.handleChangeStart}
               />
             </div>
-            <div className="col-md-3">
+            <br />
+            <div>
               <span>Free until: </span>
               <DatePicker
                 selected={this.state.endDate ? moment(this.state.endDate) : null}
