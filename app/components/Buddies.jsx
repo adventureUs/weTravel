@@ -79,6 +79,7 @@ export default class extends React.Component {
                     tripRef={this.props.tripRef}
                     tripId={this.props.tripId}
                   />
+
                 </li> : <li key={buddyId} className='trip-buddies'>
                   <div className='buddiesListItem'>Name: {this.state.buddies[buddyId].name}</div>
                   <div className='buddiesListItem'>Home Base: {this.state.buddies[buddyId].homeBase}</div>

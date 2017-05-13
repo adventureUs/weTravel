@@ -20,6 +20,7 @@ export default class extends React.Component {
   onSubmit = (evt) => {
     evt.preventDefault()
     const queryString = window.location.search
+    // console.log('DA QUERY STRING', queryString)
     queryString ?
       this.addToTrip(evt)
       : this.createNewTrip(evt)
@@ -28,10 +29,11 @@ export default class extends React.Component {
   addToTrip = (evt) => {
     const queryString = window.location.search
     const tripId = queryString.slice(1)
-    // console.log('REF', db.ref('trips/').child(tripId).child('buddies'))
+    // console.log('GOT INTO ADD-TO-TRIP', queryString)
     if (this.state.email.length && this.state.password.length) {
       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((user) => {
+          // console.log('GOT TO CREATE-USER', user )
           const userId = user.uid
           // In the users table, create a new user with the querystring as the the trip
           userRef.update({
@@ -49,11 +51,13 @@ export default class extends React.Component {
           //     }
           //   }
           // })
+         // console.log('GOT PAST USER UPDATE')
           db.ref('trips/').child(tripId).child('buddies').update({
             [userId]: {
               status: { id: '1', text: 'Invited' }
             }
           })
+          .then(() => browserHistory.push('/dashboard/' + tripId))
         })
     } else {
       window.alert('Please fill in both your email and password')
@@ -61,6 +65,7 @@ export default class extends React.Component {
   }
 
   createNewTrip = (evt) => {
+    // console.log('GOT INTO CREATE-NEW-TRIP')
     if (this.state.email.length && this.state.password.length) {
       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((user) => {
@@ -127,6 +132,7 @@ export default class extends React.Component {
             <button className='google login btn btn-primary'
               onClick={() => {
                 auth.signInWithPopup(google)
+                  // this is problematic, since you NEED a parametrized dashboard
                   .then(() => browserHistory.push('/dashboard'))
               }}>Sign up with Google</button>
           </div>
