@@ -74,21 +74,38 @@ export default class extends React.Component {
   }
 
   googleSubmit = (userCredential) => {
-    console.log('MADE IT TO GOOGLE SUBMIT, here is the credential', userCredential)
+    // console.log('MADE IT TO GOOGLE SUBMIT, here is the credential', userCredential)
     const queryString = window.location.search
     queryString ? this.goToTrip(userCredential.user, queryString) : this.findAndGo(userCredential.user)
   }
 
   goToTrip = (user, queryString) => {
-    console.log('MADE IT TO GO TO TRIP', queryString)
+    // console.log('MADE IT TO GO TO TRIP', queryString)
     browserHistory.push('/dashboard/' + queryString.slice(1))
   }
 
-
-
-  // signInWithPopup will try to open a login popup, and if it's blocked, it'll
-  // redirect. If you prefer, you can signInWithRedirect, which always
-  // redirects.
+  findAndGo = (user) => {
+    // console.log('MADE IT TO FIND AND GO TO TRIP, here is the user Id', user.uid)
+    // First check to see if this user does in fact already exist in the users datatable
+    // It is possible that they are erroneously trying to 'sign-up' from the login page using Google
+    const userExists = firebase.database().ref('users')
+      .once('value')
+      .then(snapshot => snapshot.hasChild(user.uid))
+      .catch(err => console.error(err))
+    userExists ?
+      // If there is -- find their tripId (assuming there is only one)
+      firebase.database().ref('users').child(user.uid).child('trips')
+        .once('value')
+        .then(snapshot => {
+          console.log('FOUND THE TRIPS:', snapshot.val())
+          // trips is an Array, currently with only one item in it
+          const trips = snapshot.val()
+          browserHistory.push('/dashboard/' + trips[0])
+        })
+      // If not create -- follow the same creation as is found in Sign.up jsx
+      :
+      console.log('YOU DONT EXIST YET')
+  }
 
   render() {
     // const auth = this.props.route.auth
@@ -123,6 +140,9 @@ export default class extends React.Component {
           <div>
             <button className='google login btn btn-primary'
               onClick={() => {
+                // signInWithPopup will try to open a login popup, and if it's blocked, it'll
+                // redirect. If you prefer, you can signInWithRedirect, which always
+                // redirects.
                 auth.signInWithPopup(google)
                   // .then(() => {
                   //   window.location.search ?
