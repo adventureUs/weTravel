@@ -74,22 +74,22 @@ export default class extends React.Component {
   }
 
   googleSubmit = (userCredential) => {
-    console.log('MADE IT TO GOOGLE SUBMIT, here is the credential', userCredential)
+    // console.log('MADE IT TO GOOGLE SUBMIT, here is the credential', userCredential)
     const queryString = window.location.search
     queryString ? this.goToTrip(userCredential.user, queryString) : this.findAndGo(userCredential.user)
   }
 
   goToTrip = (user, queryString) => {
-    console.log('MADE IT TO GO TO TRIP', queryString)
+    // console.log('MADE IT TO GO TO TRIP', queryString)
     var tripId = queryString.slice(1)
     // Check to see if this user is in the database
     firebase.database().ref('users')
       .once('value')
       .then(snapshot => {
         const userExists = snapshot.hasChild(user.uid)
-        console.log('does this user exist in the db?', userExists)
+        // console.log('does this user exist in the db?', userExists)
         if (!userExists) {
-          console.alert('guess we got to make a new one!')
+          // console.log('guess we got to make a new one!')
           this.createNewUserWithTrip(user, tripId)
         } else {
           browserHistory.push('/dashboard/' + queryString.slice(1))
@@ -116,7 +116,7 @@ export default class extends React.Component {
   }
 
   findAndGo = (user) => {
-    console.log('MADE IT TO FIND AND GO TO TRIP, here is the user Id', user.uid)
+    // console.log('MADE IT TO FIND AND GO TO TRIP, here is the user Id', user.uid)
     // Check to see if they have any trips
 
     // It is possible that they are erroneously trying to 'sign-up' from the login page using Google -- if so, the user will be in the Auth table, but NOT the database users table and they won't have any trips
@@ -127,7 +127,7 @@ export default class extends React.Component {
       .once('value')
       .then(snapshot => {
         const userExists = snapshot.hasChild(user.uid)
-        console.log('does this user exist in the db?', userExists)
+        // console.log('does this user exist in the db?', userExists)
         if (!userExists) {
           console.alert('guess we got to make a new one!')
           this.createNewUserAndTrip(user)
