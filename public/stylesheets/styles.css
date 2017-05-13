@@ -12,12 +12,17 @@ SUNSET friends
 DIRTHPATH friends
 "https://www.pexels.com/photo/people-walking-on-dirt-path-in-forest-at-daytime-200453/"
 
+MOUNTAIN friends
+https://static.pexels.com/photos/130111/pexels-photo-130111.jpeg
+
+PICNIC friends
+https://static.pexels.com/photos/48660/pexels-photo-48660.jpeg
 
 */
 
 
 html { 
-  background: url("https://static.pexels.com/photos/48660/pexels-photo-48660.jpeg") no-repeat center center fixed; 
+  background: url("https://static.pexels.com/photos/130111/pexels-photo-130111.jpeg") no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
