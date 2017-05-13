@@ -8,13 +8,13 @@ export default class TabsAndView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      changeTabs: true // where do we use this? an issue perhaps?
+      changeTabs: true
     }
   }
 
   componentWillMount() {
     const auth = firebase.auth()
-    this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({ user })) // there is no user on the state right now
+    this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({ user }))
   }
 
   componentWillUnmount() {
@@ -49,13 +49,12 @@ export default class TabsAndView extends React.Component {
                 <TimelineIndex
                   userId={this.props.userId}
                   tripRef={this.props.tripRef}
-                  whichTab={this.props.whichTab}
+                  whichTab={this.state.whichTab}
                 />
                 <Buddies
                   userId={this.props.userId}
                   tripRef={this.props.tripRef}
                   tripId={this.props.tripId}
-                  whichTab={this.props.whichTab}
                 />
               </div>
 

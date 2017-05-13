@@ -3,39 +3,52 @@ import { Link, browserHistory } from 'react-router'
 import firebase from 'APP/fire'
 const db = firebase.database()
 const auth = firebase.auth()
-let trips = ['Rome', 'Montenegro']
+const trips = ['Rome', 'Montenegro']
 import { RIEInput } from 'riek'
+import idToNameOrEmail from '../../src/idToNameOrEmail'
 
 export default class TitleBar extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      tripName: ''
+      tripName: '',
+      userName: ''
     }
   }
 
-  componentDidMount() {
-    this.props.tripRef.child('/tripName')
+  componentWillMount() {
+    // console.log('TITLE BAR ComponentWILLMOUNT,  PROPS', this.props)
+    this.unsubscribe = this.props.tripRef
       .on('value', snapshot => {
-        this.setState({ tripName: snapshot.val() })
+        const tripObj = snapshot.val()
+        idToNameOrEmail(this.props.userId)
+        .then(nameOrEmail => this.setState({
+          tripName: tripObj.tripName,
+          userName: nameOrEmail
+        })).catch(console.error)
       })
   }
+  componentWillUnmount() {
+    // console.log('TITLE BAR ComponentWILL_UNMOUNT')
+    this.unsubscribe()
+  }
 
-  getAllTrips = () =>
+  getAllTrips() {
     // Get other trip name via currentUser's associated trip Ids
-    trips
+  }
 
-  changeTrip = (e) =>
-    // Note: change map over trips to reflect actualy trip id and names.
-    // e.target.id set to currentTrip
-    browserHistory.push('/dashboard')
+  // changeTrip = (e) => {}
+    //   // Note: change map over trips to reflect actualy trip id and names.
+    //   // e.target.id set to currentTrip
+    //   browserHistory.push('/dashboard/'+this.props.tripId)
 
-  makeNewTrip = () =>
-    // Make a new trip with id, and add that id to currentUser.
-    // Set the new trip Id to currentTrip, trigger rerender of new Dashboard
-    console.log(document.getElementById('newTripInput').value)
+  makeNewTrip() {
+  }
+    //   // Make a new trip with id, and add that id to currentUser.
+    //   // Set the new trip Id to currentTrip, trigger rerender of new Dashboard
+    //   console.log(document.getElementById('newTripInput').value)
 
-  setLocalState = (newState) => {
+  setStates = (newState) => {
     this.setState(newState)
     this.postTripNameToDB(newState.tripName)
   }
@@ -43,13 +56,14 @@ export default class TitleBar extends React.Component {
   postTripNameToDB = (tripName) => {
     this.props.tripsRef.child('/' + this.props.tripId)
       .update({
-        tripName: tripName || 'Please Name Your Trip Here!',
+        tripName: tripName || 'New Trip Name',
       })
   }
 
   render() {
     // console.log('STATE in TITLEBAR', this.state)
-    return (
+    return this.state.tripName ?
+      (
       <nav className="nav navbar-default">
         <div className="" style={{
           display: 'flex',
@@ -71,53 +85,18 @@ export default class TitleBar extends React.Component {
             alignItems: 'center',
             padding: '5px'
           }}>
-            <h4 style={{ color: '#ffffff',
-              backgroundColor: 'darkslategray',
-              borderRadius: '10px'
-            }}>
+            <h4>
               <RIEInput
                 value={this.state.tripName}
-                change={this.setLocalState}
+                change={this.setStates}
                 propName="tripName"
-                className={this.state.highlight ? "editable" : ""}
+                className={this.state.highlight ? 'editable' : ''}
                 validate={this.isStringAcceptable}
                 classLoading="loading"
                 classInvalid="Invalid"
                 className="titleBarTitle"
               />
             </h4>
-            <div className="modal" id="tripsModal">
-              <div className="modal-dialog modal-sm">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <button type="button" className="close"
-                      onClick={() =>
-                        document.getElementById('tripsModal').style.display = 'none'}
-                    >&times;
-                    </button>
-                    <h4 className="modal-title">Your Trips</h4>
-                  </div>
-                  <div className="modal-body">
-                    {(this.getAllTrips().map((trip, idx) =>
-                      <h4 id={`${idx}`} key={`${idx}`}
-                        onClick={this.changeTrip}
-                        style={{ border: 'bottom' }}
-                      ><font color='#18bc9c'>{trip}</font></h4>))}
-                  </div>
-                  <div className="modal-footer"
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-around'
-                    }}>
-                    <input type="text" id="newTripInput"></input>
-                    <button type="button" className="btn btn-primary"
-                      onClick={this.makeNewTrip}>
-                      Add a trip
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div style={{
@@ -127,7 +106,7 @@ export default class TitleBar extends React.Component {
           }}>
             <h4 className="" style={{ padding: '5px' }}>
               <font color="white">{auth.currentUser
-                ? `Welcome, ${auth.currentUser.displayName || auth.currentUser.email}!`
+                ? `Welcome, ${this.state.userName}!`
                 : ''}</font>
             </h4>
 
@@ -156,13 +135,14 @@ export default class TitleBar extends React.Component {
                 login</button>
             }
           </div>
-
         </div>
       </nav>
-
     )
+    :
+    null
   }
 }
+// Bttn and Modal for All Trips:
 
 // <button style={{
 //               color: '#18bc9c',
@@ -174,3 +154,37 @@ export default class TitleBar extends React.Component {
 //               onClick={() =>
 //                 document.getElementById('tripsModal').style.display = 'block'}
 //             >+</button>
+
+//   <div className="modal" id="tripsModal">
+//     <div className="modal-dialog modal-sm">
+//       <div className="modal-content">
+//         <div className="modal-header">
+//           <button type="button" className="close"
+//             onClick={() =>
+//               document.getElementById('tripsModal').style.display = 'none'}
+//           >&times;
+//           </button>
+//           <h4 className="modal-title">Your Trips</h4>
+//         </div>
+//         <div className="modal-body">
+//           {(this.getAllTrips().map((trip, idx) =>
+//             <h4 id={`${idx}`} key={`${idx}`}
+//               onClick={this.changeTrip}
+//               style={{ border: 'bottom' }}
+//             ><font color='#18bc9c'>{trip}</font></h4>))}
+//         </div>
+//         <div className="modal-footer"
+//           style={{
+//             display: 'flex',
+//             justifyContent: 'space-around'
+//           }}>
+//           <input type="text" id="newTripInput"></input>
+//           <button type="button" className="btn btn-primary"
+//             onClick={this.makeNewTrip}>
+//             Add a trip
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   </div>
+// </div>
