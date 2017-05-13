@@ -10,6 +10,7 @@ export default class extends React.Component {
     this.state = {
       email: '',
       password: '',
+      tripId: ''
     }
   }
 
@@ -19,6 +20,7 @@ export default class extends React.Component {
 
   onSubmit = (evt) => {
     evt.preventDefault()
+    console.log('MADE IT TO ON SUBMIT')
     const queryString = window.location.search
     // console.log('DA QUERY STRING', queryString)
     queryString ?
@@ -29,11 +31,12 @@ export default class extends React.Component {
   addToTrip = (evt) => {
     const queryString = window.location.search
     const tripId = queryString.slice(1)
+    this.setState({tripId: tripId})
     // console.log('GOT INTO ADD-TO-TRIP', queryString)
     if (this.state.email.length && this.state.password.length) {
       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((user) => {
-          // console.log('GOT TO CREATE-USER', user )
+          console.log('GOT TO CREATE-USER', user )
           const userId = user.uid
           // In the users table, create a new user with the querystring as the the trip
           userRef.update({
@@ -42,16 +45,6 @@ export default class extends React.Component {
               trips: [tripId]
             }
           })
-          // In the trips table, add this particular userId to the buddies array
-          // NOT WORKING --> creates brand new trip
-          // db.ref('trips/').child(tripId).update({
-          //   buddies: {
-          //     [userId]: {
-          //       status: { id: '1', text: 'Invited' }
-          //     }
-          //   }
-          // })
-          // console.log('GOT PAST USER UPDATE')
           db.ref('trips/').child(tripId).child('buddies').update({
             [userId]: {
               status: { id: '1', text: 'Invited' }
@@ -65,7 +58,7 @@ export default class extends React.Component {
   }
 
   createNewTrip = (evt) => {
-    // console.log('GOT INTO CREATE-NEW-TRIP')
+    console.log('GOT INTO CREATE-NEW-TRIP')
     if (this.state.email.length && this.state.password.length) {
       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((user) => {
@@ -79,6 +72,7 @@ export default class extends React.Component {
             }
           }
           var newTripKey = db.ref('trips/').push().key
+          this.setState({tripId: newTripKey})
           var newTrip = {}
           newTrip[newTripKey] = newTripData
           db.ref('trips/').update(newTrip)
@@ -105,6 +99,7 @@ export default class extends React.Component {
     const auth = firebase.auth()
     const google = new firebase.auth.GoogleAuthProvider()
     const email = new firebase.auth.EmailAuthProvider()
+    console.log('STATE, look at tripID', this.state)
     return (
       <div className="jumbotron">
         <form onSubmit={this.onSubmit} className="form-horizontal well">
@@ -133,11 +128,15 @@ export default class extends React.Component {
               onClick={() => {
                 auth.signInWithPopup(google)
                   // this is problematic, since you NEED a parametrized dashboard
-                  .then(() => {
-                    window.location.search ?
-                      browserHistory.push('/dashboard/' + window.location.search.slice(1))
-                      // : browserHistory.push('/dashboard') // eventually needs to grab tripId to render dashboard properyly
-                      : console.log("OOPS")
+                  // .then(() => {
+                  //   window.location.search ?
+                  //     browserHistory.push('/dashboard/' + window.location.search.slice(1))
+                  //     // : browserHistory.push('/dashboard') // eventually needs to grab tripId to render dashboard properyly
+                  //     : console.log("OOPS")
+                  // })
+                  .then((user) => {
+                    console.log('THE RES', res)
+                    this.onSubmit()
                   })
               }}>Sign up with Google</button>
           </div>
