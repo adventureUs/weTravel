@@ -25,11 +25,11 @@ export default class TitleBar extends React.Component {
         .then(nameOrEmail => this.setState({
           tripName: tripObj.tripName,
           userName: nameOrEmail
-        })).catch(console.log)
+        })).catch(console.error)
       })
   }
   componentWillUnmount() {
-    console.log('TITLE BAR ComponentWILL_UNMOUNT')
+    // console.log('TITLE BAR ComponentWILL_UNMOUNT')
     this.unsubscribe()
   }
 
