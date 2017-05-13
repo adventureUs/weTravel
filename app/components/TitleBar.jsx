@@ -17,16 +17,15 @@ export default class TitleBar extends React.Component {
   }
 
   componentWillMount() {
-    console.log('TITLE BAR ComponentWILLMOUNT,  PROPS', this.props)
+    // console.log('TITLE BAR ComponentWILLMOUNT,  PROPS', this.props)
     this.unsubscribe = this.props.tripRef
       .on('value', snapshot => {
         const tripObj = snapshot.val()
-        console.log('TITLE BAR SETTING TRIP NAME & USERNAME, uName:',
-                    tripObj.buddies[this.props.userId].name)
-        this.setState({
+        idToNameOrEmail(this.props.userId)
+        .then(nameOrEmail => this.setState({
           tripName: tripObj.tripName,
-          userName: tripObj.buddies[this.props.userId].name
-        })
+          userName: nameOrEmail
+        })).catch(console.log)
       })
   }
   componentWillUnmount() {
@@ -57,12 +56,12 @@ export default class TitleBar extends React.Component {
   postTripNameToDB = (tripName) => {
     this.props.tripsRef.child('/' + this.props.tripId)
       .update({
-        tripName: tripName || 'Please Name Your Trip Here!',
+        tripName: tripName || 'New Trip Name',
       })
   }
 
   render() {
-    console.log('STATE in TITLEBAR', this.state)
+    // console.log('STATE in TITLEBAR', this.state)
     return this.state.tripName ?
       (
       <nav className="nav navbar-default">
@@ -143,6 +142,7 @@ export default class TitleBar extends React.Component {
     null
   }
 }
+// Bttn and Modal for All Trips:
 
 // <button style={{
 //               color: '#18bc9c',
