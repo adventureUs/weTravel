@@ -73,9 +73,112 @@ export default class extends React.Component {
     }
   }
 
-  // signInWithPopup will try to open a login popup, and if it's blocked, it'll
-  // redirect. If you prefer, you can signInWithRedirect, which always
-  // redirects.
+  googleSubmit = (userCredential) => {
+    // console.log('MADE IT TO GOOGLE SUBMIT, here is the credential', userCredential)
+    const queryString = window.location.search
+    queryString ? this.goToTrip(userCredential.user, queryString) : this.findAndGo(userCredential.user)
+  }
+
+  goToTrip = (user, queryString) => {
+    // console.log('MADE IT TO GO TO TRIP', queryString)
+    var tripId = queryString.slice(1)
+    // Check to see if this user is in the database
+    firebase.database().ref('users')
+      .once('value')
+      .then(snapshot => {
+        const userExists = snapshot.hasChild(user.uid)
+        // console.log('does this user exist in the db?', userExists)
+        if (!userExists) {
+          // console.log('guess we got to make a new one!')
+          this.createNewUserWithTrip(user, tripId)
+        } else {
+          browserHistory.push('/dashboard/' + queryString.slice(1))
+        }
+      })
+      .catch(err => console.error(err))
+    // might have to add some additional logic -- if they are erroneously logging in (instead of signing in) for the first time to a trip they were invited to, we have to do some of the trips/buddies updating here too
+  }
+
+  createNewUserWithTrip = (user, tripId) => {
+    const userId = user.uid
+    firebase.database().ref('users/').update({
+      [userId]: {
+        email: user.email,
+        trips: [tripId]
+      }
+    })
+      .then(() => {
+        browserHistory.push('/dashboard/' + tripId)
+      })
+      .catch(error => {
+        window.alert(error)
+      })
+  }
+
+  findAndGo = (user) => {
+    // console.log('MADE IT TO FIND AND GO TO TRIP, here is the user Id', user.uid)
+
+    // It is possible that they are erroneously trying to 'sign-up' from the login page using Google -- if so the user will not be in database users table and they won't have any trips
+    // If they are using google login properly, they should exist in the users table and have at least one trip
+    // first check to see if the user exists in the table
+    firebase.database().ref('users')
+      .once('value')
+      .then(snapshot => {
+        const userExists = snapshot.hasChild(user.uid)
+        // console.log('does this user exist in the db?', userExists)
+        if (!userExists) {
+          console.alert('guess we got to make a new one!')
+          this.createNewUserAndTrip(user)
+        } else {
+          firebase.database().ref('users')
+            .child(user.uid)
+            .child('trips')
+            .once('value')
+            .then(snapshot => {
+              // console.log('FOUND THE TRIPS:', snapshot.val())
+              // trips is an Array, currently with only one item in it
+              const trips = snapshot.val()
+              browserHistory.push('/dashboard/' + trips[0])
+            })
+            .catch(err => console.error(err))
+        }
+      })
+  }
+
+  createNewUserAndTrip = (user) => {
+    const userId = user.uid
+    // console.log('GOT INTO CREATE-NEW-TRIP', userId)
+
+    // first creates new trip data and key and updates trip table
+    var newTripKey = firebase.database().ref('trips/').push().key
+    // this.setState({ tripId: newTripKey })
+    var newTripData = {
+      tripName: 'Please Name Your Trip Here!',
+      buddies: {
+        [userId]: {
+          status: { id: '2', text: 'Going' }
+        }
+      }
+    }
+    var newTrip = {}
+    newTrip[newTripKey] = newTripData
+    firebase.database().ref('trips/').update(newTrip)
+
+    // then in users table, creates a new user with with new trip key
+    firebase.database().ref('users/').update({
+      [userId]: {
+        email: user.email,
+        trips: [newTripKey]
+      }
+    })
+      // concerned about this then
+      .then(() => {
+        browserHistory.push('/dashboard/' + newTripKey)
+      })
+      .catch(error => {
+        window.alert(error)
+      })
+  }
 
   render() {
     // const auth = this.props.route.auth
@@ -85,7 +188,7 @@ export default class extends React.Component {
 
     // console.log('PROPS from login', this.props)
     return (
-      <div className="jumbotron">
+      <div className="jumbotron" >
         <form onSubmit={this.onSubmit} className="form-horizontal">
           <legend className="col-lg-12" >Login with your email & password</legend>
           <div className="form-group">
@@ -110,12 +213,19 @@ export default class extends React.Component {
           <div>
             <button className='google login btn btn-primary'
               onClick={() => {
+                // signInWithPopup will try to open a login popup, and if it's blocked, it'll
+                // redirect. If you prefer, you can signInWithRedirect, which always
+                // redirects.
                 auth.signInWithPopup(google)
-                  .then(() => {
-                    window.location.search ?
-                      browserHistory.push('/dashboard/' + window.location.search.slice(1))
-                      // : browserHistory.push('/dashboard') // eventually needs to grab tripId to render dashboard properyly
-                      : console.log("OOPS")
+                  // .then(() => {
+                  //   window.location.search ?
+                  //     browserHistory.push('/dashboard/' + window.location.search.slice(1))
+                  //     // : browserHistory.push('/dashboard') // eventually needs to grab tripId to render dashboard properyly
+                  //     : console.log("OOPS")
+                  // })
+                  .then((userCredential) => {
+                    // console.log('THE RES', userCredential)
+                    this.googleSubmit(userCredential)
                   })
               }}>Login with Google</button>
           </div>
