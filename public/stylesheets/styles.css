@@ -12,14 +12,16 @@ li.trip-buddies {
   padding-right: 9vw;
 }
 
+/*  the class .me is used to sytle your own info on the buddies page 
+    if you want to style everyone else, use class .them  */
 .me {
   font-weight: bold;
-  background-color: purple;
 }
 
-.them {
-  background-color: blue;
+.buddyHeader {
+  text-decoration: underline;
 }
+
 
 /* ------------- CHAT STYLING ------------- */
 .chat {

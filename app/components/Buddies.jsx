@@ -1,4 +1,5 @@
 import React from 'react'
+import SetClass from 'react-classset'
 import firebase from 'APP/fire'
 import InlineBuddyEditIndex from './InlineBuddyEditIndex'
 import moment from 'moment'
@@ -65,36 +66,26 @@ export default class extends React.Component {
     }
   }
 
-  editYourInfo = () => {
-    return (<InlineBuddyEditIndex
-      userId={this.props.userId}
-      tripRef={this.props.tripRef}
-      tripId={this.props.tripId}
-    />
-    )
-  }
-
   buildRow = (buddyId) => {
-    var setClass = React.addons.classSet
-    const buddyClass= setClass({
+    const buddyClass= SetClass({
       'me': buddyId === this.props.userId,
       'them': buddyId !== this.props.userId
     })
 
     return (
       <tr key={buddyId} className='trip-buddies'>
-        <td className="buddyClass">{this.state.buddies[buddyId].name}</td>
-        <td className="buddyClass"> {this.state.buddies[buddyId].homeBase}</td>
-        <td className="buddyClass"> {this.state.buddies[buddyId].status.text}</td>
-        <td className="buddyClass">
+        <td className={buddyClass}>{this.state.buddies[buddyId].name}</td>
+        <td className={buddyClass}> {this.state.buddies[buddyId].homeBase}</td>
+        <td className={buddyClass}> {this.state.buddies[buddyId].status.text}</td>
+        <td className={buddyClass}>
           {(this.state.buddies[buddyId].startDate)
             ? this.state.buddies[buddyId].startDate.slice(0, 10)
             : 'TBD'}</td>
-        <td className="buddyClass">
+        <td className={buddyClass}>
           {(this.state.buddies[buddyId].endDate)
             ? this.state.buddies[buddyId].endDate.slice(0, 10)
             : 'TBD'}</td>
-        <td className="buddyClass">
+        <td className={buddyClass}>
           { (buddyId === this.props.userId)
             ?
             <button style={{
@@ -120,11 +111,11 @@ export default class extends React.Component {
         <table className="table table-striped table-hover">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Home Base</th>
-              <th>Status</th>
-              <th>Free From</th>
-              <th>Free until</th>
+              <th className="buddyHeader">Name</th>
+              <th className="buddyHeader">Home Base</th>
+              <th className="buddyHeader">Status</th>
+              <th className="buddyHeader">Free From</th>
+              <th className="buddyHeader">Free until</th>
               <th></th>
             </tr>
           </thead>
@@ -175,6 +166,28 @@ export default class extends React.Component {
                 <p>Step 2: Share this link with your buddy: </p>
                 <br />
                 <p>{`https://tern-2b37d.firebaseapp.com${window.location.pathname}`}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="modal" id="editYourInfoModal">
+          <div className="modal-dialog modal-md">
+            <div className="modal-content">
+              <div className="modal-header">
+                <button type="button" className="close"
+                  onClick={() =>
+                    document.getElementById('editYourInfoModal').style.display = 'none'}
+                    >&times;
+                </button>
+                <h4 className="modal-title">Edit Your Personal Info</h4>
+              </div>
+              <div className="modal-body">
+              <InlineBuddyEditIndex
+                userId={this.props.userId}
+                tripRef={this.props.tripRef}
+                tripId={this.props.tripId}
+              />
               </div>
             </div>
           </div>
