@@ -35,6 +35,8 @@ border-bottom: 1px solid gray;
   background-color:#18bc9c;
   color: white;
   border-bottom: 1px solid gray;
+  font-size: 16px;
+text-transform: uppercase;
 }
 
 #chat-log {
