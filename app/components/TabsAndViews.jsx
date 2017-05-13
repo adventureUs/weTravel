@@ -31,8 +31,15 @@ export default class TabsAndView extends React.Component {
         <ul
           className="nav nav-tabs">
         <li className={this.props.whichTab ? 'active' : ''}>
-          <a id='Buddies' href="#buddies" onClick={this.props.changeTabs}
+          <a id='Buddies'
+              href="#buddies"
+              onClick={this.props.changeTabs}
+              data-toggle="tooltip"
+              data-placement="left"
+              title=""
+              data-original-title="Buddies shows all of your buddies who are attending the trip."
               >Buddies</a>
+
         </li>
         <li className={this.props.whichTab ? '' : 'active'}>
           <a id='Idea Box' href="#ideabox" onClick={this.props.changeTabs}
