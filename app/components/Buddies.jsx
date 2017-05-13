@@ -68,6 +68,97 @@ export default class extends React.Component {
   render() {
     return (
       <div className="well well-lg">
+        <table className="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Home Base</th>
+              <th>Status</th>
+              <th>Free From</th>
+              <th>Free until</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              this.state.buddies && Object.keys(this.state.buddies).map((buddyId, index) => {
+//               console.log('*********IN BUDDIES RENDER********:', buddyId)
+                return (
+                (buddyId === this.props.userId)
+                ?
+                <tr key={index} className='trip-buddies'>
+                  <td>
+                    <InlineBuddyEditIndex
+                      userId={this.props.userId}
+                      tripRef={this.props.tripRef}
+                      tripId={this.props.tripId}
+                    />
+                  </td>
+                </tr>
+                :
+                <tr key={buddyId} className='trip-buddies'>
+                  <td className='buddiesListItem'>{this.state.buddies[buddyId].name}</td>
+                  <td className='buddiesListItem'>{this.state.buddies[buddyId].homeBase}</td>
+                  <td className='buddiesListItem'>{this.state.buddies[buddyId].status.text}</td>
+                  <td className='buddiesListItem'>{(this.state.buddies[buddyId].startDate) ? this.state.buddies[buddyId].startDate.slice(0, 10) : 'TBD'}</td>
+                  <td className='buddiesListItem'>{(this.state.buddies[buddyId].endDate) ? this.state.buddies[buddyId].endDate.slice(0, 10) : 'TBD'}</td>
+                </tr>
+                )
+              }
+            )}
+          </tbody>
+        </table>
+        <div>
+          <button style={{
+            color: '#18bc9c',
+            backgroundColor: '#ffffff',
+            borderRadius: '5px',
+            padding: '1px 6px'
+          }}
+            type="button"
+            onClick={() =>
+              document.getElementById('addBuddyModal').style.display = 'block'}
+          >Add Buddy!</button>
+        </div>
+        <div className="modal" id="addBuddyModal">
+          <div className="modal-dialog modal-sm">
+            <div className="modal-content">
+              <div className="modal-header">
+                <button type="button" className="close"
+                  onClick={() =>
+                    document.getElementById('addBuddyModal').style.display = 'none'}
+                >&times;
+                    </button>
+                <h4 className="modal-title">Follow these steps:</h4>
+              </div>
+              <div className="modal-body">
+                <p> Step 1: Enter your buddy's e-mail here: </p>
+                <input type="text" id="newBuddyEmail"></input>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={this.makeNewBuddy}
+                >Add a buddy! </button>
+              </div>
+              <div className="modal-footer"
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-around'
+                }}>
+                <p>Step 2: Share this link with your buddy: </p>
+                <br />
+                <p>{`https://tern-2b37d.firebaseapp.com${window.location.pathname}`}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
+
+/* render() {
+    return (
+      <div className="well well-lg">
         <div>
           <ul >
             {Object.keys(this.state.buddies).map((buddyId, index) => {
@@ -138,6 +229,4 @@ export default class extends React.Component {
       </div>
     )
   }
-}
-
-
+} */
