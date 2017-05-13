@@ -74,37 +74,90 @@ export default class extends React.Component {
   }
 
   googleSubmit = (userCredential) => {
-    // console.log('MADE IT TO GOOGLE SUBMIT, here is the credential', userCredential)
+    console.log('MADE IT TO GOOGLE SUBMIT, here is the credential', userCredential)
     const queryString = window.location.search
-    queryString ? this.goToTrip(userCredential.user, queryString) : this.findAndGo(userCredential.user)
+    queryString ? this.goToTrip(queryString) : this.findAndGo(userCredential.user)
   }
 
-  goToTrip = (user, queryString) => {
-    // console.log('MADE IT TO GO TO TRIP', queryString)
+  goToTrip = (queryString) => {
+    console.log('MADE IT TO GO TO TRIP', queryString)
     browserHistory.push('/dashboard/' + queryString.slice(1))
+    // might have to add some additional logic -- if they are erroneously logging in (instead of signing in) for the first time to a trip they were invited to, we have to do some of the trips/buddies updating here too
   }
 
   findAndGo = (user) => {
-    // console.log('MADE IT TO FIND AND GO TO TRIP, here is the user Id', user.uid)
-    // First check to see if this user does in fact already exist in the users datatable
-    // It is possible that they are erroneously trying to 'sign-up' from the login page using Google
-    const userExists = firebase.database().ref('users')
+    console.log('MADE IT TO FIND AND GO TO TRIP, here is the user Id', user.uid)
+    // Check to see if they have any trips
+
+    // It is possible that they are erroneously trying to 'sign-up' from the login page using Google -- if so, the user will be in the Auth table, but NOT the database users table and they won't have any trips
+
+    // first check to see if the user exists in the table
+
+    firebase.database().ref('users')
       .once('value')
-      .then(snapshot => snapshot.hasChild(user.uid))
+      .then(snapshot => {
+        const userExists = snapshot.hasChild(user.uid)
+        console.log('does this user exist in the db?', userExists)
+        if (!userExists) {
+          console.alert('guess we got to make a new one!')
+          this.createNewUserAndTrip(user)
+        }
+      })
       .catch(err => console.error(err))
-    userExists ?
-      // If there is -- find their tripId (assuming there is only one)
-      firebase.database().ref('users').child(user.uid).child('trips')
-        .once('value')
-        .then(snapshot => {
-          console.log('FOUND THE TRIPS:', snapshot.val())
-          // trips is an Array, currently with only one item in it
-          const trips = snapshot.val()
-          browserHistory.push('/dashboard/' + trips[0])
-        })
-      // If not create -- follow the same creation as is found in Sign.up jsx
-      :
-      console.log('YOU DONT EXIST YET')
+
+    // I THINK THE BELOW CODE TURNS OUT TO BE UNNCESSARY SINCE IT SHOULD BE IMPOSSIBLE TO CREATE A NEW USER WITHOUT CREATING A TRIP, UNLESS THEY HAVE A PARAMETRIZED ROUTE
+
+    // const tripExists = firebase.database().ref('users').child(user.uid)
+    //   .once('value')
+    //   .then(snapshot => snapshot.hasChild('trips'))
+    //   .catch(err => console.error(err))
+    // tripExists ?
+    //   // If there is -- find their tripId (assuming there is only one)
+    //   firebase.database().ref('users').child(user.uid).child('trips')
+    //     .once('value')
+    //     .then(snapshot => {
+    //       console.log('FOUND THE TRIPS:', snapshot.val())
+    //       // trips is an Array, currently with only one item in it
+    //       const trips = snapshot.val()
+    //       browserHistory.push('/dashboard/' + trips[0])
+    //     })
+    //   // If not create -- follow the same creation as is found in Sign.up jsx
+    //   : this.createNewTrip(user)
+  }
+
+  createNewUserAndTrip = (user) => {
+    const userId = user.uid
+    // console.log('GOT INTO CREATE-NEW-TRIP', userId)
+
+    // first creates new trip data and key and updates trip table
+    var newTripKey = firebase.database().ref('trips/').push().key
+    // this.setState({ tripId: newTripKey })
+    var newTripData = {
+      tripName: 'Please Name Your Trip Here!',
+      buddies: {
+        [userId]: {
+          status: { id: '2', text: 'Going' }
+        }
+      }
+    }
+    var newTrip = {}
+    newTrip[newTripKey] = newTripData
+    firebase.database().ref('trips/').update(newTrip)
+
+    // then in users table, creates a new user with with new trip key
+    firebase.database().ref('users/').update({
+      [userId]: {
+        email: user.email,
+        trips: [newTripKey]
+      }
+    })
+      // concerned about this then
+      .then(() => {
+        browserHistory.push('/dashboard/' + newTripKey)
+      })
+      .catch(error => {
+        window.alert(error)
+      })
   }
 
   render() {
@@ -151,7 +204,7 @@ export default class extends React.Component {
                   //     : console.log("OOPS")
                   // })
                   .then((userCredential) => {
-                    // console.log('THE RES', userCredential)
+                    console.log('THE RES', userCredential)
                     this.googleSubmit(userCredential)
                   })
               }}>Login with Google</button>
