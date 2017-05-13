@@ -1,3 +1,19 @@
+/*CAMPFIRE friends
+src="https://images.pexels.com/photos/188940/pexels-photo-188940.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"
+
+SUNSET friends
+"https://images.pexels.com/photos/207896/pexels-photo-207896.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"*/
+
+/*ideally want to get these into the public folder*/
+
+html { 
+  background: url(https://images.pexels.com/photos/207896/pexels-photo-207896.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 
 .titleBarTitle {
   background-color: darkslategrey !important;
@@ -20,6 +36,67 @@ li.trip-buddies {
 
 .buddyHeader {
   text-decoration: underline;
+}
+
+/* ------------- LOGIN STYLING ------------- */
+
+.login-container {
+   width: 500px;
+   vertical-align: middle;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   border-radius: 5%;
+   padding: 50px;
+   background: rgba(236, 240, 241, 0.6)
+}
+
+img#icon {
+  height: 30px; 
+  width: 30px;
+  margin-right: 10px;
+}
+
+button.login {
+  width: 100%;
+  opacity: 1 !important;
+}
+
+
+.buttonIcon {
+  float: left;
+  width: 20%;
+
+}
+.buttonText {
+  float: left;
+  text-align: center;
+  width: 80%;
+}
+
+div.or-divider {
+    display: block;
+    text-align: center;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    border-top: #dedede 1px solid;
+}
+
+div.or-divider span {
+    position: relative;
+    top: -10px;
+    /*background:rgba(236, 240, 241, 0.8);*/
+    padding: 10px;
+}
+
+/*div.sign-up a {
+  color: #ecf0f1;
+}*/
+
+a {
+  color: #ecf0f1;
 }
 
 

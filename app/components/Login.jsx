@@ -188,61 +188,71 @@ export default class extends React.Component {
 
     // console.log('PROPS from login', this.props)
     return (
-      <div className="jumbotron" >
-        <form onSubmit={this.onSubmit} className="form-horizontal">
-          <legend className="col-lg-12" >Login with your email & password</legend>
-          <div className="form-group">
-            <label htmlFor="inputEmail" className="col-lg-2 control-label">Email</label>
-            <div className="col-lg-10">
-              <input type="text" className="form-control" id="email" placeholder="Email" onChange={this.setEmailPassword} />
+      <div>
+
+        <div className="jumbotron login-container" >
+          <form onSubmit={this.onSubmit} className="form-horizontal">
+            <legend>Login</legend>
+            <div>
+              <button className='google login btn btn-primary'
+                onClick={() => {
+                  // signInWithPopup will try to open a login popup, and if it's blocked, it'll
+                  // redirect. If you prefer, you can signInWithRedirect, which always
+                  // redirects.
+                  auth.signInWithPopup(google)
+                    // .then(() => {
+                    //   window.location.search ?
+                    //     browserHistory.push('/dashboard/' + window.location.search.slice(1))
+                    //     // : browserHistory.push('/dashboard') // eventually needs to grab tripId to render dashboard properyly
+                    //     : console.log("OOPS")
+                    // })
+                    .then((userCredential) => {
+                      // console.log('THE RES', userCredential)
+                      this.googleSubmit(userCredential)
+                    })
+                }}>
+                <img
+                  id="icon"
+                  src="http://diylogodesigns.com/blog/wp-content/uploads/2016/04/google-logo-icon-PNG-Transparent-Background.png" alt="googleIcon" />
+                Sign in with Google
+            </button>
             </div>
-          </div>
-          <div className="form-group">
-            <label htmlFor="inputPassword" className="col-lg-2 control-label">Password</label>
-            <div className="col-lg-10">
+            <div className="or-divider">
+              <span>Or</span>
+            </div>
+            <div className="form-group">
+              <input type="text" className="login form-control" id="email" placeholder="Email" onChange={this.setEmailPassword} />
+            </div>
+            <div className="form-group">
               <input type="password" className="form-control" id="password" placeholder="Password" onChange={this.setEmailPassword} />
             </div>
-          </div>
-          <div className="form-group">
-            <div className="col-lg-10 col-lg-offset-2">
-              <button type="submit" className="btn btn-primary">Submit</button>
+            <div className="form-group">
+              <button type="submit"
+                className="login btn btn-primary">
+                <img
+                  id="icon"
+                  src="http://www.stickpng.com/assets/images/584856bce0bb315b0f7675ad.png" alt="emailIcon" />
+                Sign in with Email
+              </button>
             </div>
-          </div>
-        </form>
-        <div>
+          </form>
           <div>
-            <button className='google login btn btn-primary'
-              onClick={() => {
-                // signInWithPopup will try to open a login popup, and if it's blocked, it'll
-                // redirect. If you prefer, you can signInWithRedirect, which always
-                // redirects.
-                auth.signInWithPopup(google)
-                  // .then(() => {
-                  //   window.location.search ?
-                  //     browserHistory.push('/dashboard/' + window.location.search.slice(1))
-                  //     // : browserHistory.push('/dashboard') // eventually needs to grab tripId to render dashboard properyly
-                  //     : console.log("OOPS")
-                  // })
-                  .then((userCredential) => {
-                    // console.log('THE RES', userCredential)
-                    this.googleSubmit(userCredential)
-                  })
-              }}>Login with Google</button>
+            <br />
           </div>
-          <br />
-        </div>
 
-        <hr />
+          <hr />
 
-        <div>
-          {
-            window.location.search ?
-              <Link to={'/signup' + window.location.search}><button className='btn btn-success'>Sign Up</button></Link>
-              // : browserHistory.push('/dashboard') // eventually needs to grab tripId to render dashboard properyly
-              : <Link to="/signup"><button className='btn btn-success'>Sign Up</button></Link>
-          }
-        </div>
-      </div >
+          <div>
+            <legend>Create an account</legend>
+            {
+              window.location.search ?
+                <div>New to adventureUs? <Link to={'/signup' + window.location.search}>Sign up here!</Link></div>
+                // : browserHistory.push('/dashboard') // eventually needs to grab tripId to render dashboard properyly
+                : <div className='sign-up'>New to adventureUs? <Link to="/signup" >Sign up here.</Link></div>
+            }
+          </div>
+        </div >
+      </div>
     )
   }
 }
