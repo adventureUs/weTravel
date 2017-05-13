@@ -43,6 +43,7 @@ export default class extends React.Component {
           auth={auth}
           tripsRef={db.ref('trips')}
           tripId={this.state.tripId}
+          userId={this.state.userId ? this.state.userId : 'test'}
           userRef={db.ref('users').child(this.state.userId ? this.state.userId : 'test')}
           tripRef={db.ref('trips').child(this.state.tripId)}
           />

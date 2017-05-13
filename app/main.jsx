@@ -22,7 +22,6 @@ const google = new firebase.auth.GoogleAuthProvider()
 const email = new firebase.auth.EmailAuthProvider()
 // Deleted facebook --> can reimplement if we have time, hahahahhaahahaahhah
 
-
 const Container = () =>
   <div className="container-fluid">
     {

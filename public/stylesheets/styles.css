@@ -1,6 +1,10 @@
 
 .titleBarTitle {
-  background-color: darkslategrey !important;
+  background-color: #18bc9c !important;
+  border-radius: 5px !important;
+/*  line-height: 20px !important;*/
+  color: white;
+  padding: 6px 10px;
 }
 
 li.trip-buddies {
@@ -12,7 +16,7 @@ li.trip-buddies {
   padding-right: 9vw;
 }
 
-/*  the class .me is used to sytle your own info on the buddies page 
+/*  the class .me is used to sytle your own info on the buddies page
     if you want to style everyone else, use class .them  */
 .me {
   font-weight: bold;
