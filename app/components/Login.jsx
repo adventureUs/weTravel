@@ -117,12 +117,10 @@ export default class extends React.Component {
 
   findAndGo = (user) => {
     // console.log('MADE IT TO FIND AND GO TO TRIP, here is the user Id', user.uid)
-    // Check to see if they have any trips
 
-    // It is possible that they are erroneously trying to 'sign-up' from the login page using Google -- if so, the user will be in the Auth table, but NOT the database users table and they won't have any trips
-
+    // It is possible that they are erroneously trying to 'sign-up' from the login page using Google -- if so the user will not be in database users table and they won't have any trips
+    // If they are using google login properly, they should exist in the users table and have at least one trip
     // first check to see if the user exists in the table
-
     firebase.database().ref('users')
       .once('value')
       .then(snapshot => {
@@ -131,28 +129,20 @@ export default class extends React.Component {
         if (!userExists) {
           console.alert('guess we got to make a new one!')
           this.createNewUserAndTrip(user)
+        } else {
+          firebase.database().ref('users')
+            .child(user.uid)
+            .child('trips')
+            .once('value')
+            .then(snapshot => {
+              // console.log('FOUND THE TRIPS:', snapshot.val())
+              // trips is an Array, currently with only one item in it
+              const trips = snapshot.val()
+              browserHistory.push('/dashboard/' + trips[0])
+            })
+            .catch(err => console.error(err))
         }
       })
-      .catch(err => console.error(err))
-
-    // I THINK THE BELOW CODE TURNS OUT TO BE UNNCESSARY SINCE IT SHOULD BE IMPOSSIBLE TO CREATE A NEW USER WITHOUT CREATING A TRIP, UNLESS THEY HAVE A PARAMETRIZED ROUTE
-
-    // const tripExists = firebase.database().ref('users').child(user.uid)
-    //   .once('value')
-    //   .then(snapshot => snapshot.hasChild('trips'))
-    //   .catch(err => console.error(err))
-    // tripExists ?
-    //   // If there is -- find their tripId (assuming there is only one)
-    //   firebase.database().ref('users').child(user.uid).child('trips')
-    //     .once('value')
-    //     .then(snapshot => {
-    //       console.log('FOUND THE TRIPS:', snapshot.val())
-    //       // trips is an Array, currently with only one item in it
-    //       const trips = snapshot.val()
-    //       browserHistory.push('/dashboard/' + trips[0])
-    //     })
-    //   // If not create -- follow the same creation as is found in Sign.up jsx
-    //   : this.createNewTrip(user)
   }
 
   createNewUserAndTrip = (user) => {
@@ -198,7 +188,7 @@ export default class extends React.Component {
 
     // console.log('PROPS from login', this.props)
     return (
-      <div className="jumbotron">
+      <div className="jumbotron" >
         <form onSubmit={this.onSubmit} className="form-horizontal">
           <legend className="col-lg-12" >Login with your email & password</legend>
           <div className="form-group">
@@ -234,7 +224,7 @@ export default class extends React.Component {
                   //     : console.log("OOPS")
                   // })
                   .then((userCredential) => {
-                    console.log('THE RES', userCredential)
+                    // console.log('THE RES', userCredential)
                     this.googleSubmit(userCredential)
                   })
               }}>Login with Google</button>
