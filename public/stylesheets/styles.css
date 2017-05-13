@@ -1,13 +1,23 @@
-/*CAMPFIRE friends
-src="https://images.pexels.com/photos/188940/pexels-photo-188940.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"
+/*
+
+ideally want to get whichever of these we choose into the public folder
+
+
+CAMPFIRE friends
+"https://images.pexels.com/photos/188940/pexels-photo-188940.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"
 
 SUNSET friends
-"https://images.pexels.com/photos/207896/pexels-photo-207896.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"*/
+"https://images.pexels.com/photos/207896/pexels-photo-207896.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"
 
-/*ideally want to get these into the public folder*/
+DIRTHPATH friends
+"https://www.pexels.com/photo/people-walking-on-dirt-path-in-forest-at-daytime-200453/"
+
+
+*/
+
 
 html { 
-  background: url(https://images.pexels.com/photos/207896/pexels-photo-207896.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb) no-repeat center center fixed; 
+  background: url("https://static.pexels.com/photos/48660/pexels-photo-48660.jpeg") no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
