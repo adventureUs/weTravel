@@ -17,7 +17,7 @@ export default class extends React.Component {
   }
   componentDidMount() {
     this.listenTo(this.props.tripRef.child('buddies'))
-    console.log('COMPONENT DID MOUNT PROPS', this.props.tripRef.child('buddies'))
+//     console.log('COMPONENT DID MOUNT PROPS', this.props.tripRef.child('buddies'))
   }
 
   componentWillReceiveProps(incoming, outgoing) {
@@ -71,7 +71,7 @@ export default class extends React.Component {
         <div>
           <ul >
             {Object.keys(this.state.buddies).map((buddyId, index) => {
-              console.log('*********IN BUDDIES RENDER********:', buddyId)
+//               console.log('*********IN BUDDIES RENDER********:', buddyId)
               return (buddyId === this.props.userId) ?
                 <li key={index} className='trip-buddies'>
                   <InlineBuddyEditIndex
