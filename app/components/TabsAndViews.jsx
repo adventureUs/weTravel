@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactTooltip from 'react-tooltip'
 import Buddies from './Buddies'
 import IdeaBox from './IdeaBox'
 import TimelineIndex from './TimelineIndex'
@@ -34,16 +35,17 @@ export default class TabsAndView extends React.Component {
           <a id='Buddies'
               href="#buddies"
               onClick={this.props.changeTabs}
-              data-toggle="tooltip"
-              data-placement="left"
-              title=""
-              data-original-title="Buddies shows all of your buddies who are attending the trip."
+              data-tip="Buddies shows all of your buddies who are attending the trip."
               >Buddies</a>
-
+              <ReactTooltip />
         </li>
         <li className={this.props.whichTab ? '' : 'active'}>
-          <a id='Idea Box' href="#ideabox" onClick={this.props.changeTabs}
+          <a id='Idea Box'
+              href="#ideabox"
+              onClick={this.props.changeTabs}
+              data-tip="Click here to add ideas for your trip"
               >Idea Box</a>
+              <ReactTooltip />
         </li>
       </ul>
 

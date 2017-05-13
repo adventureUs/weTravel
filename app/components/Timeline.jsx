@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactTooltip from 'react-tooltip'
 import { Link } from 'react-router'
 import firebase from 'APP/fire'
 import Timeline from 'react-calendar-timeline'
@@ -84,16 +85,19 @@ export default class AdventureUsTimeline extends Component {
       year: 1
     }
     return (
-      <div className="well">
-        <h1>Timeline</h1>
-          <Timeline groups={this.props.groups}
-            items={this.props.items}
-            visibleTimeStart={this.findMinStartDate(this.props.items).unix()*1000}
-            visibleTimeEnd={this.findMaxEndDate(this.props.items).unix()*1000}
-            timeSteps={timeSteps}
-            sidebarWidth={70}
-            onItemResize={this.onItemResize}
-            />
+      <div>
+        <div className="well"
+              data-tip="View you available dates on the timeline, and drag, drop or extend to change your dates.">
+            <Timeline groups={this.props.groups}
+              items={this.props.items}
+              visibleTimeStart={this.findMinStartDate(this.props.items).unix()*1000}
+              visibleTimeEnd={this.findMaxEndDate(this.props.items).unix()*1000}
+              timeSteps={timeSteps}
+              sidebarWidth={70}
+              onItemResize={this.onItemResize}
+              />
+        </div>
+        <ReactTooltip />
       </div>
     )
   }
