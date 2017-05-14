@@ -51,10 +51,74 @@ export default class IdeaBox extends Component {
     console.log(e.target, idea)
   }
   renderListView() {
-
-    // put the list view XML code in here
-    return <div>'MUST SHOW THE LIST VIEW'</div>
+    //this isn't working. Figure out why.
+    return (
+      <div>
+        <div className="well well-sm">
+         <table className="table table-striped table-hover">
+           <thead>
+             <tr>
+               <th>Idea</th>
+               <th>Link</th>
+               <th>Category</th>
+               <th>Start Time</th>
+               <th>Likes</th>
+             </tr>
+           </thead>
+           <tbody>
+            <div className='top'>
+                  {
+                    this.state.ideas && Object.keys(this.state.ideas).map(key => {
+                      return (
+                   <tr key={key} className='trip-buddies'>
+                     <td >{this.state.ideas[key].ideaName}</td>
+                     <td ><a href={'//'+this.state.ideas[key].link}
+                       target='_blank'>{this.state.ideas[key].link}</a></td>
+                     <td >{this.state.ideas[key].category.text}</td>
+                     <td>{moment(this.state.ideas[key].startDate).calendar()}</td>
+                     <td>
+                       <button style={{
+                         color: '#18bc9c',
+                         backgroundColor: '#ffffff',
+                         borderRadius: '5px',
+                         padding: '1px 6px'
+                       }}
+                           type="button"
+                           id={key}
+                           onClick={ this.addLikes}>{this.state.ideas[key].likes}
+                       </button>
+                     </td>
+                     <td>
+                       <button style={{
+                         color: '#18bc9c',
+                         backgroundColor: '#ffffff',
+                         borderRadius: '5px',
+                         padding: '1px 6px'
+                       }}
+                           type="button"
+                           id={key}
+                           onClick={this.deleteIdea}>Delete
+                       </button>
+                     </td>
+                   </tr>
+                  )
+                })
+            }
+          </div>
+           </tbody>
+         </table>
+        </div>
+        <div className='trip-buddies well well-sm'>
+        <div className='bottom'>
+          <AddIdea
+                userId={this.props.userId}
+                ideasRef={this.props.ideasRef}/>
+        </div>
+        </div>
+      </div>
+    )
   }
+
   renderCardsView() {
     // put the cards view XML code in here
     return <div>'MUST SHOW THE CARD VIEW'</div>
