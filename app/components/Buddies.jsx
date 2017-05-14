@@ -12,11 +12,10 @@ export default class extends React.Component {
       buddies: {} // there's nothing on state when we go to the buddies tab
     }
   }
-  componentWillMount() {
-    // we want to loop over the buddies in the current trip and have them render out in the list of items.
-    // We need to check if the user we're looping over is the current user, if so, pass them through to InlineBuddyEditIndex
-    // console.log('***************BUDDIES COMONENT WILL MOUNT*******this.props.tripRef.child("/buddies"):', this.props)
+  componentWillUnmount() {
+    this.unsubscribe && this.unsubscribe()
   }
+
   componentDidMount() {
     this.listenTo(this.props.tripRef.child('buddies'))
 //     console.log('COMPONENT DID MOUNT PROPS', this.props.tripRef.child('buddies'))

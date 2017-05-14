@@ -27,7 +27,7 @@ export default class AdventureUsTimeline extends Component {
   }
 
   componentWillUnmount() {
-    // this.unsubscribe && this.unsubscribe()
+    this.unsubscribe && this.unsubscribe()
   }
 
   findMinStartDate = (items) => {

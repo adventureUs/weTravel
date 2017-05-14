@@ -22,9 +22,9 @@ export default class TimelineIndex extends React.Component {
     }
     this.listenFor = this.listenFor.bind(this)
   }
-  // componentWillUnmount() {
-  //   this.unsubscribe && this.unsubscribe()
-  // }
+  componentWillUnmount() {
+    this.unsubscribe && this.unsubscribe()
+  }
   componentDidMount() {
     this.props.whichTab && this.props.whichTab === 'Buddies' ?
       this.listenFor('buddies') // For Buddies Slider Timelne View

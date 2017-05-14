@@ -51,10 +51,9 @@ export default class InlineBuddyEdit extends Component {
     //   this.props.tripRef.child('/buddies').child(this.props.userId || 'test')
     // )
   }
-
-  // componentWillUnmount() {
-  //   this.unsubscribe()
-  // }
+  componentWillUnmount() {
+    this.unsubscribe && this.unsubscribe()
+  }
 
   componentWillReceiveProps(incoming, outgoing) {
     // When the props sent to us by our parent component change,

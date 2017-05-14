@@ -15,6 +15,9 @@ export default class IdeaBox extends Component {
     this.addLikes = this.addLikes.bind(this)
 
   }
+  componentWillUnmount() {
+    this.unsubscribe && this.unsubscribe()
+  }
 
   componentDidMount() {
     // console.log('COMPONENT DID MOUNT PROPS', this.props)
