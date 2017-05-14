@@ -127,7 +127,7 @@ export default class extends React.Component {
         const userExists = snapshot.hasChild(user.uid)
         // console.log('does this user exist in the db?', userExists)
         if (!userExists) {
-          console.alert('guess we got to make a new one!')
+          console.log('guess we got to make a new one!')
           this.createNewUserAndTrip(user)
         } else {
           firebase.database().ref('users')
@@ -190,32 +190,32 @@ export default class extends React.Component {
     return (
       <div id="background-div">
         <div className="jumbotron login-container" >
-          <form onSubmit={this.onSubmit} className="form-horizontal">
-            <legend>Login</legend>
-            <div>
-              <button className='google login btn btn-primary'
-                onClick={() => {
-                  // signInWithPopup will try to open a login popup, and if it's blocked, it'll
-                  // redirect. If you prefer, you can signInWithRedirect, which always
-                  // redirects.
-                  auth.signInWithPopup(google)
-                    // .then(() => {
-                    //   window.location.search ?
-                    //     browserHistory.push('/dashboard/' + window.location.search.slice(1))
-                    //     // : browserHistory.push('/dashboard') // eventually needs to grab tripId to render dashboard properyly
-                    //     : console.log("OOPS")
-                    // })
-                    .then((userCredential) => {
-                      // console.log('THE RES', userCredential)
-                      this.googleSubmit(userCredential)
-                    })
-                }}>
-                <img
-                  id="icon"
-                  src="http://diylogodesigns.com/blog/wp-content/uploads/2016/04/google-logo-icon-PNG-Transparent-Background.png" alt="googleIcon" />
-                Sign in with Google
+          <legend>Login</legend>
+          <div>
+            <button className='google login btn btn-primary'
+              onClick={() => {
+                // signInWithPopup will try to open a login popup, and if it's blocked, it'll
+                // redirect. If you prefer, you can signInWithRedirect, which always
+                // redirects.
+                auth.signInWithPopup(google)
+                  // .then(() => {
+                  //   window.location.search ?
+                  //     browserHistory.push('/dashboard/' + window.location.search.slice(1))
+                  //     // : browserHistory.push('/dashboard') // eventually needs to grab tripId to render dashboard properyly
+                  //     : console.log("OOPS")
+                  // })
+                  .then((userCredential) => {
+                    // console.log('THE RES', userCredential)
+                    this.googleSubmit(userCredential)
+                  })
+              }}>
+              <img
+                id="icon"
+                src="http://diylogodesigns.com/blog/wp-content/uploads/2016/04/google-logo-icon-PNG-Transparent-Background.png" alt="googleIcon" />
+              Sign in with Google
             </button>
-            </div>
+          </div>
+          <form onSubmit={this.onSubmit} className="form-horizontal">
             <div className="or-divider">
               <span>Or</span>
             </div>
