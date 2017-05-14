@@ -140,7 +140,7 @@ export default class IdeaBox extends Component {
     // console.log('IN IDEA BOX ', Object.values(this.state.ideas))
     return (
       <div>
-       <div className='top'>
+       <div className=''>
           {
             this.state.ideas && Object.keys(this.state.ideas).map(key => {
               return (
@@ -155,7 +155,7 @@ export default class IdeaBox extends Component {
                         <button style={{color: '#18bc9c', backgroundColor: '#ffffff', borderRadius: '5px', padding: '1px 6px'}}className='trip-buddies-likes-button'
                             type="button" id={key} onClick={ this.addLikes}>{this.state.ideas[key].likes}</button>
                       </div>
-                      <div>
+                      <div className='delete'>
                         <button style={{color: '#18bc9c', backgroundColor: '#ffffff', borderRadius: '5px', padding: '1px 6px'}}className='trip-buddies-delete-button'
                             type="button" id={key} onClick={this.deleteIdea}>Delete</button>
                       </div>
@@ -167,15 +167,16 @@ export default class IdeaBox extends Component {
           }
           <div>
               <AddIdea
+                className='hideMe'
                 userId={this.props.userId}
                 ideasRef={this.props.ideasRef}
               />
           </div>
-          <button className='ideasListSelection' onClick={this.renderListView}>Temp Show List</button>
+          <button className='ideasListSelection hideMe' onClick={this.renderListView}>Temp Show List</button>
            {this.renderListView}
-          <button className='ideasCardsSelection' onClick={this.renderCardsView}>Temp Show Cards</button>
+          <button className='ideasCardsSelection hideMe' onClick={this.renderCardsView}>Temp Show Cards</button>
            {this.renderCardsView}
-          <button className='addNewIdea' onClick={() => this.renderAddNewItem()}>Temp Add New Idea</button>
+          <button className='addNewIdea hideMe' onClick={() => this.renderAddNewItem()}>Temp Add New Idea</button>
            {this.renderAddIdea}
         </div>
 
