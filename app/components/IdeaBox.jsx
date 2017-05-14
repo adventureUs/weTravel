@@ -140,7 +140,7 @@ export default class IdeaBox extends Component {
     // console.log('IN IDEA BOX ', Object.values(this.state.ideas))
     return (
       <div>
-       <div className=''>
+       <div>
           {
             this.state.ideas && Object.keys(this.state.ideas).map(key => {
               return (
@@ -167,17 +167,10 @@ export default class IdeaBox extends Component {
           }
           <div>
               <AddIdea
-                className='hideMe'
                 userId={this.props.userId}
                 ideasRef={this.props.ideasRef}
               />
           </div>
-          <button className='ideasListSelection hideMe' onClick={this.renderListView}>Temp Show List</button>
-           {this.renderListView}
-          <button className='ideasCardsSelection hideMe' onClick={this.renderCardsView}>Temp Show Cards</button>
-           {this.renderCardsView}
-          <button className='addNewIdea hideMe' onClick={() => this.renderAddNewItem()}>Temp Add New Idea</button>
-           {this.renderAddIdea}
         </div>
 
       </div>

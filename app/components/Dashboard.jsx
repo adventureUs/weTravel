@@ -25,7 +25,7 @@ export default class Dashboard extends Component {
   }
   render() {
     return (
-      <div className="">
+      <div>
           <div className="row">
             <div className="col col-md-3">
               <Chat

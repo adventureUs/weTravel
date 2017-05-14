@@ -274,39 +274,24 @@ section div {
 		border-bottom-right-radius: 10px;
 		-webkit-transform:translate(-30px, -2px);
 }
-/* ------------- START IDEASBOX STYLING ------------- */
-.hideMe {
-  display: none !important;
+/* ------------- START BUDDYLIST STYLING ------------- */
+.well .well-lg {
+  height: calc(70vh);
 }
+/* ------------- START DASHBOARD STYLING ------------- */
+.ideas-main-container {
+  height: calc(95vh);
+}
+/* ------------- START IDEASBOX STYLING ------------- */
 .top {
   overflow: scroll;
   height: 350px;
 }
-/*.top {
-  border: 1px solid red;
-  background: white;
-  opacity: 0.9;
-  font-size: 1.5vh;
-  height: 50vh;
-  top: 35vh;
-  bottom: 0vh;
-  left: 1vw;
-  right: 2vw;
-  position: absolute;
-  padding: 4vh;
-  display: flex;
-  justify-content: space-between;
-  flex-flow: wrap;
-}*/
+
 
 .bottom {
-  display: inline-flex;
-  width: 70%;
+  display: absolute;
   height: auto;
-  font-size: 1.0vw;
-  top: 39vh;
-  left: 31vw;
-  right: 8vw;
   border-color: white;
   border-style: solid;
   background-color: aliceblue;
@@ -315,9 +300,8 @@ section div {
   position: absolute;
   font-size: 1.5vh;
   color: gray;
-  height: 10vh;
-  bottom: 0;
   width: auto;
+  }
 }
 .bottom-right {
   color: #8b0000;
