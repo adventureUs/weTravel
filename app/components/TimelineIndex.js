@@ -74,7 +74,7 @@ export default class TimelineIndex extends React.Component {
         bodyData = branchIds.map(key => {
           return {
             id: key,
-            group: key,
+            group: dbObject[key].category.text,
             title: dbObject[key].ideaName,
             start_time: moment(dbObject[key].startDate),
             end_time: moment(dbObject[key].endDate),
@@ -82,12 +82,22 @@ export default class TimelineIndex extends React.Component {
             canChangeGroup: false // if we oneday get to items do conditional checks for item categories here
           }
         })
-        if (dbObject) namesData = Object.keys(dbObject).map((key) =>
-         ({
-           id: key,
-           title: dbObject[key].category.text
-         })
-          )
+        // use this categoryArr to hold the categories,
+        // if it does not contain the category on the dbObject,
+        //    then add the object to the namesData array in the map
+        // otherwise it is a duplicte, so do not add that dbObject item in the map
+        const categoryArr = []
+        if (dbObject) namesData = Object.keys(dbObject).map((key) => {
+          if (!categoryArr.includes(dbObject[key].category.text)) {
+            categoryArr.push(dbObject[key].category.text)
+            return ({
+              // id: key,
+              id: dbObject[key].category.text,
+              title: dbObject[key].category.text
+            })
+          }
+        })
+          .filter((key) => key !== undefined)
       }
       this.setState({groups: namesData})
       this.setState({items: bodyData})
