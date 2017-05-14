@@ -13,7 +13,7 @@ export default class TabsAndView extends React.Component {
     }
   }
   componentDidMount(props) {
-    console.log('*IN TABS AND VIEWS COMPONENT DID MOUNT*****, props', this.props)
+//     console.log('*IN TABS AND VIEWS COMPONENT DID MOUNT*****, props', this.props)
   }
   componentWillMount() {
     const auth = firebase.auth()
@@ -24,7 +24,7 @@ export default class TabsAndView extends React.Component {
     this.unsubscribe && this.unsubscribe()
   }
   componentWilReceiveProps(incomming, outgoing) {
-    console.log('******TABS AND VIEWS WILL RECEIVE PROPS***INCOMMING: ', incomming)
+//     console.log('******TABS AND VIEWS WILL RECEIVE PROPS***INCOMMING: ', incomming)
   }
 
   render() {
