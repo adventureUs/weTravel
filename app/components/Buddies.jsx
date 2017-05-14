@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactTooltip from 'react-tooltip'
 import SetClass from 'react-classset'
 import firebase from 'APP/fire'
 import InlineBuddyEditIndex from './InlineBuddyEditIndex'
@@ -88,6 +89,7 @@ export default class extends React.Component {
         <td className={buddyClass}>
           { (buddyId === this.props.userId)
             ?
+            <div>
             <button style={{
               color: '#18bc9c',
               backgroundColor: '#ffffff',
@@ -97,7 +99,11 @@ export default class extends React.Component {
                     type="button"
                     onClick={() =>
               document.getElementById('editYourInfoModal').style.display = 'block'}
-          >Edit</button>
+              data-tip="Edit your name, home base, status, and start & end dates."
+            >Edit</button>
+            <ReactTooltip />
+            </div>
+
             :<div></div>
           }
         </td>
@@ -136,7 +142,9 @@ export default class extends React.Component {
             type="button"
             onClick={() =>
               document.getElementById('addBuddyModal').style.display = 'block'}
+              data-tip="Add some buddies to your trip!"
           >Add Buddy!</button>
+              <ReactTooltip />
         </div>
         <div className="modal" id="addBuddyModal">
           <div className="modal-dialog modal-sm">
