@@ -27,9 +27,9 @@ https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg
 
 
 
-html { 
+html {
   /*background: url("../mountain-friends.jpeg") no-repeat */
-  background: url("https://static.pexels.com/photos/130111/pexels-photo-130111.jpeg") no-repeat center center fixed; 
+  background: url("https://static.pexels.com/photos/130111/pexels-photo-130111.jpeg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -80,7 +80,7 @@ li.trip-buddies {
 }
 
 img#icon {
-  height: 30px; 
+  height: 30px;
   width: 30px;
   margin-right: 10px;
 }
@@ -261,6 +261,27 @@ section div {
 		background:white;
 		border-bottom-right-radius: 10px;
 		-webkit-transform:translate(-30px, -2px);
+}
+
+/* ------------- BUDDY MODAL STYLING ------------- */
+
+div#add-buddy-modal {
+  height: 500px !important ;
+}
+
+.modal-add-buddy {
+  width: 100%;
+  padding: 15px 5px 15px 5px;
+}
+
+input.modal-add-buddy-input {
+  width: 70%;
+  float: left;
+}
+
+button.modal-add-buddy-button {
+  width: 20%;
+  float: left;
 }
 /* ------------- START IDEASBOX STYLING ------------- */
 .top {
