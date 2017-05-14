@@ -25,6 +25,15 @@ JUMPING OFF A DOCK
 https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg
 */
 
+/* Timeline Styling */
+
+.rct-label-group {
+  background: #18bc9c !important;
+}
+
+.rct-sidebar-header {
+  background: #18bc9c !important;
+}
 
 
 html {
