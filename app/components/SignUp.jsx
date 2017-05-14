@@ -39,7 +39,7 @@ export default class extends React.Component {
 
   addToTrip = (user, queryString) => {
     // console.log('GOT INTO ADD-TO-TRIP', user)
-    
+
     const userId = user.uid
     const tripId = queryString.slice(1)
     // this.setState({ tripId: tripId })
@@ -100,34 +100,56 @@ export default class extends React.Component {
       })
   }
 
+  redirect = (e) => {
+    e.preventDefault()
+    // console.log('HIT THE REDIRECT')
+    browserHistory.push('/login/' + window.location.search)
+  }
+
   render() {
     const auth = firebase.auth()
     const google = new firebase.auth.GoogleAuthProvider()
     const email = new firebase.auth.EmailAuthProvider()
     // console.log('STATE, look at tripID', this.state)
     return (
-      <div className="jumbotron">
-        <form onSubmit={this.onSubmit} className="form-horizontal well">
-          <legend className="col-lg-12" >Create an account with your e-mail and a password</legend>
-          <div className="form-group">
-            <label htmlFor="inputEmail" className="col-lg-2 control-label">Email</label>
-            <div className="col-lg-10">
-              <input type="email" className="form-control" id="email" placeholder="Email" onChange={this.setEmailPassword} />
+      <div id="background-div">
+        <div className="jumbotron login-container">
+          <form onSubmit={this.onSubmit}
+            className="form-horizontal">
+            <legend>Sign up</legend>
+            <div> Welcome to adventureUs, a place where you can meet up with your buddies and plan your next great adventure! Already have an account?
+            <a onClick={this.redirect} href="">  Sign in.</a>
             </div>
-          </div>
-          <div className="form-group">
-            <label htmlFor="inputPassword" className="col-lg-2 control-label">Password</label>
-            <div className="col-lg-10">
-              <input type="password" className="form-control" id="password" placeholder="Password" onChange={this.setEmailPassword} />
+            <hr />
+            <div className="form-group">
+              <div>
+                <input type="email" className="form-control" id="email" placeholder="Email" onChange={this.setEmailPassword} />
+              </div>
             </div>
-          </div>
-          <div className="form-group">
-            <div className="col-lg-10 col-lg-offset-2">
-              <button type="submit" className='btn btn-success'>Submit</button>
+            <div className="form-group">
+              <div>
+                <input type="password" className="form-control" id="password" placeholder="Password" onChange={this.setEmailPassword} />
+              </div>
             </div>
+            <div className="form-group">
+              <div>
+                <input type="password" className="form-control" id="password" placeholder="Confirm Password" onChange={this.setEmailPassword} />
+              </div>
+            </div>
+            <div className="form-group">
+              <div>
+                <button type="submit"
+                  className='login btn btn-primary'>
+                  <img
+                    id="icon"
+                    src="http://www.stickpng.com/assets/images/584856bce0bb315b0f7675ad.png" alt="emailIcon" />
+                  Sign up with Email</button>
+              </div>
+            </div>
+          </form>
+          <div className="or-divider">
+            <span>Or</span>
           </div>
-        </form>
-        <div>
           <div>
             <button className='google login btn btn-primary'
               onClick={() => {
@@ -143,9 +165,13 @@ export default class extends React.Component {
                     // console.log('THE RES', userCredential)
                     this.googleSubmit(userCredential)
                   })
-              }}>Sign up with Google</button>
+              }}>
+              <img
+                id="icon"
+                src="http://diylogodesigns.com/blog/wp-content/uploads/2016/04/google-logo-icon-PNG-Transparent-Background.png" alt="googleIcon" />
+              Sign up with Google
+                  </button>
           </div>
-          <br />
         </div>
       </div>
     )

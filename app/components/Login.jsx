@@ -188,8 +188,7 @@ export default class extends React.Component {
 
     // console.log('PROPS from login', this.props)
     return (
-      <div>
-
+      <div id="background-div">
         <div className="jumbotron login-container" >
           <form onSubmit={this.onSubmit} className="form-horizontal">
             <legend>Login</legend>

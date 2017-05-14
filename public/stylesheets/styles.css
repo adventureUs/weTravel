@@ -9,7 +9,7 @@ CAMPFIRE friends
 SUNSET friends
 "https://images.pexels.com/photos/207896/pexels-photo-207896.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"
 
-DIRTHPATH friends
+DIRT PATH friends
 "https://www.pexels.com/photo/people-walking-on-dirt-path-in-forest-at-daytime-200453/"
 
 MOUNTAIN friends
@@ -18,7 +18,13 @@ https://static.pexels.com/photos/130111/pexels-photo-130111.jpeg
 PICNIC friends
 https://static.pexels.com/photos/48660/pexels-photo-48660.jpeg
 
+BEACH CAMPFIRE
+https://static.pexels.com/photos/26135/pexels-photo-26135.jpg
+
+JUMPING OFF A DOCK
+https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg
 */
+
 
 
 html { 
@@ -111,7 +117,9 @@ div.or-divider span {
 }*/
 
 a {
-  color: #ecf0f1;
+  color: darkslategray;
+  padding: 5px;
+  font-weight: bold;
 }
 
 
