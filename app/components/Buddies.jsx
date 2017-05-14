@@ -131,7 +131,7 @@ export default class extends React.Component {
           <tbody>
             {
               this.state.buddies && Object.keys(this.state.buddies)
-                .map((buddyId) => { return this.buildRow(buddyId) })
+                .map((buddyId) => this.buildRow(buddyId))
             }
           </tbody>
         </table>

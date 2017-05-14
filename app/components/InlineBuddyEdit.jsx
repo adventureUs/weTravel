@@ -126,7 +126,7 @@ export default class InlineBuddyEdit extends Component {
                 value={this.state.name}
                 change={this.setLocalState}
                 propName="name"
-                className={this.state.highlight ? "editable" : ""}
+                className={this.state.highlight ? 'editable' : ''}
                 validate={this.isStringAcceptable}
                 classLoading="loading"
                 classInvalid="Invalid" />
@@ -136,7 +136,7 @@ export default class InlineBuddyEdit extends Component {
               <span>Status: </span>
               <RIESelect
                 value={this.state.status}
-                className={this.state.highlight ? "editable" : ""}
+                className={this.state.highlight ? 'editable' : ''}
                 options={this.state.statusOptions}
                 change={this.setLocalState}
                 classLoading="loading"
@@ -149,7 +149,7 @@ export default class InlineBuddyEdit extends Component {
                 value={this.state.homeBase}
                 change={this.setLocalState}
                 propName="homeBase"
-                className={this.state.highlight ? "editable" : ""}
+                className={this.state.highlight ? 'editable' : ''}
                 validate={this.isStringAcceptable}
                 classLoading="loading"
                 classInvalid="Invalid" />

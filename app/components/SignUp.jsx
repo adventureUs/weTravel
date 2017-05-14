@@ -76,7 +76,6 @@ export default class extends React.Component {
       })
   }
 
-
   createNewTrip = (user) => {
     const userId = user.uid
     // console.log('GOT INTO CREATE-NEW-TRIP', userId)
