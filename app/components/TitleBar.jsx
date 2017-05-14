@@ -16,17 +16,22 @@ export default class TitleBar extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // console.log('TITLE BAR ComponentWILLMOUNT,  PROPS', this.props)
     this.unsubscribe = this.props.tripRef
-      .on('value', snapshot => {
-        const tripObj = snapshot.val()
-        idToNameOrEmail(this.props.userId)
-        .then(nameOrEmail => this.setState({
-          tripName: tripObj.tripName,
-          userName: nameOrEmail
-        })).catch(console.error)
-      })
+    .on('value', snapshot => {
+      // console.log('TITLE BAR DID_MOUNT: tripRef, snapshot', this.props.tripRef, snapshot)
+      // Stef says: Weird edge case on logout:  tripRef and snapshot log as existing
+      // but snapshot.val() finds snapshot undefined...
+      // safety (hack?) is the if below:
+      if (!snapshot) return function() {}
+      const tripObj = snapshot.val()
+      idToNameOrEmail(this.props.userId)
+      .then(nameOrEmail => this.setState({
+        tripName: tripObj.tripName,
+        userName: nameOrEmail
+      })).catch(console.error)
+    })
   }
   componentWillUnmount() {
     // console.log('TITLE BAR ComponentWILL_UNMOUNT')
@@ -119,8 +124,8 @@ export default class TitleBar extends React.Component {
                   padding: '3px 6px'
                 }}
                 onClick={() => {
-                  this.props.unsubscribeAuth()
                   auth.signOut()
+                  browserHistory.push('/login')
                 }}>logout
                 </button>
               :
