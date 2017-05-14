@@ -264,27 +264,29 @@ section div {
 }
 /* ------------- START IDEASBOX STYLING ------------- */
 .top {
+  border: 1px solid red;
   background: white;
   opacity: 0.9;
-  height: 55vh;
-  top: 34vh;
+  height: 50vh;
+  top: 35vh;
   bottom: 0vh;
-  left: 2vw;
-  right: 10vw;
+  left: 1vw;
+  right: 2vw;
   position: absolute;
   padding: 4vh;
   display: flex;
   justify-content: space-between;
   flex-flow: wrap;
 }
+
 .bottom {
   display: inline-flex;
   width: 70%;
   height: auto;
   font-size: 1.0vw;
-  top: 43vh;
-  left: 25vw;
-  right: 10vw;
+  top: 39vh;
+  left: 31vw;
+  right: 8vw;
   border-color: white;
   border-style: solid;
   background-color: aliceblue;
@@ -294,6 +296,8 @@ section div {
   font-size: 1.5vh;
   color: gray;
   height: 10vh;
+  bottom: 0;
+  width: auto;
 }
 .bottom-right {
   color: #8b0000;
