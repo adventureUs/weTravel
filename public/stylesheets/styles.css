@@ -1,3 +1,41 @@
+/*
+
+ideally want to get whichever of these we choose into the public folder
+
+
+CAMPFIRE friends
+"https://images.pexels.com/photos/188940/pexels-photo-188940.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"
+
+SUNSET friends
+"https://images.pexels.com/photos/207896/pexels-photo-207896.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"
+
+DIRT PATH friends
+"https://www.pexels.com/photo/people-walking-on-dirt-path-in-forest-at-daytime-200453/"
+
+MOUNTAIN friends
+https://static.pexels.com/photos/130111/pexels-photo-130111.jpeg
+
+PICNIC friends
+https://static.pexels.com/photos/48660/pexels-photo-48660.jpeg
+
+BEACH CAMPFIRE
+https://static.pexels.com/photos/26135/pexels-photo-26135.jpg
+
+JUMPING OFF A DOCK
+https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg
+*/
+
+
+
+html { 
+  /*background: url("../mountain-friends.jpeg") no-repeat */
+  background: url("https://static.pexels.com/photos/130111/pexels-photo-130111.jpeg") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 
 .titleBarTitle {
   background-color: #18bc9c !important;
@@ -24,6 +62,70 @@ li.trip-buddies {
 
 .buddyHeader {
   text-decoration: underline;
+}
+
+
+/* ------------- LOGIN STYLING ------------- */
+
+.login-container {
+   width: 500px;
+   vertical-align: middle;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   border-radius: 5%;
+   padding: 50px;
+   background: rgba(236, 240, 241, 0.6)
+}
+
+img#icon {
+  height: 30px; 
+  width: 30px;
+  margin-right: 10px;
+}
+
+button.login {
+  width: 100%;
+  opacity: 1 !important;
+}
+
+
+.buttonIcon {
+  float: left;
+  width: 20%;
+
+}
+.buttonText {
+  float: left;
+  text-align: center;
+  width: 80%;
+}
+
+div.or-divider {
+    display: block;
+    text-align: center;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    border-top: #dedede 1px solid;
+}
+
+div.or-divider span {
+    position: relative;
+    top: -10px;
+    /*background:rgba(236, 240, 241, 0.8);*/
+    padding: 10px;
+}
+
+/*div.sign-up a {
+  color: #ecf0f1;
+}*/
+
+a {
+  color: darkslategray;
+  padding: 5px;
+  font-weight: bold;
 }
 
 /* ------------- CHAT STYLING ------------- */
