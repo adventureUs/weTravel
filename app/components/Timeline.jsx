@@ -78,7 +78,7 @@ export default class AdventureUsTimeline extends Component {
     const timeSteps = {
       second: 0,
       minute: 0,
-      hour: 1,
+      hour: 0,
       day: 1,
       month: 1,
       year: 1

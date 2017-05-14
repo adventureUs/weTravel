@@ -76,26 +76,32 @@ export default class AddIdea extends Component {
   }
   calculateDefaultDuration() {
     let hours = 0
-    switch (this.state.category.id) {
-    case '1': // Food
-      this.state.startDate.add(12, 'hours')
-      hours = 1
-      break
-    case '2': // Activity
-      this.state.startDate.add(14, 'hours')
-      hours = 4
-      break
-    case '3': // Accomodation
-      this.state.startDate.add(18, 'hours')
-      hours = 12
-      break
-    case '4': // Miscellaneous
-      this.state.startDate.add(10, 'hours')
-      hours = 2
-      break
-    default:  // Default in case we messed up
-      hours = 1
-    }
+    // switch (this.state.category.id) {
+    // case '1': // Food
+    //   this.state.startDate.add(12, 'hours')
+    //   // hours = 1
+    //   hours = 4
+    //   break
+    // case '2': // Activity
+    //   this.state.startDate.add(14, 'hours')
+    //   // hours = 4
+    //   hours = 6
+    //   break
+    // case '3': // Accomodation
+    //   this.state.startDate.add(18, 'hours')
+    //   // hours = 12
+    //   hours = 24
+    //   break
+    // case '4': // Miscellaneous
+    //   this.state.startDate.add(10, 'hours')
+    //   // hours = 2
+    //   hours = 12
+    //   break
+    // default:  // Default in case we messed up
+    //   // hours = 1
+    //   hours = 12
+    // }
+    hours = 24
     return this.state.startDate ?
       moment(this.state.startDate).add(hours, 'hours') :
       moment()
