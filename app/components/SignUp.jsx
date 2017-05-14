@@ -76,7 +76,6 @@ export default class extends React.Component {
       })
   }
 
-
   createNewTrip = (user) => {
     const userId = user.uid
     // console.log('GOT INTO CREATE-NEW-TRIP', userId)
@@ -122,7 +121,7 @@ export default class extends React.Component {
     const auth = firebase.auth()
     const google = new firebase.auth.GoogleAuthProvider()
     const email = new firebase.auth.EmailAuthProvider()
-    console.log('STATE, look at tripID', this.state)
+    // console.log('STATE, look at tripID', this.state)
     return (
       <div id="background-div">
         <div className="jumbotron login-container">
