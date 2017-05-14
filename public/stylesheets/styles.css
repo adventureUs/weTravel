@@ -38,7 +38,11 @@ html {
 
 
 .titleBarTitle {
-  background-color: darkslategrey !important;
+  background-color: #18bc9c !important;
+  border-radius: 5px !important;
+/*  line-height: 20px !important;*/
+  color: white;
+  padding: 6px 10px;
 }
 
 li.trip-buddies {
@@ -50,7 +54,7 @@ li.trip-buddies {
   padding-right: 9vw;
 }
 
-/*  the class .me is used to sytle your own info on the buddies page 
+/*  the class .me is used to sytle your own info on the buddies page
     if you want to style everyone else, use class .them  */
 .me {
   font-weight: bold;
@@ -59,6 +63,7 @@ li.trip-buddies {
 .buddyHeader {
   text-decoration: underline;
 }
+
 
 /* ------------- LOGIN STYLING ------------- */
 
@@ -123,11 +128,26 @@ a {
   font-weight: bold;
 }
 
-
 /* ------------- CHAT STYLING ------------- */
-.chat {
+
+.chat-container {
+border-right: 2px solid gray;
+border-bottom: 1px solid gray;
+}
+
+#chat-title {
+  text-align: center;
+  padding: 10px;
+  background-color:#18bc9c;
+  color: white;
+  border-bottom: 1px solid gray;
+  font-size: 16px;
+text-transform: uppercase;
+}
+
+#chat-log {
   padding: 20px;
-  height: 500px;
+  height: 80vh;
   overflow-y: scroll;
 	font-size: 15px;
 	font-weight: normal;
@@ -135,15 +155,28 @@ a {
 }
 
 #chatInput {
-   position:absolute;
+   /*display: flex;*/
+   /*position:absolute;*/
    left:20px;
    bottom:0px;
    height:30px;
    width:100%;
 }
+
+#messageInput {
+width: 80%;
+float: left;
+}
+
+#submitMessage {
+width: 20%;
+float: left;
+}
+
+
 section {
 	max-width: 100%;
-	margin: 50px auto;
+	margin: 0px auto;
 }
 
 section div {
@@ -166,6 +199,7 @@ section div {
 	background:#0B93F6;
 	border-radius:25px;
 	float: right;
+  width: 100%;
 
 }
 
@@ -197,10 +231,11 @@ section div {
 .from-them {
 	position:relative;
 	padding:10px 20px;
-	background: whitesmoke;
+	background: #E5E5EA;
 	border-radius:25px;
 	color: black;
   float: left;
+  width: 100%;
 }
 
 .from-them :before {
@@ -210,7 +245,7 @@ section div {
 		bottom:-2px;
 		left:-7px;
 		height:20px;
-		border-left:20px solid #E5E5EA;
+		border-left:20px solid#E5E5EA;
 		border-bottom-right-radius: 16px 14px;
 		-webkit-transform:translate(0, -2px);
 }

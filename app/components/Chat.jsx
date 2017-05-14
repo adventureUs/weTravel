@@ -14,9 +14,6 @@ export default class extends React.Component {
       currMessage: 'Type a message...',
       prevChats: {}
     }
-
-    this.onChange = this.onChange.bind(this)
-    this.handleChat = this.handleChat.bind(this)
   }
 
   componentDidMount() {
@@ -42,28 +39,32 @@ export default class extends React.Component {
     // }, function(error) {
     //   console.log('Error: ' + error.code)
     // })
-    if (this.props.userId) idToNameOrEmail(this.props.userId)
-      .then(user => this.setState({ userChatHandle: user }))
+    if (this.props.userId) {
+      idToNameOrEmail(this.props.userId)
+        .then(user => this.setState({ userChatHandle: user }))
+    }
   }
 
   componentWillReceiveProps(incoming) {
     this.listenTo(incoming.tripRef.child('/chatLog'))
+    if (incoming.userId) {
+      idToNameOrEmail(incoming.userId)
+        .then(user => this.setState({ userChatHandle: user }))
+    }
   }
 
   listenTo(ref) {
     if (this.unsubscribe) this.unsubscribe()
-
     const listener = ref.on('value', snapshot => {
       // console.log('IN LISTEN TO SHOULD BE PREV CHATS', snapshot.val())
       this.setState({ prevChats: snapshot.val() })
     })
-
     this.unsubscribe = () => ref.off('value', listener)
     return listener
   }
 
   componentWillUnmount() {
-   this.unsubscribe && this.unsubscribe()
+    this.unsubscribe && this.unsubscribe()
   }
 
   onChange = (e) => {
@@ -72,22 +73,10 @@ export default class extends React.Component {
     })
   }
 
-  handleFocus = (el) => {
-    if (el.value === 'Type a message...') {
-      console.log('SHOULD CLEAR?')
-      el.value = ''
-    }
-  }
-
-  // Notes from Ashi
-  // Remove lines 50-60
-  // dont use prevChats constant
-  // use the listener and update state at the same time
-  handleChat = e => {
+  handleChat = (e) => {
     e.preventDefault()
     // this.props.tripRef.update({ chatLog: [] })
     const chatRef = this.props.tripRef.child('chatLog')
-
     idToNameOrEmail(this.props.userId)
       .then(user => {
         chatRef.push({
@@ -96,7 +85,16 @@ export default class extends React.Component {
         })
       })
       .catch(err => console.error(err))
+    console.log('FROM HANDLE CHAT', this.refs.input)
+    this.refs.input.value = ''
+    this.updateScroll()
   }
+
+  updateScroll = () => {
+    var chatLog = document.getElementById('chat-log')
+    chatLog.scrollTop = chatLog.scrollHeight
+  }
+
   // handleChat = e => {
   //   e.preventDefault()
   //   const prevChats = []
@@ -126,9 +124,10 @@ export default class extends React.Component {
 
   render() {
     return (
-      <div >
-        <form className="form" >
-          <section className="chat">
+      <div>
+        <div className="chat-container">
+          <div id="chat-title">Discussion board</div>
+          <section id="chat-log">
             {Object.keys(this.state.prevChats || {}).map((chat, index) => {
               // console.log('CHAT', this.state.prevChats[chat])
               return ( // add logic about from whom the chat is
@@ -136,27 +135,33 @@ export default class extends React.Component {
                   ?
                   <div key={index}
                     className="from-me">
-                    <p >{`${this.state.prevChats[chat].message}`}</p>
+                    <div >{`${this.state.prevChats[chat].message}`}
+                    </div>
                   </div>
                   :
                   <div key={index}
                     className="from-them">
-                    <p className="chatName"> {`${this.state.prevChats[chat].user}:`}</p>
-                    <p> {`${this.state.prevChats[chat].message}`}</p>
+                    <div className="chatName"> {`${this.state.prevChats[chat].user}:`}
+                    </div>
+                    <div> {`${this.state.prevChats[chat].message}`}
+                    </div>
                   </div>
               )
             }
-
             )}
           </section>
+        </div>
+        <form className="form" >
           <div id="chatInput" className="form-group">
             <div id="messageInput">
-              <input type="text"
+              <input
+                ref="input"
+                type="text"
                 className="form-control"
                 id="chat"
-                value={this.state.currMessage}
+                placeholder={'Type a message...'}
                 onChange={this.onChange}
-                onFocus={this.handleFocus} />
+              />
             </div>
             <div id="submitMessage">
               <button className="btn btn-primary"
