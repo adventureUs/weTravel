@@ -25,15 +25,22 @@ export default class extends React.Component {
     }
   }
 
-  componentDidMount() {
-    auth.onAuthStateChanged(user => {
+  componentWillMount() {
+    // Stef says: It occurs to me that here we may not want a listener
+    // but a once off check... Am funelling down the unsub to the
+    // TitleBar to try to redirect properly on logout.
+    this.unsubscribeAuth = auth.onAuthStateChanged(user => {
+      console.log('APP COMPONENT_WILL_MOUNT, USER: ', user)
       user ?
       this.setState({
         userId: user.uid
       }) : browserHistory.push('/login?' + this.props.params.tripId)
     })
+    this.unsubscribeAuth = this.unsubscribeAuth.bind(this)
   }
-
+  componentWillUnmount() {
+    this.unsubscribeAuth && this.unsubscribeAuth()
+  }
   render() {
     // console.log('STATE in APP:', this.state)
     // console.log('TRIP REF in APP:', db.ref('/trips/'+ this.props.params.tripId))
@@ -41,6 +48,7 @@ export default class extends React.Component {
       <div>
         <TitleBar
           auth={auth}
+          unsubscribeAuth={this.unsubscribeAuth}
           tripsRef={db.ref('trips')}
           tripId={this.state.tripId}
           userId={this.state.userId ? this.state.userId : 'test'}
@@ -57,5 +65,3 @@ export default class extends React.Component {
     )
   }
 }
-
-

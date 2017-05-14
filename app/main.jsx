@@ -22,12 +22,16 @@ const google = new firebase.auth.GoogleAuthProvider()
 const email = new firebase.auth.EmailAuthProvider()
 // Deleted facebook --> can reimplement if we have time, hahahahhaahahaahhah
 
-const Container = () =>
+const Container = () => {
+  // console.log('CONTAINER in MAIN, currentUser', firebase.auth().currentUser)
+  return (
   <div className="container-fluid">
     {
       firebase.auth().currentUser ? <App /> : <Login />
     }
   </div>
+  )
+}
 
 render(
   <Router history={browserHistory}>

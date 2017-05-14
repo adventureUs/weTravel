@@ -119,8 +119,8 @@ export default class TitleBar extends React.Component {
                   padding: '3px 6px'
                 }}
                 onClick={() => {
+                  this.props.unsubscribeAuth()
                   auth.signOut()
-                  browserHistory.push('/login')
                 }}>logout
                 </button>
               :
