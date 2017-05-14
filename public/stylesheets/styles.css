@@ -161,6 +161,63 @@ section div {
 		-webkit-transform:translate(-30px, -2px);
 }
 /* ------------- START IDEASBOX STYLING ------------- */
+.top {
+  top: 30vh;
+  bottom: 0vh;
+  left: 2vw;
+  right: 10vw;
+  position: absolute;
+  padding: 4vh;
+  display: flex;
+  justify-content: space-between;
+  flex-flow: wrap;
+}
+.bottom {
+  top: 80vh;
+  left: 2vw;
+  right: 10vw;
+  border-color: white;
+  border-style: solid;
+  background-color: white;
+  box-shadow: 0 0 3px black;
+  border-radius: 10px;
+  position: absolute;
+  font-size: 1.5vh;
+  color: white;
+  height: 10vh;
+}
+.bottom-right {
+  color: #8b0000;
+  text-shadow:
+      0.1vw 0.1vw 0 black,
+     -0.1vw -0.1vw 0 black,
+      0.1vw -0.1vw 0 black,
+     -0.1vw  0.1vw 0 black,
+      0.1vw  0.1vw 0 black,
+      0vw  0vw 1vw black;
+  left: 240px;
+  right: 0;
+  bottom: 0;
+  margin: 0px 0px 0px 10px;
+  padding: 1vh;
+  border-right: none;
+  border-bottom: none;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.container {
+  width: auto;
+}
+.easy .idea-container {
+  flex: 1 1 25%; /* here */
+}
+.medium .idea-container {
+  flex: 1 1 16.6%; /* here */
+}
+.hard .idea-container {
+  flex: 1 1 12.5%; /* here */
+}
 .idea-container {
   position: relative;
   height: 33.3%; /* here */
@@ -212,7 +269,7 @@ section div {
   text-shadow: 0 0 2px black;
 }
 .idea.selected {
-  transform: rotateY(180deg) scale(1.05) translateX(-10%); /* here */
+  /*transform: rotateY(180deg) scale(1.05) translateX(-10%); /* here */*/
 }
 .idea.selected .front {
   border-color: gold;
@@ -233,4 +290,6 @@ button.trip-buddies-delete-button {
   border-radius: '5px';
    padding: '1px 6px'
   }
+
+
 /* ------------- END IDEASBOX STYLING ------------- */

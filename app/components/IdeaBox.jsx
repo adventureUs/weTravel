@@ -53,12 +53,12 @@ export default class IdeaBox extends Component {
     // console.log('IN IDEA BOX ', Object.values(this.state.ideas))
     return (
       <div>
-       <div className="well well-sm">
+       <div className='top'>
           {
             this.state.ideas && Object.keys(this.state.ideas).map(key => {
               return (
                 <div key={key} className='idea-container'>
-                  <div >{this.state.ideas[key].ideaName}</div>
+                  <div className=''>{this.state.ideas[key].ideaName}</div>
                   <div ><a href={'//'+this.state.ideas[key].link}
                     target='_blank'>{this.state.ideas[key].link}</a></div>
                   <div >{this.state.ideas[key].category.text}</div>
@@ -76,7 +76,7 @@ export default class IdeaBox extends Component {
             })
           }
         </div>
-        <div className='trip-buddies well well-sm'>
+        <div className='bottom'>
             <AddIdea
               userId={this.props.userId}
               ideasRef={this.props.ideasRef}
