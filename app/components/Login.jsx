@@ -29,7 +29,7 @@ export default class extends React.Component {
     }
   }
   componentDidMount() {
-    this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({ user }))
+    this.unsubscribe = auth && auth.onAuthStateChanged(user => user && this.setState({ user }))
   }
 
   componentWillUnmount() {

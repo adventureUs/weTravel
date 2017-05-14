@@ -22,12 +22,35 @@ const google = new firebase.auth.GoogleAuthProvider()
 const email = new firebase.auth.EmailAuthProvider()
 // Deleted facebook --> can reimplement if we have time, hahahahhaahahaahhah
 
-const Container = () =>
-  <div className="container-fluid">
-    {
-      firebase.auth().currentUser ? <App /> : <Login />
+export default class Container extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      user: null
     }
-  </div>
+  }
+  componentWillMount() {
+    this.unsubscribe = auth.onAuthStateChanged(user => {
+      // console.log('CONTAINER COMPONENT_WILL_MOUNT, USER: ', user)
+      this.setState({
+        user: user
+      })
+    })
+  }
+  componentWillUnmount() {
+    this.unsubscribe && this.unsubscribe()
+  }
+  render() {
+    // console.log('CONTAINER in MAIN, currentUser', firebase.auth().currentUser)
+    return (
+      <div className="container-fluid">
+        {
+          this.state.user ? <App /> : <Login />
+        }
+      </div>
+    )
+  }
+}
 
 render(
   <Router history={browserHistory}>

@@ -41,7 +41,7 @@ export default class InlineBuddyEdit extends Component {
     // When the component mounts, start listening to the usersRef
     // we were given.
     this.props.auth.onAuthStateChanged(user => {
-      this.setState({
+      user && this.setState({
         email: user.email
       })
     })
