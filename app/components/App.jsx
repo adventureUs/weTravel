@@ -21,23 +21,21 @@ export default class extends React.Component {
     this.state = {
       userId: '',
       tripId: props.params.tripId,
-      // buddies: []
     }
   }
 
-  componentDidMount() {
-    auth.onAuthStateChanged(user => {
-      user ?
-      this.setState({
-        userId: user.uid
-      }) : browserHistory.push('/login?' + this.props.params.tripId)
-    })
+  componentWillMount() {
+    // console.log('APP COMPONENT_WILL_MOUNT, auth.currentUSer: ', auth.currentUser)
+    auth.currentUser ?
+    this.setState({
+      userId: auth.currentUser.uid
+    }) : browserHistory.push('/login?' + this.props.params.tripId)
   }
-
   render() {
     // console.log('STATE in APP:', this.state)
     // console.log('TRIP REF in APP:', db.ref('/trips/'+ this.props.params.tripId))
-    return (
+    return this.state.userId ?
+      (
       <div>
         <TitleBar
           auth={auth}
@@ -55,7 +53,7 @@ export default class extends React.Component {
           />
       </div>
     )
+    :
+    null
   }
 }
-
-

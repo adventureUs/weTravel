@@ -37,9 +37,13 @@ export default class AddIdea extends Component {
     endDate: '' // Not used for mvp
   }
   componentDidMount() {
+    this.setState({
+      state: this.defaultState
+    })
   }
 
   componentWillReceiveProps(incoming, outgoing) {
+    this.listenTo(incoming.ideasRef || 'test')
   }
 
 // not used for the moment

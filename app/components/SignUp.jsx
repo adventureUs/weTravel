@@ -24,7 +24,6 @@ export default class extends React.Component {
     queryString ? this.addToTrip(userCredential.user, queryString) : this.createNewTrip(userCredential.user)
   }
 
-
   onSubmit = (evt) => {
     evt.preventDefault()
     // console.log('MADE IT TO ON SUBMIT')
