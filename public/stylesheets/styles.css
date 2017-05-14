@@ -267,6 +267,7 @@ section div {
   border: 1px solid red;
   background: white;
   opacity: 0.9;
+  font-size: 1.5vh;
   height: 50vh;
   top: 35vh;
   bottom: 0vh;
@@ -413,5 +414,18 @@ button.trip-buddies-delete-button {
    padding: '1px 6px'
   }
 
-
+.ideasListSelection {
+  height: 6vh;
+  width: 6vw;
+  border-radius: 5px;
+  opacity: 0.9;
+  background-color: pink;
+}
+.ideasCardsSelection {
+  height: 6vh;
+  width: 6vw;
+  border-radius: 5px;
+  opacity: 0.9;
+  background-color: pink;
+}
 /* ------------- END IDEASBOX STYLING ------------- */

@@ -13,7 +13,9 @@ export default class IdeaBox extends Component {
     }
     this.deleteIdea = this.deleteIdea.bind(this)
     this.addLikes = this.addLikes.bind(this)
-
+    this.renderListView = this.renderListView.bind(this)
+    this.renderCardsView = this.renderCardsView.bind(this)
+    this.renderAddIdea = this.renderAddIdea.bind(this)
   }
 
   componentDidMount() {
@@ -48,6 +50,25 @@ export default class IdeaBox extends Component {
     // will eventuall
     console.log(e.target, idea)
   }
+  renderListView() {
+
+    // put the list view XML code in here
+    return <div>'MUST SHOW THE LIST VIEW'</div>
+  }
+  renderCardsView() {
+    // put the cards view XML code in here
+    return <div>'MUST SHOW THE CARD VIEW'</div>
+  }
+  renderAddIdea() {
+    return (
+      <div>
+            <AddIdea
+              userId={this.props.userId}
+              ideasRef={this.props.ideasRef}
+            />
+        </div>
+    )
+  }
 
   render() {
     // console.log('IN IDEA BOX ', this.state.ideas)
@@ -56,7 +77,6 @@ export default class IdeaBox extends Component {
     return (
       <div>
        <div className='top'>
-
           {
             this.state.ideas && Object.keys(this.state.ideas).map(key => {
               return (
@@ -87,7 +107,14 @@ export default class IdeaBox extends Component {
                 ideasRef={this.props.ideasRef}
               />
           </div>
+          <button className='ideasListSelection' onClick={this.renderListView}>Temp Show List</button>
+           {this.renderListView}
+          <button className='ideasCardsSelection' onClick={this.renderCardsView}>Temp Show Cards</button>
+           {this.renderCardsView}
+          <button className='addNewIdea' onClick={() => this.renderAddNewItem()}>Temp Add New Idea</button>
+           {this.renderAddIdea}
         </div>
+
       </div>
     )
   }
