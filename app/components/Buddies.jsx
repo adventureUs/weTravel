@@ -68,6 +68,7 @@ export default class extends React.Component {
           }
         })
     }
+    this.refs.input.value = ''
   }
 
   buildRow = (buddyId) => {
@@ -169,6 +170,7 @@ export default class extends React.Component {
                 <span> Enter your buddy's e-mail here: </span>
                 <div className="modal-add-buddy">
                   <input
+                    ref="input"
                     className="modal-add-buddy-input form-control"
                     placeholder="Buddy's e-mail"
                     type="text"
@@ -196,45 +198,45 @@ export default class extends React.Component {
                 </div>
 
                 <CopyToClipboard text={this.state.clipboard}
-                    onCopy={() => this.setState({ copied: true })}>
-                    <button
-                      className="modal-add-buddy-button"
-                      type="button"
-                      className="btn btn-primary"
-                      style={{
-                        width: '100%'
-                      }}
-                    >Copy to clipboard</button>
-                  </CopyToClipboard>
-                  {this.state.copied ? <div><p style={{ color: '#18bc9c', padding: '5px' }}>Copied.</p></div> : null}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="modal" id="editYourInfoModal">
-            <div className="modal-dialog modal-md">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <button type="button" className="close"
-                    onClick={() =>
-                      document.getElementById('editYourInfoModal').style.display = 'none'}
-                  >&times;
-                </button>
-                  <h4 className="modal-title">Edit Your Personal Info</h4>
-                </div>
-                <div className="modal-body">
-                  <InlineBuddyEditIndex
-                    userId={this.props.userId}
-                    tripRef={this.props.tripRef}
-                    tripId={this.props.tripId}
-                  />
-                </div>
+                  onCopy={() => this.setState({ copied: true })}>
+                  <button
+                    className="modal-add-buddy-button"
+                    type="button"
+                    className="btn btn-primary"
+                    style={{
+                      width: '100%'
+                    }}
+                  >Copy to clipboard</button>
+                </CopyToClipboard>
+                {this.state.copied ? <div><p style={{ color: '#18bc9c', padding: '5px' }}>Copied.</p></div> : null}
               </div>
             </div>
           </div>
         </div>
-        )
+
+        <div className="modal" id="editYourInfoModal">
+          <div className="modal-dialog modal-md">
+            <div className="modal-content">
+              <div className="modal-header">
+                <button type="button" className="close"
+                  onClick={() =>
+                    document.getElementById('editYourInfoModal').style.display = 'none'}
+                >&times;
+                </button>
+                <h4 className="modal-title">Edit Your Personal Info</h4>
+              </div>
+              <div className="modal-body">
+                <InlineBuddyEditIndex
+                  userId={this.props.userId}
+                  tripRef={this.props.tripRef}
+                  tripId={this.props.tripId}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
   }
 }
 
