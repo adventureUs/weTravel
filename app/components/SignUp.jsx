@@ -9,7 +9,8 @@ export default class extends React.Component {
     super(props)
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      confirmPassword: ''
     }
   }
 
@@ -23,17 +24,29 @@ export default class extends React.Component {
     queryString ? this.addToTrip(userCredential.user, queryString) : this.createNewTrip(userCredential.user)
   }
 
+
   onSubmit = (evt) => {
     evt.preventDefault()
     // console.log('MADE IT TO ON SUBMIT')
-    const queryString = window.location.search
-    if (this.state.email.length && this.state.password.length) {
-      firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-        .then((user) => {
-          queryString ? this.addToTrip(user, queryString) : this.createNewTrip(user)
-        })
+    // First confirm the passwords match
+    if (this.state.password !== this.state.confirmPassword) {
+      window.alert('The passwords you submitted do not match. Please try again.')
+      this.refs.password.value = ''
+      this.refs.confirmPassword.value = ''
+      this.setState({
+        password: '',
+        confirmPassword: ''
+      })
     } else {
-      window.alert('Please fill in both your email and password')
+      const queryString = window.location.search
+      if (this.state.email.length && this.state.password.length) {
+        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+          .then((user) => {
+            queryString ? this.addToTrip(user, queryString) : this.createNewTrip(user)
+          })
+      } else {
+        window.alert('Please fill in both your email and password')
+      }
     }
   }
 
@@ -110,7 +123,7 @@ export default class extends React.Component {
     const auth = firebase.auth()
     const google = new firebase.auth.GoogleAuthProvider()
     const email = new firebase.auth.EmailAuthProvider()
-    // console.log('STATE, look at tripID', this.state)
+    console.log('STATE, look at tripID', this.state)
     return (
       <div id="background-div">
         <div className="jumbotron login-container">
@@ -123,17 +136,34 @@ export default class extends React.Component {
             <hr />
             <div className="form-group">
               <div>
-                <input type="email" className="form-control" id="email" placeholder="Email" onChange={this.setEmailPassword} />
+                <input
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  placeholder="Email"
+                  onChange={this.setEmailPassword} />
               </div>
             </div>
             <div className="form-group">
               <div>
-                <input type="password" className="form-control" id="password" placeholder="Password" onChange={this.setEmailPassword} />
+                <input
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  placeholder="Password"
+                  ref="password"
+                  onChange={this.setEmailPassword} />
               </div>
             </div>
             <div className="form-group">
               <div>
-                <input type="password" className="form-control" id="password" placeholder="Confirm Password" onChange={this.setEmailPassword} />
+                <input
+                  type="password"
+                  className="form-control"
+                  id="confirmPassword"
+                  ref="confirmPassword"
+                  placeholder="Confirm Password"
+                  onChange={this.setEmailPassword} />
               </div>
             </div>
             <div className="form-group">
