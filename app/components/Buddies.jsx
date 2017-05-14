@@ -168,8 +168,8 @@ export default class extends React.Component {
               </div>
               <div className="modal-footer"
                 style={{
-                  display: 'flex',
-                  justifyContent: 'space-around'
+                  // display: 'flex',
+                  // justifyContent: 'space-around'
                 }}>
                 <p>Step 2: Share this link with your buddy: </p>
                 <br />
