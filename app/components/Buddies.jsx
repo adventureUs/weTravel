@@ -4,12 +4,15 @@ import SetClass from 'react-classset'
 import firebase from 'APP/fire'
 import InlineBuddyEditIndex from './InlineBuddyEditIndex'
 import moment from 'moment'
+import CopyToClipboard from 'react-copy-to-clipboard'
 
 export default class extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      buddies: {} // there's nothing on state when we go to the buddies tab
+      buddies: {}, // there's nothing on state when we go to the buddies tab
+      clipboard: `https://tern-2b37d.firebaseapp.com${window.location.pathname}`,
+      copied: ''
     }
   }
   componentWillMount() {
@@ -169,7 +172,7 @@ export default class extends React.Component {
                     className="modal-add-buddy-input form-control"
                     placeholder="Buddy's e-mail"
                     type="text"
-                    id="newBuddyEmail"/>
+                    id="newBuddyEmail" />
                   <button
                     className="modal-add-buddy-button"
                     type="button"
@@ -185,46 +188,53 @@ export default class extends React.Component {
                 <span> Share this link with your buddy: </span>
                 <div className="modal-add-buddy">
                   <input
-                  className="modal-add-buddy-input form-control"
-                  style={{
-                    fontSize: '11px'
-                  }}
-                  value={`https://tern-2b37d.firebaseapp.com${window.location.pathname}`}/>
-                   <button
-                    className="modal-add-buddy-button"
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={this.makeNewBuddy}
-                  >Copy</button>
+                    className="modal-add-buddy form-control"
+                    style={{
+                      fontSize: '11px'
+                    }}
+                    value={this.state.clipboard} />
+                </div>
+
+                <CopyToClipboard text={this.state.clipboard}
+                    onCopy={() => this.setState({ copied: true })}>
+                    <button
+                      className="modal-add-buddy-button"
+                      type="button"
+                      className="btn btn-primary"
+                      style={{
+                        width: '100%'
+                      }}
+                    >Copy to clipboard</button>
+                  </CopyToClipboard>
+                  {this.state.copied ? <div><p style={{ color: '#18bc9c', padding: '5px' }}>Copied.</p></div> : null}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="modal" id="editYourInfoModal">
+            <div className="modal-dialog modal-md">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <button type="button" className="close"
+                    onClick={() =>
+                      document.getElementById('editYourInfoModal').style.display = 'none'}
+                  >&times;
+                </button>
+                  <h4 className="modal-title">Edit Your Personal Info</h4>
+                </div>
+                <div className="modal-body">
+                  <InlineBuddyEditIndex
+                    userId={this.props.userId}
+                    tripRef={this.props.tripRef}
+                    tripId={this.props.tripId}
+                  />
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        <div className="modal" id="editYourInfoModal">
-          <div className="modal-dialog modal-md">
-            <div className="modal-content">
-              <div className="modal-header">
-                <button type="button" className="close"
-                  onClick={() =>
-                    document.getElementById('editYourInfoModal').style.display = 'none'}
-                >&times;
-                </button>
-                <h4 className="modal-title">Edit Your Personal Info</h4>
-              </div>
-              <div className="modal-body">
-                <InlineBuddyEditIndex
-                  userId={this.props.userId}
-                  tripRef={this.props.tripRef}
-                  tripId={this.props.tripId}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
+        )
   }
 }
 
@@ -236,81 +246,81 @@ export default class extends React.Component {
           tripId={this.props.tripId}
         />
 
- {(buddyId === this.props.userId)
-              ? <button className="btn">Edit</button>}
-? */
+        {(buddyId === this.props.userId)
+          ? <button className="btn">Edit</button>}
+        ? */
 
 /* render() {
     return (
       <div className="well well-lg">
-        <div>
-          <ul >
-            {Object.keys(this.state.buddies).map((buddyId, index) => {
-//               console.log('*********IN BUDDIES RENDER********:', buddyId)
-              return (buddyId === this.props.userId) ?
-                <li key={index} className='trip-buddies'>
-                  <InlineBuddyEditIndex
-                    userId={this.props.userId}
-                    tripRef={this.props.tripRef}
-                    tripId={this.props.tripId}
-                  />
+          <div>
+            <ul >
+              {Object.keys(this.state.buddies).map((buddyId, index) => {
+                //               console.log('*********IN BUDDIES RENDER********:', buddyId)
+                return (buddyId === this.props.userId) ?
+                  <li key={index} className='trip-buddies'>
+                    <InlineBuddyEditIndex
+                      userId={this.props.userId}
+                      tripRef={this.props.tripRef}
+                      tripId={this.props.tripId}
+                    />
 
-                </li> : <li key={buddyId} className='trip-buddies'>
-                  <div className='buddiesListItem'>Name: {this.state.buddies[buddyId].name}</div>
-                  <div className='buddiesListItem'>Home Base: {this.state.buddies[buddyId].homeBase}</div>
-                  <div className='buddiesListItem' >Status: {this.state.buddies[buddyId].status.text}</div>
-                  <div className='buddiesListItem'>Free from: {(this.state.buddies[buddyId].startDate) ? this.state.buddies[buddyId].startDate.slice(0, 10) : 'TBD'}</div>
-                  <div className='buddiesListItem'>Free until: {(this.state.buddies[buddyId].endDate) ? this.state.buddies[buddyId].endDate.slice(0, 10) : 'TBD'}</div>
-                </li>
-            }
-            )}
-          </ul>
-        </div>
-        <div>
-          <button style={{
-            color: '#18bc9c',
-            backgroundColor: '#ffffff',
-            borderRadius: '5px',
-            padding: '1px 6px'
-          }}
-            type="button"
-            onClick={() =>
-              document.getElementById('addBuddyModal').style.display = 'block'}
-          >Add Buddy!</button>
-        </div>
-        <div className="modal" id="addBuddyModal">
-          <div className="modal-dialog modal-sm">
-            <div className="modal-content">
-              <div className="modal-header">
-                <button type="button" className="close"
-                  onClick={() =>
-                    document.getElementById('addBuddyModal').style.display = 'none'}
-                >&times;
+                  </li> : <li key={buddyId} className='trip-buddies'>
+                    <div className='buddiesListItem'>Name: {this.state.buddies[buddyId].name}</div>
+                    <div className='buddiesListItem'>Home Base: {this.state.buddies[buddyId].homeBase}</div>
+                    <div className='buddiesListItem' >Status: {this.state.buddies[buddyId].status.text}</div>
+                    <div className='buddiesListItem'>Free from: {(this.state.buddies[buddyId].startDate) ? this.state.buddies[buddyId].startDate.slice(0, 10) : 'TBD'}</div>
+                    <div className='buddiesListItem'>Free until: {(this.state.buddies[buddyId].endDate) ? this.state.buddies[buddyId].endDate.slice(0, 10) : 'TBD'}</div>
+                  </li>
+              }
+              )}
+            </ul>
+          </div>
+          <div>
+            <button style={{
+              color: '#18bc9c',
+              backgroundColor: '#ffffff',
+              borderRadius: '5px',
+              padding: '1px 6px'
+            }}
+              type="button"
+              onClick={() =>
+                document.getElementById('addBuddyModal').style.display = 'block'}
+            >Add Buddy!</button>
+          </div>
+          <div className="modal" id="addBuddyModal">
+            <div className="modal-dialog modal-sm">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <button type="button" className="close"
+                    onClick={() =>
+                      document.getElementById('addBuddyModal').style.display = 'none'}
+                  >&times;
                     </button>
-                <h4 className="modal-title">Follow these steps:</h4>
-              </div>
-              <div className="modal-body">
-                <p> Step 1: Enter your buddy's e-mail here: </p>
-                <input type="text" id="newBuddyEmail"></input>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={this.makeNewBuddy}
-                >Add a buddy! </button>
-              </div>
-              <div className="modal-footer"
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-around'
-                }}>
-                <p>Step 2: Share this link with your buddy: </p>
-                <br />
-                <p>{`https://tern-2b37d.firebaseapp.com${window.location.pathname}`}</p>
+                  <h4 className="modal-title">Follow these steps:</h4>
+                </div>
+                <div className="modal-body">
+                  <p> Step 1: Enter your buddy's e-mail here: </p>
+                  <input type="text" id="newBuddyEmail"></input>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={this.makeNewBuddy}
+                  >Add a buddy! </button>
+                </div>
+                <div className="modal-footer"
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-around'
+                  }}>
+                  <p>Step 2: Share this link with your buddy: </p>
+                  <br />
+                  <p>{`https://tern-2b37d.firebaseapp.com${window.location.pathname}`}</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    )
+        )
   }
 } */
