@@ -46,6 +46,7 @@ export default class IdeaBox extends Component {
 
   render() {
     // console.log('IN IDEA BOX ', this.state.ideas)
+    // own comments: have three buttons: 2 for choosing what view (table form or pin-board form) and another for adding a new idea.
     return (
       <div>
        <div className="well well-sm">
