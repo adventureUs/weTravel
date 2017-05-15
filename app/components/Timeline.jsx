@@ -73,7 +73,6 @@ export default class AdventureUsTimeline extends Component {
   }
 
   render() {
-    console.log('***********ADVENTUREUS SHOULD BE USED TO DISPLAY DATA and WRITE BACK TO DB*****************')
 // This object sets the untis on the timeline.
 // Currently, it is set to display days, months and years
     // console.log('TIMELINE, PROPS', this.props)

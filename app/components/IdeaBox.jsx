@@ -108,13 +108,7 @@ export default class IdeaBox extends Component {
            </tbody>
          </table>
         </div>
-        <div className='trip-buddies well well-sm'>
-        <div className='bottom'>
-          <AddIdea
-                userId={this.props.userId}
-                ideasRef={this.props.ideasRef}/>
-        </div>
-        </div>
+
       </div>
     )
   }

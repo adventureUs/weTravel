@@ -110,7 +110,6 @@ export default class TimelineIndex extends React.Component {
   }
 
   render() {
-    console.log('***********TIMELINEINDEX SHOULD BE USED TO FETCH DATA*****************')
     return (
       <div>
         <AdventureUsTimeline
