@@ -61,11 +61,9 @@ function createTripUsers(num) {
   return tripUsers
 }
 
-
 function replaceAtDot(email) {
   email = email.replace('@', 'At')
   return email.replace(/\./g, 'Dot')
 }
 users.push(new User('tina@email.com', '', '', ''))
 export { users, trips }
-

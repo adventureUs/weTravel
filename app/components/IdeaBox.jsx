@@ -14,6 +14,7 @@ export default class IdeaBox extends Component {
     this.deleteIdea = this.deleteIdea.bind(this)
     this.addLikes = this.addLikes.bind(this)
   }
+
   componentWillUnmount() {
     this.unsubscribe && this.unsubscribe()
   }
@@ -31,7 +32,7 @@ export default class IdeaBox extends Component {
   listenTo(ref) {
     if (this.unsubscribe) this.unsubscribe()
     const listener = ref.on('value', snapshot => {
-      this.setState({ideas: snapshot.val()})
+      this.setState({ ideas: snapshot.val() })
     })
     this.unsubscribe = () => ref.off('value', listener)
   }
