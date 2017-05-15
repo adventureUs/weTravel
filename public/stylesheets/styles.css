@@ -45,7 +45,9 @@ html {
   background-size: cover;
 }
 /*added this to have fixed navbar - TitleBar and have all the outer containers move down.*/
-body { padding-top: 70px; }
+.app-container {
+  padding-top: 70px;
+}
 
 .titleBarTitle {
   background-color: #18bc9c !important;
@@ -285,10 +287,19 @@ section div {
 }
 
 /* ------------- START BUDDYLIST STYLING ------------- */
+.well {
+  margin-bottom: 0;
+}
+
 .well .well-lg {
   height: calc(70vh);
 }
 /* ------------- START DASHBOARD STYLING ------------- */
+.background-white {
+  background-color: white;
+  height: 176vh;
+}
+
 .ideas-main-container {
   height: calc(100vh);
 

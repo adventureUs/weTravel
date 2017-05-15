@@ -36,7 +36,7 @@ export default class extends React.Component {
     // console.log('TRIP REF in APP:', db.ref('/trips/'+ this.props.params.tripId))
     return this.state.userId ?
       (
-      <div>
+      <div className='app-container'>
         <TitleBar
           auth={auth}
           tripsRef={db.ref('trips')}
