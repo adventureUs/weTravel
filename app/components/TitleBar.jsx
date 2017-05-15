@@ -69,7 +69,7 @@ export default class TitleBar extends React.Component {
     // console.log('STATE in TITLEBAR', this.state)
     return this.state.tripName ?
       (
-      <nav className="nav navbar-default">
+      <nav className="nav navbar-default navbar-fixed-top">
         <div className="" style={{
           display: 'flex',
           justifyContent: 'space-between',

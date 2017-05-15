@@ -124,33 +124,33 @@ export default class extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className='chat-outer-container col col-md-3'>
         <div className="chat-container">
           <div id="chat-title">Discussion board</div>
-          <section id="chat-log">
-            {Object.keys(this.state.prevChats || {}).map((chat, index) => {
-              // console.log('CHAT', this.state.prevChats[chat])
-              return ( // add logic about from whom the chat is
-                this.state.prevChats[chat].user === this.state.userChatHandle
-                  ?
-                  <div key={index}
-                    className="from-me">
-                    <div >{`${this.state.prevChats[chat].message}`}
+            <section id="chat-log">
+              {Object.keys(this.state.prevChats || {}).map((chat, index) => {
+                // console.log('CHAT', this.state.prevChats[chat])
+                return ( // add logic about from whom the chat is
+                  this.state.prevChats[chat].user === this.state.userChatHandle
+                    ?
+                    <div key={index}
+                      className="from-me">
+                      <div >{`${this.state.prevChats[chat].message}`}
+                      </div>
                     </div>
-                  </div>
-                  :
-                  <div key={index}
-                    className="from-them">
-                    <div className="chatName"> {`${this.state.prevChats[chat].user}:`}
+                    :
+                    <div key={index}
+                      className="from-them">
+                      <div className="chatName"> {`${this.state.prevChats[chat].user}:`}
+                      </div>
+                      <div> {`${this.state.prevChats[chat].message}`}
+                      </div>
                     </div>
-                    <div> {`${this.state.prevChats[chat].message}`}
-                    </div>
-                  </div>
-              )
-            }
-            )}
-          </section>
-        </div>
+                )
+              }
+              )}
+            </section>
+          </div>
         <form className="form" >
           <div id="chatInput" className="form-group">
             <div id="messageInput">

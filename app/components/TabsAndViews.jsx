@@ -30,7 +30,7 @@ export default class TabsAndView extends React.Component {
   render() {
     // console.log('TABS AND VIEWS STATE', this.props)
     return (
-      <div>
+      <div className='ideas-main-container'>
         <ul
           className="nav nav-tabs">
         <li className={this.props.whichTab ? 'active' : ''}>

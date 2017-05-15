@@ -35,7 +35,8 @@ html {
   -o-background-size: cover;
   background-size: cover;
 }
-
+/*added this to have fixed navbar - TitleBar and have all the outer containers move down.*/
+body { padding-top: 70px; }
 
 .titleBarTitle {
   background-color: #18bc9c !important;
@@ -129,10 +130,27 @@ a {
 }
 
 /* ------------- CHAT STYLING ------------- */
+/*NB AT 990px the chat position must become unfixed,
+LOOK INTO CONDITIONAL STYLING FOR MEDIA BREAK POINTS*/
+.chat-outer-container-mobile-view {
+  height: calc(50vh - 70px);
+  position: relative;
+  overflow: hidden;
+  background-color: white;
+}
+.chat-outer-container {
+  height: calc(100vh - 70px);
+  position: fixed;
+  overflow: hidden;
+  background-color: white;
+}
 
 .chat-container {
-border-right: 2px solid gray;
-border-bottom: 1px solid gray;
+  border-right: 2px solid gray;
+  border-bottom: 1px solid gray;
+  height: calc(100vh - 150px);
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 #chat-title {
@@ -142,7 +160,7 @@ border-bottom: 1px solid gray;
   color: white;
   border-bottom: 1px solid gray;
   font-size: 16px;
-text-transform: uppercase;
+  text-transform: uppercase;
 }
 
 #chat-log {
@@ -155,12 +173,6 @@ text-transform: uppercase;
 }
 
 #chatInput {
-   /*display: flex;*/
-   /*position:absolute;*/
-   left:20px;
-   bottom:0px;
-   height:30px;
-   width:100%;
 }
 
 #messageInput {
@@ -263,6 +275,15 @@ section div {
 		-webkit-transform:translate(-30px, -2px);
 }
 
+/* ------------- START BUDDYLIST STYLING ------------- */
+.well .well-lg {
+  height: calc(70vh);
+}
+/* ------------- START DASHBOARD STYLING ------------- */
+.ideas-main-container {
+  height: calc(100vh);
+
+
 /* ------------- BUDDY MODAL STYLING ------------- */
 
 div#add-buddy-modal {
@@ -282,23 +303,18 @@ input.modal-add-buddy-input {
 button.modal-add-buddy-button {
   width: 20%;
   float: left;
+
 }
 /* ------------- START IDEASBOX STYLING ------------- */
 .top {
-  top: 50vh;
-  bottom: 0vh;
-  left: 2vw;
-  right: 10vw;
-  position: absolute;
-  padding: 4vh;
-  display: flex;
-  justify-content: space-between;
-  flex-flow: wrap;
+  overflow: scroll;
+  height: 350px;
 }
+
+
 .bottom {
-  top: 80vh;
-  left: 2vw;
-  right: 10vw;
+  display: absolute;
+  height: auto;
   border-color: white;
   border-style: solid;
   background-color: aliceblue;
@@ -307,7 +323,8 @@ button.modal-add-buddy-button {
   position: absolute;
   font-size: 1.5vh;
   color: gray;
-  height: 10vh;
+  width: auto;
+  }
 }
 .bottom-right {
   color: #8b0000;
@@ -346,27 +363,28 @@ button.modal-add-buddy-button {
   flex: 1 1 12.5%; /* here */
 }
 .idea-container {
-  /*border:1px solid purple;*/
+  border: 1px solid purple !important;
   position: relative;
-  height: 33.3%; /* here */
-  perspective: 800px;
   display: inline-block;
-  flex: 1 1 12.5%;
-}
-.idea {
-  padding: 5%; /* here */
-  width: 90%; /* here */
-  height: 90%; /* here */
-  /*position: absolute;*/
-  /*background-color: brown;*/
+  width: 30%;
+  border-radius: 10px;
+  background-color: beige;
+  margin: 10px;
+  height: 176px;
+  overflow: scroll;
   transition-duration: 0.3s;
   transition-property: transform;
   transform-style: preserve-3d;
+}
+.idea-container:hover {
+  transform: scale(1.05);
+}
+.idea {
+  padding: 5%;
+  width: 90%;
+  height: 90%;
   cursor: -webkit-grab;
   cursor: grab;
-}
-.idea:hover {
-  transform: scale(1.05);
 }
 .idea .face {
   /*position: absolute;*/
@@ -387,7 +405,21 @@ button.modal-add-buddy-button {
 .idea .back {
 
 }
-.idea .name .link .category .startdate .likes{
+.likes {
+  bottom: 0;
+  right: absolute;
+  top: inline;
+  position: absolute;
+  right: 0;
+  padding: 10px;
+}
+.delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+}
+.idea .name .link .category .startdate{
   /*position: absolute;*/
   bottom: 0;
   width: 100%;
@@ -396,6 +428,9 @@ button.modal-add-buddy-button {
   opacity: 0.8;
   font-family: 'Baloo', sans-serif;
   text-shadow: 0 0 2px black;
+}
+.idea .link {
+  word-wrap: break-word;
 }
 .idea.selected {
   /*transform: rotateY(180deg) scale(1.05) translateX(-10%); /* here */*/
@@ -420,5 +455,18 @@ button.trip-buddies-delete-button {
    padding: '1px 6px'
   }
 
-
+.ideasListSelection {
+  height: 6vh;
+  width: 6vw;
+  border-radius: 5px;
+  opacity: 0.9;
+  background-color: pink;
+}
+.ideasCardsSelection {
+  height: 6vh;
+  width: 6vw;
+  border-radius: 5px;
+  opacity: 0.9;
+  background-color: pink;
+}
 /* ------------- END IDEASBOX STYLING ------------- */
