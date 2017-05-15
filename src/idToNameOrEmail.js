@@ -16,19 +16,13 @@ export default function(uid) {
         userRef.child(uid)
           .child('name')
           .once('value')
-          .then(snapshot => {
-            return snapshot.val()
-          })
+          .then(snapshot => snapshot.val())
         :
         userRef.child(uid)
           .child('email')
           .once('value')
-          .then(snapshot => {
-            return snapshot.val()
-          })
+          .then(snapshot => snapshot.val())
     })
-    .then(result => {
-      return result
-    })
+    .then(result => result) // this line seems unneccessary
     .catch(err => console.error(err))
 }

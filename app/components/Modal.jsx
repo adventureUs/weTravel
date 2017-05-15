@@ -8,17 +8,16 @@ const auth = firebase.auth()
 // Fetch current user
 // Data from db needs to be immutable?
 
-
 export default class extends React.Component {
-  constructor(props) {
-    super(props)
-  }
+  // constructor(props) {
+  //   super(props)
+  // }
 
   getTripName() {
     // Get the trip name for the trip set as currentTrip
     return 'Trip Name'
   }
-  getAllTrips() {
+  getAllTrips(trips) {
     // Get other trip names via currentUser's associated trip Ids
     return trips
   }

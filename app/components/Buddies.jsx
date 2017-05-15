@@ -131,7 +131,7 @@ export default class extends React.Component {
           <tbody>
             {
               this.state.buddies && Object.keys(this.state.buddies)
-                .map((buddyId) => { return this.buildRow(buddyId) })
+                .map((buddyId) => this.buildRow(buddyId))
             }
           </tbody>
         </table>
@@ -155,7 +155,7 @@ export default class extends React.Component {
               <div className="modal-header">
                 <button type="button" className="close"
                   onClick={() =>
-                    document.getElementById('addBuddyModal').style.display = 'none'}
+                    document.getElementById('add-buddy-modal').style.display = 'none'}
                 >&times;
                     </button>
                 <h4 className="modal-title">Follow these steps:</h4>
