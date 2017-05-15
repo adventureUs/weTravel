@@ -26,7 +26,7 @@ export default class extends React.Component {
 
   componentWillMount() {
     // console.log('APP COMPONENT_WILL_MOUNT, auth.currentUSer: ', auth.currentUser)
-    auth.currentUser ?
+    firebase.auth().currentUser ?
     this.setState({
       userId: auth.currentUser.uid
     }) : browserHistory.push('/login?' + this.props.params.tripId)
