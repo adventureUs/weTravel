@@ -10,7 +10,7 @@ import SignUp from './components/SignUp'
 import App from './components/App'
 import InlineBuddyEditIndex from './components/InlineBuddyEditIndex'
 import firebase from 'APP/fire'
-import redirectToFirstTrip from 'APP/src/redirectToFirstTrip'
+import redirectToTripZeroeth from 'APP/src/redirectToTripZeroeth'
 // ---- UNCOMMENT TO RESEED DATABASE ----------
 // import {trips, users} from '../seedData'
 // console.log('USERS', users, 'TRIPS', trips)
@@ -39,7 +39,7 @@ export default class Container extends React.Component {
       if (!user) {
         browserHistory.push('/login')
       } else {
-        redirectToFirstTrip(user.uid)
+        redirectToTripZeroeth(user.uid)
       }
     })
   }

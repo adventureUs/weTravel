@@ -1,7 +1,12 @@
 import firebase from 'APP/fire'
 import {browserHistory} from 'react-router'
 
-export default function redirectToFirstTrip(userId) {
+/*
+Template:
+import redirectToTripZeroeth from 'APP/src/redirectToTripZeroeth'
+*/
+
+export default function redirectToTripZeroeth(userId) {
   firebase.database().ref('users')
         .child(userId)
         .child('trips')
@@ -13,4 +18,5 @@ export default function redirectToFirstTrip(userId) {
           }
         })
         .then((tripId) => browserHistory.push('/dashboard/' + tripId))
+        .catch(err => console.error(err))
 }
