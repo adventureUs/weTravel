@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, browserHistory } from 'react-router'
 import firebase from 'APP/fire'
+import redirectToFirstTrip from 'APP/src/redirectToFirstTrip'
 const auth = firebase.auth()
 
 // Do external logins in Login
@@ -48,21 +49,10 @@ export default class extends React.Component {
       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
         .then(() => {
           // use auth to get currentUser Id,  look up userRef and get list of user trips.
-          // UNDER CONSTRUCTION HERE: WANTED TO COMMENT OUT PREVENT DEFAULT NEXT.
 
           this.unsubscribe = auth.onAuthStateChanged(user => {
             // this.setState({userId: user.uid})
-            firebase.database().ref('users')
-              .child(user.uid)
-              .child('trips')
-              .once('value')
-              .then(snapshot => {
-                const tripsArr = snapshot.val()
-                if (tripsArr.length === 1) {
-                  return tripsArr[0]
-                }
-              })
-              .then((tripId) => browserHistory.push('/dashboard/' + tripId))
+            redirectToFirstTrip(user.uid)
           })
         })
         .catch(error => {
