@@ -274,6 +274,7 @@ section div {
 		border-bottom-right-radius: 10px;
 		-webkit-transform:translate(-30px, -2px);
 }
+
 /* ------------- START BUDDYLIST STYLING ------------- */
 .well .well-lg {
   height: calc(70vh);
@@ -281,6 +282,28 @@ section div {
 /* ------------- START DASHBOARD STYLING ------------- */
 .ideas-main-container {
   height: calc(100vh);
+
+
+/* ------------- BUDDY MODAL STYLING ------------- */
+
+div#add-buddy-modal {
+  height: 500px !important ;
+}
+
+.modal-add-buddy {
+  width: 100%;
+  padding: 15px 5px 15px 5px;
+}
+
+input.modal-add-buddy-input {
+  width: 70%;
+  float: left;
+}
+
+button.modal-add-buddy-button {
+  width: 20%;
+  float: left;
+
 }
 /* ------------- START IDEASBOX STYLING ------------- */
 .top {

@@ -41,7 +41,7 @@ export default class InlineBuddyEdit extends Component {
     // When the component mounts, start listening to the usersRef
     // we were given.
     this.props.auth.onAuthStateChanged(user => {
-      this.setState({
+      user && this.setState({
         email: user.email
       })
     })
@@ -52,10 +52,9 @@ export default class InlineBuddyEdit extends Component {
     //   this.props.tripRef.child('/buddies').child(this.props.userId || 'test')
     // )
   }
-
-  // componentWillUnmount() {
-  //   this.unsubscribe()
-  // }
+  componentWillUnmount() {
+    this.unsubscribe && this.unsubscribe()
+  }
 
   componentWillReceiveProps(incoming, outgoing) {
     // When the props sent to us by our parent component change,

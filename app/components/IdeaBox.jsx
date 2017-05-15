@@ -13,9 +13,9 @@ export default class IdeaBox extends Component {
     }
     this.deleteIdea = this.deleteIdea.bind(this)
     this.addLikes = this.addLikes.bind(this)
-    this.renderListView = this.renderListView.bind(this)
-    this.renderCardsView = this.renderCardsView.bind(this)
-    this.renderAddIdea = this.renderAddIdea.bind(this)
+  }
+  componentWillUnmount() {
+    this.unsubscribe && this.unsubscribe()
   }
 
   componentDidMount() {

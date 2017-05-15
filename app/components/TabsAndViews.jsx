@@ -12,7 +12,9 @@ export default class TabsAndView extends React.Component {
       changeTabs: true
     }
   }
-
+  componentDidMount(props) {
+//     console.log('*IN TABS AND VIEWS COMPONENT DID MOUNT*****, props', this.props)
+  }
   componentWillMount() {
     const auth = firebase.auth()
     this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({ user }))
@@ -22,7 +24,7 @@ export default class TabsAndView extends React.Component {
     this.unsubscribe && this.unsubscribe()
   }
   componentWilReceiveProps(incomming, outgoing) {
-    // console.log('******TABS AND VIEWS WILL RECEIVE PROPS***INCOMMING: ', incomming)
+//     console.log('******TABS AND VIEWS WILL RECEIVE PROPS***INCOMMING: ', incomming)
   }
 
   render() {
@@ -55,31 +57,30 @@ export default class TabsAndView extends React.Component {
         this.props.whichTab === 'Buddies' ?
           <div className="tab-pane fade active in"
                 id="buddies">
-                <TimelineIndex
-                  userId={this.props.userId}
-                  tripRef={this.props.tripRef}
-                  whichTab={this.state.whichTab}
-                />
-                <Buddies
-                  userId={this.props.userId}
-                  tripRef={this.props.tripRef}
-                  tripId={this.props.tripId}
-                />
+            <TimelineIndex
+              userId={this.props.userId}
+              tripRef={this.props.tripRef}
+              whichTab='Buddies'
+            />
+            <Buddies
+              userId={this.props.userId}
+              tripRef={this.props.tripRef}
+              tripId={this.props.tripId}
+            />
               </div>
-
-              :
-              <div className="tab-pane fade active in"
-                id="ideaBox">
-                <TimelineIndex
-                  userId={this.props.userId}
-                  tripRef={this.props.tripRef}
-                  whichTab={this.state.whichTab}
-                />
-                <IdeaBox
-                  userId={this.props.userId}
-                  ideasRef={this.props.tripRef.child('ideas')}
-                />
-              </div>
+          :
+          <div className="tab-pane fade active in"
+            id="ideaBox">
+            <TimelineIndex
+              userId={this.props.userId}
+              tripRef={this.props.tripRef}
+              whichTab='ideaBox'
+            />
+            <IdeaBox
+              userId={this.props.userId}
+              ideasRef={this.props.tripRef.child('ideas')}
+            />
+          </div>
           }
 
         </div>

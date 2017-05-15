@@ -41,6 +41,9 @@ export default class AddIdea extends Component {
       state: this.defaultState
     })
   }
+  componentWillUnmount() {
+    this.unsubscribe && this.unsubscribe()
+  }
 
   componentWillReceiveProps(incoming, outgoing) {
     this.listenTo(incoming.ideasRef || 'test')

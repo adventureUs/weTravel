@@ -17,6 +17,7 @@ export default class Dashboard extends Component {
     }
     this.changeTabs = this.changeTabs.bind(this)
   }
+
   changeTabs(e) {
     e.preventDefault()
     if ((e.target.id === 'Buddies') || (e.target.id === 'Idea Box')) {

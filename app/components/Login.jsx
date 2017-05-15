@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link, browserHistory } from 'react-router'
 import firebase from 'APP/fire'
+import redirectToTripZeroeth from 'APP/src/redirectToTripZeroeth'
+
 const auth = firebase.auth()
 
 // Do external logins in Login
@@ -29,11 +31,12 @@ export default class extends React.Component {
     }
   }
   componentDidMount() {
-    this.unsubscribe = auth && auth.onAuthStateChanged(user => this.setState({ user }))
+    // this.unsubscribe = auth && auth.onAuthStateChanged(user => user && this.setState({ user }))
+    auth && this.setState({user: auth.currentUser})
   }
 
   componentWillUnmount() {
-    this.unsubscribe && this.unsubscribe()
+    // this.unsubscribe && this.unsubscribe()
   }
 
   setEmailPassword = (evt) => {
@@ -48,22 +51,7 @@ export default class extends React.Component {
       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
         .then(() => {
           // use auth to get currentUser Id,  look up userRef and get list of user trips.
-          // UNDER CONSTRUCTION HERE: WANTED TO COMMENT OUT PREVENT DEFAULT NEXT.
-
-          this.unsubscribe = auth.onAuthStateChanged(user => {
-            // this.setState({userId: user.uid})
-            firebase.database().ref('users')
-              .child(user.uid)
-              .child('trips')
-              .once('value')
-              .then(snapshot => {
-                const tripsArr = snapshot.val()
-                if (tripsArr.length === 1) {
-                  return tripsArr[0]
-                }
-              })
-              .then((tripId) => browserHistory.push('/dashboard/' + tripId))
-          })
+          redirectToTripZeroeth(auth.currentUser.uid)
         })
         .catch(error => {
           window.alert(error)
@@ -98,7 +86,7 @@ export default class extends React.Component {
       .catch(err => console.error(err))
     // might have to add some additional logic -- if they are erroneously logging in (instead of signing in) for the first time to a trip they were invited to, we have to do some of the trips/buddies updating here too
   }
-
+  // Take an auth and make a user and add to previously existing trip:
   createNewUserWithTrip = (user, tripId) => {
     const userId = user.uid
     firebase.database().ref('users/').update({
@@ -114,7 +102,7 @@ export default class extends React.Component {
         window.alert(error)
       })
   }
-
+  // Check users for auth user and then:
   findAndGo = (user) => {
     // console.log('MADE IT TO FIND AND GO TO TRIP, here is the user Id', user.uid)
 
@@ -130,21 +118,11 @@ export default class extends React.Component {
           console.log('guess we got to make a new one!')
           this.createNewUserAndTrip(user)
         } else {
-          firebase.database().ref('users')
-            .child(user.uid)
-            .child('trips')
-            .once('value')
-            .then(snapshot => {
-              // console.log('FOUND THE TRIPS:', snapshot.val())
-              // trips is an Array, currently with only one item in it
-              const trips = snapshot.val()
-              browserHistory.push('/dashboard/' + trips[0])
-            })
-            .catch(err => console.error(err))
+          redirectToTripZeroeth(user.uid)
         }
       })
   }
-
+  // Make a new users in users and their own trip from auth.
   createNewUserAndTrip = (user) => {
     const userId = user.uid
     // console.log('GOT INTO CREATE-NEW-TRIP', userId)
@@ -212,7 +190,7 @@ export default class extends React.Component {
               <img
                 id="icon"
                 src="http://diylogodesigns.com/blog/wp-content/uploads/2016/04/google-logo-icon-PNG-Transparent-Background.png" alt="googleIcon" />
-              Sign in with Google
+              Login with Google
             </button>
           </div>
           <form onSubmit={this.onSubmit} className="form-horizontal">
@@ -231,7 +209,7 @@ export default class extends React.Component {
                 <img
                   id="icon"
                   src="http://www.stickpng.com/assets/images/584856bce0bb315b0f7675ad.png" alt="emailIcon" />
-                Sign in with Email
+                Login with Email
               </button>
             </div>
           </form>
