@@ -13,3 +13,14 @@ SUGGESTIONS
 this.state.shouldScroll with push key, when ref callback gets called, look to see if you shouldScroll to that element
 
 updateScroll() in listener  line 61
+
+
+TimeLineIndex --> refactor to two components 
+
+* models file that includes functions that for example take trip id and returns the ref to that trip
+
+Integration with Google Places or Yelp or OpenStreet APIs <-- when you're entering a homebase
+
+* Add to idea box from chat
+
+
