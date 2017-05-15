@@ -2,6 +2,8 @@ import React from 'react'
 import { Link, browserHistory } from 'react-router'
 import firebase from 'APP/fire'
 import redirectToTripZeroeth from 'APP/src/redirectToTripZeroeth'
+import addToTrip from 'APP/src/addToTrip'
+import createNewUserAndTrip from 'APP/src/createNewUserAndTrip'
 
 const auth = firebase.auth()
 
@@ -32,7 +34,7 @@ export default class extends React.Component {
   }
   componentDidMount() {
     // this.unsubscribe = auth && auth.onAuthStateChanged(user => user && this.setState({ user }))
-    auth && this.setState({user: auth.currentUser})
+    auth && this.setState({ user: auth.currentUser })
   }
 
   componentWillUnmount() {
@@ -43,10 +45,9 @@ export default class extends React.Component {
     this.setState({ [evt.target.id]: evt.target.value })
   }
 
-  onSubmit = (evt) => {
+  emailSubmit = (evt) => {
     // console.log('STATE in LOGIN:', this.state)
     evt.preventDefault()
-    // what we actually want to do is redirect to the dashboard view
     if (this.state.email.length && this.state.password.length) {
       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
         .then(() => {
@@ -64,6 +65,8 @@ export default class extends React.Component {
   googleSubmit = (userCredential) => {
     // console.log('MADE IT TO GOOGLE SUBMIT, here is the credential', userCredential)
     const queryString = window.location.search
+    // first case in ternary: there is a query string, and we go to that trip
+    // second case in ternary: there is no query string, we need to check if the user has trips to go to
     queryString ? this.goToTrip(userCredential.user, queryString) : this.findAndGo(userCredential.user)
   }
 
@@ -75,17 +78,27 @@ export default class extends React.Component {
       .once('value')
       .then(snapshot => {
         const userExists = snapshot.hasChild(user.uid)
-        // console.log('does this user exist in the db?', userExists)
         if (!userExists) {
-          // console.log('guess we got to make a new one!')
           this.createNewUserWithTrip(user, tripId)
         } else {
-          browserHistory.push('/dashboard/' + queryString.slice(1))
+          // the user DOES exist, but they might not have this trip in their trips list
+          firebase.database().ref('trips')
+            .child('buddies')
+            .then(snapshot => {
+              const userExistsOnTrip = snapshot.hasChild(user.uid)
+              // the user already has this trip, and just needs to be redirected
+              if (userExistsOnTrip) {
+                browserHistory.push('/dashboard/' + queryString.slice(1))
+                // the user does not yet exist on the trip and needs to be added to 'buddies'
+              } else {
+                addToTrip(user, queryString)
+              }
+            })
         }
       })
       .catch(err => console.error(err))
-    // might have to add some additional logic -- if they are erroneously logging in (instead of signing in) for the first time to a trip they were invited to, we have to do some of the trips/buddies updating here too
   }
+
   // Take an auth and make a user and add to previously existing trip:
   createNewUserWithTrip = (user, tripId) => {
     const userId = user.uid
@@ -116,48 +129,13 @@ export default class extends React.Component {
         // console.log('does this user exist in the db?', userExists)
         if (!userExists) {
           console.log('guess we got to make a new one!')
-          this.createNewUserAndTrip(user)
+          createNewUserAndTrip(user)
         } else {
           redirectToTripZeroeth(user.uid)
         }
       })
   }
-  // Make a new users in users and their own trip from auth.
-  createNewUserAndTrip = (user) => {
-    const userId = user.uid
-    // console.log('GOT INTO CREATE-NEW-TRIP', userId)
-
-    // first creates new trip data and key and updates trip table
-    var newTripKey = firebase.database().ref('trips/').push().key
-    // this.setState({ tripId: newTripKey })
-    var newTripData = {
-      tripName: 'Please Name Your Trip Here!',
-      buddies: {
-        [userId]: {
-          status: { id: '2', text: 'Going' }
-        }
-      }
-    }
-    var newTrip = {}
-    newTrip[newTripKey] = newTripData
-    firebase.database().ref('trips/').update(newTrip)
-
-    // then in users table, creates a new user with with new trip key
-    firebase.database().ref('users/').update({
-      [userId]: {
-        email: user.email,
-        trips: [newTripKey]
-      }
-    })
-      // concerned about this then
-      .then(() => {
-        browserHistory.push('/dashboard/' + newTripKey)
-      })
-      .catch(error => {
-        window.alert(error)
-      })
-  }
-
+  
   render() {
     // const auth = this.props.route.auth
     const auth = firebase.auth()
@@ -172,9 +150,8 @@ export default class extends React.Component {
           <div>
             <button className='google login btn btn-primary'
               onClick={() => {
-                // signInWithPopup will try to open a login popup, and if it's blocked, it'll
-                // redirect. If you prefer, you can signInWithRedirect, which always
-                // redirects.
+                // signInWithPopup will try to open a login popup, and if it's blocked, it'll redirect
+                // If you prefer, you can signInWithRedirect, which always redirects.
                 auth.signInWithPopup(google)
                   // .then(() => {
                   //   window.location.search ?
@@ -193,7 +170,7 @@ export default class extends React.Component {
               Login with Google
             </button>
           </div>
-          <form onSubmit={this.onSubmit} className="form-horizontal">
+          <form onSubmit={this.emailSubmit} className="form-horizontal">
             <div className="or-divider">
               <span>Or</span>
             </div>
