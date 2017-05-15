@@ -158,7 +158,7 @@ export default class TimelineIndex extends React.Component {
       }
 //       this.setState({groups: namesData})
 //       this.setState({items: bodyData})
-//     })
+    })
 //     this.unsubscribe = () => this.props.tripRef.off('value', listener)
     // HACK: the following setTimeout is a hack to force initial rendering of the timeline data. The data is there and shows as soon as we do anything to the view
     setTimeout(() => {
@@ -169,7 +169,7 @@ export default class TimelineIndex extends React.Component {
           items: data['bodyData']
         })
       })
-      this.unsubscribe = () => this.props.tripRef.off('value', listener)
+      this.unsubscribe = () => this.props.tripRef.off('value', listener) // make sure we are removing both listeners here.
     }, 10)
   }
 
