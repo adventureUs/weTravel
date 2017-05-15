@@ -87,6 +87,7 @@ export default class AdventureUsTimeline extends Component {
     return (
       <div>
         <div className="well"
+              data-event='click focus'
               data-tip="View availability dates on the timeline, and drag, drop or extend to change dates.">
             <Timeline groups={this.props.groups}
               items={this.props.items}
@@ -95,9 +96,10 @@ export default class AdventureUsTimeline extends Component {
               timeSteps={timeSteps}
               sidebarWidth={70}
               onItemResize={this.onItemResize}
+              stackItems={true}
               />
         </div>
-        <ReactTooltip />
+        <ReactTooltip globalEventOff='click'/>
       </div>
     )
   }
