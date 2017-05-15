@@ -147,7 +147,7 @@ export default class TitleBar extends React.Component {
     null
   }
 }
-// Bttn and Modal for All Trips:
+//Bttn and Modal for All Trips:
 
 // <button style={{
 //               color: '#18bc9c',

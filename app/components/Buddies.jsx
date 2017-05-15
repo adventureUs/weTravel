@@ -14,6 +14,7 @@ export default class extends React.Component {
       clipboard: `https://tern-2b37d.firebaseapp.com${window.location.pathname}`,
       copied: ''
     }
+    this.closeModal = this.closeModal.bind(this)
   }
   componentWillUnmount() {
     this.unsubscribe && this.unsubscribe()
@@ -113,7 +114,10 @@ export default class extends React.Component {
       </tr>
     )
   }
-
+  closeModal(e) {
+    console.log('Add buddy modal x click', e)
+    document.getElementById('addBuddyModal').style.display = 'none'
+  }
   render() {
     return (
       <div className="well well-lg">
@@ -136,7 +140,7 @@ export default class extends React.Component {
           </tbody>
         </table>
         <div>
-          <button style={{
+          <button className="appBttn" style={{
             color: '#18bc9c',
             backgroundColor: '#ffffff',
             borderRadius: '5px',
@@ -144,19 +148,18 @@ export default class extends React.Component {
           }}
             type="button"
             onClick={() =>
-              document.getElementById('add-buddy-modal').style.display = 'block'}
+              document.getElementById('addBuddyModal').style.display = 'block'}
             data-tip="Add some buddies to your trip!"
           >Add a Buddy!</button>
           <ReactTooltip />
         </div>
-        <div className="modal" id="add-buddy-modal">
+        <div className="modal" id="addBuddyModal">
           <div className="modal-dialog modal-sm">
             <div className="modal-content">
               <div className="modal-header">
                 <button type="button" className="close"
-                  onClick={() =>
-                    document.getElementById('add-buddy-modal').style.display = 'none'}
-                >&times;
+                  onClick={this.closeModal}
+                  >&times;
                     </button>
                 <h4 className="modal-title">Follow these steps:</h4>
               </div>
