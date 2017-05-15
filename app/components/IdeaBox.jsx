@@ -13,7 +13,6 @@ export default class IdeaBox extends Component {
     }
     this.deleteIdea = this.deleteIdea.bind(this)
     this.addLikes = this.addLikes.bind(this)
-
   }
   componentWillUnmount() {
     this.unsubscribe && this.unsubscribe()

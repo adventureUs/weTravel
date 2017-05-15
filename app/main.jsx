@@ -24,18 +24,9 @@ const email = new firebase.auth.EmailAuthProvider()
 // Deleted facebook --> can reimplement if we have time, hahahahhaahahaahhah
 
 export default class Container extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      user: null
-    }
-  }
   componentWillMount() {
     this.unsubscribe = auth.onAuthStateChanged(user => {
       // console.log('CONTAINER COMPONENT_WILL_MOUNT, USER: ', user)
-      this.setState({
-        user: user
-      })
       if (!user) {
         browserHistory.push('/login')
       } else {
@@ -48,13 +39,15 @@ export default class Container extends React.Component {
   }
   render() {
     // console.log('CONTAINER in MAIN, currentUser', firebase.auth().currentUser)
-    return (
-      <div className="container-fluid">
-        {
-          this.state.user ? null : <Login />
-        }
-      </div>
-    )
+
+    // return (
+    //   <div className="container-fluid">
+    //     {
+    //       auth.currentUser ? null : <Login />
+    //     }
+    //   </div>
+    // )
+    return null
   }
 }
 

@@ -31,11 +31,12 @@ export default class extends React.Component {
     }
   }
   componentDidMount() {
-    this.unsubscribe = auth && auth.onAuthStateChanged(user => user && this.setState({ user }))
+    // this.unsubscribe = auth && auth.onAuthStateChanged(user => user && this.setState({ user }))
+    auth && this.setState({user: auth.currentUser})
   }
 
   componentWillUnmount() {
-    this.unsubscribe && this.unsubscribe()
+    // this.unsubscribe && this.unsubscribe()
   }
 
   setEmailPassword = (evt) => {
@@ -50,11 +51,7 @@ export default class extends React.Component {
       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
         .then(() => {
           // use auth to get currentUser Id,  look up userRef and get list of user trips.
-
-          this.unsubscribe = auth.onAuthStateChanged(user => {
-            // this.setState({userId: user.uid})
-            redirectToTripZeroeth(user.uid)
-          })
+          redirectToTripZeroeth(auth.currentUser.uid)
         })
         .catch(error => {
           window.alert(error)
