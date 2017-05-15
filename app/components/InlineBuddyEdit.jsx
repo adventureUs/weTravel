@@ -129,6 +129,79 @@ export default class InlineBuddyEdit extends Component {
                 className={this.state.highlight ? "editable" : ""}
                 validate={this.isStringAcceptable}
                 classLoading="loading"
+                classInvalid="Invalid"
+                className="buddyEditFields" />
+            </div>
+            <br />
+            <div>
+              <span>Status: </span>
+              <RIESelect
+                value={this.state.status}
+                className={this.state.highlight ? "editable" : ""}
+                options={this.state.statusOptions}
+                change={this.setLocalState}
+                classLoading="loading"
+                propName="status" 
+                className="buddyEditFields"/>
+            </div>
+            <br />
+            <div>
+              <span>Home Base: </span>
+              <RIEInput
+                value={this.state.homeBase}
+                change={this.setLocalState}
+                propName="homeBase"
+                className={this.state.highlight ? "editable" : ""}
+                validate={this.isStringAcceptable}
+                classLoading="loading"
+                classInvalid="Invalid" 
+                className="buddyEditFields"/>
+            </div>
+            <br />
+            <div>
+              <span>Free from: </span>
+              <DatePicker
+                selected={this.state.startDate ? moment(this.state.startDate) : null}
+                onChange={this.handleChangeStart}
+                className="buddyEditFields"
+              />
+            </div>
+            <br />
+            <div>
+              <span>Free until: </span>
+              <DatePicker
+                selected={this.state.endDate ? moment(this.state.endDate) : null}
+                onChange={this.handleChangeEnd}
+                className="buddyEditFields"
+              />
+            </div>
+          </div>
+        </div>
+        <button
+          className="modal-add-buddy-button"
+          type="button"
+          className="btn btn-primary">Save Info</button>
+      </form>
+    )
+  }
+}
+
+/*   render() {
+    // console.log('REF FROM RENDER', db.ref('/trips/'+ this.props.tripId + '/buddies').child(this.props.userId || 'test'))
+    // console.log('REF FROM RENDER', this.props.tripRef.child('/buddies').child(this.props.userId || 'test'))
+    return (
+      <form onSubmit={this.postUserInfoToDB}>
+        <div className="container">
+          <div className="form-horizontal">
+            <div>
+              <span>Name: </span>
+              <RIEInput
+                value={this.state.name}
+                change={this.setLocalState}
+                propName="name"
+                className={this.state.highlight ? "editable" : ""}
+                validate={this.isStringAcceptable}
+                classLoading="loading"
                 classInvalid="Invalid" />
             </div>
             <br />
@@ -172,8 +245,10 @@ export default class InlineBuddyEdit extends Component {
             </div>
           </div>
         </div>
-        <button>Save Info</button>
+        <button
+          className="modal-add-buddy-button"
+          type="button"
+          className="btn btn-primary">Save Info</button>
       </form>
     )
-  }
-}
+  } */

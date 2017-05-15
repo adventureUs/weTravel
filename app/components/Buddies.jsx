@@ -155,7 +155,7 @@ export default class extends React.Component {
               <div className="modal-header">
                 <button type="button" className="close"
                   onClick={() =>
-                    document.getElementById('addBuddyModal').style.display = 'none'}
+                    document.getElementById('add-buddy-modal').style.display = 'none'}
                 >&times;
                     </button>
                 <h4 className="modal-title">Follow these steps:</h4>
@@ -216,7 +216,7 @@ export default class extends React.Component {
         <div className="modal" id="editYourInfoModal">
           <div className="modal-dialog modal-md">
             <div className="modal-content">
-              <div className="modal-header">
+              <div className="modal-header edit-buddy-header">
                 <button type="button" className="close"
                   onClick={() =>
                     document.getElementById('editYourInfoModal').style.display = 'none'}
