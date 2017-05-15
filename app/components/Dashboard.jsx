@@ -33,7 +33,7 @@ export default class Dashboard extends Component {
               userId={this.props.userId}
               tripRef={this.props.tripRef}/>
             </div>
-          <div className="col col-md-9">
+          <div className="col col-md-9 background-white">
             <TabsAndViews
               userId={this.props.userId}
               tripRef={this.props.tripRef}

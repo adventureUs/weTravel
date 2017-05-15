@@ -28,13 +28,22 @@ https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg
 /* Timeline Styling */
 
 .rct-label-group {
+  border-radius: 5px;
   background: #18bc9c !important;
 }
 
 .rct-sidebar-header {
+  border-radius: 5px;
   background: #18bc9c !important;
 }
+/* Pending: trying to round items in Timelines: But not working */
+.rct-items .selected .can-move .rct-items-overflow {
+  border-radius: 5px !important;
+}
 
+.react-calendar-timeline .rct-items .rct-item .rct-item-overflow  {
+  border-radius: 5px !important;
+}
 
 html {
   /*background: url("../mountain-friends.jpeg") no-repeat */
@@ -45,7 +54,9 @@ html {
   background-size: cover;
 }
 /*added this to have fixed navbar - TitleBar and have all the outer containers move down.*/
-body { padding-top: 70px; }
+.app-container {
+  padding-top: 70px;
+}
 
 .titleBarTitle {
   background-color: #18bc9c !important;
@@ -163,6 +174,7 @@ LOOK INTO CONDITIONAL STYLING FOR MEDIA BREAK POINTS*/
 }
 
 #chat-title {
+  border-radius: 5px;
   text-align: center;
   padding: 10px;
   background-color:#18bc9c;
@@ -285,10 +297,19 @@ section div {
 }
 
 /* ------------- START BUDDYLIST STYLING ------------- */
+.well {
+  margin-bottom: 0;
+}
+
 .well .well-lg {
   height: calc(70vh);
 }
 /* ------------- START DASHBOARD STYLING ------------- */
+.background-white {
+  background-color: white;
+  height: 176vh;
+}
+
 .ideas-main-container {
   height: calc(100vh);
 
@@ -331,7 +352,7 @@ button.modal-add-buddy-button {
   border-radius: 10px;
   position: absolute;
   font-size: 1.5vh;
-  color: gray;
+  color: lightslategray;
   width: auto;
   }
 }
@@ -358,6 +379,17 @@ button.modal-add-buddy-button {
 .container {
   width: auto;
 }
+.addIdea {
+  padding: 10px;
+  background-color: aliceblue;
+  margin-top: 10px;
+  margin-left: 5px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  width: 94%;
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
 .easy .idea-container {
   /*border:1px solid purple;*/
   flex: 1 1 25%; /* here */
@@ -372,7 +404,7 @@ button.modal-add-buddy-button {
   flex: 1 1 12.5%; /* here */
 }
 .idea-container {
-  border: 1px solid purple !important;
+  border: 1px solid gray !important;
   position: relative;
   display: inline-block;
   width: 30%;
