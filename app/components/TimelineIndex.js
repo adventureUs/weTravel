@@ -54,9 +54,9 @@ export default class TimelineIndex extends React.Component {
           canChangeGroup: false
         }
       })
-      namesData = Object.keys(dbObject).map((key) => ({id: key, title: dbObject[key].name}))
+      namesData = Object.keys(dbObject).map((key) => ({ id: key, title: dbObject[key].name }))
     }
-    return {bodyData, namesData}
+    return { bodyData, namesData }
   }
 
   ideasData = (snapshot) => {
@@ -87,9 +87,9 @@ export default class TimelineIndex extends React.Component {
           })
         }
       })
-      .filter((key) => key !== undefined)
+        .filter((key) => key !== undefined)
     }
-    return {bodyData, namesData}
+    return { bodyData, namesData }
   }
 
   listenFor(branch) {
@@ -156,33 +156,32 @@ export default class TimelineIndex extends React.Component {
             .filter((key) => key !== undefined)
         }
       }
-//       this.setState({groups: namesData})
-//       this.setState({items: bodyData})
-//     })
-//     this.unsubscribe = () => this.props.tripRef.off('value', listener)
-    // HACK: the following setTimeout is a hack to force initial rendering of the timeline data. The data is there and shows as soon as we do anything to the view
-    setTimeout(() => {
-      const listener = this.props.tripRef.on('value', snapshot => {
-        const data = (branch === 'buddies' ? this.buddiesData(snapshot) : this.ideasData(snapshot))
-        this.setState({
-          groups: data['namesData'],
-          items: data['bodyData']
+      //       this.setState({groups: namesData})
+      //       this.setState({items: bodyData})
+      //     })
+      //     this.unsubscribe = () => this.props.tripRef.off('value', listener)
+      // HACK: the following setTimeout is a hack to force initial rendering of the timeline data. The data is there and shows as soon as we do anything to the view
+      setTimeout(() => {
+        const listener = this.props.tripRef.on('value', snapshot => {
+          const data = (branch === 'buddies' ? this.buddiesData(snapshot) : this.ideasData(snapshot))
+          this.setState({
+            groups: data['namesData'],
+            items: data['bodyData']
+          })
         })
-      })
-      this.unsubscribe = () => this.props.tripRef.off('value', listener)
-    }, 10)
-  }
+        this.unsubscribe = () => this.props.tripRef.off('value', listener)
+      }, 10)
 
-  render() {
-    return (
-      <div>
-        <AdventureUsTimeline
-          groups={this.state.groups}
-          items={this.state.items}
-          tripRef={this.props.tripRef}
-          whichTab={this.props.whichTab}
-          />
-      </div>
-    )
-  }
-}
+      render() {
+        return (
+          <div>
+            <AdventureUsTimeline
+              groups={this.state.groups}
+              items={this.state.items}
+              tripRef={this.props.tripRef}
+              whichTab={this.props.whichTab}
+            />
+          </div>
+        )
+      }
+    }

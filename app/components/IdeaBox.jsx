@@ -56,58 +56,58 @@ export default class IdeaBox extends Component {
     return (
       <div>
         <div className="well well-sm">
-         <table className="table table-striped table-hover">
-           <thead>
-             <tr>
-               <th>Idea</th>
-               <th>Link</th>
-               <th>Category</th>
-               <th>Start Time</th>
-               <th>Likes</th>
-             </tr>
-           </thead>
-           <tbody>
-            <div className='top'>
-                  {
-                    this.state.ideas && Object.keys(this.state.ideas).map(key => {
-                      return (
-                   <tr key={key} className='trip-buddies'>
-                     <td >{this.state.ideas[key].ideaName}</td>
-                     <td ><a href={'//'+this.state.ideas[key].link}
-                       target='_blank'>{this.state.ideas[key].link}</a></td>
-                     <td >{this.state.ideas[key].category.text}</td>
-                     <td>{moment(this.state.ideas[key].startDate).calendar()}</td>
-                     <td>
-                       <button style={{
-                         color: '#18bc9c',
-                         backgroundColor: '#ffffff',
-                         borderRadius: '5px',
-                         padding: '1px 6px'
-                       }}
-                           type="button"
-                           id={key}
-                           onClick={ this.addLikes}>{this.state.ideas[key].likes}
+          <table className="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Idea</th>
+                <th>Link</th>
+                <th>Category</th>
+                <th>Start Time</th>
+                <th>Likes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <div className='top'>
+                {
+                  this.state.ideas && Object.keys(this.state.ideas).map(key => {
+                    return (
+                      <tr key={key} className='trip-buddies'>
+                        <td >{this.state.ideas[key].ideaName}</td>
+                        <td ><a href={'//' + this.state.ideas[key].link}
+                          target='_blank'>{this.state.ideas[key].link}</a></td>
+                        <td >{this.state.ideas[key].category.text}</td>
+                        <td>{moment(this.state.ideas[key].startDate).calendar()}</td>
+                        <td>
+                          <button style={{
+                            color: '#18bc9c',
+                            backgroundColor: '#ffffff',
+                            borderRadius: '5px',
+                            padding: '1px 6px'
+                          }}
+                            type="button"
+                            id={key}
+                            onClick={this.addLikes}>{this.state.ideas[key].likes}
+                          </button>
+                        </td>
+                        <td>
+                          <button style={{
+                            color: '#18bc9c',
+                            backgroundColor: '#ffffff',
+                            borderRadius: '5px',
+                            padding: '1px 6px'
+                          }}
+                            type="button"
+                            id={key}
+                            onClick={this.deleteIdea}>Delete
                        </button>
-                     </td>
-                     <td>
-                       <button style={{
-                         color: '#18bc9c',
-                         backgroundColor: '#ffffff',
-                         borderRadius: '5px',
-                         padding: '1px 6px'
-                       }}
-                           type="button"
-                           id={key}
-                           onClick={this.deleteIdea}>Delete
-                       </button>
-                     </td>
-                   </tr>
-                  )
-                })
-            }
-          </div>
-           </tbody>
-         </table>
+                        </td>
+                      </tr>
+                    )
+                  })
+                }
+              </div>
+            </tbody>
+          </table>
         </div>
 
       </div>
@@ -121,11 +121,11 @@ export default class IdeaBox extends Component {
   renderAddIdea() {
     return (
       <div>
-            <AddIdea
-              userId={this.props.userId}
-              ideasRef={this.props.ideasRef}
-            />
-        </div>
+        <AddIdea
+          userId={this.props.userId}
+          ideasRef={this.props.ideasRef}
+        />
+      </div>
     )
   }
 
@@ -135,37 +135,35 @@ export default class IdeaBox extends Component {
     // console.log('IN IDEA BOX ', Object.values(this.state.ideas))
     return (
       <div>
-       <div>
-          {
-            this.state.ideas && Object.keys(this.state.ideas).map(key => {
-              return (
-                <div key={key} className='idea-container'>
-                  <div className='idea front'>
-                    <div className='name'>{this.state.ideas[key].ideaName}
-                      <div className='link'><a href={'//'+this.state.ideas[key].link}
-                        target='_blank' className='link word-wrap'>{this.state.ideas[key].link}</a></div>
-                      <div className='category'>{this.state.ideas[key].category.text}</div>
-                      <div className='startdate'>{moment(this.state.ideas[key].startDate).calendar()}</div>
-                      <div className='likes'>
-                        <button style={{color: '#18bc9c', backgroundColor: '#ffffff', borderRadius: '5px', padding: '1px 6px'}}className='trip-buddies-likes-button'
-                            type="button" id={key} onClick={ this.addLikes}>{this.state.ideas[key].likes}</button>
-                      </div>
-                      <div className='delete'>
-                        <button style={{color: '#18bc9c', backgroundColor: '#ffffff', borderRadius: '5px', padding: '1px 6px'}}className='trip-buddies-delete-button'
-                            type="button" id={key} onClick={this.deleteIdea}>Delete</button>
-                      </div>
+        {
+          this.state.ideas && Object.keys(this.state.ideas).map(key => {
+            return (
+              <div key={key} className='idea-container'>
+                <div className='idea front'>
+                  <div className='name'>{this.state.ideas[key].ideaName}
+                    <div className='link'><a href={'//' + this.state.ideas[key].link}
+                      target='_blank' className='link word-wrap'>{this.state.ideas[key].link}</a></div>
+                    <div className='category'>{this.state.ideas[key].category.text}</div>
+                    <div className='startdate'>{moment(this.state.ideas[key].startDate).calendar()}</div>
+                    <div className='likes'>
+                      <button style={{ color: '#18bc9c', backgroundColor: '#ffffff', borderRadius: '5px', padding: '1px 6px' }} className='trip-buddies-likes-button'
+                        type="button" id={key} onClick={this.addLikes}>{this.state.ideas[key].likes}</button>
+                    </div>
+                    <div className='delete'>
+                      <button style={{ color: '#18bc9c', backgroundColor: '#ffffff', borderRadius: '5px', padding: '1px 6px' }} className='trip-buddies-delete-button'
+                        type="button" id={key} onClick={this.deleteIdea}>Delete</button>
                     </div>
                   </div>
                 </div>
               </div>
-            })
-          }
-          <div>
-              <AddIdea
-                userId={this.props.userId}
-                ideasRef={this.props.ideasRef}
-              />
-          </div>
+            )
+          })
+        }
+        <div>
+          <AddIdea
+            userId={this.props.userId}
+            ideasRef={this.props.ideasRef}
+          />
         </div>
       </div>
     )
