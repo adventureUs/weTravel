@@ -57,7 +57,7 @@ export default class extends React.Component {
     if (this.unsubscribe) this.unsubscribe()
     const listener = ref.on('value', snapshot => {
       // console.log('IN LISTEN TO SHOULD BE PREV CHATS', snapshot.val())
-      this.setState({ prevChats: snapshot.val() })
+      this.setState({ prevChats: snapshot.val() }, this.updateScroll)
     })
     this.unsubscribe = () => ref.off('value', listener)
     return listener
