@@ -165,6 +165,7 @@ LOOK INTO CONDITIONAL STYLING FOR MEDIA BREAK POINTS*/
 }
 
 #chat-title {
+  border-radius: 15px;
   text-align: center;
   padding: 10px;
   background-color:#18bc9c;
