@@ -18,10 +18,6 @@ export default class TimelineIndex extends React.Component {
       groups: [],
       items: []
     }
-    this.listenFor = this.listenFor.bind(this)
-  }
-  componentWillUnmount() {
-    this.unsubscribe && this.unsubscribe()
   }
   componentDidMount() {
     this.props.whichTab && this.props.whichTab === 'Buddies' ?
@@ -29,22 +25,43 @@ export default class TimelineIndex extends React.Component {
       :
       this.listenFor('ideas') // For Ideas Box Timeline View
   }
-
-  /* For mysteriosu reasons,  DidMount works but WillReceiveProps below did not .... Learning lesson?? */
-  // It's not getting in oldProps too
+  componentWillUnmount() {
+    this.unsubscribe && this.unsubscribe()
+  }
   componentWillReceiveProps(nextProps) {
     nextProps.whichTab && nextProps.whichTab === 'Buddies' ?
       this.listenFor('buddies') // For Buddies Slider Timelne View
       :
       this.listenFor('ideas') // For Ideas Box Timeline View
   }
-  buddiesData = (snapshot) => {
+  listenFor(branch) {
+    if (this.unsubscribe) this.unsubscribe()
+    /* HACK courtesy Tina: the following listener in a setTimeout is a hack.
+      It ensures initial rendering of the timeline data.
+      The data was always there but only showed as soon as we did anything to the view */
+    setTimeout(() => {
+      let result // of getting branch data
+      const listener = this.props.tripRef.on('value', snapshot => {
+        if (branch === 'buddies') {
+          result = this.buddiesData(snapshot)
+        } else {
+          result = this.ideasData(snapshot)
+        }
+        this.setState({
+          groups: result.namesData,
+          items: result.bodyData
+        })
+      })
+      this.unsubscribe = () => this.props.tripRef.off('value', listener)
+    }, 10)
+  }
+  buddiesData(snapshot) {
+    let bodyData = [], namesData = []
     const dbObject = snapshot.val()['buddies']
-    let branchIds = [], bodyData = [], namesData = []
+    const branchIds = Object.keys(dbObject)
     if (dbObject) {
-      branchIds = Object.keys(dbObject)
-      bodyData = branchIds.map(key => {
-        return {
+      bodyData = branchIds.map(key =>
+        ({
           id: key,
           group: key,
           title: dbObject[key].status.text,
@@ -52,127 +69,44 @@ export default class TimelineIndex extends React.Component {
           end_time: moment(dbObject[key].endDate),
           canResize: key === this.props.userId ? 'both' : false,
           canChangeGroup: false
-        }
-      })
-      namesData = Object.keys(dbObject).map((key) => ({id: key, title: dbObject[key].name}))
+        })
+      )
+      namesData = branchIds
+        .map((key) => ({id: key, title: dbObject[key].name}))
     }
     return {bodyData, namesData}
   }
-
-  ideasData = (snapshot) => {
+  ideasData(snapshot) {
+    let bodyData = [], namesData = []
     const dbObject = snapshot.val()['ideas']
-    let branchIds = [], bodyData = [], namesData = []
+    const branchIds = Object.keys(dbObject)
     if (dbObject) {
-      branchIds = Object.keys(dbObject)
-      // now map over the db Ids and grab info as necessary depending
-      // on the branch typs.
-      bodyData = branchIds.map(key => {
-        return {
+      bodyData = branchIds.map(key =>
+        ({
           id: key,
           group: dbObject[key].category.text,
           title: dbObject[key].ideaName,
           start_time: moment(dbObject[key].startDate),
           end_time: moment(dbObject[key].endDate),
           canResize: dbObject[key].addedBy === this.props.userId ? 'both' : false,
-          canChangeGroup: false // if we oneday get to items do conditional checks for item categories here
-        }
-      })
+          canChangeGroup: false
+        })
+      )
       const categoryArr = []
-      namesData = Object.keys(dbObject).map((key) => {
-        if (!categoryArr.includes(dbObject[key].category.text)) {
-          categoryArr.push(dbObject[key].category.text)
-          return ({
-            id: dbObject[key].category.text,
-            title: dbObject[key].category.text
-          })
-        }
-      })
-      .filter((key) => key !== undefined)
+      namesData = branchIds
+        .map((key) => {
+          if (!categoryArr.includes(dbObject[key].category.text)) {
+            categoryArr.push(dbObject[key].category.text)
+            return ({
+              id: dbObject[key].category.text,
+              title: dbObject[key].category.text
+            })
+          }
+        })
+        .filter((key) => key !== undefined)
     }
     return {bodyData, namesData}
   }
-
-  listenFor(branch) {
-    if (this.unsubscribe) this.unsubscribe()
-    // Getting data from branch part of db
-
-    let bodyData = [], namesData = []
-    const listener = this.props.tripRef.on('value', snapshot => {
-      const dbObject = snapshot.val()[branch]
-      var branchIds = []
-      if (dbObject) {
-        branchIds = Object.keys(dbObject)
-      }
-      // now map over the db Ids and grab info as necessary depending
-      // on the branch typs.
-      if (branch === 'buddies') { // Make Buddies Timeline Data
-        bodyData = branchIds.map(key => {
-          //
-          return {
-            id: key,
-            group: key,
-            title: dbObject[key].status.text,
-            start_time: moment(dbObject[key].startDate),
-            end_time: moment(dbObject[key].endDate),
-            canResize: key === this.props.userId ? 'both' : false,
-            canChangeGroup: false // if we oneday get to items do conditional checks for item categories here
-          }
-        })
-        if (dbObject) {
-          namesData = Object.keys(dbObject).map((key) =>
-            ({
-              id: key,
-              title: dbObject[key].name
-            }))
-        }
-      } else { //  Make Ideas Timeline Data
-        bodyData = branchIds.map(key => {
-          return {
-            id: key,
-            group: dbObject[key].category.text,
-            title: dbObject[key].ideaName,
-            start_time: moment(dbObject[key].startDate),
-            end_time: moment(dbObject[key].endDate),
-            canResize: dbObject[key].addedBy === this.props.userId ? 'both' : false,
-            canChangeGroup: false // if we oneday get to items do conditional checks for item categories here
-          }
-        })
-        // use this categoryArr to hold the categories,
-        // if it does not contain the category on the dbObject,
-        //    then add the object to the namesData array in the map
-        // otherwise it is a duplicte, so do not add that dbObject item in the map
-        const categoryArr = []
-        if (dbObject) {
-          namesData = Object.keys(dbObject).map((key) => {
-            if (!categoryArr.includes(dbObject[key].category.text)) {
-              categoryArr.push(dbObject[key].category.text)
-              return ({
-                // id: key,
-                id: dbObject[key].category.text,
-                title: dbObject[key].category.text
-              })
-            }
-          })
-            .filter((key) => key !== undefined)
-        }
-      }
-//       this.setState({groups: namesData})
-//       this.setState({items: bodyData})
-    })
-//     this.unsubscribe = () => this.props.tripRef.off('value', listener)
-    // HACK: the following setTimeout is a hack to force initial rendering of the timeline data. The data is there and shows as soon as we do anything to the view
-    setTimeout(() => {
-      const listener = this.props.tripRef.on('value', snapshot => {
-        const data = (branch === 'buddies' ? this.buddiesData(snapshot) : this.ideasData(snapshot))
-        this.setState({
-          groups: data['namesData'],
-          items: data['bodyData']
-        })
-      })
-      this.unsubscribe = () => this.props.tripRef.off('value', listener) // make sure we are removing both listeners here.
-    }, 10)
-  }
-
   render() {
     return (
       <div>
