@@ -45,6 +45,7 @@ export default class InlineBuddyEdit extends Component {
         email: user.email
       })
     })
+    this.listenTo(this.props.tripRef.child('/buddies').child(this.props.userId || 'test'))
 
     // console.log('TRIP REF', this.props.tripRef.child('/buddies').child(this.props.userId || 'test'))
     // this.listenTo(
@@ -58,8 +59,8 @@ export default class InlineBuddyEdit extends Component {
   componentWillReceiveProps(incoming, outgoing) {
     // When the props sent to us by our parent component change,
     // start listening to the new firebase reference.
-    // console.log('FROM RECEIVE PROPS', incoming)
-    this.listenTo(incoming.tripRef.child('/buddies').child(incoming.userId || 'test'))
+    // console.log('FROM RECEIVE PROPS', incoming), moved this to componentDidMount to set state after the component mounted.
+    // this.listenTo(incoming.tripRef.child('/buddies').child(incoming.userId || 'test'))
     // this.listenTo(incoming.tripsRef.child(tripId))
   }
 
