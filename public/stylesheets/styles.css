@@ -28,13 +28,22 @@ https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg
 /* Timeline Styling */
 
 .rct-label-group {
+  border-radius: 5px;
   background: #18bc9c !important;
 }
 
 .rct-sidebar-header {
+  border-radius: 5px;
   background: #18bc9c !important;
 }
+/* Pending: trying to round items in Timelines: But not working */
+.rct-items .selected .can-move .rct-items-overflow {
+  border-radius: 5px !important;
+}
 
+.react-calendar-timeline .rct-items .rct-item .rct-item-overflow  {
+  border-radius: 5px !important;
+}
 
 html {
   /*background: url("../mountain-friends.jpeg") no-repeat */
@@ -165,7 +174,7 @@ LOOK INTO CONDITIONAL STYLING FOR MEDIA BREAK POINTS*/
 }
 
 #chat-title {
-  border-radius: 15px;
+  border-radius: 5px;
   text-align: center;
   padding: 10px;
   background-color:#18bc9c;
