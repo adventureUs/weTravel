@@ -10,6 +10,7 @@ import SignUp from './components/SignUp'
 import App from './components/App'
 import InlineBuddyEditIndex from './components/InlineBuddyEditIndex'
 import firebase from 'APP/fire'
+import redirectToTripZeroeth from 'APP/src/redirectToTripZeroeth'
 // ---- UNCOMMENT TO RESEED DATABASE ----------
 // import {trips, users} from '../seedData'
 // console.log('USERS', users, 'TRIPS', trips)
@@ -23,18 +24,14 @@ const email = new firebase.auth.EmailAuthProvider()
 // Deleted facebook --> can reimplement if we have time, hahahahhaahahaahhah
 
 export default class Container extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      user: null
-    }
-  }
   componentWillMount() {
     this.unsubscribe = auth.onAuthStateChanged(user => {
       // console.log('CONTAINER COMPONENT_WILL_MOUNT, USER: ', user)
-      this.setState({
-        user: user
-      })
+      if (!user) {
+        browserHistory.push('/login')
+      } else {
+        redirectToTripZeroeth(user.uid)
+      }
     })
   }
   componentWillUnmount() {
@@ -42,13 +39,15 @@ export default class Container extends React.Component {
   }
   render() {
     // console.log('CONTAINER in MAIN, currentUser', firebase.auth().currentUser)
-    return (
-      <div className="container-fluid">
-        {
-          this.state.user ? <App /> : <Login />
-        }
-      </div>
-    )
+
+    // return (
+    //   <div className="container-fluid">
+    //     {
+    //       auth.currentUser ? null : <Login />
+    //     }
+    //   </div>
+    // )
+    return null
   }
 }
 
