@@ -79,8 +79,8 @@ export default class extends React.Component {
 
     return (
       <tr key={buddyId} className='trip-buddies'>
-        <td className={buddyClass}>{this.state.buddies[buddyId].name}</td>
-        <td className={buddyClass}> {this.state.buddies[buddyId].homeBase}</td>
+        <td className={buddyClass}>{this.state.buddies[buddyId].name || 'Add your name here'}</td>
+        <td className={buddyClass}> {this.state.buddies[buddyId].homeBase || 'Add your city here'}</td>
         <td className={buddyClass}> {this.state.buddies[buddyId].status.text}</td>
         <td className={buddyClass}>
           {(this.state.buddies[buddyId].startDate)
@@ -115,7 +115,7 @@ export default class extends React.Component {
     )
   }
   closeModal(e) {
-    console.log('Add buddy modal x click', e)
+    // console.log('Add buddy modal x click', e)
     document.getElementById('addBuddyModal').style.display = 'none'
   }
   render() {
