@@ -133,18 +133,14 @@ export default class extends React.Component {
                 return ( // add logic about from whom the chat is
                   this.state.prevChats[chat].user === this.state.userChatHandle
                     ?
-                    <div key={index}
-                      className="from-me">
-                      <div >{`${this.state.prevChats[chat].message}`}
-                      </div>
+                    <div key={index}>
+                      <p className='fromMe'>{`${this.state.prevChats[chat].message}`} </p>
                     </div>
                     :
-                    <div key={index}
-                      className="from-them">
+                    <div key={index}>
                       <div className="chatName"> {`${this.state.prevChats[chat].user}:`}
                       </div>
-                      <div> {`${this.state.prevChats[chat].message}`}
-                      </div>
+                      <p className='them'>{`${this.state.prevChats[chat].message}`}</p>
                     </div>
                 )
               }
