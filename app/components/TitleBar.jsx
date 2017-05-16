@@ -3,8 +3,8 @@ import { Link, browserHistory } from 'react-router'
 import firebase from 'APP/fire'
 const db = firebase.database()
 const auth = firebase.auth()
-const trips = ['Rome', 'Montenegro']
 import { RIEInput } from 'riek'
+import OtherTripsModal from './OtherTripsModal'
 import idToNameOrEmail from '../../src/idToNameOrEmail'
 
 export default class TitleBar extends React.Component {
@@ -185,49 +185,8 @@ export default class TitleBar extends React.Component {
       null
   }
 }
-// Bttn and Modal for All Trips:
 
-// <button style={{
-//               color: '#18bc9c',
-//               backgroundColor: '#ffffff',
-//               borderRadius: '5px',
-//               padding: '1px 6px'
-//             }}
-//               type="button"
-//               onClick={() =>
-//                 document.getElementById('tripsModal').style.display = 'block'}
-//             >+</button>
-
-//   <div className="modal" id="tripsModal">
-//     <div className="modal-dialog modal-sm">
-//       <div className="modal-content">
-//         <div className="modal-header">
-//           <button type="button" className="close"
-//             onClick={() =>
-//               document.getElementById('tripsModal').style.display = 'none'}
-//           >&times;
-//           </button>
-//           <h4 className="modal-title">Your Trips</h4>
-//         </div>
-//         <div className="modal-body">
-//           {(this.getAllTrips().map((trip, idx) =>
-//             <h4 id={`${idx}`} key={`${idx}`}
-//               onClick={this.changeTrip}
-//               style={{ border: 'bottom' }}
-//             ><font color='#18bc9c'>{trip}</font></h4>))}
-//         </div>
-//         <div className="modal-footer"
-//           style={{
-//             display: 'flex',
-//             justifyContent: 'space-around'
-//           }}>
-//           <input type="text" id="newTripInput"></input>
-//           <button type="button" className="btn btn-primary"
-//             onClick={this.makeNewTrip}>
-//             Add a trip
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-// </div>
+{ /*   setStates = (newState) => {
+    this.setState(newState)
+    this.postTripNameToDB(newState.tripName)
+  } */ }
