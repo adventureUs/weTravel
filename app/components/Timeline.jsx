@@ -73,6 +73,10 @@ export default class AdventureUsTimeline extends Component {
   }
 
   render() {
+    let minDate = this.findMinStartDate(this.props.items).unix()*1000
+    let maxDate = this.findMaxEndDate(this.props.items).unix()*1000
+    console.log('date in render', this.findMinStartDate(this.props.items).unix()*1000)
+
 // This object sets the untis on the timeline.
 // Currently, it is set to display days, months and years
     // console.log('TIMELINE, PROPS', this.props)
@@ -84,12 +88,15 @@ export default class AdventureUsTimeline extends Component {
       month: 1,
       year: 1
     }
+
+    // ref is not the ideal fix, but it renders the items on the timeline correctly
     return (
       <div>
         <div className="well"
               data-event='click focus'
               data-tip="View availability dates on the timeline, and drag, drop or extend to change dates.">
             <Timeline groups={this.props.groups}
+              ref= {(timeline) => timeline && timeline.updateScrollCanvas(minDate, maxDate)}
               items={this.props.items}
               visibleTimeStart={this.findMinStartDate(this.props.items).unix()*1000}
               visibleTimeEnd={this.findMaxEndDate(this.props.items).unix()*1000}

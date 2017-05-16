@@ -39,21 +39,23 @@ export default class TimelineIndex extends React.Component {
     /* HACK courtesy Tina: the following listener in a setTimeout is a hack.
       It ensures initial rendering of the timeline data.
       The data was always there but only showed as soon as we did anything to the view */
-    setTimeout(() => {
+    // setTimeout(() => {
+
+    const listener = this.props.tripRef.on('value', snapshot => {
       let result // of getting branch data
-      const listener = this.props.tripRef.on('value', snapshot => {
-        if (branch === 'buddies') {
-          result = this.buddiesData(snapshot)
-        } else {
-          result = this.ideasData(snapshot)
-        }
-        this.setState({
-          groups: result.namesData,
-          items: result.bodyData
-        })
+      if (branch === 'buddies') {
+        result = this.buddiesData(snapshot)
+      } else {
+        result = this.ideasData(snapshot)
+      }
+      console.log('in listenFor', branch, result)
+      this.setState({
+        groups: result.namesData,
+        items: result.bodyData
       })
-      this.unsubscribe = () => this.props.tripRef.off('value', listener)
-    }, 10)
+    })
+    this.unsubscribe = () => this.props.tripRef.off('value', listener)
+    // }, 10)
   }
   buddiesData(snapshot) {
     let bodyData = [], namesData = []
@@ -66,7 +68,7 @@ export default class TimelineIndex extends React.Component {
           group: key,
           title: dbObject[key].status.text,
           start_time: moment(dbObject[key].startDate),
-          end_time: moment(dbObject[key].endDate),
+          end_time: dbObject[key].endDate ? moment(dbObject[key].endDate) : moment().add(1, 'days'),
           canResize: key === this.props.userId ? 'both' : false,
           canChangeGroup: false
         })
