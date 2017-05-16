@@ -5,6 +5,7 @@ import firebase from 'APP/fire'
 import InlineBuddyEditIndex from './InlineBuddyEditIndex'
 import moment from 'moment'
 import CopyToClipboard from 'react-copy-to-clipboard'
+import AddBuddyModal from './AddBuddyModal'
 
 export default class extends React.Component {
   constructor(props) {
@@ -14,17 +15,14 @@ export default class extends React.Component {
       clipboard: `https://tern-2b37d.firebaseapp.com${window.location.pathname}`,
       copied: ''
     }
-    this.closeModal = this.closeModal.bind(this)
   }
-  componentWillUnmount() {
-    this.unsubscribe && this.unsubscribe()
-  }
-
   componentDidMount() {
     this.listenTo(this.props.tripRef.child('buddies'))
     //     console.log('COMPONENT DID MOUNT PROPS', this.props.tripRef.child('buddies'))
   }
-
+  componentWillUnmount() {
+    this.unsubscribe && this.unsubscribe()
+  }
   componentWillReceiveProps(incoming, outgoing) {
     // When the props sent to us by our parent component change,
     // start listening to the new firebase reference.
@@ -41,42 +39,12 @@ export default class extends React.Component {
       this.setState({ buddies: snapshot.val() })
     })
     this.unsubscribe = () => ref.off('value', listener)
-    return listener
   }
-
-  makeNewBuddy = () => {
-    const newBuddyEmail = document.getElementById('newBuddyEmail').value
-    var hasPendingBuddies = this.props.tripRef
-      .once('value')
-      .then(snapshot => {
-        snapshot.child('pendingBuddies').exists()
-      })
-
-    if (hasPendingBuddies) {
-      this.props.tripRef.child('pendingBuddies').push({
-        // this creates a uid for each pending buddy
-        // the uid is a key, the value is {email: newBuddyEmail}
-        email: newBuddyEmail
-      })
-    } else {
-      this.props.tripRef
-        .update({
-          // this creates a uid for each pending buddy
-          // the uid is a key, the value is {email: newBuddyEmail}
-          pendingBuddies: {
-            email: newBuddyEmail
-          }
-        })
-    }
-    this.refs.input.value = ''
-  }
-
   buildRow = (buddyId) => {
     const buddyClass = SetClass({
       'me': buddyId === this.props.userId,
       'them': buddyId !== this.props.userId
     })
-
     return (
       <tr key={buddyId} className='trip-buddies'>
         <td className={buddyClass}>{this.state.buddies[buddyId].name || 'Add your name here'}</td>
@@ -114,10 +82,6 @@ export default class extends React.Component {
       </tr>
     )
   }
-  closeModal(e) {
-    // console.log('Add buddy modal x click', e)
-    document.getElementById('addBuddyModal').style.display = 'none'
-  }
   render() {
     return (
       <div className="well well-lg">
@@ -153,68 +117,7 @@ export default class extends React.Component {
           >Add a Buddy!</button>
           <ReactTooltip />
         </div>
-        <div className="modal" id="addBuddyModal">
-          <div className="modal-dialog modal-sm">
-            <div className="modal-content">
-              <div className="modal-header">
-                <button type="button" className="close"
-                  onClick={this.closeModal}
-                  >&times;
-                    </button>
-                <h4 className="modal-title">Follow these steps:</h4>
-              </div>
-              <div className="modal-body">
-                <span
-                  style={{
-                    fontWeight: 'bold'
-                  }}>
-                  Step 1: </span>
-                <span> Enter your buddy's e-mail here: </span>
-                <div className="modal-add-buddy">
-                  <input
-                    ref="input"
-                    className="modal-add-buddy-input form-control"
-                    placeholder="Buddy's e-mail"
-                    type="text"
-                    id="newBuddyEmail" />
-                  <button
-                    className="modal-add-buddy-button"
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={this.makeNewBuddy}
-                  >Invite</button>
-                </div>
-                <span
-                  style={{
-                    fontWeight: 'bold'
-                  }}>
-                  Step 2: </span>
-                <span> Share this link with your buddy: </span>
-                <div className="modal-add-buddy">
-                  <input
-                    className="modal-add-buddy form-control"
-                    style={{
-                      fontSize: '11px'
-                    }}
-                    value={this.state.clipboard} />
-                </div>
-
-                <CopyToClipboard text={this.state.clipboard}
-                  onCopy={() => this.setState({ copied: true })}>
-                  <button
-                    className="modal-add-buddy-button"
-                    type="button"
-                    className="btn btn-primary"
-                    style={{
-                      width: '100%'
-                    }}
-                  >Copy to clipboard</button>
-                </CopyToClipboard>
-                {this.state.copied ? <div><p style={{ color: '#18bc9c', padding: '5px' }}>Copied.</p></div> : null}
-              </div>
-            </div>
-          </div>
-        </div>
+        <AddBuddyModal tripRef={this.props.tripRef}/>
 
         <div className="modal" id="editYourInfoModal">
           <div className="modal-dialog modal-md">

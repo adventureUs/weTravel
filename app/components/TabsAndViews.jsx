@@ -88,36 +88,3 @@ export default class TabsAndView extends React.Component {
     )
   }
 }
-
-// render() {
-//   return (
-//   <div>
-//     <ul onClick={() => this.setState({whichTab: !this.state.changeTabs})}
-//         className="nav nav-tabs">
-//       <li className="active">
-//         <a href="#buddies"
-//             data-toggle="tab">Buddies</a>
-//       </li>
-//       <li>
-//         <a href="#ideaBox"
-//             data-toggle="tab">IdeaBox</a>
-//       </li>
-//     </ul>
-
-//     <div id="myTabContent"
-//           className="tab-content">
-
-//       <div className="tab-pane fade active in"
-//             id="buddies">
-//         <InlineBuddyEditIndex />
-//       </div>
-
-//       <div className="tab-pane fade"
-//             id="ideaBox">
-//         <IdeaBox />
-//       </div>
-
-//     </div>
-//   </div>
-//   )
-// }
