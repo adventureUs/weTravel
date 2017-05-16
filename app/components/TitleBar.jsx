@@ -59,9 +59,13 @@ export default class TitleBar extends React.Component {
   //   // Set the new trip Id to currentTrip, trigger rerender of new Dashboard
   //   console.log(document.getElementById('newTripInput').value)
 
-  setStates = (newState) => {
-    this.setState(newState)
-    this.postTripNameToDB(newState.tripName)
+  updateTrip = (evt) => {
+    this.setState({ tripName: evt.target.value })
+  }
+
+  setStates = (evt) => {
+    console.log('What is state?', this.state)
+    this.postTripNameToDB(this.state.tripName)
   }
 
   postTripNameToDB = (tripName) => {
@@ -110,22 +114,23 @@ export default class TitleBar extends React.Component {
                     </button>
                     <h4 className="modal-title">Update Your Trip Name</h4>
                   </div>
-                  <div className="modal-body">
-                    <div className="modal-add-buddy">
-                      <input
-                        ref="input"
-                        className="modal-add-buddy-input form-control"
-                        placeholder="Please Enter Your Trip Name Here"
-                        type="text"
-                        id="tripName" />
-                    </div>
+                  <div className="modal-body modal-input-height">
+                    <input
+                      ref="input"
+                      className="modal-trip-edit-input form-control"
+                      placeholder="Please Enter Your Trip Name Here"
+                      onChange={this.updateTrip}
+                      type="text"
+                      id="tripName" />
                   </div>
                   <div className="modal-footer">
                     <button
                       className="btn btn-warning"
+                      onClick={this.closeModal}
                     >Cancel</button>
                     <button
                       className="btn btn-success"
+                      onClick={this.setStates}
                     >Save Changes</button>
                   </div>
                 </div>

@@ -69,7 +69,15 @@ body {
   padding: 6px 10px;
   position: absolute;
   left: 75px;
+  background-color: rgba(1, 1, 1, 0)
 }
+
+.titleBarTitle:hover {
+  background-color: rgba(236,240,241, 0.2);
+  cursor: text
+}
+
+
 
 li.trip-buddies {
   list-style-type: none;
@@ -332,9 +340,9 @@ section div {
 
 .ideas-main-container {
   height: calc(100vh - 70px);
+}
 
-
-/* ------------- BUDDY MODAL STYLING ------------- */
+/* ------------- BUDDY/TITLEBAR MODAL STYLING ------------- */
 
 div#add-buddy-modal {
   height: 500px !important ;
@@ -343,6 +351,15 @@ div#add-buddy-modal {
 .modal-add-buddy {
   width: 100%;
   padding: 15px 5px 15px 5px;
+}
+
+.modal-input-height {
+  height: 85px;
+  padding: 15px 5px 15px 5px;
+}
+
+input.modal-trip-edit-input {
+  width: 100%;
 }
 
 input.modal-add-buddy-input {
