@@ -13,9 +13,7 @@ export default function redirectToTripZeroeth(userId) {
   .once('value')
   .then(snapshot => {
     const tripsArr = snapshot.val()
-    if (tripsArr.length === 1) {
-      return tripsArr[0]
-    }
+    return tripsArr[0]
   })
   .then((tripId) => browserHistory.push('/dashboard/' + tripId))
   .catch(err => console.error(err))

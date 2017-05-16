@@ -6,12 +6,13 @@ const auth = firebase.auth()
 import { RIEInput } from 'riek'
 import idToNameOrEmail from '../../src/idToNameOrEmail'
 import redirectToTripZeroeth from '../../src/redirectToTripZeroeth'
+import createNewTripForUserObj from '../../src/createNewTripForUserObj'
 
 export default class OtherTripsModal extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      newTripName: '',
+      newTripName: null,
       tripsWithNames: null, // intended format is:
       // { tripId1: tripName1, tripId2: tripName2, ...}
       defaultTripName: 'Please Name Your Trip Here!'
@@ -70,7 +71,7 @@ export default class OtherTripsModal extends React.Component {
   }
 
   changeTrip = (e) => {
-    console.log('OTHER_TRIPS_MODAL, CHANGING TRIP...', 'CLICKED TRIP', e.target)
+    // console.log('OTHER_TRIPS_MODAL, CHANGING TRIP...', 'CLICKED TRIP', e.target)
     /* Here we are using the react event persist method:
     e is nullified before the asynch gets to it, so we are presisting */
     e.persist()
@@ -78,7 +79,7 @@ export default class OtherTripsModal extends React.Component {
       .once('value')
       .then(snapshot => {
         let userObj = null
-        console.log('OTHER_TRIPS_MODAL, INSIDE USER_REF', 'CLICKED TRIP', e.target)
+        // console.log('OTHER_TRIPS_MODAL, INSIDE USER_REF', 'CLICKED TRIP', e.target)
         const targetTrip = e.target.id
         if (snapshot) { userObj = snapshot.val() }
         if (userObj) {
@@ -86,22 +87,24 @@ export default class OtherTripsModal extends React.Component {
           const newTrips = userObj.trips.slice()
           newTrips.splice(newTrips.indexOf(targetTrip), 1)
           newTrips.unshift(targetTrip)
-          console.log('OTHER_TRIPS_MODAL, SPLICEd RIGHT?', 'Old trips, new', userObj.trips, newTrips)
+          // console.log('OTHER_TRIPS_MODAL, SPLICEd RIGHT?', 'Old trips, new', userObj.trips, newTrips)
         // HERE TEST THIS UPDATE PLEASE:  THEN LOG FROM REDIRECT!!!
           this.props.userRef
             .update({ trips: newTrips })
-            .then(() => redirectToTripZeroeth(this.props.userId))
+            .then(() => {
+              document.getElementById('other-trips-modal').style.display = 'none'
+              redirectToTripZeroeth(this.props.userId)
+            })
         }
       })
       .catch(console.error)
   }
   /* Make a new trip with id, and add that tripId to currentUser.
   as zeroeth trip, trigger rerender of new Dashboard/tripId */
-  makeNewTrip = () => {
-  }
-
+  makeNewTrip = () =>
+    createNewTripForUserObj(this.props.userId, this.state.newTripName)
   render() {
-    // console.log('STATE in OTHER_TRIPS_MODAL', this.state)
+    console.log('STATE in OTHER_TRIPS_MODAL', this.state)
     const tripsWithNames = this.state.tripsWithNames
     return (
       <div className="modal" id='other-trips-modal'>
@@ -129,7 +132,7 @@ export default class OtherTripsModal extends React.Component {
                   >{tripsWithNames[tripId]}
                 </font></h4>))
                 :
-                <div>tripsWithNames obj hasn't come in yet</div>
+                <div>Oopsies, the tripsNames nono on state</div>
               }
             </div>
             <div className="modal-footer"
@@ -137,7 +140,12 @@ export default class OtherTripsModal extends React.Component {
                 display: 'flex',
                 justifyContent: 'space-around'
               }}>
-              <input type="text" id="newTripInput"></input>
+              <input
+                type="text"
+                id="newTripInput"
+                onChange={ (e) => this.setState({newTripName: e.target.value})}
+                >
+                </input>
               <button type="button" className="btn btn-primary"
                 onClick={this.makeNewTrip}>
                 Add a trip
