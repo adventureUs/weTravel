@@ -251,7 +251,7 @@ float: left;
 
 
 section {
-	max-width: 420px;
+	/*max-width: 420px;*/
 	margin: 0 auto;
 }
 
@@ -289,7 +289,8 @@ section div {
 
 .from-them {
   float: left;
-  background: #e5e5ea;
+  /*background: #e5e5ea;*/
+  background: white;
 }
 
 .from-them::after {
@@ -299,7 +300,7 @@ section div {
 		  left:-18px;
 		  width:26px;
 		  height:20px;
-      border-right: 8px solid #e5e5ea;
+      border-right: 8px solid white;
       border-bottom-right-radius: 16px 14px;
 }
 
