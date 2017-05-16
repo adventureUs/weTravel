@@ -64,7 +64,7 @@ export default class TitleBar extends React.Component {
   }
 
   setStates = (evt) => {
-    console.log('What is state?', this.state)
+    // console.log('What is state?', this.state)
     this.postTripNameToDB(this.state.tripName)
   }
 
