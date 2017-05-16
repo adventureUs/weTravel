@@ -87,10 +87,10 @@ li.trip-buddies {
 }
 
 .pencil {
-  color: white;
-  position: absolute;
-  top: 22px;
-  left: 280px;
+    color: white;
+    position: absolute;
+    top: 22px;
+    left: 330px;
 }
 
 /* ------------- LOGIN STYLING ------------- */
@@ -171,16 +171,16 @@ LOOK INTO CONDITIONAL STYLING FOR MEDIA BREAK POINTS*/
   opacity: 0.5;
 }
 .chat-outer-container {
-  height: calc(100vh - 68px);
-  position: fixed;
-  overflow: hidden;
-  background-color: white;
-  opacity: 0.5;
+      height: calc(100vh - 68px);
+    position: fixed;
+    overflow: hidden;
+    background-color: white;
+    opacity: 0.7;
 }
 
 .chat-container {
-  border-right: 2px solid gray;
-  border-bottom: 1px solid gray;
+  /*border-right: 2px solid gray;
+  border-bottom: 1px solid gray;*/
   height: calc(100vh - 150px);
   overflow-x: hidden;
   overflow-y: scroll;
@@ -189,11 +189,9 @@ LOOK INTO CONDITIONAL STYLING FOR MEDIA BREAK POINTS*/
 }
 
 #chat-title {
-  border-radius: 5px;
   text-align: center;
   padding: 10px;
-  background-color:#18bc9c;
-  color: white;
+  color: darkslategray;
   border-bottom: 1px solid gray;
   font-size: 16px;
   text-transform: uppercase;
