@@ -251,7 +251,7 @@ float: left;
 
 
 section {
-	max-width: 320px;
+	max-width: 420px;
 	margin: 0 auto;
 }
 
@@ -260,7 +260,7 @@ p.chatName {
   }
 
 section div {
-  margin: 0 0 8px;
+  margin: 0 -4px 8px -4px;
   border-radius: 16px;
   padding: 8px 16px;
   max-width: 80%;
@@ -272,6 +272,7 @@ section div {
 	color:white;
 	background:#0B93F6;
 	float: right;
+  margin-right: -88px;
 }
 
 .from-me::after {
