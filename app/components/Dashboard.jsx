@@ -34,14 +34,16 @@ export default class Dashboard extends Component {
               tripRef={this.props.tripRef}/>
             </div>
           <div className="col col-md-9 background-white">
-            <TabsAndViews
-              userId={this.props.userId}
-              tripRef={this.props.tripRef}
-              tripId={this.props.tripId}
-              usersRef={db.ref('users')}
-              whichTab={this.state.whichTab}
-              changeTabs={this.changeTabs}
-              />
+            <div className='tabsAndViews'>
+              <TabsAndViews
+                userId={this.props.userId}
+                tripRef={this.props.tripRef}
+                tripId={this.props.tripId}
+                usersRef={db.ref('users')}
+                whichTab={this.state.whichTab}
+                changeTabs={this.changeTabs}
+                />
+            </div>
           </div>
           </div>
       </div>

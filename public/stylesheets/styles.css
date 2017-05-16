@@ -340,7 +340,6 @@ section div {
 /* ------------- START BUDDYLIST STYLING ------------- */
 .well {
   margin-bottom: 0;
-  margin-right: 20px;
 }
 
 .well .well-lg {
@@ -353,17 +352,20 @@ section div {
 /* ------------- START DASHBOARD STYLING ------------- */
 .background-white {
   height: calc(50vh - 70px);
+  width: calc();
 }
 
 .ideas-main-container {
   height: calc(100vh - 70px);
 }
-
+.tabsAndViews {
+  margin-left: 20px;
+  margin-right: 20px;
+}
 /* ------------- BUDDY/TITLEBAR MODAL STYLING ------------- */
 
 .buddiesList {
   margin-top: 20px;
-  margin-right: 5px;
 }
 
 div#add-buddy-modal {
@@ -446,9 +448,9 @@ button.modal-add-buddy-button {
 .addIdea {
   padding: 10px;
   margin-top: 20px;
-  margin-left: 20px;
+  /*margin-left: 20px;*/
   margin-bottom: 10px;
-  margin-right: 20px;
+  /*margin-right: 20px;*/
   background-color: aliceblue;
   border-radius: 5px;
   border: 1px solid gray;
@@ -498,7 +500,7 @@ button.modal-add-buddy-button {
   height: 100%;
   border-radius: 10px;
   border-width: 0.1%;
-  border-color: red;
+  /*border-color: red;*/
   border-style: solid;
   /*background-color: white;*/
   box-shadow: 0 0 3px black;
