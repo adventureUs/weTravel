@@ -2,6 +2,9 @@ import firebase from 'APP/fire'
 const db = firebase.database()
 import { browserHistory } from 'react-router'
 
+  /* Use this one if there is not already any trips for a user:
+  as in, only use this in SignUp The other is createNewTripForUserObj wiht is multitrip */
+
 const createNewUserAndTrip = (user) => {
   const userId = user.uid
   // console.log('GOT INTO CREATE-NEW-TRIP', userId)
@@ -13,6 +16,7 @@ const createNewUserAndTrip = (user) => {
     tripName: 'Please Name Your Trip Here!',
     buddies: {
       [userId]: {
+        name: user.email,
         status: { id: '2', text: 'Going' }
       }
     }

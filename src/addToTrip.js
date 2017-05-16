@@ -14,6 +14,7 @@ const addToTrip = (user, queryString) => {
   // first updates trips table by adding this new user to the buddies portion of the particular trip table
   db.ref('trips/').child(tripId).child('buddies').update({
     [userId]: {
+      name: user.name || user.email,
       status: { id: '1', text: 'Invited' }
     }
   })
