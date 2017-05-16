@@ -89,7 +89,7 @@ export default class AddBuddyModal extends Component {
                 </div>
                 :
                 <div className='modal-header'>
-                  <h5> These buddies added but haven't joined the trip: </h5>
+                  <h5> These buddies have been added but haven't joined the trip: </h5>
                   <ul id='pending-buddies-list'>
                     { typeof this.state.pendingBuddies === 'string' ?
                       <div>{this.state.pendingBuddies}</div>
@@ -105,12 +105,14 @@ export default class AddBuddyModal extends Component {
             }
             <div className="modal-body">
               <h4 className="modal-title">Follow these steps:</h4>
-              <span
-                style={{
-                  fontWeight: 'bold'
-                }}>
-                Step 1: </span>
-              <span> Enter your buddy's e-mail here: </span>
+              <div>
+                <span
+                  style={{
+                    fontWeight: 'bold'
+                  }}>
+                  Step 1: </span>
+                <span> Enter your buddy's e-mail here: </span>
+              </div>
               <div className="modal-add-buddy">
                 <input
                   ref="input"

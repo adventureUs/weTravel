@@ -321,17 +321,20 @@ div#add-buddy-modal {
 }
 
 .modal-add-buddy {
+  /*display: inline;*/
   width: 100%;
   padding: 15px 5px 15px 5px;
 }
 
 input.modal-add-buddy-input {
   width: 70%;
+  display: inline;
   float: left;
 }
 
 button.modal-add-buddy-button {
   width: 20%;
+  display: inline;
   float: left;
 
 }
