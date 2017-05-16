@@ -12,14 +12,10 @@ export default class TitleBar extends React.Component {
     super(props)
     this.state = {
       tripName: '',
-      userName: ''
+      userName: '',
+      confirmedTripName: ''
     }
-    this.closeModal = this.closeModal.bind(this)
-  }
-
-  closeModal(e) {
-    // console.log('Add buddy modal x click', e)
-    document.getElementById('tripTitleModal').style.display = 'none'
+    // this.closeModal = this.closeModal.bind(this)
   }
 
   componentDidMount() {
@@ -34,7 +30,7 @@ export default class TitleBar extends React.Component {
         const tripObj = snapshot.val()
         idToNameOrEmail(this.props.userId)
           .then(nameOrEmail => this.setState({
-            tripName: tripObj.tripName,
+            confirmedTripName: tripObj.tripName,
             userName: nameOrEmail
           })).catch(console.error)
       })
@@ -59,13 +55,23 @@ export default class TitleBar extends React.Component {
   //   // Set the new trip Id to currentTrip, trigger rerender of new Dashboard
   //   console.log(document.getElementById('newTripInput').value)
 
-  updateTrip = (evt) => {
+  onInputChange = (evt) => {
     this.setState({ tripName: evt.target.value })
   }
 
-  setStates = (evt) => {
-    // console.log('What is state?', this.state)
+  closeModal = () => {
+    // console.log('Add buddy modal x click', e)
+    document.getElementById('tripTitleModal').style.display = 'none'
+  }
+
+  saveChanges = (evt) => {
     this.postTripNameToDB(this.state.tripName)
+    this.setState({
+      confirmedTripName: this.state.tripName,
+      tripName: ''
+    })
+    this.refs.input.value = ''
+    this.closeModal()
   }
 
   postTripNameToDB = (tripName) => {
@@ -76,8 +82,7 @@ export default class TitleBar extends React.Component {
   }
 
   render() {
-    // console.log('STATE in TITLEBAR', this.state)
-    return this.state.tripName ?
+    return this.state.confirmedTripName ?
       (
         <nav className="nav navbar-default navbar-fixed-top">
           <div className="" style={{
@@ -100,7 +105,7 @@ export default class TitleBar extends React.Component {
               onClick={() =>
                 document.getElementById('tripTitleModal').style.display = 'block'}>
               <h4 className='tripnameIcon'>
-                <span>{this.state.tripName}</span>
+                <span>{this.state.confirmedTripName}</span>
                 <span className='glyphicon glyphicon-pencil pencil'></span>
               </h4>
             </div>
@@ -118,8 +123,9 @@ export default class TitleBar extends React.Component {
                     <input
                       ref="input"
                       className="modal-trip-edit-input form-control"
-                      placeholder="Please Enter Your Trip Name Here"
-                      onChange={this.updateTrip}
+                      placeholder="Please Enter Your New Trip Name Here"
+                      value={this.state.tripName}
+                      onChange={this.onInputChange}
                       type="text"
                       id="tripName" />
                   </div>
@@ -130,7 +136,7 @@ export default class TitleBar extends React.Component {
                     >Cancel</button>
                     <button
                       className="btn btn-success"
-                      onClick={this.setStates}
+                      onClick={this.saveChanges}
                     >Save Changes</button>
                   </div>
                 </div>
