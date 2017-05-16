@@ -147,15 +147,12 @@ export default class InlineBuddyEdit extends Component {
         <div className="container">
           <div className="form-horizontal">
           <table>
-            <tbody>
+            <tbody style={{height: '200px', display: 'flex', justifyContent: 'space-between', flexDirection: 'column'}}>
               <tr>
                 <td>
                   <span>Name: </span>
                 </td>
                 <td className="buddyEditFields">
-                </td>
-                <p>    </p>
-                <td>
                   <input
                     type="text"
                     placeholder={this.state.name}
@@ -170,9 +167,6 @@ export default class InlineBuddyEdit extends Component {
                   <span>Status: </span>
                 </td>
                 <td className="buddyEditFields">
-                <p>    </p>
-                </td>
-                <td >
                   <select
                   onChange={this.setLocalState}
                   name="status" >
@@ -187,9 +181,6 @@ export default class InlineBuddyEdit extends Component {
                   <span>Home Base: </span>
                 </td>
                 <td className="buddyEditFields">
-                <p>    </p>
-                </td>
-                <td>
                   <input
                     type="text"
                     placeholder={this.state.homeBase}
@@ -203,9 +194,6 @@ export default class InlineBuddyEdit extends Component {
                   <td>
                     <span>Free from: </span>
                   </td>
-                <td className="buddyEditFields">
-                <p>    </p>
-                </td>
                   <td>
                     <DatePicker
                       selected={this.state.startDate ? moment(this.state.startDate) : null}
@@ -217,9 +205,6 @@ export default class InlineBuddyEdit extends Component {
                   <td>
                     <span>Free until: </span>
                   </td>
-                <td className="buddyEditFields">
-                <p>    </p>
-                </td>
                   <td>
                     <DatePicker
                       selected={this.state.endDate ? moment(this.state.endDate) : null}
