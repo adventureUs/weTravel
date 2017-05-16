@@ -16,7 +16,6 @@ export default class OtherTripsModal extends React.Component {
       // { tripId1: tripName1, tripId2: tripName2, ...}
     }
   }
-
   componentDidMount() {
     console.log('OTHER_TRIPS_MODAL ComponentWILLMOUNT,  PROPS', this.props)
     this.getTripsArrayWithNames()
@@ -47,7 +46,7 @@ export default class OtherTripsModal extends React.Component {
         console.log('OTHER_TRIPS_MODAL DID_MOUNT: tripsRefListener, snapshot', this.props.tripsRef, snapshot)
         let tripsObj = null
         if (snapshot) { tripsObj = snapshot.val() }
-        this.updateTripsArrayWithNames(trips, tripsObj)
+        if (tripsObj) { this.updateTripsArrayWithNames(trips, tripsObj) }
       })
     this.unsubscribeTripsRef = () => this.props.userRef.off('value', tripsRefListener)
   }
@@ -89,7 +88,7 @@ export default class OtherTripsModal extends React.Component {
     //   console.log(document.getElementById('newTripInput').value)
 
   render() {
-    console.log('STATE in TITLEBAR', this.state)
+    console.log('STATE in OTHER_TRIPS_MODAL', this.state)
     const tripsWithNames = this.state.tripsWithNames
     return tripsWithNames ?
       (

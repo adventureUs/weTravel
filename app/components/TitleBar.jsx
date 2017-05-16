@@ -97,6 +97,7 @@ export default class TitleBar extends React.Component {
               tripRef={this.props.tripRef}
               tripsRef={this.props.tripsRef}
               userId={this.props.userId}
+              userRef={this.props.userRef}
               />
           </div>
 
