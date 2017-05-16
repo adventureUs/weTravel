@@ -45,7 +45,7 @@ https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg
   border-radius: 5px !important;
 }
 
-html {
+body {
   /*background: url("../mountain-friends.jpeg") no-repeat */
   background: url("https://static.pexels.com/photos/130111/pexels-photo-130111.jpeg") no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -156,13 +156,13 @@ LOOK INTO CONDITIONAL STYLING FOR MEDIA BREAK POINTS*/
   height: calc(50vh - 70px);
   position: relative;
   overflow: hidden;
-  background-color: white;
+  opacity: 0.5;
 }
 .chat-outer-container {
   height: calc(100vh - 70px);
   position: fixed;
   overflow: hidden;
-  background-color: white;
+  /* background-color: white; */
 }
 
 .chat-container {
@@ -306,12 +306,11 @@ section div {
 }
 /* ------------- START DASHBOARD STYLING ------------- */
 .background-white {
-  background-color: white;
-  height: 176vh;
+  height: calc(50vh - 70px);
 }
 
 .ideas-main-container {
-  height: calc(100vh);
+  height: calc(100vh - 70px);
 
 
 /* ------------- BUDDY MODAL STYLING ------------- */
