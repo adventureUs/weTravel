@@ -195,15 +195,14 @@ LOOK INTO CONDITIONAL STYLING FOR MEDIA BREAK POINTS*/
   height: calc(50vh - 70px);
   position: relative;
   overflow: hidden;
-  /*opacity: 0.5;*/
+  background: rgba(255, 255, 255, 0.5)
 }
 .chat-outer-container {
   border-radius: 5px;
     height: calc(100vh - 68px);
     position: fixed;
     overflow: hidden;
-    background-color: white;
-    /*opacity: 0.7;*/
+    background: rgba(255, 255, 255, 0.5)
 }
 
 .chat-container {
@@ -211,7 +210,7 @@ LOOK INTO CONDITIONAL STYLING FOR MEDIA BREAK POINTS*/
   border-bottom: 1px solid gray;*/
   height: calc(100vh - 150px);
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: hidden;
   background: none;
 
 }
@@ -226,11 +225,14 @@ LOOK INTO CONDITIONAL STYLING FOR MEDIA BREAK POINTS*/
 }
 
 #chat-log {
-  padding: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 5px;
   height: 80vh;
   overflow-y: scroll;
   font-size: 15px;
   font-weight: normal;
+  background: rgba(255, 255, 255, 0.5);
   /* border-right: thin solid lightgray; */
   }
 
@@ -249,92 +251,57 @@ float: left;
 
 
 section {
-	max-width: 100%;
-	margin: 0px auto;
+	/*max-width: 420px;*/
+	margin: 0 auto;
 }
 
-section div {
-		max-width: 100%;
-		word-wrap: break-word;
-		margin-bottom: 20px;
-    line-height: 24px;
-	}
-
-  p.chatName {
+p.chatName {
     font-weight: bold;
   }
 
-.clear {clear: both}
+section div {
+  margin: 0 -4px 8px -4px;
+  border-radius: 16px;
+  padding: 8px 16px;
+  max-width: 80%;
+  clear: both;
+  position: relative;
+	}
 
 .from-me {
-	position:relative;
-	padding:10px 20px;
 	color:white;
 	background:#0B93F6;
-	border-radius:25px;
 	float: right;
-  width: 100%;
-
+  margin-right: -78px;
 }
 
-.from-me	:before {
+.from-me::after {
 		content:"";
 		position:absolute;
-		z-index:-1;
-		bottom:-2px;
-		right:-7px;
-		height:20px;
-		border-right:20px solid #0B93F6;
-		border-bottom-left-radius: 16px 14px;
-		-webkit-transform:translate(0, -2px);
-}
-
-.from-me	:after {
-		content:"";
-		position:absolute;
-		z-index:1;
-		bottom:-2px;
-		right:-56px;
+    bottom:-2px;
+		right:-18px;
 		width:26px;
 		height:20px;
-		background:white;
-		border-bottom-left-radius: 10px;
-		-webkit-transform:translate(-30px, -2px);
+		background:rgba(255, 255, 255, 0);
+    border-left: 8px solid #0B93F6;
+    border-bottom-left-radius: 16px 14px;
 }
 
 .from-them {
-	position:relative;
-	padding:10px 20px;
-	background: #E5E5EA;
-	border-radius:25px;
-	color: black;
   float: left;
-  width: 100%;
+  /*background: #e5e5ea;*/
+  background: white;
 }
 
-.from-them :before {
-		content:"";
-		position:absolute;
-		z-index:2;
-		bottom:-2px;
-		left:-7px;
-		height:20px;
-		border-left:20px solid#E5E5EA;
-		border-bottom-right-radius: 16px 14px;
-		-webkit-transform:translate(0, -2px);
-}
-
-.from-them :after {
-		content:"";
-		position:absolute;
-		z-index:3;
-		bottom:-2px;
-		left:4px;
-		width:26px;
-		height:20px;
-		background:white;
-		border-bottom-right-radius: 10px;
-		-webkit-transform:translate(-30px, -2px);
+.from-them::after {
+      content: "";
+      position: absolute;
+      bottom:-2px;
+		  left:-18px;
+		  width:26px;
+		  height:20px;
+      border-right: 8px solid white;
+      border-bottom-right-radius: 16px 14px;
 }
 
 /* ------------- START BUDDYLIST STYLING ------------- */

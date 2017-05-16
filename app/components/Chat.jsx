@@ -57,7 +57,7 @@ export default class extends React.Component {
     if (this.unsubscribe) this.unsubscribe()
     const listener = ref.on('value', snapshot => {
       // console.log('IN LISTEN TO SHOULD BE PREV CHATS', snapshot.val())
-      this.setState({ prevChats: snapshot.val() })
+      this.setState({ prevChats: snapshot.val() }, this.updateScroll())
     })
     this.unsubscribe = () => ref.off('value', listener)
     return listener
@@ -127,30 +127,30 @@ export default class extends React.Component {
       <div className='chat-outer-container col col-md-3'>
         <div className="chat-container">
           <div id="chat-title">Discussion board</div>
-            <section id="chat-log">
-              {Object.keys(this.state.prevChats || {}).map((chat, index) => {
-                // console.log('CHAT', this.state.prevChats[chat])
-                return ( // add logic about from whom the chat is
-                  this.state.prevChats[chat].user === this.state.userChatHandle
-                    ?
-                    <div key={index}
-                      className="from-me">
-                      <div >{`${this.state.prevChats[chat].message}`}
-                      </div>
+          <section id="chat-log">
+            {Object.keys(this.state.prevChats || {}).map((chat, index) => {
+              // console.log('CHAT', this.state.prevChats[chat])
+              return ( // add logic about from whom the chat is
+                this.state.prevChats[chat].user === this.state.userChatHandle
+                  ?
+                  <div key={index}>
+                    <div className="from-me">
+                    {`${this.state.prevChats[chat].message}`}
                     </div>
-                    :
-                    <div key={index}
-                      className="from-them">
-                      <div className="chatName"> {`${this.state.prevChats[chat].user}:`}
+                  </div>
+                  :
+                  <div key={index}>
+                    {`${this.state.prevChats[chat].user}:`}
+                    <br/>
+                    <div className="from-them">
+                      {`${this.state.prevChats[chat].message}`}
                       </div>
-                      <div> {`${this.state.prevChats[chat].message}`}
-                      </div>
-                    </div>
-                )
-              }
-              )}
-            </section>
-          </div>
+                  </div>
+              )
+            }
+            )}
+          </section>
+        </div>
         <form className="form" >
           <div id="chatInput" className="form-group">
             <div id="messageInput">
