@@ -70,32 +70,35 @@ export default class OtherTripsModal extends React.Component {
   }
 
   changeTrip = (e) => {
-    console.log('OTHER_TRIPS_MODAL, CHANGING TRIP...', 'CLICKED TRIP', e.traset)
-    // slice trips and splice the e.target.id to zeroeth index
+    console.log('OTHER_TRIPS_MODAL, CHANGING TRIP...', 'CLICKED TRIP', e.target)
+    /* Here we are using the react event persist method:
+    e is nullified before the asynch gets to it, so we are presisting */
+    e.persist()
     this.props.userRef
       .once('value')
       .then(snapshot => {
         let userObj = null
+        console.log('OTHER_TRIPS_MODAL, INSIDE USER_REF', 'CLICKED TRIP', e.target)
         const targetTrip = e.target.id
         if (snapshot) { userObj = snapshot.val() }
         if (userObj) {
+          // slice trips and splice the e.target.id to zeroeth index
           const newTrips = userObj.trips.slice()
           newTrips.splice(newTrips.indexOf(targetTrip), 1)
           newTrips.unshift(targetTrip)
-          console.log('OTHER_TRIPS_MODAL, CHANGING TRIP...', 'Old trips, new', userObj.trips, newTrips)
+          console.log('OTHER_TRIPS_MODAL, SPLICEd RIGHT?', 'Old trips, new', userObj.trips, newTrips)
+        // HERE TEST THIS UPDATE PLEASE:  THEN LOG FROM REDIRECT!!!
           this.props.userRef
             .update({ trips: newTrips })
+            .then(() => redirectToTripZeroeth(this.props.userId))
         }
       })
       .catch(console.error)
-    redirectToTripZeroeth(this.props.userId)
   }
-
+  /* Make a new trip with id, and add that tripId to currentUser.
+  as zeroeth trip, trigger rerender of new Dashboard/tripId */
   makeNewTrip = () => {
   }
-    //   // Make a new trip with id, and add that id to currentUser.
-    //   // Set the new trip Id to currentTrip, trigger rerender of new Dashboard
-    //   console.log(document.getElementById('newTripInput').value)
 
   render() {
     // console.log('STATE in OTHER_TRIPS_MODAL', this.state)
@@ -119,7 +122,12 @@ export default class OtherTripsModal extends React.Component {
                 <h4 key={`${tripId}`}
                   onClick={this.changeTrip}
                   style={{ border: 'bottom' }}
-                ><font id={`${tripId}`} color='black'>{tripsWithNames[tripId]}</font></h4>))
+                ><font
+                  id={`${tripId}`}
+                  color='black'
+                  onClick={this.changeTrip}
+                  >{tripsWithNames[tripId]}
+                </font></h4>))
                 :
                 <div>tripsWithNames obj hasn't come in yet</div>
               }
