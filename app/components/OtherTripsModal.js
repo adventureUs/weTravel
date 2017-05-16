@@ -12,28 +12,33 @@ export default class OtherTripsModal extends React.Component {
     super(props)
     this.state = {
       newTripName: '',
-      tripsWithNames: null // intended format is:
+      tripsWithNames: null, // intended format is:
       // { tripId1: tripName1, tripId2: tripName2, ...}
+      defaultTripName: 'Please Name Your Trip Here!'
     }
   }
   componentDidMount() {
-    console.log('OTHER_TRIPS_MODAL ComponentWILLMOUNT,  PROPS', this.props)
-    this.getTripsArrayWithNames()
+    // console.log('OTHER_TRIPS_MODAL ComponentWILLMOUNT,  PROPS', this.props)
+    this.setTripsArrayWithNames()
   }
   componentWillUnmount() {
-    console.log('OTHER_TRIPS_MODAL ComponentWILL_UNMOUNT')
+    // console.log('OTHER_TRIPS_MODAL ComponentWILL_UNMOUNT', this.props)
     this.unsubscribeTripsRef && this.unsubscribeTripsRef()
     this.unsubscribeUserRef && this.unsubscribeUserRef()
   }
-  getTripsArrayWithNames = () => {
+  componentWillReceiveProps() {
+    // console.log('OTHER_TRIPS_MODAL ComponentWILLRECEIVE,  PROPS', this.props)
+    this.setTripsArrayWithNames()
+  }
+  setTripsArrayWithNames = () => {
     if (this.unsubscribeUserRef) { this.unsubscribeUserRef() }
     const userRefListener = this.props.userRef
       .on('value', snapshot => {
-        console.log('OTHER_TRIPS_MODAL DID_MOUNT: userRefListener, snapshot', this.props.userRef, snapshot)
         let userObj = null
         if (snapshot) { userObj = snapshot.val() }
         if (userObj) {
           const trips = userObj.trips
+          // console.log('OTHER_TRIPS_MODAL setTripsArray: userRefListener, trips', trips)
           this.triggerTripsRefListener(trips)
         }
       })
@@ -43,9 +48,9 @@ export default class OtherTripsModal extends React.Component {
     if (this.unsubscribeTripsRef) { this.unsubscribeTripsRef() }
     const tripsRefListener = this.props.tripsRef
       .on('value', snapshot => {
-        console.log('OTHER_TRIPS_MODAL DID_MOUNT: tripsRefListener, snapshot', this.props.tripsRef, snapshot)
         let tripsObj = null
         if (snapshot) { tripsObj = snapshot.val() }
+        // console.log('OTHER_TRIPS_MODAL DID_MOUNT: Triggered tripsRefListener, snapshot', trips, tripsObj)
         if (tripsObj) { this.updateTripsArrayWithNames(trips, tripsObj) }
       })
     this.unsubscribeTripsRef = () => this.props.userRef.off('value', tripsRefListener)
@@ -53,14 +58,19 @@ export default class OtherTripsModal extends React.Component {
   updateTripsArrayWithNames = (trips, tripsObj) => {
     const tripsWithNames = {}
     // loop over the users tripIds and find the tripName
-    Object.keys(trips).forEach(key =>
-      tripsWithNames[key] = tripsObj[key].tripName
+    // console.log('OTHER_TRIPS_MODAL DID_MOUNT: updating tripsArrayWithNames 1, trips, tripsObj', trips, tripsObj)
+    trips.forEach(tripId =>
+      tripsWithNames[tripId] = tripsObj[tripId].tripName === this.state.defaultTripName ?
+        'Un-named Trip'
+        :
+        tripsObj[tripId].tripName
     )
-    this.setState(tripsWithNames)
+    // console.log('OTHER_TRIPS_MODAL DID_MOUNT: updating tripsArrayWithNames 2, tripsWithNames', tripsWithNames)
+    this.setState({tripsWithNames: tripsWithNames})
   }
 
   changeTrip = (e) => {
-    console.log('OTHER_TRIPS_MODAL, CHANGING TRIP...', 'CLICKED TRIP', e.traget)
+    console.log('OTHER_TRIPS_MODAL, CHANGING TRIP...', 'CLICKED TRIP', e.traset)
     // slice trips and splice the e.target.id to zeroeth index
     this.props.userRef
       .once('value')
@@ -90,25 +100,29 @@ export default class OtherTripsModal extends React.Component {
   render() {
     console.log('STATE in OTHER_TRIPS_MODAL', this.state)
     const tripsWithNames = this.state.tripsWithNames
-    return tripsWithNames ?
-      (
-      <div className="modal" id="tripsModal">
+    return (
+      <div className="modal" id='other-trips-modal'>
         <div className="modal-dialog modal-sm">
           <div className="modal-content">
             <div className="modal-header">
               <button type="button" className="close"
                 onClick={() =>
-                  document.getElementById('tripsModal').style.display = 'none'}
+                  document.getElementById('other-trips-modal').style.display = 'none'}
               >&times;
               </button>
               <h4 className="modal-title">Your Trips</h4>
             </div>
             <div className="modal-body">
-              {(Object.keys(tripsWithNames).map((tripId) =>
+              {
+                tripsWithNames ?
+                (Object.keys(tripsWithNames).map((tripId) =>
                 <h4 id={`${tripId}`} key={`${tripId}`}
                   onClick={this.changeTrip}
                   style={{ border: 'bottom' }}
-                ><font color='#18bc9c'>{tripsWithNames[tripId]}</font></h4>))}
+                ><font color='#18bc9c'>{tripsWithNames[tripId]}</font></h4>))
+                :
+                <div>tripsWithNames obj hasn't come in yet</div>
+              }
             </div>
             <div className="modal-footer"
               style={{
@@ -125,7 +139,5 @@ export default class OtherTripsModal extends React.Component {
         </div>
       </div>
     )
-    :
-    null
   }
 }

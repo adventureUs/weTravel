@@ -91,7 +91,7 @@ export default class TitleBar extends React.Component {
             }}
               type="button"
               onClick={() =>
-                document.getElementById('tripsModal').style.display = 'block'}
+                document.getElementById('other-trips-modal').style.display = 'block'}
               >+</button>
             <OtherTripsModal
               tripRef={this.props.tripRef}
