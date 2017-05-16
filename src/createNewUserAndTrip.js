@@ -16,6 +16,7 @@ const createNewUserAndTrip = (user) => {
     tripName: 'Please Name Your Trip Here!',
     buddies: {
       [userId]: {
+        name: user.email,
         status: { id: '2', text: 'Going' }
       }
     }

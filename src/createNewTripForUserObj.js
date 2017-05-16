@@ -2,7 +2,6 @@ import firebase from 'APP/fire'
 const db = firebase.database()
 import { browserHistory } from 'react-router'
 
-
 /* Make a new trip as zeroeth position for user by Id
  and then redirect there.
  import createNewTripForUserObj from '../../src/createNewTripForUserObj'
@@ -13,7 +12,7 @@ const createNewTripForUserObj = (userId, tripName) => {
   const newTripKey = db.ref('trips/').push().key
   db.ref('users').child(userId)
     .once('value')
-    .then(snpashot => {
+    .then(snapshot => {
       if (snapshot && snapshot.val()) {
         // add in name and homeBase to buddies data for first off rendering attractivness.
         const userObj = snapshot.val()

@@ -6,6 +6,7 @@ import InlineBuddyEditIndex from './InlineBuddyEditIndex'
 import moment from 'moment'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import AddBuddyModal from './AddBuddyModal'
+import idToNameOrEmail from '../../src/idToNameOrEmail'
 
 export default class extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ export default class extends React.Component {
     this.state = {
       buddies: {}, // there's nothing on state when we go to the buddies tab
       clipboard: `https://tern-2b37d.firebaseapp.com${window.location.pathname}`,
-      copied: ''
+      copied: '',
     }
   }
   componentDidMount() {
@@ -47,7 +48,7 @@ export default class extends React.Component {
     })
     return (
       <tr key={buddyId} className='trip-buddies'>
-        <td className={buddyClass}>{this.state.buddies[buddyId].name || 'Add your name here'}</td>
+        <td className={buddyClass}>{this.state.buddies[buddyId].name || 'Please enter your name'}</td>
         <td className={buddyClass}> {this.state.buddies[buddyId].homeBase || 'Add your city here'}</td>
         <td className={buddyClass}> {this.state.buddies[buddyId].status.text}</td>
         <td className={buddyClass}>
