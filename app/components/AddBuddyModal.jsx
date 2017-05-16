@@ -10,7 +10,7 @@ export default class AddBuddyModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      pendingBuddies: {}, // there's nothing on state when we go to the buddies tab
+      pendingBuddies: null,
       clipboard: `https://tern-2b37d.firebaseapp.com${window.location.pathname}`,
       copied: ''
     }
@@ -28,12 +28,20 @@ export default class AddBuddyModal extends Component {
   listenTo(ref) {
     if (this.unsubscribe) this.unsubscribe()
     const listener = ref.on('value', snapshot => {
-      this.setState({ pendingBuddies: snapshot.val() })
+      const pendingBuddies = snapshot.val()
+    /* Edge case Question, by Stef: say all pending buddies are removed
+    what will be the state of snapshot and pendingBuddies in db?
+    And, do we need to guard against that empty truthy obj below?
+    I think it would result in an okish empty render. */
+      snapshot && pendingBuddies ?
+        this.setState({pendingBuddies: pendingBuddies})
+        :
+        this.setState({pendingBuddies: 'You have no pending buddies'})
     })
     this.unsubscribe = () => ref.off('value', listener)
   }
   closeModal(e) {
-    // console.log('Add buddy modal x click', e)
+    // console.log('Add buddy modal xOut click', e)
     document.getElementById('addBuddyModal').style.display = 'none'
   }
   makeNewBuddy = () => {
@@ -72,12 +80,31 @@ export default class AddBuddyModal extends Component {
                 onClick={this.closeModal}
                 >&times;
                   </button>
-              <h4 className="modal-title">Follow these steps:</h4>
+              <h4 className="modal-title">Add a Buddy</h4>
             </div>
+            {
+              typeof this.state.pendingBuddies === 'string' ?
+                <div className='modal-header'>
+                  <h5>{this.state.pendingBuddies}</h5>
+                </div>
+                :
+                <div className='modal-header'>
+                  <h5> These buddies added but haven't joined the trip: </h5>
+                  <ul id='pending-buddies-list'>
+                    { typeof this.state.pendingBuddies === 'string' ?
+                      <div>{this.state.pendingBuddies}</div>
+                      :
+                      Object.keys(this.state.pendingBuddies)
+                      .map(pendingId => <li key={pendingId}>{
+                        this.state.pendingBuddies[pendingId] &&
+                        this.state.pendingBuddies[pendingId].email
+                      }</li>)
+                    }
+                  </ul>
+                </div>
+            }
             <div className="modal-body">
-              <div>
-                Under construction:  Let's map over the pendingBuddies emails here!!
-              </div>
+              <h4 className="modal-title">Follow these steps:</h4>
               <span
                 style={{
                   fontWeight: 'bold'
