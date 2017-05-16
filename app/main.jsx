@@ -52,7 +52,6 @@ export default class LandingPage extends React.Component {
 }
 
 function onTripEnter({params: {tripId}}, replace, next) {
-  console.log('******onTripEnter', {params: {tripId}}, replace, next)
   setTimeout(() => {
     unsubscribe()
     replace('/login?' + tripId)
