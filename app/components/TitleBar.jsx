@@ -14,6 +14,12 @@ export default class TitleBar extends React.Component {
       tripName: '',
       userName: ''
     }
+    this.closeModal = this.closeModal.bind(this)
+  }
+
+  closeModal(e) {
+    // console.log('Add buddy modal x click', e)
+    document.getElementById('tripTitleModal').style.display = 'none'
   }
 
   componentDidMount() {
@@ -85,13 +91,46 @@ export default class TitleBar extends React.Component {
                 width: '60px'
               }} />
 
-            <div className='titleBarTitle'>
+            <div
+              className='titleBarTitle'
+              onClick={() =>
+                document.getElementById('tripTitleModal').style.display = 'block'}>
               <h4 className='tripnameIcon'>
                 <span>{this.state.tripName}</span>
                 <span className='glyphicon glyphicon-pencil pencil'></span>
               </h4>
             </div>
-
+            <div className="modal" id="tripTitleModal">
+              <div className="modal-dialog modal-sm">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <button type="button" className="close"
+                      onClick={this.closeModal}
+                    >&times;
+                    </button>
+                    <h4 className="modal-title">Update Your Trip Name</h4>
+                  </div>
+                  <div className="modal-body">
+                    <div className="modal-add-buddy">
+                      <input
+                        ref="input"
+                        className="modal-add-buddy-input form-control"
+                        placeholder="Please Enter Your Trip Name Here"
+                        type="text"
+                        id="tripName" />
+                    </div>
+                  </div>
+                  <div className="modal-footer">
+                    <button
+                      className="btn btn-warning"
+                    >Cancel</button>
+                    <button
+                      className="btn btn-success"
+                    >Save Changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div style={{
               display: 'flex',
               alignItems: 'center',
@@ -128,8 +167,8 @@ export default class TitleBar extends React.Component {
                   login</button>
               }
             </div>
-          </div>
-        </nav>
+          </div >
+        </nav >
       )
       :
       null
