@@ -90,7 +90,7 @@ export default class TitleBar extends React.Component {
             alignItems: 'center',
             padding: '5px'
           }}>
-            <h4>
+            <h4 className='tripnameIcon'>
               <RIEInput
                 value={this.state.tripName}
                 change={this.setStates}

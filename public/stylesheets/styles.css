@@ -59,11 +59,11 @@ body {
 }
 
 .titleBarTitle {
-  background-color: #18bc9c !important;
-  border-radius: 5px !important;
-/*  line-height: 20px !important;*/
-  color: white;
-  padding: 6px 10px;
+    /* background-color: #18bc9c !important; */
+    border-radius: 5px !important;
+    /* line-height: 20px !important; */
+    color: white;
+    padding: 6px 10px;
 }
 
 li.trip-buddies {
@@ -98,6 +98,11 @@ li.trip-buddies {
    border-radius: 5%;
    padding: 50px;
    background: rgba(236, 240, 241, 0.6)
+}
+
+.tripnameIcon {
+
+
 }
 
 img#icon {
@@ -159,10 +164,11 @@ LOOK INTO CONDITIONAL STYLING FOR MEDIA BREAK POINTS*/
   opacity: 0.5;
 }
 .chat-outer-container {
-  height: calc(100vh - 70px);
+  height: calc(100vh - 68px);
   position: fixed;
   overflow: hidden;
-  /* background-color: white; */
+  background-color: white;
+  opacity: 0.5;
 }
 
 .chat-container {
@@ -171,6 +177,8 @@ LOOK INTO CONDITIONAL STYLING FOR MEDIA BREAK POINTS*/
   height: calc(100vh - 150px);
   overflow-x: hidden;
   overflow-y: scroll;
+  background: none;
+
 }
 
 #chat-title {
@@ -190,6 +198,7 @@ LOOK INTO CONDITIONAL STYLING FOR MEDIA BREAK POINTS*/
   overflow-y: scroll;
 	font-size: 15px;
 	font-weight: normal;
+  opacity: 0.6;
   /*border-right: thin solid lightgray;*/
 }
 
