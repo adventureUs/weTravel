@@ -145,9 +145,17 @@ export default class InlineBuddyEdit extends Component {
         onSubmit={this.postUserInfoToDB}
         id="edit-user">
         <div className="container">
-          <div className="form-horizontal">
-          <table>
-            <tbody style={{height: '200px', display: 'flex', justifyContent: 'space-between', flexDirection: 'column'}}>
+          <div>
+          <table className="table">
+            <thead>
+              <tr>
+                <th >
+                </th>
+                <th>
+                </th>
+              </tr>
+            </thead>
+            <tbody style={{height: '200px', display: 'flex', justifyContent: 'space-around', flexDirection: 'column'}}>
               <tr>
                 <td>
                   <span>Name: </span>
@@ -212,16 +220,20 @@ export default class InlineBuddyEdit extends Component {
                     />
                   </td>
                 </tr>
+                <tr>
+                  <td>
+                    <button
+                      className="modal-add-buddy-button"
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={this.postUserInfoToDB}
+                      form="edit-user">Save Info</button>
+                  </td>
+                </tr>
               </tbody>
             </table>
             </div>
           </div>
-        <button
-          className="modal-add-buddy-button"
-          type="button"
-          className="btn btn-primary"
-          onClick={this.postUserInfoToDB}
-          form="edit-user">Save Info</button>
       </form>
     )
   }
