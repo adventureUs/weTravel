@@ -1,6 +1,6 @@
 'use strict'
 import React from 'react'
-import { Router, Route, IndexRedirect, browserHistory } from 'react-router'
+import { Router, Route, IndexRedirect, browserHistory, Link } from 'react-router'
 import { render } from 'react-dom'
 
 // import WhoAmI from './components/WhoAmI'
@@ -23,39 +23,55 @@ const google = new firebase.auth.GoogleAuthProvider()
 const email = new firebase.auth.EmailAuthProvider()
 // Deleted facebook --> can reimplement if we have time, hahahahhaahahaahhah
 
-export default class Container extends React.Component {
+//
+export default class LandingPage extends React.Component {
   componentWillMount() {
+    // setTimeout(() => browserHistory.push('/login'), 300)
     this.unsubscribe = auth.onAuthStateChanged(user => {
-      // console.log('CONTAINER COMPONENT_WILL_MOUNT, USER: ', user)
-      if (!user) {
-        browserHistory.push('/login')
-      } else {
-        redirectToTripZeroeth(user.uid)
-      }
+      // console.log('LandingPage COMPONENT_WILL_MOUNT, USER: ', user)
+      if (user) redirectToTripZeroeth(user.uid)
     })
   }
   componentWillUnmount() {
     this.unsubscribe && this.unsubscribe()
   }
-  render() {
-    // console.log('CONTAINER in MAIN, currentUser', firebase.auth().currentUser)
 
-    // return (
-    //   <div className="container-fluid">
-    //     {
-    //       auth.currentUser ? null : <Login />
-    //     }
-    //   </div>
-    // )
-    return null
+  render() {
+    // console.log('LandingPage in MAIN, currentUser', firebase.auth().currentUser)
+
+    return (
+      <div className='jumbotron login-container landingPageText'>
+        <div>Welcome to adventureUs, a place where you can meet up with your buddies and plan your next great adventure together!</div>
+        <div className='landingPageButtons'>
+          <Link to='/login'><button className='btn btn-primary landing'>Log In</button></Link>
+          <Link to='/signup'><button className='btn btn-primary landing'>Sign Up</button></Link>
+        </div>
+      </div>
+    )
   }
+}
+
+function onTripEnter({params: {tripId}}, replace, next) {
+  console.log('******onTripEnter', {params: {tripId}}, replace, next)
+  setTimeout(() => {
+    unsubscribe()
+    replace('/login?' + tripId)
+    next()
+  }, 300)
+  const unsubscribe = auth.onAuthStateChanged(user => {
+    // console.log('LandingPage COMPONENT_WILL_MOUNT, USER: ', user)
+    if (user) {
+      unsubscribe()
+      next()
+    }
+  })
 }
 
 render(
   <Router history={browserHistory}>
-    <Route path="/" component={Container} />
+    <Route path="/" component={LandingPage} />
     <Route path="login" component={Login} google={google} email={email} />
-    <Route path="dashboard/:tripId" component={App} />
+    <Route path="dashboard/:tripId" component={App} onEnter={onTripEnter}/>
     <Route path="signup" component={SignUp} google={google} email={email} />
     <Route path="/travelbuddies/email" component={InlineBuddyEditIndex} />
     <Route path='*' component={NotFound} />

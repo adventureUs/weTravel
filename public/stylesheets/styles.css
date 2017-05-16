@@ -149,6 +149,23 @@ a {
   font-weight: bold;
 }
 
+a.landing:visited {
+  color: gray;
+  text-decoration: none;
+}
+a.landing:hover {
+  color: gray;
+  text-decoration: none;
+}
+.landingPageText {
+  margin-bottom: 0;
+  /* padding: 10px; */
+  padding-bottom: 20px;
+}
+.landingPageButtons {
+  text-align: center;
+  padding: 20px;
+}
 /* ------------- CHAT STYLING ------------- */
 /*NB AT 990px the chat position must become unfixed,
 LOOK INTO CONDITIONAL STYLING FOR MEDIA BREAK POINTS*/
