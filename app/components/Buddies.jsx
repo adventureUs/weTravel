@@ -94,12 +94,8 @@ export default class extends React.Component {
           {(buddyId === this.props.userId)
             ?
             <div>
-              <button style={{
-                color: '#18bc9c',
-                backgroundColor: '#ffffff',
-                borderRadius: '5px',
-                padding: '1px 6px'
-              }}
+              <button
+              className="btn btn-primary thin-btn"
                 type="button"
                 onClick={() =>
                   document.getElementById('editYourInfoModal').style.display = 'block'}
@@ -140,12 +136,7 @@ export default class extends React.Component {
           </tbody>
         </table>
         <div>
-          <button className="appBttn" style={{
-            color: '#18bc9c',
-            backgroundColor: '#ffffff',
-            borderRadius: '5px',
-            padding: '1px 6px'
-          }}
+          <button className="btn btn-primary"
             type="button"
             onClick={() =>
               document.getElementById('addBuddyModal').style.display = 'block'}
@@ -328,3 +319,11 @@ export default class extends React.Component {
         )
   }
 } */
+
+
+// style={{
+//                 color: '#18bc9c',
+//                 backgroundColor: '#ffffff',
+//                 borderRadius: '5px',
+//                 padding: '1px 6px'
+//               }}

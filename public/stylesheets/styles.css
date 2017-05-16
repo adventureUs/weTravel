@@ -58,13 +58,17 @@ body {
   padding-top: 70px;
 }
 
+#tripTitle {
+  display: 'flex';
+  padding: '5px';
+}
+
 .titleBarTitle {
   border-radius: 5px !important;
   color: white;
   padding: 6px 10px;
   position: absolute;
-  top: 15px;
-  left: 100px;
+  left: 75px;
 }
 
 li.trip-buddies {
@@ -88,9 +92,7 @@ li.trip-buddies {
 
 .pencil {
     color: white;
-    position: absolute;
-    top: 22px;
-    left: 330px;
+  padding-left: 5px;
 }
 
 /* ------------- LOGIN STYLING ------------- */
@@ -318,6 +320,10 @@ section div {
 
 .well .well-lg {
   height: calc(70vh);
+}
+
+.thin-btn {
+  padding: 5px 20px !important;
 }
 /* ------------- START DASHBOARD STYLING ------------- */
 .background-white {

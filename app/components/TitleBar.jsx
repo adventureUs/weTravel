@@ -19,19 +19,19 @@ export default class TitleBar extends React.Component {
   componentDidMount() {
     // console.log('TITLE BAR ComponentWILLMOUNT,  PROPS', this.props)
     this.unsubscribe = this.props.tripRef
-    .on('value', snapshot => {
-      // console.log('TITLE BAR DID_MOUNT: tripRef, snapshot', this.props.tripRef, snapshot)
-      // Stef says: Weird edge case on logout:  tripRef and snapshot log as existing
-      // but snapshot.val() finds snapshot undefined...
-      // safety (hack?) is the if below:
-      if (!snapshot) return function() {}
-      const tripObj = snapshot.val()
-      idToNameOrEmail(this.props.userId)
-      .then(nameOrEmail => this.setState({
-        tripName: tripObj.tripName,
-        userName: nameOrEmail
-      })).catch(console.error)
-    })
+      .on('value', snapshot => {
+        // console.log('TITLE BAR DID_MOUNT: tripRef, snapshot', this.props.tripRef, snapshot)
+        // Stef says: Weird edge case on logout:  tripRef and snapshot log as existing
+        // but snapshot.val() finds snapshot undefined...
+        // safety (hack?) is the if below:
+        if (!snapshot) return function () { }
+        const tripObj = snapshot.val()
+        idToNameOrEmail(this.props.userId)
+          .then(nameOrEmail => this.setState({
+            tripName: tripObj.tripName,
+            userName: nameOrEmail
+          })).catch(console.error)
+      })
   }
   componentWillUnmount() {
     // console.log('TITLE BAR ComponentWILL_UNMOUNT')
@@ -43,15 +43,15 @@ export default class TitleBar extends React.Component {
   }
 
   // changeTrip = (e) => {}
-    //   // Note: change map over trips to reflect actualy trip id and names.
-    //   // e.target.id set to currentTrip
-    //   browserHistory.push('/dashboard/'+this.props.tripId)
+  //   // Note: change map over trips to reflect actualy trip id and names.
+  //   // e.target.id set to currentTrip
+  //   browserHistory.push('/dashboard/'+this.props.tripId)
 
   makeNewTrip() {
   }
-    //   // Make a new trip with id, and add that id to currentUser.
-    //   // Set the new trip Id to currentTrip, trigger rerender of new Dashboard
-    //   console.log(document.getElementById('newTripInput').value)
+  //   // Make a new trip with id, and add that id to currentUser.
+  //   // Set the new trip Id to currentTrip, trigger rerender of new Dashboard
+  //   console.log(document.getElementById('newTripInput').value)
 
   setStates = (newState) => {
     this.setState(newState)
@@ -69,86 +69,73 @@ export default class TitleBar extends React.Component {
     // console.log('STATE in TITLEBAR', this.state)
     return this.state.tripName ?
       (
-      <nav className="nav navbar-default navbar-fixed-top">
-        <div className="" style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}>
-
-          <img className="img"
-            src="https://image.flaticon.com/icons/png/128/146/146267.png"
-            style={{
-              color: '#18bc9c',
-              padding: '6px',
-              height: '60px',
-              // filter: 'invert(100%)'
-            }} />
-
-          <div style={{
+        <nav className="nav navbar-default navbar-fixed-top">
+          <div className="" style={{
             display: 'flex',
-            alignItems: 'center',
-            padding: '5px'
+            justifyContent: 'space-between',
+            alignItems: 'center'
           }}>
-            <h4 className='tripnameIcon'>
-              <RIEInput
-                value={this.state.tripName}
-                change={this.setStates}
-                propName="tripName"
-                className={this.state.highlight ? 'editable' : ''}
-                validate={this.isStringAcceptable}
-                classLoading="loading"
-                classInvalid="Invalid"
-                className="titleBarTitle"
-              />
-            </h4>
-            <span className='glyphicon glyphicon-pencil pencil'></span>
-          </div>
 
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            padding: '5px'
-          }}>
-            <h4 className="" style={{ padding: '5px' }}>
-              <font color="white">{auth.currentUser
-                ? `Welcome, ${this.state.userName}!`
-                : ''}</font>
-            </h4>
+            <img className="img"
+              src="https://image.flaticon.com/icons/png/128/146/146267.png"
+              style={{
+                color: '#18bc9c',
+                padding: '6px',
+                height: '60px',
+                width: '60px'
+              }} />
 
-            {auth && auth.currentUser ?
-              <button className='logout'
-                style={{
-                  color: '#18bc9c',
-                  backgroundColor: '#ffffff',
-                  borderRadius: '5px',
-                  padding: '3px 6px'
-                }}
-                onClick={() => {
-                  auth.signOut()
-                  browserHistory.push('/login')
-                }}>logout
+            <div className='titleBarTitle'>
+              <h4 className='tripnameIcon'>
+                <span>{this.state.tripName}</span>
+                <span className='glyphicon glyphicon-pencil pencil'></span>
+              </h4>
+            </div>
+
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '5px'
+            }}>
+              <h4 className="" style={{ padding: '5px' }}>
+                <font color="white">{auth.currentUser
+                  ? `Welcome, ${this.state.userName}!`
+                  : ''}</font>
+              </h4>
+
+              {auth && auth.currentUser ?
+                <button className='logout'
+                  style={{
+                    color: '#18bc9c',
+                    backgroundColor: '#ffffff',
+                    borderRadius: '5px',
+                    padding: '3px 6px'
+                  }}
+                  onClick={() => {
+                    auth.signOut()
+                    browserHistory.push('/login')
+                  }}>logout
                 </button>
-              :
-              <button className='login'
-                style={{
-                  color: '#18bc9c',
-                  backgroundColor: '#ffffff',
-                  borderRadius: '5px',
-                  padding: '3px 6px'
-                }}
-                onClick={() => browserHistory.push('/login')}>
-                login</button>
-            }
+                :
+                <button className='login'
+                  style={{
+                    color: '#18bc9c',
+                    backgroundColor: '#ffffff',
+                    borderRadius: '5px',
+                    padding: '3px 6px'
+                  }}
+                  onClick={() => browserHistory.push('/login')}>
+                  login</button>
+              }
+            </div>
           </div>
-        </div>
-      </nav>
-    )
-    :
-    null
+        </nav>
+      )
+      :
+      null
   }
 }
-//Bttn and Modal for All Trips:
+// Bttn and Modal for All Trips:
 
 // <button style={{
 //               color: '#18bc9c',
