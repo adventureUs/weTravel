@@ -25,7 +25,7 @@ export default class extends React.Component {
   }
 
   componentWillMount() {
-    // console.log('APP COMPONENT_WILL_MOUNT, auth.currentUSer: ', auth.currentUser)
+    // we're setting up the tripId route here
     firebase.auth().currentUser ?
     this.setState({
       userId: auth.currentUser.uid
