@@ -98,7 +98,7 @@ export default class OtherTripsModal extends React.Component {
     //   console.log(document.getElementById('newTripInput').value)
 
   render() {
-    console.log('STATE in OTHER_TRIPS_MODAL', this.state)
+    // console.log('STATE in OTHER_TRIPS_MODAL', this.state)
     const tripsWithNames = this.state.tripsWithNames
     return (
       <div className="modal" id='other-trips-modal'>
@@ -116,10 +116,10 @@ export default class OtherTripsModal extends React.Component {
               {
                 tripsWithNames ?
                 (Object.keys(tripsWithNames).map((tripId) =>
-                <h4 id={`${tripId}`} key={`${tripId}`}
+                <h4 key={`${tripId}`}
                   onClick={this.changeTrip}
                   style={{ border: 'bottom' }}
-                ><font color='#18bc9c'>{tripsWithNames[tripId]}</font></h4>))
+                ><font id={`${tripId}`} color='black'>{tripsWithNames[tripId]}</font></h4>))
                 :
                 <div>tripsWithNames obj hasn't come in yet</div>
               }

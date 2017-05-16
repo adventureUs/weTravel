@@ -68,7 +68,7 @@ export default class TitleBar extends React.Component {
 
           <div style={{
             display: 'flex',
-            alignItems: 'center',
+            alignItems: 'space-between',
             padding: '5px'
           }}>
             <h4>
@@ -87,7 +87,7 @@ export default class TitleBar extends React.Component {
               color: '#18bc9c',
               backgroundColor: '#ffffff',
               borderRadius: '5px',
-              padding: '1px 6px'
+              padding: '5px'
             }}
               type="button"
               onClick={() =>
