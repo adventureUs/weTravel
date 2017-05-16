@@ -102,6 +102,7 @@ export default class TitleBar extends React.Component {
                 className="titleBarTitle"
               />
             </h4>
+            <span className='glyphicon glyphicon-pencil pencil'></span>
           </div>
 
           <div style={{

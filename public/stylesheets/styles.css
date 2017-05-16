@@ -59,11 +59,12 @@ body {
 }
 
 .titleBarTitle {
-    /* background-color: #18bc9c !important; */
-    border-radius: 5px !important;
-    /* line-height: 20px !important; */
-    color: white;
-    padding: 6px 10px;
+  border-radius: 5px !important;
+  color: white;
+  padding: 6px 10px;
+  position: absolute;
+  top: 15px;
+  left: 100px;
 }
 
 li.trip-buddies {
@@ -85,6 +86,12 @@ li.trip-buddies {
   text-decoration: underline;
 }
 
+.pencil {
+  color: white;
+  position: absolute;
+  top: 22px;
+  left: 280px;
+}
 
 /* ------------- LOGIN STYLING ------------- */
 
@@ -196,11 +203,12 @@ LOOK INTO CONDITIONAL STYLING FOR MEDIA BREAK POINTS*/
   padding: 20px;
   height: 80vh;
   overflow-y: scroll;
-	font-size: 15px;
-	font-weight: normal;
-  opacity: 0.6;
-  /*border-right: thin solid lightgray;*/
-}
+  font-size: 15px;
+  font-weight: normal;
+  /* opacity: 0.6; */
+  /* border-right: thin solid lightgray; */
+  background: rgba(236, 240, 241, 06);
+  }
 
 #chatInput {
 }
