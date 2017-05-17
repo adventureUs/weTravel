@@ -31,7 +31,7 @@ export default class TitleBar extends React.Component {
         const tripObj = snapshot.val()
         idToNameOrEmail(this.props.userId)
           .then(nameOrEmail => this.setState({
-            tripName: tripObj.tripName,
+            tripName: tripObj.tripName || 'Please name your trip!',
             userName: nameOrEmail
           })).catch(console.error)
       })
@@ -64,7 +64,7 @@ export default class TitleBar extends React.Component {
       })
   }
   render() {
-    return this.state.tripName ?
+    return this.props.tripId ?
       (
         <nav className="nav navbar-default navbar-fixed-top">
           <div className="" style={{
@@ -105,7 +105,6 @@ export default class TitleBar extends React.Component {
                     <input
                       ref="input"
                       className="modal-trip-edit-input form-control"
-                      placeholder="Please Enter Your New Trip Name Here"
                       value={this.state.tripName}
                       onChange={this.onInputChange}
                       type="text"
