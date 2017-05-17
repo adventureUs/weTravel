@@ -111,7 +111,7 @@ export default class TimelineIndex extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className='well'>
         <AdventureUsTimeline
           groups={this.state.groups}
           items={this.state.items}

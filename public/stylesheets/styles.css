@@ -39,7 +39,7 @@ https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg
   color: black !important;*/
 }
 
-/*.rct-label {
+.rct-label {
   font-weight: bold !important;
   color: black !important;
 }
@@ -48,7 +48,8 @@ https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg
   border-radius: 5px;
   background: #18bc9c !important;
   opacity: .9 !important;
-}*/
+}
+
 /* Pending: trying to round items in Timelines: But not working */
 .rct-items .selected .can-move .rct-items-overflow {
   border-radius: 5px !important;
