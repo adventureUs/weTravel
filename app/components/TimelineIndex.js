@@ -59,9 +59,9 @@ export default class TimelineIndex extends React.Component {
   }
   buddiesData(snapshot) {
     let bodyData = [], namesData = []
-    const dbObject = snapshot.val()['buddies']
-    const branchIds = Object.keys(dbObject)
-    if (dbObject) {
+    if (snapshot.val() && snapshot.val()['buddies']) {
+      const dbObject = snapshot.val()['buddies']
+      const branchIds = Object.keys(dbObject)
       bodyData = branchIds.map(key =>
         ({
           id: key,

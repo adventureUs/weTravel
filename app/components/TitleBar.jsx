@@ -4,7 +4,7 @@ import firebase from 'APP/fire'
 const db = firebase.database()
 const auth = firebase.auth()
 import { RIEInput } from 'riek'
-import OtherTripsModal from './OtherTripsModal'
+import TripsListModal from './TripsListModal'
 import idToNameOrEmail from '../../src/idToNameOrEmail'
 
 // WILL THIS COMMENT FORCE THE MERGE TO ACTUALLY WORK?????
@@ -14,52 +14,70 @@ export default class TitleBar extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      tripName: '',
       userName: '',
       confirmedTripName: ''
     }
   }
 
-  componentDidMount() {
-    // console.log('TITLE BAR ComponentWILLMOUNT,  PROPS', this.props)
-    this.unsubscribe = this.props.tripRef
+  componentWillMount() {
+    console.log('TITLE BAR Component WILL MOUNT,  PROPS', this.props)
+    if (this.unsubscribe) this.unsubscribe()
+    const listener = this.props.tripRef
       .on('value', snapshot => {
         // console.log('TITLE BAR DID_MOUNT: tripRef, snapshot', this.props.tripRef, snapshot)
         // Stef says: Weird edge case on logout:  tripRef and snapshot log as existing
         // but snapshot.val() finds snapshot undefined...
         // safety (hack?) is the if below:
-        if (!snapshot) return function () { }
+        if (!snapshot) return function() { }
         const tripObj = snapshot.val()
         idToNameOrEmail(this.props.userId)
           .then(nameOrEmail => this.setState({
-            tripName: tripObj.tripName,
             confirmedTripName: tripObj.tripName,
             userName: nameOrEmail
           })).catch(console.error)
       })
+    this.unsubscribe = () => this.props.tripRef.off('value', listener)
   }
+
+  componentDidMount() {
+    console.log('TITLE BAR Component DID MOUNT,  PROPS', this.props)
+    if (this.unsubscribe) this.unsubscribe()
+    const listener = this.props.tripRef
+      .on('value', snapshot => {
+        // console.log('TITLE BAR DID_MOUNT: tripRef, snapshot', this.props.tripRef, snapshot)
+        // Stef says: Weird edge case on logout:  tripRef and snapshot log as existing
+        // but snapshot.val() finds snapshot undefined...
+        // safety (hack?) is the if below:
+        if (!snapshot) return function() { }
+        const tripObj = snapshot.val()
+        idToNameOrEmail(this.props.userId)
+          .then(nameOrEmail => this.setState({
+            confirmedTripName: tripObj.tripName,
+            userName: nameOrEmail
+          })).catch(console.error)
+      })
+    this.unsubscribe = () => this.props.tripRef.off('value', listener)
+  }
+
   componentWillUnmount() {
     // console.log('TITLE BAR ComponentWILL_UNMOUNT')
     this.unsubscribe()
   }
   onInputChange = (evt) => {
-    this.setState({ tripName: evt.target.value })
+    this.setState({ confirmedTripName: evt.target.value })
   }
   saveChanges = (evt) => {
-    this.postTripNameToDB(this.state.tripName)
+    this.postTripNameToDB(this.state.confirmedTripName)
     this.setState({
-      confirmedTripName: this.state.tripName,
-      tripName: ''
+      confirmedTripName: this.state.confirmedTripName,
     })
     this.refs.input.value = ''
     this.closeModal()
   }
-
   closeModal = () => {
     // console.log('Add buddy modal x click', e)
     document.getElementById('tripTitleModal').style.display = 'none'
   }
-
   postTripNameToDB = (tripName) => {
     this.props.tripsRef.child('/' + this.props.tripId)
       .update({
@@ -109,7 +127,7 @@ export default class TitleBar extends React.Component {
                       ref="input"
                       className="modal-trip-edit-input form-control"
                       placeholder="Please Enter Your New Trip Name Here"
-                      value={this.state.tripName}
+                      value={this.state.confirmedTripName}
                       onChange={this.onInputChange}
                       type="text"
                       id="tripName" />
@@ -138,16 +156,16 @@ export default class TitleBar extends React.Component {
                   : ''}</font>
               </h4>
               <button style={{
-              color: '#18bc9c',
-              backgroundColor: '#ffffff',
-              borderRadius: '5px',
-              padding: '5px'
-            }}
+                color: '#18bc9c',
+                backgroundColor: '#ffffff',
+                borderRadius: '5px',
+                padding: '5px'
+              }}
               type="button"
               onClick={() =>
                 document.getElementById('other-trips-modal').style.display = 'block'}
               >Trip List</button>
-            <OtherTripsModal
+            <TripsListModal
               tripRef={this.props.tripRef}
               tripsRef={this.props.tripsRef}
               userId={this.props.userId}
@@ -174,7 +192,11 @@ export default class TitleBar extends React.Component {
                     borderRadius: '5px',
                     padding: '3px 6px'
                   }}
-                  onClick={() => browserHistory.push('/login')}>
+                  onClick={() => {
+                    browserHistory.push('/login')
+                    this.setState({changeState: true})
+                  }
+                  }>
                   login</button>
               }
             </div>
