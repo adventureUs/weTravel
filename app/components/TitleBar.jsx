@@ -54,6 +54,12 @@ export default class TitleBar extends React.Component {
     this.refs.input.value = ''
     this.closeModal()
   }
+
+  closeModal = () => {
+    // console.log('Add buddy modal x click', e)
+    document.getElementById('tripTitleModal').style.display = 'none'
+  }
+
   postTripNameToDB = (tripName) => {
     this.props.tripsRef.child('/' + this.props.tripId)
       .update({
