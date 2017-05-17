@@ -59,12 +59,13 @@ export default class IdeaBox extends Component {
     return (
       <div>
        <div>
-         <div className="addIdea">
+         <div>
            <AddIdea
               userId={this.props.userId}
               ideasRef={this.props.ideasRef}
             />
-          </div>
+         </div>
+          <div className='allIdeas'>
           {
             this.state.ideas && Object.keys(this.state.ideas).map(key => {
               return (
@@ -89,6 +90,7 @@ export default class IdeaBox extends Component {
               )
             })
           }
+          </div>
         </div>
       </div>
     )

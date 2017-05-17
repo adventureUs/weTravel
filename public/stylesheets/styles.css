@@ -319,7 +319,6 @@ section div {
 /* ------------- START BUDDYLIST STYLING ------------- */
 .well {
   margin-bottom: 0;
-  margin-top: 10px;
 }
 
 .well .well-lg {
@@ -332,13 +331,21 @@ section div {
 /* ------------- START DASHBOARD STYLING ------------- */
 .background-white {
   height: calc(50vh - 70px);
+  width: calc();
 }
 
 .ideas-main-container {
   height: calc(100vh - 70px);
 }
-
+.tabsAndViews {
+  margin-left: 20px;
+  margin-right: 20px;
+}
 /* ------------- BUDDY/TITLEBAR MODAL STYLING ------------- */
+
+.buddiesList {
+  margin-top: 20px;
+}
 
 div#add-buddy-modal {
   height: 500px !important ;
@@ -385,7 +392,7 @@ button.modal-add-buddy-button {
   background-color: aliceblue;
   box-shadow: 0 0 3px black;
   border-radius: 10px;
-  position: absolute;
+  /*position: absolute;*/
   font-size: 1.5vh;
   color: lightslategray;
   width: auto;
@@ -414,46 +421,49 @@ button.modal-add-buddy-button {
 .container {
   width: auto;
 }
+.allIdeas {
+  /*margin-top: 100px;*/
+}
 .addIdea {
   padding: 10px;
+  margin-top: 20px;
+  /*margin-left: 20px;*/
+  margin-bottom: 10px;
+  /*margin-right: 20px;*/
   background-color: aliceblue;
-  margin-top: 10px;
-  margin-left: 5px;
   border-radius: 5px;
   border: 1px solid gray;
-  width: 100%;
-  margin-bottom: 10px;
-  margin-left: 0;
+  width: auto;
 }
 .easy .idea-container {
   /*border:1px solid purple;*/
-  flex: 1 1 25%; /* here */
+  /*flex: 1 1 20%; /* here */
 }
 .medium .idea-container {
   /*border:1px solid purple;*/
-  flex: 1 1 16.6%; /* here */
+  /*flex: 1 1 16%; /* here */
 }
 .hard .idea-container {
-  /*border:1px solid purple;*/
-  background: red;
-  flex: 1 1 12.5%; /* here */
+  /*background: red;*/
+  /*flex: 1 1 12.5%; /* here */
 }
 .idea-container {
   border: 1px solid gray !important;
   position: relative;
   display: inline-block;
-  width: 30%;
+  width: 22%;
   border-radius: 10px;
-  background-color: beige;
-  margin: 5px;
+  background-color: #FFFFA5;
+  opacity: 0.95;
+  /*margin: 5px;*/
   height: 176px;
   overflow: scroll;
   transition-duration: 0.3s;
   transition-property: transform;
   transform-style: preserve-3d;
-  margin-left: 10px;
+  /*margin-left: 8px;*/
+  margin-right: 15px;
   margin-bottom: 10px;
-  margin-right: 23px;
 }
 .idea-container:hover {
   transform: scale(1.05);
@@ -471,7 +481,7 @@ button.modal-add-buddy-button {
   height: 100%;
   border-radius: 10px;
   border-width: 0.1%;
-  border-color: red;
+  /*border-color: red;*/
   border-style: solid;
   /*background-color: white;*/
   box-shadow: 0 0 3px black;

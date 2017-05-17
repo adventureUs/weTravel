@@ -81,7 +81,7 @@ export default class extends React.Component {
   }
   render() {
     return (
-      <div className="well well-lg">
+      <div className="well well-lg buddiesList">
         <table className="table table-striped table-hover">
           <thead>
             <tr>
