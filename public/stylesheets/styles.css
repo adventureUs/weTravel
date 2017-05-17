@@ -30,11 +30,20 @@ https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg
 .rct-label-group {
   border-radius: 5px;
   background: #18bc9c !important;
+  opacity: .7 !important;
+  font-weight: bold !important;
+  color: black !important;
+}
+
+.rct-label {
+  font-weight: bold !important;
+  color: black !important;
 }
 
 .rct-sidebar-header {
   border-radius: 5px;
   background: #18bc9c !important;
+  opacity: .1 !important;
 }
 /* Pending: trying to round items in Timelines: But not working */
 .rct-items .selected .can-move .rct-items-overflow {
@@ -43,6 +52,22 @@ https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg
 
 .react-calendar-timeline .rct-items .rct-item .rct-item-overflow  {
   border-radius: 5px !important;
+  opacity: .1 !important;
+}
+
+.rct-items{
+  border: 5px solid black;
+}
+
+.rct-canvas {
+  background: #ecf0f1;
+  opacity: .4 !important;
+}
+
+.setOpacity {
+  background: #ecf0f1;
+  opacity: .6 !important;
+  font-weight: bold;
 }
 
 body {

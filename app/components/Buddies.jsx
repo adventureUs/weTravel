@@ -48,6 +48,22 @@ export default class extends React.Component {
     })
     return (
       <tr key={buddyId} className='trip-buddies'>
+        <td className={buddyClass}>
+          {(buddyId === this.props.userId)
+            ?
+            <div>
+              <span
+                className='glyphicon glyphicon-pencil'
+                onClick={() =>
+                  document.getElementById('editYourInfoModal').style.display = 'block'}
+                data-tip="Edit your name, home base, status, and start & end dates."
+              ></span>
+              <ReactTooltip />
+            </div>
+
+            : <div></div>
+          }
+        </td>
         <td className={buddyClass}>{this.state.buddies[buddyId].name || 'Please enter your name'}</td>
         <td className={buddyClass}> {this.state.buddies[buddyId].homeBase || 'Add your city here'}</td>
         <td className={buddyClass}> {this.state.buddies[buddyId].status.text}</td>
@@ -58,39 +74,23 @@ export default class extends React.Component {
         <td className={buddyClass}>
           {(this.state.buddies[buddyId].endDate)
             ? this.state.buddies[buddyId].endDate.slice(0, 10)
-            : 'TBD'}</td>
-        <td className={buddyClass}>
-          {(buddyId === this.props.userId)
-            ?
-            <div>
-              <button
-              className="btn btn-primary thin-btn"
-                type="button"
-                onClick={() =>
-                  document.getElementById('editYourInfoModal').style.display = 'block'}
-                data-tip="Edit your name, home base, status, and start & end dates."
-              >Edit</button>
-              <ReactTooltip />
-            </div>
-
-            : <div></div>
-          }
+            : 'TBD'}
         </td>
       </tr>
     )
   }
   render() {
     return (
-      <div className="well well-lg buddiesList">
-        <table className="table table-striped table-hover">
+      <div>
+        <table className="table table-hover setOpacity">
           <thead>
             <tr>
+              <th></th>
               <th className="buddyHeader">Name</th>
               <th className="buddyHeader">Home Base</th>
               <th className="buddyHeader">Status</th>
               <th className="buddyHeader">Free From</th>
               <th className="buddyHeader">Free until</th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
