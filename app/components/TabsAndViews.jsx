@@ -68,7 +68,7 @@ export default class TabsAndView extends React.Component {
               tripRef={this.props.tripRef}
               tripId={this.props.tripId}
             />
-              </div>
+          </div>
           :
           <div className="tab-pane fade active in"
             id="ideaBox">
