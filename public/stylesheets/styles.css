@@ -35,11 +35,11 @@ https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg
   border-radius: 5px;
   background: #18bc9c !important;
   /*opacity: .9 !important;*/
-  font-weight: bold !important;
-  color: black !important;
+  /*font-weight: bold !important;
+  color: black !important;*/
 }
 
-.rct-label {
+/*.rct-label {
   font-weight: bold !important;
   color: black !important;
 }
@@ -47,8 +47,8 @@ https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg
 .rct-sidebar-header {
   border-radius: 5px;
   background: #18bc9c !important;
-  /*opacity: .9 !important;*/
-}
+  opacity: .9 !important;
+}*/
 /* Pending: trying to round items in Timelines: But not working */
 .rct-items .selected .can-move .rct-items-overflow {
   border-radius: 5px !important;
@@ -59,20 +59,20 @@ https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg
   /*opacity: .9 !important;*/
 }
 
-.rct-items{
+/*.rct-items{
   border: 5px solid black;
 }
 
 .rct-canvas {
   background: #ecf0f1;
-  /*opacity: .9 !important;*/
+  opacity: .9 !important;
 }
 
 .setOpacity {
   background: #ecf0f1;
-  /*opacity: .9 !important;*/
+  opacity: .9 !important;
   font-weight: bold;
-}
+}*/
 
 body {
   /*background: url("../mountain-friends.jpeg") no-repeat */
@@ -87,10 +87,10 @@ body {
   padding-top: 70px;
 }
 
-#tripTitle {
+/*#tripTitle {
   display: 'flex';
   padding: '5px';
-}
+}*/
 
 .titleBarTitle {
   border-radius: 5px !important;
@@ -106,8 +106,6 @@ body {
   cursor: text
 }
 
-
-
 li.trip-buddies {
   list-style-type: none;
 }
@@ -117,13 +115,13 @@ li.trip-buddies {
   padding-right: 9vw;
 }
 
-.edit-buddy-header {
+/*.edit-buddy-header {
   background-color: #18bc9c !important;
 }
 
 .buddyEditFields {
   margin-left: 10px;
-}
+}*/
 
 /* .buddyEditLabels {
   width: 10px;
@@ -348,6 +346,7 @@ section div {
 /* ------------- START BUDDYLIST STYLING ------------- */
 .well {
   margin-bottom: 0;
+  margin-top: 10px;
 }
 
 .well .well-lg {
@@ -360,7 +359,7 @@ section div {
 /* ------------- START DASHBOARD STYLING ------------- */
 .background-white {
   height: calc(50vh - 70px);
-  width: calc();
+  /*width: calc();*/
 }
 
 .ideas-main-container {
@@ -372,7 +371,7 @@ section div {
 }
 /* ------------- BUDDY/TITLEBAR MODAL STYLING ------------- */
 
-.buddiesList {
+/*.buddiesList {
   margin-top: 20px;
 }
 
@@ -403,7 +402,28 @@ button.modal-add-buddy-button {
   width: 20%;
   float: left;
 
+}*/
+
+div#add-buddy-modal {
+  height: 500px !important ;
 }
+
+.modal-add-buddy {
+  width: 100%;
+  padding: 15px 5px 15px 5px;
+}
+
+input.modal-add-buddy-input {
+  width: 70%;
+  float: left;
+}
+
+button.modal-add-buddy-button {
+  width: 20%;
+  float: left;
+
+}
+
 /* ------------- START IDEASBOX STYLING ------------- */
 .top {
   overflow: scroll;
@@ -421,12 +441,12 @@ button.modal-add-buddy-button {
   background-color: aliceblue;
   box-shadow: 0 0 3px black;
   border-radius: 10px;
-  /*position: absolute;*/
+  position: absolute;
   font-size: 1.5vh;
   color: lightslategray;
   width: auto;
   }
-}
+
 .bottom-right {
   color: #8b0000;
   text-shadow:
