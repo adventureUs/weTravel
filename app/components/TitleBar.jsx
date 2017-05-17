@@ -19,8 +19,8 @@ export default class TitleBar extends React.Component {
     }
   }
 
-  componentWillMount() {
-    console.log('TITLE BAR Component WILL MOUNT,  PROPS', this.props)
+  componentDidMount() {
+    console.log('TITLE BAR Component Did MOUNT,  PROPS', this.props)
     if (this.unsubscribe) this.unsubscribe()
     const listener = this.props.tripRef
       .on('value', snapshot => {
@@ -39,8 +39,8 @@ export default class TitleBar extends React.Component {
     this.unsubscribe = () => this.props.tripRef.off('value', listener)
   }
 
-  componentDidMount() {
-    console.log('TITLE BAR Component DID MOUNT,  PROPS', this.props)
+  componentWillReceiveProps() {
+    console.log('TITLE BAR Component Will Receive Props,  PROPS', this.props)
     if (this.unsubscribe) this.unsubscribe()
     const listener = this.props.tripRef
       .on('value', snapshot => {
@@ -66,6 +66,7 @@ export default class TitleBar extends React.Component {
   onInputChange = (evt) => {
     this.setState({ confirmedTripName: evt.target.value })
   }
+  // Edit main TripName Title
   saveChanges = (evt) => {
     this.postTripNameToDB(this.state.confirmedTripName)
     this.setState({
@@ -170,6 +171,7 @@ export default class TitleBar extends React.Component {
               tripsRef={this.props.tripsRef}
               userId={this.props.userId}
               userRef={this.props.userRef}
+              setAppTripIdState={this.props.setAppTripIdState}
               />
               {auth && auth.currentUser ?
                 <button className='logout'

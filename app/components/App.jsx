@@ -31,6 +31,10 @@ export default class extends React.Component {
       userId: auth.currentUser.uid
     }) : browserHistory.push('/login?' + this.props.params.tripId)
   }
+  // Triggering re-render of entire app when changing Trips.
+  setAppTripIdState = (tripId) => {
+    this.setState(tripId)
+  }
   render() {
     // console.log('STATE in APP:', this.state)
     // console.log('TRIP REF in APP:', db.ref('/trips/'+ this.props.params.tripId))
@@ -44,6 +48,7 @@ export default class extends React.Component {
           userId={this.state.userId ? this.state.userId : 'test'}
           userRef={db.ref('users').child(this.state.userId ? this.state.userId : 'test')}
           tripRef={db.ref('trips').child(this.state.tripId)}
+          setAppTripIdState={this.setAppTripIdState}
           />
         <Dashboard
           userId={this.state.userId}

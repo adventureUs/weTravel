@@ -29,6 +29,7 @@ export default class TimelineIndex extends React.Component {
     this.unsubscribe && this.unsubscribe()
   }
   componentWillReceiveProps(nextProps) {
+    // console.log('TIMELINE_INDEX Will RECEIVE PROPS', this.props)
     nextProps.whichTab && nextProps.whichTab === 'Buddies' ?
       this.listenFor('buddies') // For Buddies Slider Timelne View
       :

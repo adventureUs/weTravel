@@ -93,7 +93,9 @@ export default class TripsListModal extends React.Component {
             .update({ trips: newTrips })
             .then(() => {
               document.getElementById('other-trips-modal').style.display = 'none'
-              redirectToTripZeroeth(this.props.userId)
+              this.props.setAppTripIdState(targetTrip)
+              browserHistory.push('/dashboard/' + targetTrip)
+              // redirectToTripZeroeth(this.props.userId)
             })
         }
       })
