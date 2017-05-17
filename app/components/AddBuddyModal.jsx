@@ -29,14 +29,14 @@ export default class AddBuddyModal extends Component {
     if (this.unsubscribe) this.unsubscribe()
     const listener = ref.on('value', snapshot => {
       const pendingBuddies = snapshot.val()
-    /* Edge case Question, by Stef: say all pending buddies are removed
-    what will be the state of snapshot and pendingBuddies in db?
-    And, do we need to guard against that empty truthy obj below?
-    I think it would result in an okish empty render. */
+      /* Edge case Question, by Stef: say all pending buddies are removed
+      what will be the state of snapshot and pendingBuddies in db?
+      And, do we need to guard against that empty truthy obj below?
+      I think it would result in an okish empty render. */
       snapshot && pendingBuddies ?
-        this.setState({pendingBuddies: pendingBuddies})
+        this.setState({ pendingBuddies: pendingBuddies })
         :
-        this.setState({pendingBuddies: 'You have no pending buddies'})
+        this.setState({ pendingBuddies: 'You have no pending buddies' })
     })
     this.unsubscribe = () => ref.off('value', listener)
   }
@@ -45,32 +45,19 @@ export default class AddBuddyModal extends Component {
     document.getElementById('addBuddyModal').style.display = 'none'
   }
   makeNewBuddy = () => {
-    const newBuddyEmail = document.getElementById('newBuddyEmail').value
-    var hasPendingBuddies = this.props.tripRef
-      .once('value')
-      .then(snapshot => {
-        snapshot.child('pendingBuddies').exists()
-      })
-
-    if (hasPendingBuddies) {
-      this.props.tripRef.child('pendingBuddies').push({
-        // this creates a uid for each pending buddy
-        // the uid is a key, the value is {email: newBuddyEmail}
-        email: newBuddyEmail
-      })
-    } else {
-      this.props.tripRef
-        .update({
-          // this creates a uid for each pending buddy
-          // the uid is a key, the value is {email: newBuddyEmail}
-          pendingBuddies: {
-            email: newBuddyEmail
-          }
-        })
+    const newBuddyEmail = this.refs.buddyEmail.value
+    console.log('new email', newBuddyEmail)
+    var newPostKey = this.props.tripRef.child('pendingBuddies').push().key
+    var buddyUpdate = {}
+    buddyUpdate[newPostKey] = {
+      email: newBuddyEmail
     }
-    this.refs.input.value = ''
+    this.props.tripRef.child('pendingBuddies').update(buddyUpdate)
+    this.refs.buddyEmail.value = ''
   }
+
   render() {
+    console.log('STATE', this.state)
     return this.state.pendingBuddies ? (
       <div className="modal" id="addBuddyModal">
         <div className="modal-dialog modal-sm">
@@ -78,7 +65,7 @@ export default class AddBuddyModal extends Component {
             <div className="modal-header">
               <button type="button" className="close"
                 onClick={this.closeModal}
-                >&times;
+              >&times;
                   </button>
               <h4 className="modal-title">Add a Buddy</h4>
             </div>
@@ -91,14 +78,14 @@ export default class AddBuddyModal extends Component {
                 <div className='modal-header'>
                   <h5> These buddies have been added but haven't joined the trip: </h5>
                   <ul id='pending-buddies-list'>
-                    { typeof this.state.pendingBuddies === 'string' ?
+                    {typeof this.state.pendingBuddies === 'string' ?
                       <div>{this.state.pendingBuddies}</div>
                       :
                       Object.keys(this.state.pendingBuddies)
-                      .map(pendingId => <li key={pendingId}>{
-                        this.state.pendingBuddies[pendingId] &&
-                        this.state.pendingBuddies[pendingId].email
-                      }</li>)
+                        .map(pendingId => <li key={pendingId}>{
+                          this.state.pendingBuddies[pendingId] &&
+                          this.state.pendingBuddies[pendingId].email
+                        }</li>)
                     }
                   </ul>
                 </div>
@@ -113,7 +100,7 @@ export default class AddBuddyModal extends Component {
               <span> Enter your buddy's e-mail here: </span>
               <div className="modal-add-buddy">
                 <input
-                  ref="input"
+                  ref="buddyEmail"
                   className="modal-add-buddy-input form-control"
                   placeholder="Buddy's e-mail"
                   type="text"
@@ -156,7 +143,7 @@ export default class AddBuddyModal extends Component {
           </div>
         </div>
       </div>
-      ) :
+    ) :
       null
   }
 }
