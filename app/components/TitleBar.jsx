@@ -16,7 +16,6 @@ export default class TitleBar extends React.Component {
     this.state = {
       tripName: '',
       userName: '',
-      confirmedTripName: ''
     }
   }
 
@@ -33,7 +32,6 @@ export default class TitleBar extends React.Component {
         idToNameOrEmail(this.props.userId)
           .then(nameOrEmail => this.setState({
             tripName: tripObj.tripName,
-            confirmedTripName: tripObj.tripName,
             userName: nameOrEmail
           })).catch(console.error)
       })
@@ -67,7 +65,7 @@ export default class TitleBar extends React.Component {
       })
   }
   render() {
-    return this.state.confirmedTripName ?
+    return this.state.tripName ?
       (
         <nav className="nav navbar-default navbar-fixed-top">
           <div className="" style={{
