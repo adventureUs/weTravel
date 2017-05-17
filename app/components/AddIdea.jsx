@@ -66,7 +66,7 @@ export default class AddIdea extends Component {
       const http = newState.link.slice(0, 7)
       const https = newState.link.slice(0, 8)
       if (http !== 'http://' && https !== 'https://') {
-        newState.link = 'http://' + newState.link
+        newState.link = 'https://' + newState.link
       } 
     }
   }
