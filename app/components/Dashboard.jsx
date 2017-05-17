@@ -15,13 +15,12 @@ export default class Dashboard extends Component {
     this.state = {
       whichTab: 'Buddies'
     }
-    this.changeTabs = this.changeTabs.bind(this)
+    this.setDashboardState = this.setDashboardState.bind(this)
   }
 
-  changeTabs(e) {
-    e.preventDefault()
-    if ((e.target.id === 'Buddies') || (e.target.id === 'Idea Box')) {
-      this.setState({whichTab: e.target.id})
+  setDashboardState(label) {
+    if ((label === 'Buddies') || (label === 'Idea Box') || (label === 'Places')) {
+      this.setState({whichTab: label})
     }
   }
   render() {
@@ -41,7 +40,7 @@ export default class Dashboard extends Component {
                 tripId={this.props.tripId}
                 usersRef={db.ref('users')}
                 whichTab={this.state.whichTab}
-                changeTabs={this.changeTabs}
+                setDashboardState={this.setDashboardState}
                 />
             </div>
           </div>
