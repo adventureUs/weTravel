@@ -28,7 +28,7 @@ export default class TitleBar extends React.Component {
         // Stef says: Weird edge case on logout:  tripRef and snapshot log as existing
         // but snapshot.val() finds snapshot undefined...
         // safety (hack?) is the if below:
-        if (!snapshot) return function () { }
+        if (!snapshot) return function() { }
         const tripObj = snapshot.val()
         idToNameOrEmail(this.props.userId)
           .then(nameOrEmail => this.setState({
@@ -138,11 +138,11 @@ export default class TitleBar extends React.Component {
                   : ''}</font>
               </h4>
               <button style={{
-              color: '#18bc9c',
-              backgroundColor: '#ffffff',
-              borderRadius: '5px',
-              padding: '5px'
-            }}
+                color: '#18bc9c',
+                backgroundColor: '#ffffff',
+                borderRadius: '5px',
+                padding: '5px'
+              }}
               type="button"
               onClick={() =>
                 document.getElementById('other-trips-modal').style.display = 'block'}
