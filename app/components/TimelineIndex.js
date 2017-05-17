@@ -48,7 +48,7 @@ export default class TimelineIndex extends React.Component {
       } else {
         result = this.ideasData(snapshot)
       }
-      console.log('in listenFor', branch, result)
+      // console.log('in listenFor', branch, result)
       this.setState({
         groups: result.namesData,
         items: result.bodyData
