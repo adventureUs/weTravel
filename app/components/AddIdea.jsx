@@ -132,7 +132,7 @@ export default class AddIdea extends Component {
   render() {
     // console.log('ADDIDEA', 'RENDER', 'STATE', this.state)
     return (
-        <div className='bottom'>
+        <div className='addIdea'>
 
       <form onSubmit={this.postIdeaToDB}>
         <div className="container">

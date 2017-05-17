@@ -109,12 +109,74 @@ export default class extends React.Component {
           >Add a Buddy!</button>
           <ReactTooltip />
         </div>
-        <AddBuddyModal tripRef={this.props.tripRef}/>
+        <div className="modal" id="add-buddy-modal">
+          <div className="modal-dialog modal-sm">
+            <div className="modal-content">
+              <div className="modal-header">
+                <button type="button" className="close"
+                  onClick={() =>
+                    document.getElementById('add-buddy-modal').style.display = 'none'}
+                >&times;
+                    </button>
+                <h4 className="modal-title">Follow these steps:</h4>
+              </div>
+              <div className="modal-body">
+                <span
+                  style={{
+                    fontWeight: 'bold'
+                  }}>
+                  Step 1: </span>
+                <span> Enter your buddy's e-mail here: </span>
+                <div className="modal-add-buddy">
+                  <input
+                    ref="input"
+                    className="modal-add-buddy-input form-control"
+                    placeholder="Buddy's e-mail"
+                    type="text"
+                    id="newBuddyEmail" />
+                  <button
+                    className="modal-add-buddy-button"
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={this.makeNewBuddy}
+                  >Invite</button>
+                </div>
+                <span
+                  style={{
+                    fontWeight: 'bold'
+                  }}>
+                  Step 2: </span>
+                <span> Share this link with your buddy: </span>
+                <div className="modal-add-buddy">
+                  <input
+                    className="modal-add-buddy form-control"
+                    style={{
+                      fontSize: '11px'
+                    }}
+                    value={this.state.clipboard} />
+                </div>
 
+                <CopyToClipboard text={this.state.clipboard}
+                  onCopy={() => this.setState({ copied: true })}>
+                  <button
+                    className="modal-add-buddy-button"
+                    type="button"
+                    className="btn btn-primary"
+                    style={{
+                      width: '100%'
+                    }}
+                  >Copy to clipboard</button>
+                </CopyToClipboard>
+                {this.state.copied ? <div><p style={{ color: '#18bc9c', padding: '5px' }}>Copied.</p></div> : null}
+              </div>
+            </div>
+          </div>
+        </div>
+        <AddBuddyModal tripRef={this.props.tripRef}/>
         <div className="modal" id="editYourInfoModal">
           <div className="modal-dialog modal-md">
             <div className="modal-content">
-              <div className="modal-header">
+              <div className="modal-header edit-buddy-header">
                 <button type="button" className="close"
                   onClick={() =>
                     document.getElementById('editYourInfoModal').style.display = 'none'}

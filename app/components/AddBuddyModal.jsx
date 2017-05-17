@@ -89,7 +89,7 @@ export default class AddBuddyModal extends Component {
                 </div>
                 :
                 <div className='modal-header'>
-                  <h5> These buddies added but haven't joined the trip: </h5>
+                  <h5> These buddies have been added but haven't joined the trip: </h5>
                   <ul id='pending-buddies-list'>
                     { typeof this.state.pendingBuddies === 'string' ?
                       <div>{this.state.pendingBuddies}</div>
