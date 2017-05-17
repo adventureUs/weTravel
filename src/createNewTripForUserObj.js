@@ -8,7 +8,7 @@ import { browserHistory } from 'react-router'
  */
 
 const createNewTripForUserObj = (userId, tripName) => {
-  console.log('GOT INTO CREATE-NEW-TRIP', userId)
+  // console.log('GOT INTO CREATE-NEW-TRIP', userId)
   const newTripKey = db.ref('trips/').push().key
   db.ref('users').child(userId)
     .once('value')

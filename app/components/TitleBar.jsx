@@ -7,6 +7,9 @@ import { RIEInput } from 'riek'
 import OtherTripsModal from './OtherTripsModal'
 import idToNameOrEmail from '../../src/idToNameOrEmail'
 
+// WILL THIS COMMENT FORCE THE MERGE TO ACTUALLY WORK?????
+// WILL THIS OTHER COMMENT FORCE THE MERGE TO ACTUALLY WORK?????
+
 export default class TitleBar extends React.Component {
   constructor(props) {
     super(props)
@@ -15,7 +18,6 @@ export default class TitleBar extends React.Component {
       userName: '',
       confirmedTripName: ''
     }
-    // this.closeModal = this.closeModal.bind(this)
   }
 
   componentDidMount() {
@@ -26,10 +28,11 @@ export default class TitleBar extends React.Component {
         // Stef says: Weird edge case on logout:  tripRef and snapshot log as existing
         // but snapshot.val() finds snapshot undefined...
         // safety (hack?) is the if below:
-        if (!snapshot) return function () { }
+        if (!snapshot) return function() { }
         const tripObj = snapshot.val()
         idToNameOrEmail(this.props.userId)
           .then(nameOrEmail => this.setState({
+            tripName: tripObj.tripName,
             confirmedTripName: tripObj.tripName,
             userName: nameOrEmail
           })).catch(console.error)
@@ -39,31 +42,9 @@ export default class TitleBar extends React.Component {
     // console.log('TITLE BAR ComponentWILL_UNMOUNT')
     this.unsubscribe()
   }
-
-  getAllTrips() {
-    // Get other trip name via currentUser's associated trip Ids
-  }
-
-  // changeTrip = (e) => {}
-  //   // Note: change map over trips to reflect actualy trip id and names.
-  //   // e.target.id set to currentTrip
-  //   browserHistory.push('/dashboard/'+this.props.tripId)
-
-  makeNewTrip() {
-  }
-  //   // Make a new trip with id, and add that id to currentUser.
-  //   // Set the new trip Id to currentTrip, trigger rerender of new Dashboard
-  //   console.log(document.getElementById('newTripInput').value)
-
   onInputChange = (evt) => {
     this.setState({ tripName: evt.target.value })
   }
-
-  closeModal = () => {
-    // console.log('Add buddy modal x click', e)
-    document.getElementById('tripTitleModal').style.display = 'none'
-  }
-
   saveChanges = (evt) => {
     this.postTripNameToDB(this.state.tripName)
     this.setState({
@@ -74,13 +55,17 @@ export default class TitleBar extends React.Component {
     this.closeModal()
   }
 
+  closeModal = () => {
+    // console.log('Add buddy modal x click', e)
+    document.getElementById('tripTitleModal').style.display = 'none'
+  }
+
   postTripNameToDB = (tripName) => {
     this.props.tripsRef.child('/' + this.props.tripId)
       .update({
         tripName: tripName || 'New Trip Name',
       })
   }
-
   render() {
     return this.state.confirmedTripName ?
       (
@@ -152,7 +137,6 @@ export default class TitleBar extends React.Component {
                   ? `Welcome, ${this.state.userName}!`
                   : ''}</font>
               </h4>
-
               {auth && auth.currentUser ?
                 <button className='logout'
                   style={{

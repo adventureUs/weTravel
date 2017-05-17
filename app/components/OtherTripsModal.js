@@ -104,7 +104,7 @@ export default class OtherTripsModal extends React.Component {
   makeNewTrip = () =>
     createNewTripForUserObj(this.props.userId, this.state.newTripName)
   render() {
-    console.log('STATE in OTHER_TRIPS_MODAL', this.state)
+    // console.log('STATE in OTHER_TRIPS_MODAL', this.state)
     const tripsWithNames = this.state.tripsWithNames
     return (
       <div className="modal" id='other-trips-modal'>

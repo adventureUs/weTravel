@@ -9,6 +9,7 @@ import Login from './components/Login'
 import SignUp from './components/SignUp'
 import App from './components/App'
 import InlineBuddyEditIndex from './components/InlineBuddyEditIndex'
+import Logout from './components/Logout'
 import firebase from 'APP/fire'
 import redirectToTripZeroeth from 'APP/src/redirectToTripZeroeth'
 // ---- UNCOMMENT TO RESEED DATABASE ----------
@@ -73,6 +74,7 @@ render(
     <Route path="dashboard/:tripId" component={App} onEnter={onTripEnter}/>
     <Route path="signup" component={SignUp} google={google} email={email} />
     <Route path="/travelbuddies/email" component={InlineBuddyEditIndex} />
+    <Route path='/logout' component={Logout} />
     <Route path='*' component={NotFound} />
   </Router>,
   document.getElementById('main')

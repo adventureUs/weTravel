@@ -27,14 +27,27 @@ https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg
 
 /* Timeline Styling */
 
+.rct-sidebar-row {
+  background: white !important;
+}
+
 .rct-label-group {
   border-radius: 5px;
   background: #18bc9c !important;
+  /*opacity: .9 !important;*/
+  font-weight: bold !important;
+  color: black !important;
+}
+
+.rct-label {
+  font-weight: bold !important;
+  color: black !important;
 }
 
 .rct-sidebar-header {
   border-radius: 5px;
   background: #18bc9c !important;
+  /*opacity: .9 !important;*/
 }
 /* Pending: trying to round items in Timelines: But not working */
 .rct-items .selected .can-move .rct-items-overflow {
@@ -43,6 +56,22 @@ https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg
 
 .react-calendar-timeline .rct-items .rct-item .rct-item-overflow  {
   border-radius: 5px !important;
+  /*opacity: .9 !important;*/
+}
+
+.rct-items{
+  border: 5px solid black;
+}
+
+.rct-canvas {
+  background: #ecf0f1;
+  /*opacity: .9 !important;*/
+}
+
+.setOpacity {
+  background: #ecf0f1;
+  /*opacity: .9 !important;*/
+  font-weight: bold;
 }
 
 body {
@@ -454,7 +483,7 @@ button.modal-add-buddy-button {
   width: 22%;
   border-radius: 10px;
   background-color: #FFFFA5;
-  opacity: 0.95;
+  /*opacity: 0.95;*/
   /*margin: 5px;*/
   height: 176px;
   overflow: scroll;
@@ -514,7 +543,7 @@ button.modal-add-buddy-button {
   width: 100%;
   text-align: center;
   background-color: brown;
-  opacity: 0.8;
+  /*opacity: 0.8;*/
   font-family: 'Baloo', sans-serif;
   text-shadow: 0 0 2px black;
 }
@@ -548,14 +577,14 @@ button.trip-buddies-delete-button {
   height: 6vh;
   width: 6vw;
   border-radius: 5px;
-  opacity: 0.9;
+  /*opacity: 0.9;*/
   background-color: pink;
 }
 .ideasCardsSelection {
   height: 6vh;
   width: 6vw;
   border-radius: 5px;
-  opacity: 0.9;
+  /*opacity: 0.9;*/
   background-color: pink;
 }
 /* ------------- END IDEASBOX STYLING ------------- */
