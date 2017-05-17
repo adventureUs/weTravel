@@ -26,14 +26,14 @@ export default class Dashboard extends Component {
   }
   render() {
     return (
-      <div className="">
+      <div>
           <div className="row">
-            <div className="col col-lg-3">
+            <div className="col col-md-3">
               <Chat
               userId={this.props.userId}
               tripRef={this.props.tripRef}/>
             </div>
-          <div className="col col-lg-9">
+          <div className="col col-md-9 background-white">
             <TabsAndViews
               userId={this.props.userId}
               tripRef={this.props.tripRef}

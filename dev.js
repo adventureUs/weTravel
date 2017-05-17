@@ -3,8 +3,6 @@
  *
  * Usage: node dev
  **/
-
-
 const app = require('.')
     , chalk = require('chalk'), {bold} = chalk
     , {red, green, blue, cyan, yellow} = bold

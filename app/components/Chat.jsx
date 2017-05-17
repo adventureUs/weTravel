@@ -57,7 +57,7 @@ export default class extends React.Component {
     if (this.unsubscribe) this.unsubscribe()
     const listener = ref.on('value', snapshot => {
       // console.log('IN LISTEN TO SHOULD BE PREV CHATS', snapshot.val())
-      this.setState({ prevChats: snapshot.val() })
+      this.setState({ prevChats: snapshot.val() }, this.updateScroll())
     })
     this.unsubscribe = () => ref.off('value', listener)
     return listener
@@ -124,7 +124,7 @@ export default class extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className='chat-outer-container col col-md-3'>
         <div className="chat-container">
           <div id="chat-title">Discussion board</div>
           <section id="chat-log">
@@ -133,18 +133,18 @@ export default class extends React.Component {
               return ( // add logic about from whom the chat is
                 this.state.prevChats[chat].user === this.state.userChatHandle
                   ?
-                  <div key={index}
-                    className="from-me">
-                    <div >{`${this.state.prevChats[chat].message}`}
+                  <div key={index}>
+                    <div className="from-me">
+                    {`${this.state.prevChats[chat].message}`}
                     </div>
                   </div>
                   :
-                  <div key={index}
-                    className="from-them">
-                    <div className="chatName"> {`${this.state.prevChats[chat].user}:`}
-                    </div>
-                    <div> {`${this.state.prevChats[chat].message}`}
-                    </div>
+                  <div key={index}>
+                    {`${this.state.prevChats[chat].user}:`}
+                    <br/>
+                    <div className="from-them">
+                      {`${this.state.prevChats[chat].message}`}
+                      </div>
                   </div>
               )
             }

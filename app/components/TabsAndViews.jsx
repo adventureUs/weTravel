@@ -30,7 +30,7 @@ export default class TabsAndView extends React.Component {
   render() {
     // console.log('TABS AND VIEWS STATE', this.props)
     return (
-      <div>
+      <div className='ideas-main-container'>
         <ul
           className="nav nav-tabs">
         <li className={this.props.whichTab ? 'active' : ''}>
@@ -43,6 +43,7 @@ export default class TabsAndView extends React.Component {
         </li>
         <li className={this.props.whichTab ? '' : 'active'}>
           <a id='Idea Box'
+          className='IdeaBoxTab'
               href="#ideabox"
               onClick={this.props.changeTabs}
               data-tip="Click here to view and add ideas for your trip."
@@ -88,36 +89,3 @@ export default class TabsAndView extends React.Component {
     )
   }
 }
-
-// render() {
-//   return (
-//   <div>
-//     <ul onClick={() => this.setState({whichTab: !this.state.changeTabs})}
-//         className="nav nav-tabs">
-//       <li className="active">
-//         <a href="#buddies"
-//             data-toggle="tab">Buddies</a>
-//       </li>
-//       <li>
-//         <a href="#ideaBox"
-//             data-toggle="tab">IdeaBox</a>
-//       </li>
-//     </ul>
-
-//     <div id="myTabContent"
-//           className="tab-content">
-
-//       <div className="tab-pane fade active in"
-//             id="buddies">
-//         <InlineBuddyEditIndex />
-//       </div>
-
-//       <div className="tab-pane fade"
-//             id="ideaBox">
-//         <IdeaBox />
-//       </div>
-
-//     </div>
-//   </div>
-//   )
-// }

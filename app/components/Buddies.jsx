@@ -5,6 +5,8 @@ import firebase from 'APP/fire'
 import InlineBuddyEditIndex from './InlineBuddyEditIndex'
 import moment from 'moment'
 import CopyToClipboard from 'react-copy-to-clipboard'
+import AddBuddyModal from './AddBuddyModal'
+import idToNameOrEmail from '../../src/idToNameOrEmail'
 
 export default class extends React.Component {
   constructor(props) {
@@ -12,18 +14,16 @@ export default class extends React.Component {
     this.state = {
       buddies: {}, // there's nothing on state when we go to the buddies tab
       clipboard: `https://tern-2b37d.firebaseapp.com${window.location.pathname}`,
-      copied: ''
+      copied: '',
     }
   }
-  componentWillUnmount() {
-    this.unsubscribe && this.unsubscribe()
-  }
-
   componentDidMount() {
     this.listenTo(this.props.tripRef.child('buddies'))
     //     console.log('COMPONENT DID MOUNT PROPS', this.props.tripRef.child('buddies'))
   }
-
+  componentWillUnmount() {
+    this.unsubscribe && this.unsubscribe()
+  }
   componentWillReceiveProps(incoming, outgoing) {
     // When the props sent to us by our parent component change,
     // start listening to the new firebase reference.
@@ -40,46 +40,16 @@ export default class extends React.Component {
       this.setState({ buddies: snapshot.val() })
     })
     this.unsubscribe = () => ref.off('value', listener)
-    return listener
   }
-
-  makeNewBuddy = () => {
-    const newBuddyEmail = document.getElementById('newBuddyEmail').value
-    var hasPendingBuddies = this.props.tripRef
-      .once('value')
-      .then(snapshot => {
-        snapshot.child('pendingBuddies').exists()
-      })
-
-    if (hasPendingBuddies) {
-      this.props.tripRef.child('pendingBuddies').push({
-        // this creates a uid for each pending buddy
-        // the uid is a key, the value is {email: newBuddyEmail}
-        email: newBuddyEmail
-      })
-    } else {
-      this.props.tripRef
-        .update({
-          // this creates a uid for each pending buddy
-          // the uid is a key, the value is {email: newBuddyEmail}
-          pendingBuddies: {
-            email: newBuddyEmail
-          }
-        })
-    }
-    this.refs.input.value = ''
-  }
-
   buildRow = (buddyId) => {
     const buddyClass = SetClass({
       'me': buddyId === this.props.userId,
       'them': buddyId !== this.props.userId
     })
-
     return (
       <tr key={buddyId} className='trip-buddies'>
-        <td className={buddyClass}>{this.state.buddies[buddyId].name}</td>
-        <td className={buddyClass}> {this.state.buddies[buddyId].homeBase}</td>
+        <td className={buddyClass}>{this.state.buddies[buddyId].name || 'Please enter your name'}</td>
+        <td className={buddyClass}> {this.state.buddies[buddyId].homeBase || 'Add your city here'}</td>
         <td className={buddyClass}> {this.state.buddies[buddyId].status.text}</td>
         <td className={buddyClass}>
           {(this.state.buddies[buddyId].startDate)
@@ -93,12 +63,8 @@ export default class extends React.Component {
           {(buddyId === this.props.userId)
             ?
             <div>
-              <button style={{
-                color: '#18bc9c',
-                backgroundColor: '#ffffff',
-                borderRadius: '5px',
-                padding: '1px 6px'
-              }}
+              <button
+              className="btn btn-primary thin-btn"
                 type="button"
                 onClick={() =>
                   document.getElementById('editYourInfoModal').style.display = 'block'}
@@ -113,7 +79,6 @@ export default class extends React.Component {
       </tr>
     )
   }
-
   render() {
     return (
       <div className="well well-lg">
@@ -131,20 +96,15 @@ export default class extends React.Component {
           <tbody>
             {
               this.state.buddies && Object.keys(this.state.buddies)
-                .map((buddyId) => { return this.buildRow(buddyId) })
+                .map((buddyId) => this.buildRow(buddyId))
             }
           </tbody>
         </table>
         <div>
-          <button style={{
-            color: '#18bc9c',
-            backgroundColor: '#ffffff',
-            borderRadius: '5px',
-            padding: '1px 6px'
-          }}
+          <button className="btn btn-primary"
             type="button"
             onClick={() =>
-              document.getElementById('add-buddy-modal').style.display = 'block'}
+              document.getElementById('addBuddyModal').style.display = 'block'}
             data-tip="Add some buddies to your trip!"
           >Add a Buddy!</button>
           <ReactTooltip />
@@ -212,7 +172,7 @@ export default class extends React.Component {
             </div>
           </div>
         </div>
-
+        <AddBuddyModal tripRef={this.props.tripRef}/>
         <div className="modal" id="editYourInfoModal">
           <div className="modal-dialog modal-md">
             <div className="modal-content">
@@ -325,3 +285,11 @@ export default class extends React.Component {
         )
   }
 } */
+
+
+// style={{
+//                 color: '#18bc9c',
+//                 backgroundColor: '#ffffff',
+//                 borderRadius: '5px',
+//                 padding: '1px 6px'
+//               }}

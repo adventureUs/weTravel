@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link, browserHistory } from 'react-router'
 import firebase from 'APP/fire'
+import addToTrip from 'APP/src/addToTrip'
+import createNewUserAndTrip from 'APP/src/createNewUserAndTrip'
 const db = firebase.database()
 const userRef = db.ref('users/')
 
@@ -20,14 +22,13 @@ export default class extends React.Component {
 
   googleSubmit = (userCredential) => {
     // console.log('MADE IT TO GOOGLE SUBMIT, here is the credential', userCredential)
+    // First case in ternary is if user signs on with a pending buddy link to a trip
+    // Second case in ternary is if a user signs on without a pending buddy link to a trip, so a new trip will be created
     const queryString = window.location.search
-    queryString ? this.addToTrip(userCredential.user, queryString) : this.createNewTrip(userCredential.user)
+    queryString ? addToTrip(userCredential.user, queryString) : createNewUserAndTrip(userCredential.user)
   }
 
-  onSubmit = (evt) => {
-    evt.preventDefault()
-    // console.log('MADE IT TO ON SUBMIT')
-    // First confirm the passwords match
+  confirmPasswordsMatch = () => {
     if (this.state.password !== this.state.confirmPassword) {
       window.alert('The passwords you submitted do not match. Please try again.')
       this.refs.password.value = ''
@@ -36,82 +37,48 @@ export default class extends React.Component {
         password: '',
         confirmPassword: ''
       })
+      return false
     } else {
-      const queryString = window.location.search
-      if (this.state.email.length && this.state.password.length) {
+      return true
+    }
+  }
+
+  emailSubmit = (evt) => {
+    evt.preventDefault()
+    // First confirm email and password & confirm password are all entered
+    if (this.state.email.length && this.state.password.length && this.state.confirmPassword) {
+      // confirmPasswordsMatch function return a boolean, true if they match, false if not
+      if (this.confirmPasswordsMatch()) {
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
           .then((user) => {
-            queryString ? this.addToTrip(user, queryString) : this.createNewTrip(user)
+            const queryString = window.location.search
+            queryString ? addToTrip(user, queryString) : createNewUserAndTrip(user)
           })
-      } else {
-        window.alert('Please fill in both your email and password')
       }
+    } else {
+      window.alert('Please fill in both your email and password')
     }
   }
 
-  addToTrip = (user, queryString) => {
-    // console.log('GOT INTO ADD-TO-TRIP', user)
+  // emailSubmit = (evt) => {
+  //   evt.preventDefault()
+  //   // console.log('MADE IT TO ON SUBMIT')
+  //   // First confirm the passwords match
+  //   // confirmPasswordsMatch function return a boolean, true if they match, false if not
+  //   if (this.confirmPasswordsMatch()) {
+  //     const queryString = window.location.search
+  //     if (this.state.email.length && this.state.password.length) {
+  //       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+  //         .then((user) => {
+  //           queryString ? addToTrip(user, queryString) : createNewUserAndTrip(user)
+  //         })
+  //     } else {
+  //       window.alert('Please fill in both your email and password')
+  //     }
+  //   }
+  // }
 
-    const userId = user.uid
-    const tripId = queryString.slice(1)
-    // this.setState({ tripId: tripId })
-
-    // first updates trips table by adding this new user to the buddies portion of the particular trip table
-    db.ref('trips/').child(tripId).child('buddies').update({
-      [userId]: {
-        status: { id: '1', text: 'Invited' }
-      }
-    })
-
-    // In the users table, creates a new user with the querystring as the the trip
-    userRef.update({
-      [userId]: {
-        email: user.email,
-        trips: [tripId]
-      }
-    })
-      .then(() => browserHistory.push('/dashboard/' + tripId))
-      .catch(error => {
-        window.alert(error)
-      })
-  }
-
-  createNewTrip = (user) => {
-    const userId = user.uid
-    // console.log('GOT INTO CREATE-NEW-TRIP', userId)
-
-    // first creates new trip data and key and updates trip table
-    var newTripKey = db.ref('trips/').push().key
-    // this.setState({ tripId: newTripKey })
-    var newTripData = {
-      tripName: 'Please Name Your Trip Here!',
-      buddies: {
-        [userId]: {
-          status: { id: '2', text: 'Going' }
-        }
-      }
-    }
-    var newTrip = {}
-    newTrip[newTripKey] = newTripData
-    db.ref('trips/').update(newTrip)
-
-    // then in users table, creates a new user with with new trip key
-    userRef.update({
-      [userId]: {
-        email: user.email,
-        trips: [newTripKey]
-      }
-    })
-      // concerned about this then
-      .then(() => {
-        browserHistory.push('/dashboard/' + newTripKey)
-      })
-      .catch(error => {
-        window.alert(error)
-      })
-  }
-
-  redirect = (e) => {
+  redirectToLogin = (e) => {
     e.preventDefault()
     // console.log('HIT THE REDIRECT')
     browserHistory.push('/login/' + window.location.search)
@@ -125,11 +92,11 @@ export default class extends React.Component {
     return (
       <div id="background-div">
         <div className="jumbotron login-container">
-          <form onSubmit={this.onSubmit}
+          <form onSubmit={this.emailSubmit}
             className="form-horizontal">
             <legend>Sign up</legend>
             <div> Welcome to adventureUs, a place where you can meet up with your buddies and plan your next great adventure! Already have an account?
-            <a onClick={this.redirect} href="">  Sign in.</a>
+            <a onClick={this.redirectToLogin} href="">  Sign in.</a>
             </div>
             <hr />
             <div className="form-group">

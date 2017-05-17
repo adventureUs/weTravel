@@ -13,8 +13,8 @@ export default class IdeaBox extends Component {
     }
     this.deleteIdea = this.deleteIdea.bind(this)
     this.addLikes = this.addLikes.bind(this)
-
   }
+
   componentWillUnmount() {
     this.unsubscribe && this.unsubscribe()
   }
@@ -32,7 +32,7 @@ export default class IdeaBox extends Component {
   listenTo(ref) {
     if (this.unsubscribe) this.unsubscribe()
     const listener = ref.on('value', snapshot => {
-      this.setState({ideas: snapshot.val()})
+      this.setState({ ideas: snapshot.val() })
     })
     this.unsubscribe = () => ref.off('value', listener)
   }
@@ -58,8 +58,13 @@ export default class IdeaBox extends Component {
     // console.log('IN IDEA BOX ', Object.values(this.state.ideas))
     return (
       <div>
-       <div className='top'>
-
+       <div>
+         <div className="addIdea">
+           <AddIdea
+              userId={this.props.userId}
+              ideasRef={this.props.ideasRef}
+            />
+          </div>
           {
             this.state.ideas && Object.keys(this.state.ideas).map(key => {
               return (
@@ -67,14 +72,14 @@ export default class IdeaBox extends Component {
                   <div className='idea front'>
                     <div className='name'>{this.state.ideas[key].ideaName}
                       <div className='link'><a href={'//'+this.state.ideas[key].link}
-                        target='_blank'>{this.state.ideas[key].link}</a></div>
+                        target='_blank' className='link word-wrap'>{this.state.ideas[key].link}</a></div>
                       <div className='category'>{this.state.ideas[key].category.text}</div>
                       <div className='startdate'>{moment(this.state.ideas[key].startDate).calendar()}</div>
                       <div className='likes'>
                         <button style={{color: '#18bc9c', backgroundColor: '#ffffff', borderRadius: '5px', padding: '1px 6px'}}className='trip-buddies-likes-button'
                             type="button" id={key} onClick={ this.addLikes}>{this.state.ideas[key].likes}</button>
                       </div>
-                      <div>
+                      <div className='delete'>
                         <button style={{color: '#18bc9c', backgroundColor: '#ffffff', borderRadius: '5px', padding: '1px 6px'}}className='trip-buddies-delete-button'
                             type="button" id={key} onClick={this.deleteIdea}>Delete</button>
                       </div>
@@ -84,13 +89,6 @@ export default class IdeaBox extends Component {
               )
             })
           }
-
-        </div>
-        <div className='bottom'>
-            <AddIdea
-              userId={this.props.userId}
-              ideasRef={this.props.ideasRef}
-            />
         </div>
       </div>
     )
