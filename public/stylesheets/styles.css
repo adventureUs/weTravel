@@ -88,6 +88,18 @@ li.trip-buddies {
   padding-right: 9vw;
 }
 
+.edit-buddy-header {
+  background-color: #18bc9c !important;
+}
+
+.buddyEditFields {
+  margin-left: 10px;
+}
+
+/* .buddyEditLabels {
+  width: 10px;
+}
+
 /*  the class .me is used to sytle your own info on the buddies page
     if you want to style everyone else, use class .them  */
 .me {
