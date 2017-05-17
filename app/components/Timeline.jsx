@@ -92,7 +92,7 @@ export default class AdventureUsTimeline extends Component {
     // ref is not the ideal fix, but it renders the items on the timeline correctly
     return (
       <div>
-        <div className="well"
+        <div
               data-event='click focus'
               data-tip="View availability dates on the timeline, and drag, drop or extend to change dates.">
             <Timeline groups={this.props.groups}
