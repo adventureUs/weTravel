@@ -18,7 +18,6 @@ export default class TitleBar extends React.Component {
       userName: '',
       confirmedTripName: ''
     }
-    // this.closeModal = this.closeModal.bind(this)
   }
 
   componentDidMount() {
@@ -33,6 +32,7 @@ export default class TitleBar extends React.Component {
         const tripObj = snapshot.val()
         idToNameOrEmail(this.props.userId)
           .then(nameOrEmail => this.setState({
+            tripName: tripObj.tripName,
             confirmedTripName: tripObj.tripName,
             userName: nameOrEmail
           })).catch(console.error)
@@ -42,31 +42,9 @@ export default class TitleBar extends React.Component {
     // console.log('TITLE BAR ComponentWILL_UNMOUNT')
     this.unsubscribe()
   }
-
-  getAllTrips() {
-    // Get other trip name via currentUser's associated trip Ids
-  }
-
-  // changeTrip = (e) => {}
-  //   // Note: change map over trips to reflect actualy trip id and names.
-  //   // e.target.id set to currentTrip
-  //   browserHistory.push('/dashboard/'+this.props.tripId)
-
-  makeNewTrip() {
-  }
-  //   // Make a new trip with id, and add that id to currentUser.
-  //   // Set the new trip Id to currentTrip, trigger rerender of new Dashboard
-  //   console.log(document.getElementById('newTripInput').value)
-
   onInputChange = (evt) => {
     this.setState({ tripName: evt.target.value })
   }
-
-  closeModal = () => {
-    // console.log('Add buddy modal x click', e)
-    document.getElementById('tripTitleModal').style.display = 'none'
-  }
-
   saveChanges = (evt) => {
     this.postTripNameToDB(this.state.tripName)
     this.setState({
@@ -76,14 +54,12 @@ export default class TitleBar extends React.Component {
     this.refs.input.value = ''
     this.closeModal()
   }
-
   postTripNameToDB = (tripName) => {
     this.props.tripsRef.child('/' + this.props.tripId)
       .update({
         tripName: tripName || 'New Trip Name',
       })
   }
-
   render() {
     return this.state.confirmedTripName ?
       (
@@ -155,7 +131,22 @@ export default class TitleBar extends React.Component {
                   ? `Welcome, ${this.state.userName}!`
                   : ''}</font>
               </h4>
-
+              <button style={{
+              color: '#18bc9c',
+              backgroundColor: '#ffffff',
+              borderRadius: '5px',
+              padding: '5px'
+            }}
+              type="button"
+              onClick={() =>
+                document.getElementById('other-trips-modal').style.display = 'block'}
+              >Trip List</button>
+            <OtherTripsModal
+              tripRef={this.props.tripRef}
+              tripsRef={this.props.tripsRef}
+              userId={this.props.userId}
+              userRef={this.props.userRef}
+              />
               {auth && auth.currentUser ?
                 <button className='logout'
                   style={{
