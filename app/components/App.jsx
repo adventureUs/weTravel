@@ -33,7 +33,7 @@ export default class extends React.Component {
   }
   // Triggering re-render of entire app when changing Trips.
   setAppTripIdState = (tripId) => {
-    this.setState(tripId)
+    this.setState({tripId: tripId})
   }
   render() {
     // console.log('STATE in APP:', this.state)
