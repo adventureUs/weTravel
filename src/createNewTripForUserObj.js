@@ -28,7 +28,6 @@ const createNewTripForUserObj = (userId, tripName) => {
         }
         var newTrip = {}
         newTrip[newTripKey] = newTripData
-        console.log('trying to create a new tripo for usre', newTrip)
         db.ref('trips').update(newTrip)
       }
     })

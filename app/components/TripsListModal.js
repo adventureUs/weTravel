@@ -59,7 +59,7 @@ export default class TripsListModal extends React.Component {
   updateTripsArrayWithNames = (trips, tripsObj) => {
     const tripsWithNames = {}
     // loop over the users tripIds and find the tripName
-    console.log('OTHER_TRIPS_MODAL DID_MOUNT: updating tripsArrayWithNames 1, trips, tripsObj', trips, tripsObj)
+    // console.log('OTHER_TRIPS_MODAL DID_MOUNT: updating tripsArrayWithNames 1, trips, tripsObj', trips, tripsObj)
     trips.forEach(tripId =>
       tripsWithNames[tripId] = tripsObj[tripId].tripName === this.state.defaultTripName ?
         'Please Enter Trip Name'
@@ -94,7 +94,6 @@ export default class TripsListModal extends React.Component {
             .then(() => {
               document.getElementById('other-trips-modal').style.display = 'none'
               redirectToTripZeroeth(this.props.userId)
-              // this.props.forceSetState()
             })
         }
       })
@@ -105,6 +104,7 @@ export default class TripsListModal extends React.Component {
   makeNewTrip = () => {
     document.getElementById('other-trips-modal').style.display = 'none'
     createNewTripForUserObj(this.props.userId, this.state.newTripName)
+    console.log('new trip name in make new trip', this.state.newTripName)
   }
 
   render() {
