@@ -48,7 +48,7 @@ export default class TimelineIndex extends React.Component {
       } else {
         result = this.ideasData(snapshot)
       }
-      console.log('in listenFor', branch, result)
+      // console.log('in listenFor', branch, result)
       this.setState({
         groups: result.namesData,
         items: result.bodyData
@@ -59,9 +59,9 @@ export default class TimelineIndex extends React.Component {
   }
   buddiesData(snapshot) {
     let bodyData = [], namesData = []
-    const dbObject = snapshot.val()['buddies']
-    const branchIds = Object.keys(dbObject)
-    if (dbObject) {
+    if (snapshot.val() && snapshot.val()['buddies']) {
+      const dbObject = snapshot.val()['buddies']
+      const branchIds = Object.keys(dbObject)
       bodyData = branchIds.map(key =>
         ({
           id: key,

@@ -75,7 +75,7 @@ export default class AdventureUsTimeline extends Component {
   render() {
     let minDate = this.findMinStartDate(this.props.items).unix()*1000
     let maxDate = this.findMaxEndDate(this.props.items).unix()*1000
-    console.log('date in render', this.findMinStartDate(this.props.items).unix()*1000)
+    // console.log('date in render', this.findMinStartDate(this.props.items).unix()*1000)
 
 // This object sets the untis on the timeline.
 // Currently, it is set to display days, months and years

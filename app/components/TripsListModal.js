@@ -8,7 +8,7 @@ import idToNameOrEmail from '../../src/idToNameOrEmail'
 import redirectToTripZeroeth from '../../src/redirectToTripZeroeth'
 import createNewTripForUserObj from '../../src/createNewTripForUserObj'
 
-export default class OtherTripsModal extends React.Component {
+export default class TripsListModal extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -59,10 +59,10 @@ export default class OtherTripsModal extends React.Component {
   updateTripsArrayWithNames = (trips, tripsObj) => {
     const tripsWithNames = {}
     // loop over the users tripIds and find the tripName
-    // console.log('OTHER_TRIPS_MODAL DID_MOUNT: updating tripsArrayWithNames 1, trips, tripsObj', trips, tripsObj)
+    console.log('OTHER_TRIPS_MODAL DID_MOUNT: updating tripsArrayWithNames 1, trips, tripsObj', trips, tripsObj)
     trips.forEach(tripId =>
       tripsWithNames[tripId] = tripsObj[tripId].tripName === this.state.defaultTripName ?
-        'Un-named Trip'
+        'Please Enter Trip Name'
         :
         tripsObj[tripId].tripName
     )
@@ -94,6 +94,7 @@ export default class OtherTripsModal extends React.Component {
             .then(() => {
               document.getElementById('other-trips-modal').style.display = 'none'
               redirectToTripZeroeth(this.props.userId)
+              // this.props.forceSetState()
             })
         }
       })
@@ -101,8 +102,11 @@ export default class OtherTripsModal extends React.Component {
   }
   /* Make a new trip with id, and add that tripId to currentUser.
   as zeroeth trip, trigger rerender of new Dashboard/tripId */
-  makeNewTrip = () =>
+  makeNewTrip = () => {
+    document.getElementById('other-trips-modal').style.display = 'none'
     createNewTripForUserObj(this.props.userId, this.state.newTripName)
+  }
+
   render() {
     // console.log('STATE in OTHER_TRIPS_MODAL', this.state)
     const tripsWithNames = this.state.tripsWithNames
