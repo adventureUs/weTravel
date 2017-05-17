@@ -62,7 +62,13 @@ export default class AddIdea extends Component {
 
   setLocalState = (newState) => {
     this.setState(newState)
-    // console.log('in setLocalState', newState)
+    if (newState.link) {
+      const http = newState.link.slice(0, 7)
+      const https = newState.link.slice(0, 8)
+      if (http !== 'http://' && https !== 'https://') {
+        newState.link = 'http://' + newState.link
+      } 
+    }
   }
 
   postIdeaToDB = (e) => {
