@@ -156,16 +156,13 @@ export default class TitleBar extends React.Component {
                   ? `Welcome, ${this.state.userName}!`
                   : ''}</font>
               </h4>
-              <button style={{
-                color: '#18bc9c',
-                backgroundColor: '#ffffff',
-                borderRadius: '5px',
-                padding: '5px'
+              <h4 style={{
+                color: 'white'
               }}
               type="button"
               onClick={() =>
                 document.getElementById('other-trips-modal').style.display = 'block'}
-              >Trip List</button>
+              >| Trip List |</h4>
             <TripsListModal
               tripRef={this.props.tripRef}
               tripsRef={this.props.tripsRef}
@@ -174,32 +171,26 @@ export default class TitleBar extends React.Component {
               setAppTripIdState={this.props.setAppTripIdState}
               />
               {auth && auth.currentUser ?
-                <button className='logout'
+                <h4 className='logout'
                   style={{
-                    color: '#18bc9c',
-                    backgroundColor: '#ffffff',
-                    borderRadius: '5px',
-                    padding: '3px 6px'
+                    color: 'white',
                   }}
                   onClick={() => {
                     auth.signOut()
                     browserHistory.push('/login')
-                  }}>logout
-                </button>
+                  }}> Logout
+                </h4>
                 :
-                <button className='login'
+                <h4 className='login'
                   style={{
-                    color: '#18bc9c',
-                    backgroundColor: '#ffffff',
-                    borderRadius: '5px',
-                    padding: '3px 6px'
+                    color: 'white',
                   }}
                   onClick={() => {
                     browserHistory.push('/login')
                     this.setState({changeState: true})
                   }
                   }>
-                  login</button>
+                   Login</h4>
               }
             </div>
           </div >
@@ -210,7 +201,14 @@ export default class TitleBar extends React.Component {
   }
 }
 
-{ /*   setStates = (newState) => {
-    this.setState(newState)
-    this.postTripNameToDB(newState.tripName)
-  } */ }
+{ // //  setStates = (newState) => {
+//   this.setState(newState)
+//   this.postTripNameToDB(newState.tripName)
+// }
+//  style={{
+//   color: '#18bc9c',
+//   backgroundColor: '#ffffff',
+//   borderRadius: '5px',
+//   padding: '3px 6px'
+// }} }
+}
