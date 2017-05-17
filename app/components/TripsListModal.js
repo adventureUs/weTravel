@@ -106,7 +106,7 @@ export default class TripsListModal extends React.Component {
   makeNewTrip = () => {
     document.getElementById('other-trips-modal').style.display = 'none'
     createNewTripForUserObj(this.props.userId, this.state.newTripName)
-    console.log('new trip name in make new trip', this.state.newTripName)
+    // console.log('new trip name in make new trip', this.state.newTripName)
   }
 
   render() {
@@ -127,7 +127,7 @@ export default class TripsListModal extends React.Component {
             <div className="modal-body">
               {
                 tripsWithNames ?
-                (Object.keys(tripsWithNames).map((tripId) =>
+                (Object.keys(tripsWithNames).sort().map((tripId) =>
                 <h4 key={`${tripId}`}
                   onClick={this.changeTrip}
                   style={{ border: 'bottom' }}
