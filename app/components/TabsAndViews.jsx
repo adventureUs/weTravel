@@ -2,6 +2,7 @@ import React from 'react'
 import ReactTooltip from 'react-tooltip'
 import Buddies from './Buddies'
 import IdeaBox from './IdeaBox'
+import Places from './Places'
 import TimelineIndex from './TimelineIndex'
 import firebase from 'APP/fire'
 
