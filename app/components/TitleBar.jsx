@@ -28,7 +28,7 @@ export default class TitleBar extends React.Component {
         // Stef says: Weird edge case on logout:  tripRef and snapshot log as existing
         // but snapshot.val() finds snapshot undefined...
         // safety (hack?) is the if below:
-        if (!snapshot) return function () { }
+        if (!snapshot) return function() { }
         const tripObj = snapshot.val()
         idToNameOrEmail(this.props.userId)
           .then(nameOrEmail => this.setState({
