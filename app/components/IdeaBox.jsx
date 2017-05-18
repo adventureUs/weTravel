@@ -71,18 +71,22 @@ export default class IdeaBox extends Component {
               return (
                 <div key={key} className='idea-container'>
                   <div className='idea front'>
-                    <div className='name'>{this.state.ideas[key].ideaName}
+                    <div className=''>
+                      <div className='name'><h5><bold>{this.state.ideas[key].ideaName}</bold></h5></div>
                       <div className='link'><a href={this.state.ideas[key].link}
                         target='_blank' className='link word-wrap'>{this.state.ideas[key].link}</a></div>
                       <div className='category'>{this.state.ideas[key].category.text}</div>
-                      <div className='startdate'>{moment(this.state.ideas[key].startDate).calendar()}</div>
+                      <div className='startdate'>From: {moment(this.state.ideas[key].startDate).calendar()} To: {moment(this.state.ideas[key].endDate).calendar()}</div>
+                    </div>
+                     <hr className='horizontal-rule'/>
+                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
                       <div className='likes'>
-                        <button style={{color: '#18bc9c', backgroundColor: '#ffffff', borderRadius: '5px', padding: '1px 6px'}}className='trip-buddies-likes-button'
-                            type="button" id={key} onClick={ this.addLikes}>{this.state.ideas[key].likes}</button>
+                        <span style={{borderRadius: '5px', padding: '1px 6px', borderColor: 'black'}}className='trip-buddies-likes-button'
+                            type="button" id={key} onClick={this.addLikes}>Likes {this.state.ideas[key].likes}</span>
                       </div>
                       <div className='delete'>
-                        <button style={{color: '#18bc9c', backgroundColor: '#ffffff', borderRadius: '5px', padding: '1px 6px'}}className='trip-buddies-delete-button'
-                            type="button" id={key} onClick={this.deleteIdea}>Delete</button>
+                        <span style={{borderRadius: '5px', padding: '1px 6px', borderColor: 'black'}}className='trip-buddies-delete-button'
+                            type="button" id={key} onClick={this.deleteIdea}>Delete</span>
                       </div>
                     </div>
                   </div>
