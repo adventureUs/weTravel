@@ -16,6 +16,7 @@ export default class TitleBar extends React.Component {
     this.state = {
       tripName: '',
       userName: '',
+      newTripName: ''
     }
   }
 
@@ -41,12 +42,12 @@ export default class TitleBar extends React.Component {
     this.unsubscribe()
   }
   onInputChange = (evt) => {
-    this.setState({ tripName: evt.target.value })
+    this.setState({newTripName: (evt.target.value || 'Please name your trip!')})
   }
   saveChanges = (evt) => {
-    this.postTripNameToDB(this.state.tripName)
+    this.postTripNameToDB(this.state.newTripName)
     this.setState({
-      tripName: this.state.tripName,
+      tripName: this.state.newTripName || 'Please name your trip!',
     })
     this.refs.input.value = ''
     this.closeModal()
@@ -57,10 +58,10 @@ export default class TitleBar extends React.Component {
     document.getElementById('tripTitleModal').style.display = 'none'
   }
 
-  postTripNameToDB = (tripName) => {
+  postTripNameToDB = (newTripName) => {
     this.props.tripsRef.child('/' + this.props.tripId)
       .update({
-        tripName: tripName || 'New Trip Name',
+        tripName: newTripName || 'New Trip Name',
       })
   }
   render() {
@@ -105,7 +106,7 @@ export default class TitleBar extends React.Component {
                     <input
                       ref="input"
                       className="modal-trip-edit-input form-control"
-                      value={this.state.tripName}
+                      value={this.state.newTripName}
                       onChange={this.onInputChange}
                       type="text"
                       id="tripName" />
