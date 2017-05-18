@@ -15,7 +15,6 @@ export default class TitleBar extends React.Component {
     super(props)
     this.state = {
       userName: '',
-      confirmedTripName: ''
     }
   }
 
@@ -32,7 +31,7 @@ export default class TitleBar extends React.Component {
         const tripObj = snapshot.val()
         idToNameOrEmail(this.props.userId)
           .then(nameOrEmail => this.setState({
-            confirmedTripName: tripObj.tripName,
+            tripName: tripObj.tripName || 'Please name your trip!',
             userName: nameOrEmail
           })).catch(console.error)
       })
@@ -70,7 +69,7 @@ export default class TitleBar extends React.Component {
   saveChanges = (evt) => {
     this.postTripNameToDB(this.state.confirmedTripName)
     this.setState({
-      confirmedTripName: this.state.confirmedTripName,
+      tripName: this.state.tripName,
     })
     this.refs.input.value = ''
     this.closeModal()
@@ -86,7 +85,7 @@ export default class TitleBar extends React.Component {
       })
   }
   render() {
-    return this.state.confirmedTripName ?
+    return this.props.tripId ?
       (
         <nav className="nav navbar-default navbar-fixed-top">
           <div className="" style={{
@@ -109,7 +108,7 @@ export default class TitleBar extends React.Component {
               onClick={() =>
                 document.getElementById('tripTitleModal').style.display = 'block'}>
               <h4 className='tripnameIcon'>
-                <span>{this.state.confirmedTripName}</span>
+                <span>{this.state.tripName}</span>
                 <span className='glyphicon glyphicon-pencil pencil'></span>
               </h4>
             </div>
@@ -127,8 +126,7 @@ export default class TitleBar extends React.Component {
                     <input
                       ref="input"
                       className="modal-trip-edit-input form-control"
-                      placeholder="Please Enter Your New Trip Name Here"
-                      value={this.state.confirmedTripName}
+                      value={this.state.tripName}
                       onChange={this.onInputChange}
                       type="text"
                       id="tripName" />
@@ -199,16 +197,4 @@ export default class TitleBar extends React.Component {
       :
       null
   }
-}
-
-{ // //  setStates = (newState) => {
-//   this.setState(newState)
-//   this.postTripNameToDB(newState.tripName)
-// }
-//  style={{
-//   color: '#18bc9c',
-//   backgroundColor: '#ffffff',
-//   borderRadius: '5px',
-//   padding: '3px 6px'
-// }} }
 }

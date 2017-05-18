@@ -81,8 +81,8 @@ export default class extends React.Component {
   }
   render() {
     return (
-      <div>
-        <table className="table table-hover setOpacity">
+      <div className='well'>
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th></th>
