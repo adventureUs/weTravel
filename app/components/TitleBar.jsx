@@ -7,10 +7,8 @@ import { RIEInput } from 'riek'
 import OtherTripsModal from './OtherTripsModal'
 import idToNameOrEmail from '../../src/idToNameOrEmail'
 
-// WILL THIS COMMENT FORCE THE MERGE TO ACTUALLY WORK?????
-// WILL THIS OTHER COMMENT FORCE THE MERGE TO ACTUALLY WORK?????
-
 export default class TitleBar extends React.Component {
+  /* When user cancels naming a trip, old tripName is still preseved. */
   constructor(props) {
     super(props)
     this.state = {
@@ -46,6 +44,7 @@ export default class TitleBar extends React.Component {
   }
   saveChanges = (evt) => {
     this.postTripNameToDB(this.state.newTripName)
+    // Perhaps redundant: the listener should also set to tripName state in time.
     this.setState({
       tripName: this.state.newTripName || 'Please name your trip!',
     })
@@ -106,7 +105,7 @@ export default class TitleBar extends React.Component {
                     <input
                       ref="input"
                       className="modal-trip-edit-input form-control"
-                      value={this.state.newTripName}
+                      value={this.state.newTripName || this.state.tripName}
                       onChange={this.onInputChange}
                       type="text"
                       id="tripName" />
