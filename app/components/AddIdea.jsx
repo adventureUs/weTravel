@@ -62,7 +62,13 @@ export default class AddIdea extends Component {
 
   setLocalState = (newState) => {
     this.setState(newState)
-    // console.log('in setLocalState', newState)
+    if (newState.link) {
+      const http = newState.link.slice(0, 7)
+      const https = newState.link.slice(0, 8)
+      if (http !== 'http://' && https !== 'https://') {
+        newState.link = 'https://' + newState.link
+      }
+    }
   }
 
   postIdeaToDB = (e) => {
@@ -186,12 +192,7 @@ export default class AddIdea extends Component {
               />
             </div>
             <div className="col-md-3">
-              <button style={{
-                color: '#18bc9c',
-                backgroundColor: '#ffffff',
-                borderRadius: '5px',
-                padding: '1px 6px'
-              }}>Submit</button>
+              <button className='btn btn-primary thin-btn'>Submit</button>
             </div>
           </div>
         </div>

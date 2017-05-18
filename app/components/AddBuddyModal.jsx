@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import ReactTooltip from 'react-tooltip'
 import SetClass from 'react-classset'
 import firebase from 'APP/fire'
 import InlineBuddyEditIndex from './InlineBuddyEditIndex'

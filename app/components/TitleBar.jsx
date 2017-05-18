@@ -7,15 +7,13 @@ import { RIEInput } from 'riek'
 import TripsListModal from './TripsListModal'
 import idToNameOrEmail from '../../src/idToNameOrEmail'
 
-// WILL THIS COMMENT FORCE THE MERGE TO ACTUALLY WORK?????
-// WILL THIS OTHER COMMENT FORCE THE MERGE TO ACTUALLY WORK?????
-
 export default class TitleBar extends React.Component {
+  /* When user cancels naming a trip, old tripName is still preseved. */
   constructor(props) {
     super(props)
     this.state = {
       userName: '',
-      confirmedTripName: ''
+      newTripName: ''
     }
   }
 
@@ -32,7 +30,7 @@ export default class TitleBar extends React.Component {
         const tripObj = snapshot.val()
         idToNameOrEmail(this.props.userId)
           .then(nameOrEmail => this.setState({
-            confirmedTripName: tripObj.tripName,
+            tripName: tripObj.tripName || 'Please name your trip!',
             userName: nameOrEmail
           })).catch(console.error)
       })
@@ -64,13 +62,14 @@ export default class TitleBar extends React.Component {
     this.unsubscribe()
   }
   onInputChange = (evt) => {
-    this.setState({ confirmedTripName: evt.target.value })
+    this.setState({newTripName: (evt.target.value || 'Please name your trip!')})
   }
   // Edit main TripName Title
   saveChanges = (evt) => {
-    this.postTripNameToDB(this.state.confirmedTripName)
+    this.postTripNameToDB(this.state.newTripName)
+    // Perhaps redundant: the listener should also set to tripName state in time.
     this.setState({
-      confirmedTripName: this.state.confirmedTripName,
+      tripName: this.state.newTripName || 'Please name your trip!',
     })
     this.refs.input.value = ''
     this.closeModal()
@@ -79,14 +78,14 @@ export default class TitleBar extends React.Component {
     // console.log('Add buddy modal x click', e)
     document.getElementById('tripTitleModal').style.display = 'none'
   }
-  postTripNameToDB = (tripName) => {
+  postTripNameToDB = (newTripName) => {
     this.props.tripsRef.child('/' + this.props.tripId)
       .update({
-        tripName: tripName || 'New Trip Name',
+        tripName: newTripName || 'New Trip Name',
       })
   }
   render() {
-    return this.state.confirmedTripName ?
+    return this.props.tripId ?
       (
         <nav className="nav navbar-default navbar-fixed-top">
           <div className="" style={{
@@ -109,7 +108,7 @@ export default class TitleBar extends React.Component {
               onClick={() =>
                 document.getElementById('tripTitleModal').style.display = 'block'}>
               <h4 className='tripnameIcon'>
-                <span>{this.state.confirmedTripName}</span>
+                <span>{this.state.tripName}</span>
                 <span className='glyphicon glyphicon-pencil pencil'></span>
               </h4>
             </div>
@@ -127,8 +126,7 @@ export default class TitleBar extends React.Component {
                     <input
                       ref="input"
                       className="modal-trip-edit-input form-control"
-                      placeholder="Please Enter Your New Trip Name Here"
-                      value={this.state.confirmedTripName}
+                      value={this.state.newTripName || this.state.tripName}
                       onChange={this.onInputChange}
                       type="text"
                       id="tripName" />
@@ -157,12 +155,18 @@ export default class TitleBar extends React.Component {
                   : ''}</font>
               </h4>
               <h4 style={{
-                color: 'white'
+                color: 'white',
+                padding: '5px'
+              }}>|
+              </h4>
+              <h4 style={{
+                color: 'white',
+                padding: '5px'
               }}
               type="button"
               onClick={() =>
                 document.getElementById('other-trips-modal').style.display = 'block'}
-              >| Trip List |</h4>
+              >Trip List</h4>
             <TripsListModal
               tripRef={this.props.tripRef}
               tripsRef={this.props.tripsRef}
@@ -170,27 +174,35 @@ export default class TitleBar extends React.Component {
               userRef={this.props.userRef}
               setAppTripIdState={this.props.setAppTripIdState}
               />
+              <h4 style={{
+                color: 'white',
+                padding: '5px'
+              }}>|
+              </h4>
               {auth && auth.currentUser ?
                 <h4 className='logout'
                   style={{
                     color: 'white',
+                    padding: '5px',
+                    marginRight: '5px'
                   }}
                   onClick={() => {
                     auth.signOut()
                     browserHistory.push('/login')
-                  }}> Logout
+                  }}>Logout
                 </h4>
                 :
                 <h4 className='login'
                   style={{
                     color: 'white',
+                    padding: '5px',
+                    marginRight: '5px'
                   }}
                   onClick={() => {
                     browserHistory.push('/login')
                     this.setState({changeState: true})
-                  }
-                  }>
-                   Login</h4>
+                  }}>Login
+                </h4>
               }
             </div>
           </div >
@@ -201,10 +213,8 @@ export default class TitleBar extends React.Component {
   }
 }
 
-{ // //  setStates = (newState) => {
-//   this.setState(newState)
-//   this.postTripNameToDB(newState.tripName)
-// }
+{
+  // Old custom button styling for app:
 //  style={{
 //   color: '#18bc9c',
 //   backgroundColor: '#ffffff',
