@@ -107,7 +107,7 @@ export default class AdventureUsTimeline extends Component {
               visibleTimeStart={this.findMinStartDate(this.props.items).unix()*1000}
               visibleTimeEnd={this.findMaxEndDate(this.props.items).unix()*1000}
               timeSteps={timeSteps}
-              sidebarWidth={70}
+              sidebarWidth={120}
               onItemResize={this.onItemResize}
               stackItems={true}
               />
