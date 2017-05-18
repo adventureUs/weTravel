@@ -27,6 +27,13 @@ https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg
 
 /* Timeline Styling */
 
+@fontface {
+  font-family: 'Indie Flower', cursive;
+  src: url('https://fonts.googleapis.com/css?family=Indie+Flower')
+}
+
+/*@fontface*/
+
 .rct-sidebar-row {
   background: white !important;
 }
@@ -497,16 +504,19 @@ button.modal-add-buddy-button {
   /*background: red;*/
   /*flex: 1 1 12.5%; /* here */
 }
+
+
+
 .idea-container {
   border: 1px solid gray !important;
   position: relative;
   display: inline-block;
   width: 22%;
-  border-radius: 10px;
+  border-radius: 1px;
   background-color: #FFFFA5;
   /*opacity: 0.95;*/
   /*margin: 5px;*/
-  height: 176px;
+  height: 190px;
   overflow: scroll;
   transition-duration: 0.3s;
   transition-property: transform;
@@ -544,29 +554,46 @@ button.modal-add-buddy-button {
 .idea .back {
 
 }
+
 .likes {
+  border: 1px solid black;
+  border-radius: 5px;
+  font-family: 'Courier New', sans-serif;
   bottom: 0;
   right: absolute;
-  top: inline;
-  position: absolute;
+  top: 0;
+  display: inline !important;
   right: 0;
-  padding: 10px;
+  padding: 4px;
+  margin: 4px;
 }
 .delete {
-  position: absolute;
+  border: 1px solid black;
+  border-radius: 5px;
+  display: inline !important;
+  font-family: 'Courier New', sans-serif;
   top: 0;
   right: 0;
-  padding: 10px;
+  padding: 4px;
+  margin: 4px;
 }
+.horizontal-rule {
+  border-top: 2px solid #ecf0f1;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .idea .name .link .category .startdate{
   /*position: absolute;*/
   bottom: 0;
   width: 100%;
   text-align: center;
-  background-color: brown;
   /*opacity: 0.8;*/
-  font-family: 'Baloo', sans-serif;
+  font-family: 'Comic Sans MS', cursive!important;
   text-shadow: 0 0 2px black;
+}
+.handwriting-font {
+  font-family: 'Indie Flower', cursive;
 }
 .idea .link {
   word-wrap: break-word;
@@ -579,6 +606,10 @@ button.modal-add-buddy-button {
 }
 .idea.matched {
   transform: rotateY(180deg) translateX(-10%);
+}
+
+.horizontal-rule {
+  color: black;
 }
 
 button.trip-buddies-likes-button {
