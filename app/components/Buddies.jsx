@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactTooltip from 'react-tooltip'
 import SetClass from 'react-classset'
 import firebase from 'APP/fire'
 import InlineBuddyEditIndex from './InlineBuddyEditIndex'
@@ -56,9 +55,7 @@ export default class extends React.Component {
                 className='glyphicon glyphicon-pencil'
                 onClick={() =>
                   document.getElementById('editYourInfoModal').style.display = 'block'}
-                data-tip="Edit your name, home base, status, and start & end dates."
               ></span>
-              <ReactTooltip />
             </div>
 
             : <div></div>
@@ -105,9 +102,7 @@ export default class extends React.Component {
             type="button"
             onClick={() =>
               document.getElementById('addBuddyModal').style.display = 'block'}
-            data-tip="Add some buddies to your trip!"
           >Add a Buddy!</button>
-          <ReactTooltip />
         </div>
         <div className="modal" id="add-buddy-modal">
           <div className="modal-dialog modal-sm">
