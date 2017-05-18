@@ -133,29 +133,32 @@ export default class TitleBar extends React.Component {
                   ? `Welcome, ${this.state.userName}!`
                   : ''}</font>
               </h4>
+              <h4 style={{
+                color: 'white',
+                padding: '5px'
+              }}>|
+              </h4>
               {auth && auth.currentUser ?
-                <button className='logout'
+                <h4 className='logout'
                   style={{
-                    color: '#18bc9c',
-                    backgroundColor: '#ffffff',
-                    borderRadius: '5px',
-                    padding: '3px 6px'
+                    color: 'white',
+                    padding: '5px',
+                    marginRight: '5px'
                   }}
                   onClick={() => {
                     auth.signOut()
                     browserHistory.push('/login')
-                  }}>logout
-                </button>
+                  }}>Logout
+                </h4>
                 :
-                <button className='login'
+                <h4 className='login'
                   style={{
-                    color: '#18bc9c',
-                    backgroundColor: '#ffffff',
-                    borderRadius: '5px',
-                    padding: '3px 6px'
+                    color: 'white',
+                    padding: '5px',
+                    marginRight: '5px'
                   }}
                   onClick={() => browserHistory.push('/login')}>
-                  login</button>
+                  Login</h4>
               }
             </div>
           </div >
