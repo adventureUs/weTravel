@@ -50,10 +50,6 @@ export default class AdventureUsTimeline extends Component {
     return moment(renderMaxEndDate.unix()*1000)
   }
 
-  preventDefaultTimelineClick = () => {
-    console.log('preventDefaultTimelineClick')
-  }
-
   onItemResize = (itemId, time, edge) => {
     const branch = this.props.whichTab === 'Buddies' ? 'buddies' : 'ideas'
     const tripRef = this.props.tripRef || 'test'
