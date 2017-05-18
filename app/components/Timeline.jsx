@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import ReactTooltip from 'react-tooltip'
 import { Link } from 'react-router'
+import ReactTooltip from 'react-tooltip'
 import firebase from 'APP/fire'
 import Timeline from 'react-calendar-timeline'
 import moment from 'moment'
@@ -92,9 +92,15 @@ export default class AdventureUsTimeline extends Component {
     // ref is not the ideal fix, but it renders the items on the timeline correctly
     return (
       <div>
-        <div
+        <span className="glyphicon glyphicon-info-sign"
               data-event='click focus'
-              data-tip="View availability dates on the timeline, and drag, drop or extend to change dates.">
+              data-tip="Timeline items can be selected and resized by clicking and dragging.">
+        </span>
+        <ReactTooltip globalEventOff='click'/>
+          <div data-event='click focus'
+                data-tip=""
+                place="top"
+                effect="solid">
             <Timeline groups={this.props.groups}
               ref= {(timeline) => timeline && timeline.updateScrollCanvas(minDate, maxDate)}
               items={this.props.items}
@@ -105,12 +111,16 @@ export default class AdventureUsTimeline extends Component {
               onItemResize={this.onItemResize}
               stackItems={true}
               />
-        </div>
-        <ReactTooltip globalEventOff='click'/>
+          </div>
+          <ReactTooltip globalEventOff='click'/>
       </div>
     )
   }
 }
+
+// commented below line out from div above <Timeline>
+// ** believe was for ReactTooltips
+// data-event='click focus'
 
 // visibleTimeStart={this.findMinStartDate(this.props.items)}
 //          visibleTimeEnd={this.findMaxEndDate(this.props.items)}
