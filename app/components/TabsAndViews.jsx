@@ -23,11 +23,11 @@ export default class TabsAndView extends React.Component {
     this.unsubscribe && this.unsubscribe()
   }
   componentWilReceiveProps(incomming, outgoing) {
-//     console.log('******TABS AND VIEWS WILL RECEIVE PROPS***INCOMMING: ', incomming)
+    console.log('******TABS AND VIEWS WILL RECEIVE PROPS***INCOMMING: ', incomming)
   }
 
   render() {
-    // console.log('TABS AND VIEWS STATE', this.props)
+    console.log('TABS AND VIEWS PROPS', this.props)
     return (
       <div className='ideas-main-container'>
         <ul

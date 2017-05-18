@@ -29,6 +29,7 @@ export default class TimelineIndex extends React.Component {
     this.unsubscribe && this.unsubscribe()
   }
   componentWillReceiveProps(nextProps) {
+    // console.log('TIMELINE_INDEX Will RECEIVE PROPS', this.props)
     nextProps.whichTab && nextProps.whichTab === 'Buddies' ?
       this.listenFor('buddies') // For Buddies Slider Timelne View
       :
@@ -59,9 +60,9 @@ export default class TimelineIndex extends React.Component {
   }
   buddiesData(snapshot) {
     let bodyData = [], namesData = []
-    const dbObject = snapshot.val()['buddies']
-    const branchIds = Object.keys(dbObject)
-    if (dbObject) {
+    if (snapshot.val() && snapshot.val()['buddies']) {
+      const dbObject = snapshot.val()['buddies']
+      const branchIds = Object.keys(dbObject)
       bodyData = branchIds.map(key =>
         ({
           id: key,

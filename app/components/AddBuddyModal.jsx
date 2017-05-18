@@ -56,6 +56,7 @@ export default class AddBuddyModal extends Component {
   }
 
   render() {
+    // console.log('STATE', this.state)
     return this.state.pendingBuddies ? (
       <div className="modal" id="addBuddyModal">
         <div className="modal-dialog modal-sm">

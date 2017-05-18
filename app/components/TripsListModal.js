@@ -8,7 +8,7 @@ import idToNameOrEmail from '../../src/idToNameOrEmail'
 import redirectToTripZeroeth from '../../src/redirectToTripZeroeth'
 import createNewTripForUserObj from '../../src/createNewTripForUserObj'
 
-export default class OtherTripsModal extends React.Component {
+export default class TripsListModal extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -62,7 +62,7 @@ export default class OtherTripsModal extends React.Component {
     // console.log('OTHER_TRIPS_MODAL DID_MOUNT: updating tripsArrayWithNames 1, trips, tripsObj', trips, tripsObj)
     trips.forEach(tripId =>
       tripsWithNames[tripId] = tripsObj[tripId].tripName === this.state.defaultTripName ?
-        'Un-named Trip'
+        'Please Enter Trip Name'
         :
         tripsObj[tripId].tripName
     )
@@ -93,7 +93,9 @@ export default class OtherTripsModal extends React.Component {
             .update({ trips: newTrips })
             .then(() => {
               document.getElementById('other-trips-modal').style.display = 'none'
-              redirectToTripZeroeth(this.props.userId)
+              this.props.setAppTripIdState(targetTrip)
+              browserHistory.push('/dashboard/' + targetTrip)
+              // redirectToTripZeroeth(this.props.userId)
             })
         }
       })
@@ -101,8 +103,12 @@ export default class OtherTripsModal extends React.Component {
   }
   /* Make a new trip with id, and add that tripId to currentUser.
   as zeroeth trip, trigger rerender of new Dashboard/tripId */
-  makeNewTrip = () =>
+  makeNewTrip = () => {
+    document.getElementById('other-trips-modal').style.display = 'none'
     createNewTripForUserObj(this.props.userId, this.state.newTripName)
+    // console.log('new trip name in make new trip', this.state.newTripName)
+  }
+
   render() {
     // console.log('STATE in OTHER_TRIPS_MODAL', this.state)
     const tripsWithNames = this.state.tripsWithNames
@@ -121,7 +127,7 @@ export default class OtherTripsModal extends React.Component {
             <div className="modal-body">
               {
                 tripsWithNames ?
-                (Object.keys(tripsWithNames).map((tripId) =>
+                (Object.keys(tripsWithNames).sort().map((tripId) =>
                 <h4 key={`${tripId}`}
                   onClick={this.changeTrip}
                   style={{ border: 'bottom' }}

@@ -11,7 +11,7 @@ export default class extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      buddies: {}, // there's nothing on state when we go to the buddies tab
+      buddies: null, // there's nothing on state when we go to the buddies tab
       clipboard: `https://tern-2b37d.firebaseapp.com${window.location.pathname}`,
       copied: '',
     }

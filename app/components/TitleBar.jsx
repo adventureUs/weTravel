@@ -4,7 +4,7 @@ import firebase from 'APP/fire'
 const db = firebase.database()
 const auth = firebase.auth()
 import { RIEInput } from 'riek'
-import OtherTripsModal from './OtherTripsModal'
+import TripsListModal from './TripsListModal'
 import idToNameOrEmail from '../../src/idToNameOrEmail'
 
 export default class TitleBar extends React.Component {
@@ -12,15 +12,15 @@ export default class TitleBar extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      tripName: '',
       userName: '',
       newTripName: ''
     }
   }
 
   componentDidMount() {
-    // console.log('TITLE BAR ComponentWILLMOUNT,  PROPS', this.props)
-    this.unsubscribe = this.props.tripRef
+    console.log('TITLE BAR Component Did MOUNT,  PROPS', this.props)
+    if (this.unsubscribe) this.unsubscribe()
+    const listener = this.props.tripRef
       .on('value', snapshot => {
         // console.log('TITLE BAR DID_MOUNT: tripRef, snapshot', this.props.tripRef, snapshot)
         // Stef says: Weird edge case on logout:  tripRef and snapshot log as existing
@@ -34,7 +34,29 @@ export default class TitleBar extends React.Component {
             userName: nameOrEmail
           })).catch(console.error)
       })
+    this.unsubscribe = () => this.props.tripRef.off('value', listener)
   }
+
+  componentWillReceiveProps() {
+    console.log('TITLE BAR Component Will Receive Props,  PROPS', this.props)
+    if (this.unsubscribe) this.unsubscribe()
+    const listener = this.props.tripRef
+      .on('value', snapshot => {
+        // console.log('TITLE BAR DID_MOUNT: tripRef, snapshot', this.props.tripRef, snapshot)
+        // Stef says: Weird edge case on logout:  tripRef and snapshot log as existing
+        // but snapshot.val() finds snapshot undefined...
+        // safety (hack?) is the if below:
+        if (!snapshot) return function() { }
+        const tripObj = snapshot.val()
+        idToNameOrEmail(this.props.userId)
+          .then(nameOrEmail => this.setState({
+            confirmedTripName: tripObj.tripName,
+            userName: nameOrEmail
+          })).catch(console.error)
+      })
+    this.unsubscribe = () => this.props.tripRef.off('value', listener)
+  }
+
   componentWillUnmount() {
     // console.log('TITLE BAR ComponentWILL_UNMOUNT')
     this.unsubscribe()
@@ -42,6 +64,7 @@ export default class TitleBar extends React.Component {
   onInputChange = (evt) => {
     this.setState({newTripName: (evt.target.value || 'Please name your trip!')})
   }
+  // Edit main TripName Title
   saveChanges = (evt) => {
     this.postTripNameToDB(this.state.newTripName)
     // Perhaps redundant: the listener should also set to tripName state in time.
@@ -51,12 +74,10 @@ export default class TitleBar extends React.Component {
     this.refs.input.value = ''
     this.closeModal()
   }
-
   closeModal = () => {
     // console.log('Add buddy modal x click', e)
     document.getElementById('tripTitleModal').style.display = 'none'
   }
-
   postTripNameToDB = (newTripName) => {
     this.props.tripsRef.child('/' + this.props.tripId)
       .update({
@@ -133,29 +154,41 @@ export default class TitleBar extends React.Component {
                   ? `Welcome, ${this.state.userName}!`
                   : ''}</font>
               </h4>
+              <h4 style={{
+                color: 'white'
+              }}
+              type="button"
+              onClick={() =>
+                document.getElementById('other-trips-modal').style.display = 'block'}
+              >| Trip List |</h4>
+            <TripsListModal
+              tripRef={this.props.tripRef}
+              tripsRef={this.props.tripsRef}
+              userId={this.props.userId}
+              userRef={this.props.userRef}
+              setAppTripIdState={this.props.setAppTripIdState}
+              />
               {auth && auth.currentUser ?
-                <button className='logout'
+                <h4 className='logout'
                   style={{
-                    color: '#18bc9c',
-                    backgroundColor: '#ffffff',
-                    borderRadius: '5px',
-                    padding: '3px 6px'
+                    color: 'white',
                   }}
                   onClick={() => {
                     auth.signOut()
                     browserHistory.push('/login')
-                  }}>logout
-                </button>
+                  }}> Logout
+                </h4>
                 :
-                <button className='login'
+                <h4 className='login'
                   style={{
-                    color: '#18bc9c',
-                    backgroundColor: '#ffffff',
-                    borderRadius: '5px',
-                    padding: '3px 6px'
+                    color: 'white',
                   }}
-                  onClick={() => browserHistory.push('/login')}>
-                  login</button>
+                  onClick={() => {
+                    browserHistory.push('/login')
+                    this.setState({changeState: true})
+                  }
+                  }>
+                   Login</h4>
               }
             </div>
           </div >
