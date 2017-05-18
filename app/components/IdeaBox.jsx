@@ -72,7 +72,7 @@ export default class IdeaBox extends Component {
                 <div key={key} className='idea-container'>
                   <div className='idea front'>
                     <div className='name'>{this.state.ideas[key].ideaName}
-                      <div className='link'><a href={'//'+this.state.ideas[key].link}
+                      <div className='link'><a href={this.state.ideas[key].link}
                         target='_blank' className='link word-wrap'>{this.state.ideas[key].link}</a></div>
                       <div className='category'>{this.state.ideas[key].category.text}</div>
                       <div className='startdate'>{moment(this.state.ideas[key].startDate).calendar()}</div>

@@ -27,11 +27,11 @@ export default class TitleBar extends React.Component {
         // Stef says: Weird edge case on logout:  tripRef and snapshot log as existing
         // but snapshot.val() finds snapshot undefined...
         // safety (hack?) is the if below:
-        if (!snapshot) return function () { }
+        if (!snapshot) return function() { }
         const tripObj = snapshot.val()
         idToNameOrEmail(this.props.userId)
           .then(nameOrEmail => this.setState({
-            tripName: tripObj.tripName,
+            tripName: tripObj.tripName || 'Please name your trip!',
             userName: nameOrEmail
           })).catch(console.error)
       })
@@ -46,8 +46,7 @@ export default class TitleBar extends React.Component {
   saveChanges = (evt) => {
     this.postTripNameToDB(this.state.tripName)
     this.setState({
-      confirmedTripName: this.state.tripName,
-      tripName: ''
+      tripName: this.state.tripName,
     })
     this.refs.input.value = ''
     this.closeModal()
@@ -65,7 +64,7 @@ export default class TitleBar extends React.Component {
       })
   }
   render() {
-    return this.state.tripName ?
+    return this.props.tripId ?
       (
         <nav className="nav navbar-default navbar-fixed-top">
           <div className="" style={{
@@ -88,7 +87,7 @@ export default class TitleBar extends React.Component {
               onClick={() =>
                 document.getElementById('tripTitleModal').style.display = 'block'}>
               <h4 className='tripnameIcon'>
-                <span>{this.state.confirmedTripName}</span>
+                <span>{this.state.tripName}</span>
                 <span className='glyphicon glyphicon-pencil pencil'></span>
               </h4>
             </div>
@@ -106,7 +105,6 @@ export default class TitleBar extends React.Component {
                     <input
                       ref="input"
                       className="modal-trip-edit-input form-control"
-                      placeholder="Please Enter Your New Trip Name Here"
                       value={this.state.tripName}
                       onChange={this.onInputChange}
                       type="text"
@@ -135,22 +133,6 @@ export default class TitleBar extends React.Component {
                   ? `Welcome, ${this.state.userName}!`
                   : ''}</font>
               </h4>
-              <button style={{
-              color: '#18bc9c',
-              backgroundColor: '#ffffff',
-              borderRadius: '5px',
-              padding: '5px'
-            }}
-              type="button"
-              onClick={() =>
-                document.getElementById('other-trips-modal').style.display = 'block'}
-              >Trip List</button>
-            <OtherTripsModal
-              tripRef={this.props.tripRef}
-              tripsRef={this.props.tripsRef}
-              userId={this.props.userId}
-              userRef={this.props.userRef}
-              />
               {auth && auth.currentUser ?
                 <button className='logout'
                   style={{
@@ -183,8 +165,3 @@ export default class TitleBar extends React.Component {
       null
   }
 }
-
-{ /*   setStates = (newState) => {
-    this.setState(newState)
-    this.postTripNameToDB(newState.tripName)
-  } */ }
