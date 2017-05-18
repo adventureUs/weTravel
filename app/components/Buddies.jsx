@@ -172,7 +172,9 @@ export default class extends React.Component {
             </div>
           </div>
         </div>
-        <AddBuddyModal tripRef={this.props.tripRef}/>
+        <AddBuddyModal
+         userId={this.props.userId}
+         tripRef={this.props.tripRef}/>
         <div className="modal" id="editYourInfoModal">
           <div className="modal-dialog modal-md">
             <div className="modal-content">

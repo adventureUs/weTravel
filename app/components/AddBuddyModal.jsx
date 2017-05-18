@@ -5,6 +5,9 @@ import firebase from 'APP/fire'
 import InlineBuddyEditIndex from './InlineBuddyEditIndex'
 import moment from 'moment'
 import CopyToClipboard from 'react-copy-to-clipboard'
+import nodemailer from 'nodemailer'
+
+
 
 export default class AddBuddyModal extends Component {
   constructor(props) {
@@ -56,93 +59,128 @@ export default class AddBuddyModal extends Component {
     this.refs.buddyEmail.value = ''
   }
 
-  render() {
-    return this.state.pendingBuddies ? (
-      <div className="modal" id="addBuddyModal">
-        <div className="modal-dialog modal-sm">
-          <div className="modal-content">
-            <div className="modal-header">
-              <button type="button" className="close"
-                onClick={this.closeModal}
-              >&times;
-                  </button>
-              <h4 className="modal-title">Add a Buddy</h4>
-            </div>
-            {
-              typeof this.state.pendingBuddies === 'string' ?
-                <div className='modal-header'>
-                  <h5>{this.state.pendingBuddies}</h5>
-                </div>
-                :
-                <div className='modal-header'>
-                  <h5> These buddies have been added but haven't joined the trip: </h5>
-                  <ul id='pending-buddies-list'>
-                    {typeof this.state.pendingBuddies === 'string' ?
-                      <div>{this.state.pendingBuddies}</div>
-                      :
-                      Object.keys(this.state.pendingBuddies)
-                        .map(pendingId => <li key={pendingId}>{
-                          this.state.pendingBuddies[pendingId] &&
-                          this.state.pendingBuddies[pendingId].email
-                        }</li>)
-                    }
-                  </ul>
-                </div>
-            }
-            <div className="modal-body">
-              <h4 className="modal-title">Follow these steps:</h4>
-              <span
-                style={{
-                  fontWeight: 'bold'
-                }}>
-                Step 1: </span>
-              <span> Enter your buddy's e-mail here: </span>
-              <div className="modal-add-buddy">
-                <input
-                  ref="buddyEmail"
-                  className="modal-add-buddy-input form-control"
-                  placeholder="Buddy's e-mail"
-                  type="text"
-                  id="newBuddyEmail" />
-                <button
-                  className="modal-add-buddy-button"
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={this.makeNewBuddy}
-                >Invite</button>
-              </div>
-              <span
-                style={{
-                  fontWeight: 'bold'
-                }}>
-                Step 2: </span>
-              <span> Share this link with your buddy: </span>
-              <div className="modal-add-buddy">
-                <input
-                  className="modal-add-buddy form-control"
-                  style={{
-                    fontSize: '11px'
-                  }}
-                  value={this.state.clipboard} />
-              </div>
+  emailBuddy = (buddyEmail) => {
 
-              <CopyToClipboard text={this.state.clipboard}
-                onCopy={() => this.setState({ copied: true })}>
-                <button
-                  className="modal-add-buddy-button"
-                  type="button"
-                  className="btn btn-primary"
-                  style={{
-                    width: '100%'
-                  }}
-                >Copy to clipboard</button>
-              </CopyToClipboard>
-              {this.state.copied ? <div><p style={{ color: '#18bc9c', padding: '5px' }}>Copied.</p></div> : null}
+    // create reusable transporter object using the default SMTP transport
+    let transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'wetravelgh1702@gmail.com',
+        pass: 'gr@ceHopper'
+      }
+    });
+firebase.database().ref('users').child(this.props.userId)
+.once('value')
+.then(snapshot => {
+  const email = snapshot.val().email
+  console.log('email ', email)
+   let mailOptions = {
+      from: email, // sender address
+      to: buddyEmail, // list of receivers
+      subject: "Let's go on an adventure!", // Subject line
+      html: '<p>Hi there!' // html body
+    }
+})
+    // setup email data with unicode symbols
+   
+
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return console.log(error);
+      }
+      console.log('Message %s sent: %s', info.messageId, info.response);
+    });
+  })
+}
+
+render() {
+  return this.state.pendingBuddies ? (
+    <div className="modal" id="addBuddyModal">
+      <div className="modal-dialog modal-sm">
+        <div className="modal-content">
+          <div className="modal-header">
+            <button type="button" className="close"
+              onClick={this.closeModal}
+            >&times;
+                  </button>
+            <h4 className="modal-title">Add a Buddy</h4>
+          </div>
+          {
+            typeof this.state.pendingBuddies === 'string' ?
+              <div className='modal-header'>
+                <h5>{this.state.pendingBuddies}</h5>
+              </div>
+              :
+              <div className='modal-header'>
+                <h5> These buddies have been added but haven't joined the trip: </h5>
+                <ul id='pending-buddies-list'>
+                  {typeof this.state.pendingBuddies === 'string' ?
+                    <div>{this.state.pendingBuddies}</div>
+                    :
+                    Object.keys(this.state.pendingBuddies)
+                      .map(pendingId => <li key={pendingId}>{
+                        this.state.pendingBuddies[pendingId] &&
+                        this.state.pendingBuddies[pendingId].email
+                      }</li>)
+                  }
+                </ul>
+              </div>
+          }
+          <div className="modal-body">
+            <h4 className="modal-title">Follow these steps:</h4>
+            <span
+              style={{
+                fontWeight: 'bold'
+              }}>
+              Step 1: </span>
+            <span> Enter your buddy's e-mail here: </span>
+            <div className="modal-add-buddy">
+              <input
+                ref="buddyEmail"
+                className="modal-add-buddy-input form-control"
+                placeholder="Buddy's e-mail"
+                type="text"
+                id="newBuddyEmail" />
+              <button
+                className="modal-add-buddy-button"
+                type="button"
+                className="btn btn-primary"
+                onClick={this.makeNewBuddy}
+              >Invite</button>
             </div>
+            <span
+              style={{
+                fontWeight: 'bold'
+              }}>
+              Step 2: </span>
+            <span> Share this link with your buddy: </span>
+            <div className="modal-add-buddy">
+              <input
+                className="modal-add-buddy form-control"
+                style={{
+                  fontSize: '11px'
+                }}
+                value={this.state.clipboard} />
+            </div>
+
+            <CopyToClipboard text={this.state.clipboard}
+              onCopy={() => this.setState({ copied: true })}>
+              <button
+                className="modal-add-buddy-button"
+                type="button"
+                className="btn btn-primary"
+                style={{
+                  width: '100%'
+                }}
+              >Copy to clipboard</button>
+            </CopyToClipboard>
+            {this.state.copied ? <div><p style={{ color: '#18bc9c', padding: '5px' }}>Copied.</p></div> : null}
           </div>
         </div>
       </div>
-    ) :
-      null
-  }
+    </div>
+  ) :
+    null
+}
 }
