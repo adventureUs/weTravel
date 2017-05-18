@@ -94,7 +94,7 @@ export default class AdventureUsTimeline extends Component {
       <div>
         <span className="glyphicon glyphicon-info-sign"
               data-event='click focus'
-              data-tip="Timeline items can be selected and resized">
+              data-tip="Timeline items can be selected and resized by clicking and dragging.">
         </span>
         <ReactTooltip globalEventOff='click'/>
           <div data-event='click focus'
