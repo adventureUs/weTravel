@@ -27,7 +27,10 @@ https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg
 
 /* Timeline Styling */
 
-@import url('https://fonts.googleapis.com/css?family=Indie+Flower');
+@fontface {
+  font-family: 'Indie Flower', cursive;
+  src: url('https://fonts.googleapis.com/css?family=Indie+Flower')
+}
 
 /*@fontface*/
 
@@ -513,7 +516,7 @@ button.modal-add-buddy-button {
   background-color: #FFFFA5;
   /*opacity: 0.95;*/
   /*margin: 5px;*/
-  height: 200px;
+  height: 190px;
   overflow: scroll;
   transition-duration: 0.3s;
   transition-property: transform;
@@ -561,17 +564,23 @@ button.modal-add-buddy-button {
   top: 0;
   display: inline !important;
   right: 0;
-  padding: 5px;
-  margin: 10px;
+  padding: 4px;
+  margin: 4px;
 }
 .delete {
   border: 1px solid black;
   border-radius: 5px;
   display: inline !important;
+  font-family: 'Courier New', sans-serif;
   top: 0;
   right: 0;
-  padding: 5px;
-  margin: 10px;
+  padding: 4px;
+  margin: 4px;
+}
+.horizontal-rule {
+  border-top: 2px solid #ecf0f1;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .idea .name .link .category .startdate{
@@ -582,6 +591,9 @@ button.modal-add-buddy-button {
   /*opacity: 0.8;*/
   font-family: 'Comic Sans MS', cursive!important;
   text-shadow: 0 0 2px black;
+}
+.handwriting-font {
+  font-family: 'Indie Flower', cursive;
 }
 .idea .link {
   word-wrap: break-word;

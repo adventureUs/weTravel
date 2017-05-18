@@ -70,9 +70,9 @@ export default class IdeaBox extends Component {
             this.state.ideas && Object.keys(this.state.ideas).map(key => {
               return (
                 <div key={key} className='idea-container'>
-                  <div className='idea front'>
-                    <div className=''>
-                      <div className='name'><h5><bold>{this.state.ideas[key].ideaName}</bold></h5></div>
+                  <div className='idea front handwriting-font'>
+                    <div className='name'>
+                      <div className='name'><h4 className='handwriting-font'>{this.state.ideas[key].ideaName}</h4></div>
                       <div className='link'><a href={this.state.ideas[key].link}
                         target='_blank' className='link word-wrap'>{this.state.ideas[key].link}</a></div>
                       <div className='category'>{this.state.ideas[key].category.text}</div>
