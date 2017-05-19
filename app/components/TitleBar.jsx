@@ -8,7 +8,9 @@ import TripsListModal from './TripsListModal'
 import idToNameOrEmail from '../../src/idToNameOrEmail'
 
 export default class TitleBar extends React.Component {
-  /* When user cancels naming a trip, old tripName is still preseved. */
+  /* When user cancels naming a trip, old tripName is still preseved;
+  newTripName is allowed to be '' falsey, but if so a save to db will
+  not happen */
   constructor(props) {
     super(props)
     this.state = {
@@ -50,7 +52,7 @@ export default class TitleBar extends React.Component {
         const tripObj = snapshot.val()
         idToNameOrEmail(this.props.userId)
           .then(nameOrEmail => this.setState({
-            confirmedTripName: tripObj.tripName,
+            tripName: tripObj.tripName,
             userName: nameOrEmail
           })).catch(console.error)
       })
@@ -62,15 +64,17 @@ export default class TitleBar extends React.Component {
     this.unsubscribe()
   }
   onInputChange = (evt) => {
-    this.setState({newTripName: (evt.target.value || 'Please name your trip!')})
+    this.setState({newTripName: evt.target.value})
   }
-  // Edit main TripName Title
+  // Edit main TripName Title: Only save to DB if truthey
   saveChanges = (evt) => {
-    this.postTripNameToDB(this.state.newTripName)
-    // Perhaps redundant: the listener should also set to tripName state in time.
-    this.setState({
-      tripName: this.state.newTripName || 'Please name your trip!',
-    })
+    if (this.state.newTripName) {
+      this.postTripNameToDB(this.state.newTripName)
+      // Probably redundant: the listener should also set to tripName state in time.
+      this.setState({
+        tripName: this.state.newTripName
+      })
+    }
     this.refs.input.value = ''
     this.closeModal()
   }
@@ -78,10 +82,11 @@ export default class TitleBar extends React.Component {
     // console.log('Add buddy modal x click', e)
     document.getElementById('tripTitleModal').style.display = 'none'
   }
+  // ToDB only used after safety check:
   postTripNameToDB = (newTripName) => {
     this.props.tripsRef.child('/' + this.props.tripId)
       .update({
-        tripName: newTripName || 'New Trip Name',
+        tripName: newTripName
       })
   }
   render() {
