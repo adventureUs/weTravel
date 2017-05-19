@@ -9,7 +9,7 @@ import { browserHistory } from 'react-router'
 
 const createNewTripForUserObj = (userId, tripName) => {
   // console.log('GOT INTO CREATE-NEW-TRIP', userId)
-  const newTripKey = db.ref('trips/').push().key
+  const newTripKey = db.ref('trips').push().key
   db.ref('users').child(userId)
     .once('value')
     .then(snapshot => {
@@ -20,33 +20,34 @@ const createNewTripForUserObj = (userId, tripName) => {
           tripName: tripName ||'Please Name Your Trip Here!',
           buddies: {
             [userId]: {
-              name: userObj.name,
-              homeBase: userObj.homeBase,
+              name: userObj.name || userObj.email,
+              homeBase: userObj.homeBase || 'Please Enter Home Base',
               status: { id: '2', text: 'Going' }
             }
           }
         }
         var newTrip = {}
         newTrip[newTripKey] = newTripData
-        db.ref('trips/').update(newTrip)
-      }
-    })
-
-  const userTripsArrayRef = db.ref('users').child(userId).child('trips')
-  userTripsArrayRef
-    .once('value')
-    .then(snapshot => {
-      if (snapshot && snapshot.val()) {
-        let newTrips = snapshot.val()
-        newTrips.unshift(newTripKey)
-        userTripsArrayRef.set(newTrips)
+        db.ref('trips').update(newTrip)
       }
     })
     .then(() => {
-      browserHistory.push('/dashboard/' + newTripKey)
-    })
-    .catch(error => {
-      window.alert(error)
+      const userTripsArrayRef = db.ref('users').child(userId).child('trips')
+      userTripsArrayRef
+        .once('value')
+        .then(snapshot => {
+          if (snapshot && snapshot.val()) {
+            let newTrips = snapshot.val()
+            newTrips.unshift(newTripKey)
+            userTripsArrayRef.set(newTrips)
+          }
+        })
+        .then(() => {
+          browserHistory.push('/dashboard/' + newTripKey)
+        })
+        .catch(error => {
+          window.alert(error)
+        })
     })
 }
 
