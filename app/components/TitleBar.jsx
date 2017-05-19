@@ -20,7 +20,7 @@ export default class TitleBar extends React.Component {
   }
 
   componentDidMount() {
-    console.log('TITLE BAR Component Did MOUNT,  PROPS', this.props)
+    // console.log('TITLE BAR Component Did MOUNT,  PROPS', this.props)
     if (this.unsubscribe) this.unsubscribe()
     const listener = this.props.tripRef
       .on('value', snapshot => {
@@ -40,7 +40,7 @@ export default class TitleBar extends React.Component {
   }
 
   componentWillReceiveProps() {
-    console.log('TITLE BAR Component Will Receive Props,  PROPS', this.props)
+    // console.log('TITLE BAR Component Will Receive Props,  PROPS', this.props)
     if (this.unsubscribe) this.unsubscribe()
     const listener = this.props.tripRef
       .on('value', snapshot => {
@@ -70,11 +70,11 @@ export default class TitleBar extends React.Component {
   saveChanges = (evt) => {
     if (this.state.newTripName) {
       this.postTripNameToDB(this.state.newTripName)
-      // Probably redundant: the listener should also set to tripName state in time.
+      // reset newTripname to empty, possibly redundat with ref below
       this.setState({
-        tripName: this.state.newTripName
+        newTripName: ''
       })
-    }
+    } // reset input modal to empty
     this.refs.input.value = ''
     this.closeModal()
   }
@@ -131,7 +131,7 @@ export default class TitleBar extends React.Component {
                     <input
                       ref="input"
                       className="modal-trip-edit-input form-control"
-                      value={this.state.newTripName || this.state.tripName}
+                      value={this.state.newTripName}
                       onChange={this.onInputChange}
                       type="text"
                       id="tripName" />
