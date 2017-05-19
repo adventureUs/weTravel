@@ -28,7 +28,7 @@ export default class TitleBar extends React.Component {
         // Stef says: Weird edge case on logout:  tripRef and snapshot log as existing
         // but snapshot.val() finds snapshot undefined...
         // safety (hack?) is the if below:
-        if (!snapshot) return function() { }
+        if (!snapshot) return function () { }
         const tripObj = snapshot.val()
         idToNameOrEmail(this.props.userId)
           .then(nameOrEmail => this.setState({
@@ -48,7 +48,7 @@ export default class TitleBar extends React.Component {
         // Stef says: Weird edge case on logout:  tripRef and snapshot log as existing
         // but snapshot.val() finds snapshot undefined...
         // safety (hack?) is the if below:
-        if (!snapshot) return function() { }
+        if (!snapshot) return function () { }
         const tripObj = snapshot.val()
         idToNameOrEmail(this.props.userId)
           .then(nameOrEmail => this.setState({
@@ -64,7 +64,7 @@ export default class TitleBar extends React.Component {
     this.unsubscribe()
   }
   onInputChange = (evt) => {
-    this.setState({newTripName: evt.target.value})
+    this.setState({ newTripName: evt.target.value })
   }
   // Edit main TripName Title: Only save to DB if truthey
   saveChanges = (evt) => {
@@ -74,12 +74,13 @@ export default class TitleBar extends React.Component {
       this.setState({
         newTripName: ''
       })
-    } // reset input modal to empty
-    this.refs.input.value = ''
+    } 
     this.closeModal()
   }
   closeModal = () => {
     // console.log('Add buddy modal x click', e)
+    // reset input modal to empty
+    this.refs.input.value = ''
     document.getElementById('tripTitleModal').style.display = 'none'
   }
   // ToDB only used after safety check:
@@ -133,6 +134,7 @@ export default class TitleBar extends React.Component {
                       className="modal-trip-edit-input form-control"
                       value={this.state.newTripName}
                       onChange={this.onInputChange}
+                      placeholder={"Enter your new trip name here."}
                       type="text"
                       id="tripName" />
                   </div>
@@ -168,16 +170,16 @@ export default class TitleBar extends React.Component {
                 color: 'white',
                 padding: '5px'
               }}
-              type="button"
-              onClick={() =>
-                document.getElementById('other-trips-modal').style.display = 'block'}
+                type="button"
+                onClick={() =>
+                  document.getElementById('other-trips-modal').style.display = 'block'}
               >Trip List</h4>
-            <TripsListModal
-              tripRef={this.props.tripRef}
-              tripsRef={this.props.tripsRef}
-              userId={this.props.userId}
-              userRef={this.props.userRef}
-              setAppTripIdState={this.props.setAppTripIdState}
+              <TripsListModal
+                tripRef={this.props.tripRef}
+                tripsRef={this.props.tripsRef}
+                userId={this.props.userId}
+                userRef={this.props.userRef}
+                setAppTripIdState={this.props.setAppTripIdState}
               />
               <h4 style={{
                 color: 'white',
@@ -205,7 +207,7 @@ export default class TitleBar extends React.Component {
                   }}
                   onClick={() => {
                     browserHistory.push('/login')
-                    this.setState({changeState: true})
+                    this.setState({ changeState: true })
                   }}>Login
                 </h4>
               }
@@ -220,10 +222,10 @@ export default class TitleBar extends React.Component {
 
 {
   // Old custom button styling for app:
-//  style={{
-//   color: '#18bc9c',
-//   backgroundColor: '#ffffff',
-//   borderRadius: '5px',
-//   padding: '3px 6px'
-// }} }
+  //  style={{
+  //   color: '#18bc9c',
+  //   backgroundColor: '#ffffff',
+  //   borderRadius: '5px',
+  //   padding: '3px 6px'
+  // }} }
 }
