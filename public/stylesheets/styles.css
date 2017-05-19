@@ -275,7 +275,8 @@ LOOK INTO CONDITIONAL STYLING FOR MEDIA BREAK POINTS*/
   margin-left: 5px;
   margin-right: 5px;
   padding: 5px;
-  height: 80vh;
+  //height: 80vh;
+  height: 93%;
   overflow-y: scroll;
   font-size: 15px;
   font-weight: normal;
