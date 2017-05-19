@@ -64,7 +64,7 @@ export default class extends React.Component {
   }
 
   componentWillUnmount() {
-    console.log('IN CHAT UNMOUNT')
+//     console.log('IN CHAT UNMOUNT')
     this.unsubscribe && this.unsubscribe()
   }
 
