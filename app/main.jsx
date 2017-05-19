@@ -41,7 +41,7 @@ export default class LandingPage extends React.Component {
     // console.log('LandingPage in MAIN, currentUser', firebase.auth().currentUser)
 
     return (
-      <div className='jumbotron login-container landingPageText'>
+      <div className='jumbotron landing-container landingPageText'>
         <div>Welcome to adventureUs, a place where you can meet up with your buddies and plan your next great adventure together!</div>
         <div className='landingPageButtons'>
           <Link to='/login'><button className='btn btn-primary landing'>Log In</button></Link>
