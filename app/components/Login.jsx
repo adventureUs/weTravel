@@ -33,7 +33,6 @@ export default class extends React.Component {
     }
   }
   componentDidMount() {
-    // this.unsubscribe = auth && auth.onAuthStateChanged(user => user && this.setState({ user }))
     auth && this.setState({ user: auth.currentUser })
   }
 
@@ -110,7 +109,8 @@ export default class extends React.Component {
   }
   // Check users for auth user and then:
   findAndGo = (user) => {
-    // It is possible that they are erroneously trying to 'sign-up' from the login page using Google -- if so the user will not be in database users table and they won't have any trips
+    // It is possible that they are erroneously trying to 'sign-up' from the login page using Google
+    // if so the user will not be in database users table and they won't have any trips
     // If they are using google login properly, they should exist in the users table and have at least one trip
     // first check to see if the user exists in the table
     firebase.database().ref('users')
@@ -118,7 +118,6 @@ export default class extends React.Component {
       .then(snapshot => {
         const userExists = snapshot.hasChild(user.uid)
         if (!userExists) {
-          console.log('guess we got to make a new one!')
           createNewUserAndTrip(user)
         } else {
           redirectToTripZeroeth(user.uid)

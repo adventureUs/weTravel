@@ -21,7 +21,6 @@ export default class extends React.Component {
   }
 
   googleSubmit = (userCredential) => {
-    // console.log('MADE IT TO GOOGLE SUBMIT, here is the credential', userCredential)
     // First case in ternary is if user signs on with a pending buddy link to a trip
     // Second case in ternary is if a user signs on without a pending buddy link to a trip, so a new trip will be created
     const queryString = window.location.search
@@ -60,27 +59,8 @@ export default class extends React.Component {
     }
   }
 
-  // emailSubmit = (evt) => {
-  //   evt.preventDefault()
-  //   // console.log('MADE IT TO ON SUBMIT')
-  //   // First confirm the passwords match
-  //   // confirmPasswordsMatch function return a boolean, true if they match, false if not
-  //   if (this.confirmPasswordsMatch()) {
-  //     const queryString = window.location.search
-  //     if (this.state.email.length && this.state.password.length) {
-  //       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-  //         .then((user) => {
-  //           queryString ? addToTrip(user, queryString) : createNewUserAndTrip(user)
-  //         })
-  //     } else {
-  //       window.alert('Please fill in both your email and password')
-  //     }
-  //   }
-  // }
-
   redirectToLogin = (e) => {
     e.preventDefault()
-    // console.log('HIT THE REDIRECT')
     browserHistory.push('/login/' + window.location.search)
   }
 
@@ -88,7 +68,6 @@ export default class extends React.Component {
     const auth = firebase.auth()
     const google = new firebase.auth.GoogleAuthProvider()
     const email = new firebase.auth.EmailAuthProvider()
-    // console.log('STATE, look at tripID', this.state)
     return (
       <div id="background-div">
         <div className="jumbotron login-container">
@@ -96,7 +75,8 @@ export default class extends React.Component {
             className="form-horizontal">
             <legend>Sign up</legend>
             <div> Welcome to adventureUs, a place where you can meet up with your buddies and plan your next great adventure! Already have an account?
-            <a onClick={this.redirectToLogin} href="">  Sign in.</a>
+            <a onClick={this.redirectToLogin}
+               href="">  Sign in.</a>
             </div>
             <hr />
             <div className="form-group">
@@ -137,7 +117,8 @@ export default class extends React.Component {
                   className='login btn btn-primary'>
                   <img
                     id="icon"
-                    src="http://www.stickpng.com/assets/images/584856bce0bb315b0f7675ad.png" alt="emailIcon" />
+                    src="http://www.stickpng.com/assets/images/584856bce0bb315b0f7675ad.png"
+                    alt="emailIcon" />
                   Sign up with Email</button>
               </div>
             </div>
@@ -147,25 +128,18 @@ export default class extends React.Component {
           </div>
           <div>
             <button className='google login btn btn-primary'
-              onClick={() => {
-                auth.signInWithPopup(google)
-                  // this is problematic, since you NEED a parametrized dashboard
-                  // .then(() => {
-                  //   window.location.search ?
-                  //     browserHistory.push('/dashboard/' + window.location.search.slice(1))
-                  //     // : browserHistory.push('/dashboard') // eventually needs to grab tripId to render dashboard properyly
-                  //     : console.log("OOPS")
-                  // })
-                  .then((userCredential) => {
-                    // console.log('THE RES', userCredential)
-                    this.googleSubmit(userCredential)
-                  })
-              }}>
+                    onClick={() => {
+                      auth.signInWithPopup(google)
+                      .then((userCredential) => {
+                        this.googleSubmit(userCredential)
+                      })
+                    }}>
               <img
                 id="icon"
-                src="http://diylogodesigns.com/blog/wp-content/uploads/2016/04/google-logo-icon-PNG-Transparent-Background.png" alt="googleIcon" />
-              Sign up with Google
-                  </button>
+                src="http://diylogodesigns.com/blog/wp-content/uploads/2016/04/google-logo-icon-PNG-Transparent-Background.png"
+                alt="googleIcon" />
+              Sign up with  Google
+            </button>
           </div>
         </div>
       </div>
