@@ -15,15 +15,19 @@ export default class AddBuddyModal extends Component {
     }
     this.closeModal = this.closeModal.bind(this)
   }
+
   componentDidMount() {
     this.listenTo(this.props.tripRef.child('pendingBuddies'))
   }
+
   componentWillUnmount() {
     this.unsubscribe && this.unsubscribe()
   }
+
   componentWillReceiveProps(incoming, outgoing) {
     this.listenTo(incoming.tripRef.child('pendingBuddies'))
   }
+
   listenTo(ref) {
     if (this.unsubscribe) this.unsubscribe()
     const listener = ref.on('value', snapshot => {
@@ -39,13 +43,13 @@ export default class AddBuddyModal extends Component {
     })
     this.unsubscribe = () => ref.off('value', listener)
   }
+
   closeModal(e) {
-    // console.log('Add buddy modal xOut click', e)
     document.getElementById('addBuddyModal').style.display = 'none'
   }
+
   makeNewBuddy = () => {
     const newBuddyEmail = this.refs.buddyEmail.value
-    console.log('new email', newBuddyEmail)
     var newPostKey = this.props.tripRef.child('pendingBuddies').push().key
     var buddyUpdate = {}
     buddyUpdate[newPostKey] = {
@@ -56,16 +60,16 @@ export default class AddBuddyModal extends Component {
   }
 
   render() {
-    // console.log('STATE', this.state)
     return this.state.pendingBuddies ? (
       <div className="modal" id="addBuddyModal">
         <div className="modal-dialog modal-sm">
           <div className="modal-content">
             <div className="modal-header">
-              <button type="button" className="close"
-                onClick={this.closeModal}
-              >&times;
-                  </button>
+              <button type="button"
+                      className="close"
+                      onClick={this.closeModal}
+                      >&times;
+              </button>
               <h4 className="modal-title">Add a Buddy</h4>
             </div>
             {
@@ -77,7 +81,8 @@ export default class AddBuddyModal extends Component {
                 <div className='modal-header'>
                   <h5> These buddies have been added but haven't joined the trip: </h5>
                   <ul id='pending-buddies-list'>
-                    {typeof this.state.pendingBuddies === 'string' ?
+                    {typeof this.state.pendingBuddies === 'string'
+                      ?
                       <div>{this.state.pendingBuddies}</div>
                       :
                       Object.keys(this.state.pendingBuddies)
@@ -137,7 +142,11 @@ export default class AddBuddyModal extends Component {
                   }}
                 >Copy to clipboard</button>
               </CopyToClipboard>
-              {this.state.copied ? <div><p style={{ color: '#18bc9c', padding: '5px' }}>Copied.</p></div> : null}
+              {this.state.copied
+                ?
+                <div><p style={{ color: '#18bc9c', padding: '5px' }}>Copied.</p></div>
+                : null
+              }
             </div>
           </div>
         </div>

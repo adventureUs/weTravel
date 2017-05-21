@@ -14,7 +14,7 @@ export default class InlineBuddyEdit extends Component {
     // in the future instead of e-mail add an additional field for preferred contact info
     // set scope on OAuth request and include phone number
     // We currently handle a case for new signup.
-    // We need to consider the case for when someone is logged in aand has info in the database. In this case, we want to get their
+    // We need to consider the case for when someone is logged in and has info in the database. In this case, we want to get their
     // details from the database if they exist and if they don't exist, give the prompts.
     // some ternary like: if there is a logged in user and they have a name in the db, return the name. Otherwise return 'plase enter a name'.
     // same double condition needed for homeBase: if user logged in AND user has a homebase, grab it from the db and put it on initial state, otherwise ....
@@ -26,15 +26,9 @@ export default class InlineBuddyEdit extends Component {
       name: 'Please enter your name here',
       email: 'no email',
       status: 'Invited',
-      // statusOptions: [
-      //   { id: '1', text: 'Invited' },
-      //   { id: '2', text: 'Going' },
-      //   { id: '3', text: 'Can\'t make it' }
-      // ],
       homeBase: 'Please enter your city',
       startDate: '',
       endDate: '',
-
     }
   }
 
@@ -47,28 +41,14 @@ export default class InlineBuddyEdit extends Component {
       })
     })
     this.listenTo(this.props.tripRef.child('/buddies').child(this.props.userId || 'test'))
-
-    // console.log('TRIP REF', this.props.tripRef.child('/buddies').child(this.props.userId || 'test'))
-    // this.listenTo(
-    //   this.props.tripRef.child('/buddies').child(this.props.userId || 'test')
-    // )
   }
   componentWillUnmount() {
     this.unsubscribe && this.unsubscribe()
   }
 
-  componentWillReceiveProps(incoming, outgoing) {
-    // When the props sent to us by our parent component change,
-    // start listening to the new firebase reference.
-    // console.log('FROM RECEIVE PROPS', incoming), moved this to componentDidMount to set state after the component mounted.
-    // this.listenTo(incoming.tripRef.child('/buddies').child(incoming.userId || 'test'))
-    // this.listenTo(incoming.tripsRef.child(tripId))
-  }
-
   listenTo(ref) {
     if (this.unsubscribe) this.unsubscribe()
     const listener = ref.on('value', snapshot => {
-      // console.log('SNAPSHOT VAL', snapshot.val())
       this.setState(snapshot.val())
     })
     this.unsubscribe = () => ref.off('value', listener)
@@ -82,29 +62,22 @@ export default class InlineBuddyEdit extends Component {
       switch (e.target.value) {
       case 'Going' :
         userStatus = { id: '2', text: 'Going' }
-         console.log('in going user status', e.target.value)
         break
       case 'Invited' :
         userStatus = { id: '1', text: 'Invited' }
         break
       case 'Can\'t make it' :
-        console.log('in cant make it target.value', e.target.value)
         userStatus = { id: '3', text: 'Can\'t make it' }
-        console.log('in cant make it user status', e.target.value)
         break
-      default :
-        console.log('in default', e.target.value)
       }
       this.setState({status: userStatus})
     } else {
       this.setState({[e.target.name]: e.target.value})
     }
-    // this.updateDb()
   }
 
   postUserInfoToDB = (e) => {
     e.preventDefault()
-    console.log('FROM POST TO DB', this.state)
     this.props.usersRef.child(this.props.userId)
       .update({
         name: this.state.name || 'Please enter your name',
@@ -139,8 +112,7 @@ export default class InlineBuddyEdit extends Component {
   }
 
   render() {
-    // console.log('REF FROM RENDER', db.ref('/trips/'+ this.props.tripId + '/buddies').child(this.props.userId || 'test'))
-    // console.log('REF FROM RENDER', this.props.tripRef.child('/buddies').child(this.props.userId || 'test'))
+    // empty table headers are place holders.  No table heading needs to render.
     return (
       <form
         onSubmit={this.postUserInfoToDB}
@@ -239,70 +211,3 @@ export default class InlineBuddyEdit extends Component {
     )
   }
 }
-
-/*   render() {
-    // console.log('REF FROM RENDER', db.ref('/trips/'+ this.props.tripId + '/buddies').child(this.props.userId || 'test'))
-    // console.log('REF FROM RENDER', this.props.tripRef.child('/buddies').child(this.props.userId || 'test'))
-    return (
-      <form onSubmit={this.postUserInfoToDB}>
-        <div className="container">
-          <div className="form-horizontal">
-            <div>
-              <span>Name: </span>
-              <RIEInput
-                value={this.state.name}
-                change={this.setLocalState}
-                propName="name"
-                className={this.state.highlight ? 'editable' : ''}
-                validate={this.isStringAcceptable}
-                classLoading="loading"
-                classInvalid="Invalid" />
-            </div>
-            <br />
-            <div>
-              <span>Status: </span>
-              <RIESelect
-                value={this.state.status}
-                className={this.state.highlight ? 'editable' : ''}
-                options={this.state.statusOptions}
-                change={this.setLocalState}
-                classLoading="loading"
-                propName="status" />
-            </div>
-            <br />
-            <div>
-              <span>Home Base: </span>
-              <RIEInput
-                value={this.state.homeBase}
-                change={this.setLocalState}
-                propName="homeBase"
-                className={this.state.highlight ? 'editable' : ''}
-                validate={this.isStringAcceptable}
-                classLoading="loading"
-                classInvalid="Invalid" />
-            </div>
-            <br />
-            <div>
-              <span>Free from: </span>
-              <DatePicker
-                selected={this.state.startDate ? moment(this.state.startDate) : null}
-                onChange={this.handleChangeStart}
-              />
-            </div>
-            <br />
-            <div>
-              <span>Free until: </span>
-              <DatePicker
-                selected={this.state.endDate ? moment(this.state.endDate) : null}
-                onChange={this.handleChangeEnd}
-              />
-            </div>
-          </div>
-        </div>
-        <button
-          className="modal-add-buddy-button"
-          type="button"
-          className="btn btn-primary">Save Info</button>
-      </form>
-    )
-  } */
