@@ -20,12 +20,10 @@ export default class IdeaBox extends Component {
   }
 
   componentDidMount() {
-    // console.log('COMPONENT DID MOUNT PROPS', this.props)
     this.listenTo(this.props.ideasRef)
   }
 
   componentWillReceiveProps(incoming, outgoing) {
-    // console.log('COMPONENT WILL RECEIVE PROPS', this.props)
     this.listenTo(incoming.ideasRef)
   }
 
@@ -38,7 +36,6 @@ export default class IdeaBox extends Component {
   }
 
   deleteIdea(e) {
-    // console.log('IN IDEA DELETE BTTN', 'ID', e.target.id)
     this.props.ideasRef.child(e.target.id).remove()
   }
 
@@ -47,15 +44,11 @@ export default class IdeaBox extends Component {
       .transaction(likes => ++likes
       )
   }
-  handleClick(e, idea) {
-    // will eventuall
-    console.log(e.target, idea)
-  }
 
   render() {
-    // console.log('IN IDEA BOX ', this.state.ideas)
-    // own comments: have three buttons: 2 for choosing what view (table form or pin-board form) and another for adding a new idea.
-    // console.log('IN IDEA BOX ', Object.values(this.state.ideas))
+    // own comments: have three buttons:
+    // 2 for choosing what view (table form or pin-board form)
+    // and another for adding a new idea.
     return (
       <div>
        <div>
@@ -72,21 +65,31 @@ export default class IdeaBox extends Component {
                 <div key={key} className='idea-container'>
                   <div className='idea front handwriting-font'>
                     <div className='name'>
-                      <div className='name'><h4 className='handwriting-font'>{this.state.ideas[key].ideaName}</h4></div>
-                      <div className='link'><a href={this.state.ideas[key].link}
-                        target='_blank' className='link word-wrap'>{this.state.ideas[key].link}</a></div>
+                      <div className='name'><h4
+                           className='handwriting-font'>{this.state.ideas[key].ideaName}</h4></div>
+                      <div className='link'>
+                        <a href={this.state.ideas[key].link}
+                           target='_blank'
+                           className='link word-wrap'>{this.state.ideas[key].link}</a>
+                      </div>
                       <div className='category'>{this.state.ideas[key].category.text}</div>
                       <div className='startdate'>From: {moment(this.state.ideas[key].startDate).calendar()} To: {moment(this.state.ideas[key].endDate).calendar()}</div>
                     </div>
                      <hr className='horizontal-rule'/>
                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
                       <div className='likes'>
-                        <span style={{borderRadius: '5px', padding: '1px 6px', borderColor: 'black'}}className='trip-buddies-likes-button'
-                            type="button" id={key} onClick={this.addLikes}>Likes {this.state.ideas[key].likes}</span>
+                        <span style={{borderRadius: '5px', padding: '1px 6px', borderColor: 'black'}}
+                              className='trip-buddies-likes-button'
+                              type="button"
+                              id={key}
+                              onClick={this.addLikes}>Likes {this.state.ideas[key].likes}</span>
                       </div>
                       <div className='delete'>
-                        <span style={{borderRadius: '5px', padding: '1px 6px', borderColor: 'black'}}className='trip-buddies-delete-button'
-                            type="button" id={key} onClick={this.deleteIdea}>Delete</span>
+                        <span style={{borderRadius: '5px', padding: '1px 6px', borderColor: 'black'}}
+                              className='trip-buddies-delete-button'
+                              type="button"
+                              id={key}
+                              onClick={this.deleteIdea}>Delete</span>
                       </div>
                     </div>
                   </div>

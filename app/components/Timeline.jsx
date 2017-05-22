@@ -22,9 +22,6 @@ export default class AdventureUsTimeline extends Component {
     }
     this.onItemResize = this.onItemResize.bind(this)
   }
-  componentWillMount() {
-
-  }
 
   componentWillUnmount() {
     this.unsubscribe && this.unsubscribe()
@@ -73,13 +70,11 @@ export default class AdventureUsTimeline extends Component {
   }
 
   render() {
-    let minDate = this.findMinStartDate(this.props.items).unix()*1000
-    let maxDate = this.findMaxEndDate(this.props.items).unix()*1000
-    // console.log('date in render', this.findMinStartDate(this.props.items).unix()*1000)
+    const minDate = this.findMinStartDate(this.props.items).unix()*1000
+    const maxDate = this.findMaxEndDate(this.props.items).unix()*1000
 
 // This object sets the untis on the timeline.
 // Currently, it is set to display days, months and years
-    // console.log('TIMELINE, PROPS', this.props)
     const timeSteps = {
       second: 0,
       minute: 0,
@@ -98,10 +93,11 @@ export default class AdventureUsTimeline extends Component {
         </span>
         <ReactTooltip globalEventOff='click'/>
           <div data-event='click focus'
-                data-tip=""
-                place="top"
-                effect="solid">
-            <Timeline groups={this.props.groups}
+               data-tip=""
+               place="top"
+               effect="solid">
+            <Timeline
+              groups={this.props.groups}
               ref= {(timeline) => timeline && timeline.updateScrollCanvas(minDate, maxDate)}
               items={this.props.items}
               visibleTimeStart={this.findMinStartDate(this.props.items).unix()*1000}
@@ -117,13 +113,3 @@ export default class AdventureUsTimeline extends Component {
     )
   }
 }
-
-// commented below line out from div above <Timeline>
-// ** believe was for ReactTooltips
-// data-event='click focus'
-
-// visibleTimeStart={this.findMinStartDate(this.props.items)}
-//          visibleTimeEnd={this.findMaxEndDate(this.props.items)}
-
-// defaultTimeStart={this.findMinStartDate(this.props.items)}
-//             defaultTimeEnd={this.findMaxEndDate(this.props.items)}

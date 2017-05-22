@@ -3,9 +3,9 @@
 import React from 'react'
 import { Route } from 'react-router'
 import firebase from 'APP/fire'
-const db = firebase.database()
 import InlineBuddyEdit from './InlineBuddyEdit'
 const auth = firebase.auth()
+const db = firebase.database()
 
 // the reason for this container is to allow for an enhancement
 // to parameterize the route

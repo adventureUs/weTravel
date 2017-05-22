@@ -1,11 +1,11 @@
 import React from 'react'
 import SetClass from 'react-classset'
-import firebase from 'APP/fire'
-import InlineBuddyEditIndex from './InlineBuddyEditIndex'
-import moment from 'moment'
 import CopyToClipboard from 'react-copy-to-clipboard'
+import moment from 'moment'
+import firebase from 'APP/fire'
 import AddBuddyModal from './AddBuddyModal'
 import idToNameOrEmail from '../../src/idToNameOrEmail'
+import InlineBuddyEditIndex from './InlineBuddyEditIndex'
 
 export default class extends React.Component {
   constructor(props) {
@@ -16,37 +16,39 @@ export default class extends React.Component {
       copied: '',
     }
   }
-  componentDidMount() {
-    this.listenTo(this.props.tripRef.child('buddies'))
-    //     console.log('COMPONENT DID MOUNT PROPS', this.props.tripRef.child('buddies'))
-  }
-  componentWillUnmount() {
-    this.unsubscribe && this.unsubscribe()
-  }
+
   componentWillReceiveProps(incoming, outgoing) {
     // When the props sent to us by our parent component change,
     // start listening to the new firebase reference.
-    // console.log('FROM RECEIVE PROPS', incoming)
     this.listenTo(incoming.tripRef.child('buddies')) // this ref is undefined
-    // this.listenTo(incoming.tripsRef.child(tripId))
   }
+
+  componentDidMount() {
+    this.listenTo(this.props.tripRef.child('buddies'))
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe && this.unsubscribe()
+  }
+
   listenTo(ref) {
     if (this.unsubscribe) this.unsubscribe()
     const listener = ref.on('value', snapshot => {
+    // changed to an object
       var buddies = {}
-      // for (var buddy in snapshot.val()) { buddies.push({[buddy]: snapshot.val()[buddy]}) }
-      // changed to an object
       this.setState({ buddies: snapshot.val() })
     })
     this.unsubscribe = () => ref.off('value', listener)
   }
+
   buildRow = (buddyId) => {
     const buddyClass = SetClass({
       'me': buddyId === this.props.userId,
       'them': buddyId !== this.props.userId
     })
     return (
-      <tr key={buddyId} className='trip-buddies'>
+      <tr key={buddyId}
+          className='trip-buddies'>
         <td className={buddyClass}>
           {(buddyId === this.props.userId)
             ?
@@ -76,6 +78,7 @@ export default class extends React.Component {
       </tr>
     )
   }
+
   render() {
     return (
       <div className='well'>
@@ -108,11 +111,12 @@ export default class extends React.Component {
           <div className="modal-dialog modal-sm">
             <div className="modal-content">
               <div className="modal-header">
-                <button type="button" className="close"
-                  onClick={() =>
+                <button type="button"
+                        className="close"
+                        onClick={() =>
                     document.getElementById('add-buddy-modal').style.display = 'none'}
                 >&times;
-                    </button>
+                </button>
                 <h4 className="modal-title">Follow these steps:</h4>
               </div>
               <div className="modal-body">
@@ -162,18 +166,22 @@ export default class extends React.Component {
                     }}
                   >Copy to clipboard</button>
                 </CopyToClipboard>
-                {this.state.copied ? <div><p style={{ color: '#18bc9c', padding: '5px' }}>Copied.</p></div> : null}
+                {this.state.copied
+                  ? <div><p style={{ color: '#18bc9c', padding: '5px' }}>Copied.</p></div>
+                  : null}
               </div>
             </div>
           </div>
         </div>
         <AddBuddyModal tripRef={this.props.tripRef}/>
-        <div className="modal" id="editYourInfoModal">
+        <div className="modal"
+             id="editYourInfoModal">
           <div className="modal-dialog modal-md">
             <div className="modal-content">
               <div className="modal-header edit-buddy-header">
-                <button type="button" className="close"
-                  onClick={() =>
+                <button type="button"
+                        className="close"
+                        onClick={() =>
                     document.getElementById('editYourInfoModal').style.display = 'none'}
                 >&times;
                 </button>
@@ -193,98 +201,3 @@ export default class extends React.Component {
     )
   }
 }
-
- /* }
-
-        <InlineBuddyEditIndex
-          userId={this.props.userId}
-          tripRef={this.props.tripRef}
-          tripId={this.props.tripId}
-        />
-
-        {(buddyId === this.props.userId)
-          ? <button className="btn">Edit</button>}
-        ? */
-
-/* render() {
-    return (
-      <div className="well well-lg">
-          <div>
-            <ul >
-              {Object.keys(this.state.buddies).map((buddyId, index) => {
-                //               console.log('*********IN BUDDIES RENDER********:', buddyId)
-                return (buddyId === this.props.userId) ?
-                  <li key={index} className='trip-buddies'>
-                    <InlineBuddyEditIndex
-                      userId={this.props.userId}
-                      tripRef={this.props.tripRef}
-                      tripId={this.props.tripId}
-                    />
-
-                  </li> : <li key={buddyId} className='trip-buddies'>
-                    <div className='buddiesListItem'>Name: {this.state.buddies[buddyId].name}</div>
-                    <div className='buddiesListItem'>Home Base: {this.state.buddies[buddyId].homeBase}</div>
-                    <div className='buddiesListItem' >Status: {this.state.buddies[buddyId].status.text}</div>
-                    <div className='buddiesListItem'>Free from: {(this.state.buddies[buddyId].startDate) ? this.state.buddies[buddyId].startDate.slice(0, 10) : 'TBD'}</div>
-                    <div className='buddiesListItem'>Free until: {(this.state.buddies[buddyId].endDate) ? this.state.buddies[buddyId].endDate.slice(0, 10) : 'TBD'}</div>
-                  </li>
-              }
-              )}
-            </ul>
-          </div>
-          <div>
-            <button style={{
-              color: '#18bc9c',
-              backgroundColor: '#ffffff',
-              borderRadius: '5px',
-              padding: '1px 6px'
-            }}
-              type="button"
-              onClick={() =>
-                document.getElementById('addBuddyModal').style.display = 'block'}
-            >Add Buddy!</button>
-          </div>
-          <div className="modal" id="addBuddyModal">
-            <div className="modal-dialog modal-sm">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <button type="button" className="close"
-                    onClick={() =>
-                      document.getElementById('addBuddyModal').style.display = 'none'}
-                  >&times;
-                    </button>
-                  <h4 className="modal-title">Follow these steps:</h4>
-                </div>
-                <div className="modal-body">
-                  <p> Step 1: Enter your buddy's e-mail here: </p>
-                  <input type="text" id="newBuddyEmail"></input>
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={this.makeNewBuddy}
-                  >Add a buddy! </button>
-                </div>
-                <div className="modal-footer"
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-around'
-                  }}>
-                  <p>Step 2: Share this link with your buddy: </p>
-                  <br />
-                  <p>{`https://tern-2b37d.firebaseapp.com${window.location.pathname}`}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        )
-  }
-} */
-
-
-// style={{
-//                 color: '#18bc9c',
-//                 backgroundColor: '#ffffff',
-//                 borderRadius: '5px',
-//                 padding: '1px 6px'
-//               }}

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link, browserHistory } from 'react-router'
 import firebase from 'APP/fire'
-import redirectToTripZeroeth from 'APP/src/redirectToTripZeroeth'
 import addToTrip from 'APP/src/addToTrip'
+import redirectToTripZeroeth from 'APP/src/redirectToTripZeroeth'
 import createNewUserAndTrip from 'APP/src/createNewUserAndTrip'
 
 const auth = firebase.auth()
@@ -33,12 +33,7 @@ export default class extends React.Component {
     }
   }
   componentDidMount() {
-    // this.unsubscribe = auth && auth.onAuthStateChanged(user => user && this.setState({ user }))
     auth && this.setState({ user: auth.currentUser })
-  }
-
-  componentWillUnmount() {
-    // this.unsubscribe && this.unsubscribe()
   }
 
   setEmailPassword = (evt) => {
@@ -46,7 +41,6 @@ export default class extends React.Component {
   }
 
   emailSubmit = (evt) => {
-    // console.log('STATE in LOGIN:', this.state)
     evt.preventDefault()
     if (this.state.email.length && this.state.password.length) {
       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
@@ -63,7 +57,6 @@ export default class extends React.Component {
   }
 
   googleSubmit = (userCredential) => {
-    // console.log('MADE IT TO GOOGLE SUBMIT, here is the credential', userCredential)
     const queryString = window.location.search
     // first case in ternary: there is a query string, and we go to that trip
     // second case in ternary: there is no query string, we need to check if the user has trips to go to
@@ -71,7 +64,6 @@ export default class extends React.Component {
   }
 
   goToTrip = (user, queryString) => {
-    // console.log('MADE IT TO GO TO TRIP', queryString)
     var tripId = queryString.slice(1)
     // Check to see if this user is in the database
     firebase.database().ref('users')
@@ -117,32 +109,28 @@ export default class extends React.Component {
   }
   // Check users for auth user and then:
   findAndGo = (user) => {
-    // console.log('MADE IT TO FIND AND GO TO TRIP, here is the user Id', user.uid)
-
-    // It is possible that they are erroneously trying to 'sign-up' from the login page using Google -- if so the user will not be in database users table and they won't have any trips
+    // It is possible that they are erroneously trying to 'sign-up' from the login page using Google
+    // if so the user will not be in database users table and they won't have any trips
     // If they are using google login properly, they should exist in the users table and have at least one trip
     // first check to see if the user exists in the table
     firebase.database().ref('users')
       .once('value')
       .then(snapshot => {
         const userExists = snapshot.hasChild(user.uid)
-        // console.log('does this user exist in the db?', userExists)
         if (!userExists) {
-          console.log('guess we got to make a new one!')
           createNewUserAndTrip(user)
         } else {
           redirectToTripZeroeth(user.uid)
         }
       })
   }
-  
+
   render() {
     // const auth = this.props.route.auth
     const auth = firebase.auth()
     const google = new firebase.auth.GoogleAuthProvider()
     const email = new firebase.auth.EmailAuthProvider()
 
-    // console.log('PROPS from login', this.props)
     return (
       <div id="background-div">
         <div className="jumbotron login-container" >
@@ -153,36 +141,39 @@ export default class extends React.Component {
                 // signInWithPopup will try to open a login popup, and if it's blocked, it'll redirect
                 // If you prefer, you can signInWithRedirect, which always redirects.
                 auth.signInWithPopup(google)
-                  // .then(() => {
-                  //   window.location.search ?
-                  //     browserHistory.push('/dashboard/' + window.location.search.slice(1))
-                  //     // : browserHistory.push('/dashboard') // eventually needs to grab tripId to render dashboard properyly
-                  //     : console.log("OOPS")
-                  // })
-                  .then((userCredential) => {
-                    // console.log('THE RES', userCredential)
-                    this.googleSubmit(userCredential)
-                  })
+                .then((userCredential) => {
+                  this.googleSubmit(userCredential)
+                })
               }}>
               <img
                 id="icon"
-                src="http://diylogodesigns.com/blog/wp-content/uploads/2016/04/google-logo-icon-PNG-Transparent-Background.png" alt="googleIcon" />
+                src="http://diylogodesigns.com/blog/wp-content/uploads/2016/04/google-logo-icon-PNG-Transparent-Background.png"
+                alt="googleIcon" />
               Login with Google
             </button>
           </div>
-          <form onSubmit={this.emailSubmit} className="form-horizontal">
+          <form onSubmit={this.emailSubmit}
+                className="form-horizontal">
             <div className="or-divider">
               <span>Or</span>
             </div>
             <div className="form-group">
-              <input type="text" className="login form-control" id="email" placeholder="Email" onChange={this.setEmailPassword} />
+              <input type="text"
+                     className="login form-control"
+                     id="email"
+                     placeholder="Email"
+                     onChange={this.setEmailPassword} />
             </div>
             <div className="form-group">
-              <input type="password" className="form-control" id="password" placeholder="Password" onChange={this.setEmailPassword} />
+              <input type="password"
+                     className="form-control"
+                     id="password"
+                     placeholder="Password"
+                     onChange={this.setEmailPassword} />
             </div>
             <div className="form-group">
               <button type="submit"
-                className="login btn btn-primary">
+                      className="login btn btn-primary">
                 <img
                   id="icon"
                   src="http://www.stickpng.com/assets/images/584856bce0bb315b0f7675ad.png" alt="emailIcon" />
@@ -193,16 +184,17 @@ export default class extends React.Component {
           <div>
             <br />
           </div>
-
-          <hr />
-
+            <hr />
           <div>
             <legend>Create an account</legend>
             {
-              window.location.search ?
-                <div>New to adventureUs? <Link to={'/signup' + window.location.search}>Sign up here!</Link></div>
-                // : browserHistory.push('/dashboard') // eventually needs to grab tripId to render dashboard properyly
-                : <div className='sign-up'>New to adventureUs? <Link to="/signup" >Sign up here.</Link></div>
+              window.location.search
+                ?
+                <div>New to adventureUs?
+                  <Link to={'/signup' + window.location.search}>Sign up here!</Link>
+                </div>
+                :
+                <div className='sign-up'>New to adventureUs? <Link to="/signup" >Sign up here.</Link></div>
             }
           </div>
         </div >

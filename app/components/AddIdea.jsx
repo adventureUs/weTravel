@@ -13,12 +13,17 @@ export default class AddIdea extends Component {
     // in the future instead of e-mail add an additional field for preferred contact info
     // set scope on OAuth request and include phone number
     // We currently handle a case for new signup.
-    // We need to consider the case for when someone is logged in aand has info in the database. In this case, we want to get their
-    // details from the database if they exist and if they don't exist, give the prompts.
-    // some ternary like: if there is a logged in user and they have a name in the db, return the name. Otherwise return 'plase enter a name'.
-    // same double condition needed for homeBase: if user logged in AND user has a homebase, grab it from the db and put it on initial state, otherwise ....
+    // We need to consider the case for when someone is logged in and has info in the database.
+    // In this case, we want to get their details from the database if they exist
+    // and if they don't exist, give the prompts.
+    // some ternary like: if there is a logged in user and they have a name in the db,
+    // return the name. Otherwise return 'plase enter a name'.
+    // same double condition needed for homeBase:
+    // if user logged in AND user has a homebase, grab it from the db and put it on initial state,
+    // otherwise ....
 
-    // the goal here is to put buddy info from the buddies key from tripRef on state and keep aligned with the homebase on userRef
+    // the goal here is to put buddy info from the buddies key from tripRef on state
+    // and keep aligned with the homebase on userRef
 
     this.state = this.defaultState
   }
@@ -36,24 +41,24 @@ export default class AddIdea extends Component {
     startDate: '', // Used for Date Picker
     endDate: '' // Not used for mvp
   }
-  componentDidMount() {
-    this.setState({
-      state: this.defaultState
-    })
-  }
-  componentWillUnmount() {
-    this.unsubscribe && this.unsubscribe()
-  }
 
   componentWillReceiveProps(incoming, outgoing) {
     this.listenTo(incoming.ideasRef || 'test')
   }
 
-// not used for the moment
+  componentDidMount() {
+    this.setState({
+      state: this.defaultState
+    })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe && this.unsubscribe()
+  }
+
   listenTo(ref) {
     if (this.unsubscribe) this.unsubscribe()
     const listener = ref.on('value', snapshot => {
-      // console.log('SNAPSHOT VAL', snapshot.val())
       this.setState(snapshot.val())
     })
     this.unsubscribe = () => ref.off('value', listener)
@@ -74,7 +79,6 @@ export default class AddIdea extends Component {
   postIdeaToDB = (e) => {
     e.preventDefault()
     const endDate = this.calculateDefaultDuration()
-    // console.log('ADDIDEA', 'POSTING TO DB', 'start and end', this.state.startDate, endDate)
     this.props.ideasRef
       .push({
         ideaName: this.state.ideaName || 'Please enter idea name',
@@ -87,37 +91,13 @@ export default class AddIdea extends Component {
       })
     this.setState(this.defaultState)
   }
+
   calculateDefaultDuration() {
-    let hours = 0
-    // switch (this.state.category.id) {
-    // case '1': // Food
-    //   this.state.startDate.add(12, 'hours')
-    //   // hours = 1
-    //   hours = 4
-    //   break
-    // case '2': // Activity
-    //   this.state.startDate.add(14, 'hours')
-    //   // hours = 4
-    //   hours = 6
-    //   break
-    // case '3': // Accomodation
-    //   this.state.startDate.add(18, 'hours')
-    //   // hours = 12
-    //   hours = 24
-    //   break
-    // case '4': // Miscellaneous
-    //   this.state.startDate.add(10, 'hours')
-    //   // hours = 2
-    //   hours = 12
-    //   break
-    // default:  // Default in case we messed up
-    //   // hours = 1
-    //   hours = 12
-    // }
-    hours = 24
-    return this.state.startDate ?
-      moment(this.state.startDate).add(hours, 'hours') :
-      moment()
+    return this.state.startDate
+      ?
+      moment(this.state.startDate).add(1, 'days')
+      :
+      moment().add(1, 'days')
   }
 
   validateField = (field) => {
@@ -128,6 +108,7 @@ export default class AddIdea extends Component {
       })
     }
   }
+
   // Note: this handleChangeStart is bound to AddIdea.
   handleChangeStart = (startDate) => {
     this.setState({
@@ -136,15 +117,14 @@ export default class AddIdea extends Component {
   }
 
   render() {
-    // console.log('ADDIDEA', 'RENDER', 'STATE', this.state)
     return (
         <div className='addIdea'>
-
       <form onSubmit={this.postIdeaToDB}>
         <div className="container">
           <div className="form-horizontal row"
-            style={{ display: 'flex',
-              alignItems: 'center'}}>
+                style={{ 
+                  display: 'flex',
+                  alignItems: 'center'}}>
             <div className="col-md-3">
               <label>New Idea: </label>
               <div style={{ color: 'lightSlateGray' }} >

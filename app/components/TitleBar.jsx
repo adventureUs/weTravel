@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link, browserHistory } from 'react-router'
-import firebase from 'APP/fire'
-const db = firebase.database()
-const auth = firebase.auth()
 import { RIEInput } from 'riek'
 import TripsListModal from './TripsListModal'
 import idToNameOrEmail from '../../src/idToNameOrEmail'
+import firebase from 'APP/fire'
+const db = firebase.database()
+const auth = firebase.auth()
 
 export default class TitleBar extends React.Component {
   /* When user cancels naming a trip, old tripName is still preseved;
@@ -19,36 +19,14 @@ export default class TitleBar extends React.Component {
     }
   }
 
-  componentDidMount() {
-    // console.log('TITLE BAR Component Did MOUNT,  PROPS', this.props)
-    if (this.unsubscribe) this.unsubscribe()
-    const listener = this.props.tripRef
-      .on('value', snapshot => {
-        // console.log('TITLE BAR DID_MOUNT: tripRef, snapshot', this.props.tripRef, snapshot)
-        // Stef says: Weird edge case on logout:  tripRef and snapshot log as existing
-        // but snapshot.val() finds snapshot undefined...
-        // safety (hack?) is the if below:
-        if (!snapshot) return function () { }
-        const tripObj = snapshot.val()
-        idToNameOrEmail(this.props.userId)
-          .then(nameOrEmail => this.setState({
-            tripName: tripObj.tripName || 'Please name your trip!',
-            userName: nameOrEmail
-          })).catch(console.error)
-      })
-    this.unsubscribe = () => this.props.tripRef.off('value', listener)
-  }
-
   componentWillReceiveProps() {
-    // console.log('TITLE BAR Component Will Receive Props,  PROPS', this.props)
     if (this.unsubscribe) this.unsubscribe()
     const listener = this.props.tripRef
       .on('value', snapshot => {
-        // console.log('TITLE BAR DID_MOUNT: tripRef, snapshot', this.props.tripRef, snapshot)
         // Stef says: Weird edge case on logout:  tripRef and snapshot log as existing
         // but snapshot.val() finds snapshot undefined...
         // safety (hack?) is the if below:
-        if (!snapshot) return function () { }
+        if (!snapshot) return function() { }
         const tripObj = snapshot.val()
         idToNameOrEmail(this.props.userId)
           .then(nameOrEmail => this.setState({
@@ -59,13 +37,32 @@ export default class TitleBar extends React.Component {
     this.unsubscribe = () => this.props.tripRef.off('value', listener)
   }
 
+  componentDidMount() {
+    if (this.unsubscribe) this.unsubscribe()
+    const listener = this.props.tripRef
+      .on('value', snapshot => {
+        // Stef says: Weird edge case on logout:  tripRef and snapshot log as existing
+        // but snapshot.val() finds snapshot undefined...
+        // safety (hack?) is the if below:
+        if (!snapshot) return function() { }
+        const tripObj = snapshot.val()
+        idToNameOrEmail(this.props.userId)
+          .then(nameOrEmail => this.setState({
+            tripName: tripObj.tripName || 'Please name your trip!',
+            userName: nameOrEmail
+          })).catch(console.error)
+      })
+    this.unsubscribe = () => this.props.tripRef.off('value', listener)
+  }
+
   componentWillUnmount() {
-    // console.log('TITLE BAR ComponentWILL_UNMOUNT')
     this.unsubscribe()
   }
+
   onInputChange = (evt) => {
     this.setState({ newTripName: evt.target.value })
   }
+
   // Edit main TripName Title: Only save to DB if truthey
   saveChanges = (evt) => {
     if (this.state.newTripName) {
@@ -74,15 +71,16 @@ export default class TitleBar extends React.Component {
       this.setState({
         newTripName: ''
       })
-    } 
+    }
     this.closeModal()
   }
+
   closeModal = () => {
-    // console.log('Add buddy modal x click', e)
     // reset input modal to empty
     this.refs.input.value = ''
     document.getElementById('tripTitleModal').style.display = 'none'
   }
+
   // ToDB only used after safety check:
   postTripNameToDB = (newTripName) => {
     this.props.tripsRef.child('/' + this.props.tripId)
@@ -94,20 +92,21 @@ export default class TitleBar extends React.Component {
     return this.props.tripId ?
       (
         <nav className="nav navbar-default navbar-fixed-top">
-          <div className="" style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center'
-          }}>
+          <div className=""
+               style={{
+                 display: 'flex',
+                 justifyContent: 'space-between',
+                 alignItems: 'center'
+               }}>
 
             <img className="img"
-              src="https://image.flaticon.com/icons/png/128/146/146267.png"
-              style={{
-                color: '#18bc9c',
-                padding: '6px',
-                height: '60px',
-                width: '60px'
-              }} />
+                 src="https://image.flaticon.com/icons/png/128/146/146267.png"
+                 style={{
+                   color: '#18bc9c',
+                   padding: '6px',
+                   height: '60px',
+                   width: '60px'
+                 }} />
 
             <div
               className='titleBarTitle'
@@ -122,9 +121,10 @@ export default class TitleBar extends React.Component {
               <div className="modal-dialog modal-sm">
                 <div className="modal-content">
                   <div className="modal-header">
-                    <button type="button" className="close"
-                      onClick={this.closeModal}
-                    >&times;
+                    <button type="button"
+                            className="close"
+                            onClick={this.closeModal}
+                             >&times;
                     </button>
                     <h4 className="modal-title">Update Your Trip Name</h4>
                   </div>
@@ -134,7 +134,7 @@ export default class TitleBar extends React.Component {
                       className="modal-trip-edit-input form-control"
                       value={this.state.newTripName}
                       onChange={this.onInputChange}
-                      placeholder={"Enter your new trip name here."}
+                      placeholder={'Enter your new trip name here.'}
                       type="text"
                       id="tripName" />
                   </div>
@@ -218,14 +218,4 @@ export default class TitleBar extends React.Component {
       :
       null
   }
-}
-
-{
-  // Old custom button styling for app:
-  //  style={{
-  //   color: '#18bc9c',
-  //   backgroundColor: '#ffffff',
-  //   borderRadius: '5px',
-  //   padding: '3px 6px'
-  // }} }
 }

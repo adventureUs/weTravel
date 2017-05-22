@@ -29,7 +29,6 @@ export default class TimelineIndex extends React.Component {
     this.unsubscribe && this.unsubscribe()
   }
   componentWillReceiveProps(nextProps) {
-    // console.log('TIMELINE_INDEX Will RECEIVE PROPS', this.props)
     nextProps.whichTab && nextProps.whichTab === 'Buddies' ?
       this.listenFor('buddies') // For Buddies Slider Timelne View
       :
@@ -37,10 +36,6 @@ export default class TimelineIndex extends React.Component {
   }
   listenFor(branch) {
     if (this.unsubscribe) this.unsubscribe()
-    /* HACK courtesy Tina: the following listener in a setTimeout is a hack.
-      It ensures initial rendering of the timeline data.
-      The data was always there but only showed as soon as we did anything to the view */
-    // setTimeout(() => {
 
     const listener = this.props.tripRef.on('value', snapshot => {
       let result // of getting branch data
@@ -49,15 +44,14 @@ export default class TimelineIndex extends React.Component {
       } else {
         result = this.ideasData(snapshot)
       }
-      // console.log('in listenFor', branch, result)
       this.setState({
         groups: result.namesData,
         items: result.bodyData
       })
     })
     this.unsubscribe = () => this.props.tripRef.off('value', listener)
-    // }, 10)
   }
+
   buddiesData(snapshot) {
     let bodyData = [], namesData = []
     if (snapshot.val() && snapshot.val()['buddies']) {
