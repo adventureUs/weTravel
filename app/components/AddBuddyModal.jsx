@@ -10,7 +10,7 @@ export default class AddBuddyModal extends Component {
     super(props)
     this.state = {
       pendingBuddies: null,
-      clipboard: `https://tern-2b37d.firebaseapp.com${window.location.pathname}`,
+      clipboard: `https://adventureus.tech${window.location.pathname}`,
       copied: ''
     }
     this.closeModal = this.closeModal.bind(this)
