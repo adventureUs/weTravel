@@ -18,19 +18,20 @@ export default class TripsListModal extends React.Component {
       defaultTripName: 'Please Name Your Trip Here!'
     }
   }
-  componentDidMount() {
-    // console.log('OTHER_TRIPS_MODAL ComponentWILLMOUNT,  PROPS', this.props)
+
+  componentWillReceiveProps() {
     this.setTripsArrayWithNames()
   }
+
+  componentDidMount() {
+    this.setTripsArrayWithNames()
+  }
+
   componentWillUnmount() {
-    // console.log('OTHER_TRIPS_MODAL ComponentWILL_UNMOUNT', this.props)
     this.unsubscribeTripsRef && this.unsubscribeTripsRef()
     this.unsubscribeUserRef && this.unsubscribeUserRef()
   }
-  componentWillReceiveProps() {
-    // console.log('OTHER_TRIPS_MODAL ComponentWILLRECEIVE,  PROPS', this.props)
-    this.setTripsArrayWithNames()
-  }
+
   setTripsArrayWithNames = () => {
     if (this.unsubscribeUserRef) { this.unsubscribeUserRef() }
     const userRefListener = this.props.userRef
@@ -39,39 +40,37 @@ export default class TripsListModal extends React.Component {
         if (snapshot) { userObj = snapshot.val() }
         if (userObj) {
           const trips = userObj.trips
-          // console.log('OTHER_TRIPS_MODAL setTripsArray: userRefListener, trips', trips)
           this.triggerTripsRefListener(trips)
         }
       })
     this.unsubscribeUserRef = () => this.props.userRef.off('value', userRefListener)
   }
+
   triggerTripsRefListener = (trips) => {
     if (this.unsubscribeTripsRef) { this.unsubscribeTripsRef() }
     const tripsRefListener = this.props.tripsRef
       .on('value', snapshot => {
         let tripsObj = null
         if (snapshot) { tripsObj = snapshot.val() }
-        // console.log('OTHER_TRIPS_MODAL DID_MOUNT: Triggered tripsRefListener, snapshot', trips, tripsObj)
+
         if (tripsObj) { this.updateTripsArrayWithNames(trips, tripsObj) }
       })
     this.unsubscribeTripsRef = () => this.props.userRef.off('value', tripsRefListener)
   }
+
   updateTripsArrayWithNames = (trips, tripsObj) => {
     const tripsWithNames = {}
     // loop over the users tripIds and find the tripName
-    // console.log('OTHER_TRIPS_MODAL DID_MOUNT: updating tripsArrayWithNames 1, trips, tripsObj', trips, tripsObj)
     trips.forEach(tripId =>
       tripsWithNames[tripId] = tripsObj[tripId].tripName === this.state.defaultTripName ?
         'Please Enter Trip Name'
         :
         tripsObj[tripId].tripName
     )
-    // console.log('OTHER_TRIPS_MODAL DID_MOUNT: updating tripsArrayWithNames 2, tripsWithNames', tripsWithNames)
     this.setState({tripsWithNames: tripsWithNames})
   }
 
   changeTrip = (e) => {
-    // console.log('OTHER_TRIPS_MODAL, CHANGING TRIP...', 'CLICKED TRIP', e.target)
     /* Here we are using the react event persist method:
     e is nullified before the asynch gets to it, so we are presisting */
     e.persist()
@@ -79,7 +78,6 @@ export default class TripsListModal extends React.Component {
       .once('value')
       .then(snapshot => {
         let userObj = null
-        // console.log('OTHER_TRIPS_MODAL, INSIDE USER_REF', 'CLICKED TRIP', e.target)
         const targetTrip = e.target.id
         if (snapshot) { userObj = snapshot.val() }
         if (userObj) {
@@ -87,7 +85,6 @@ export default class TripsListModal extends React.Component {
           const newTrips = userObj.trips.slice()
           newTrips.splice(newTrips.indexOf(targetTrip), 1)
           newTrips.unshift(targetTrip)
-          // console.log('OTHER_TRIPS_MODAL, SPLICEd RIGHT?', 'Old trips, new', userObj.trips, newTrips)
         // HERE TEST THIS UPDATE PLEASE:  THEN LOG FROM REDIRECT!!!
           this.props.userRef
             .update({ trips: newTrips })
@@ -95,7 +92,6 @@ export default class TripsListModal extends React.Component {
               document.getElementById('other-trips-modal').style.display = 'none'
               this.props.setAppTripIdState(targetTrip)
               browserHistory.push('/dashboard/' + targetTrip)
-              // redirectToTripZeroeth(this.props.userId)
             })
         }
       })
@@ -106,21 +102,20 @@ export default class TripsListModal extends React.Component {
   makeNewTrip = () => {
     document.getElementById('other-trips-modal').style.display = 'none'
     createNewTripForUserObj(this.props.userId, this.state.newTripName)
-    // console.log('new trip name in make new trip', this.state.newTripName)
   }
 
   render() {
-    // console.log('STATE in OTHER_TRIPS_MODAL', this.state)
     const tripsWithNames = this.state.tripsWithNames
     return (
       <div className="modal" id='other-trips-modal'>
         <div className="modal-dialog modal-sm">
           <div className="modal-content">
             <div className="modal-header">
-              <button type="button" className="close"
-                onClick={() =>
-                  document.getElementById('other-trips-modal').style.display = 'none'}
-              >&times;
+              <button type="button"
+                      className="close"
+                      onClick={() =>
+                        document.getElementById('other-trips-modal').style.display = 'none'}
+                    >&times;
               </button>
               <h4 className="modal-title">Your Trips</h4>
             </div>
@@ -129,8 +124,8 @@ export default class TripsListModal extends React.Component {
                 tripsWithNames ?
                 (Object.keys(tripsWithNames).sort().map((tripId) =>
                 <h4 key={`${tripId}`}
-                  onClick={this.changeTrip}
-                  style={{ border: 'bottom' }}
+                    onClick={this.changeTrip}
+                    style={{ border: 'bottom' }}
                 ><font
                   id={`${tripId}`}
                   color='black'
@@ -142,18 +137,19 @@ export default class TripsListModal extends React.Component {
               }
             </div>
             <div className="modal-footer"
-              style={{
-                display: 'flex',
-                justifyContent: 'space-around'
-              }}>
+                 style={{
+                   display: 'flex',
+                   justifyContent: 'space-around'
+                 }}>
               <input
                 type="text"
                 id="newTripInput"
                 onChange={ (e) => this.setState({newTripName: e.target.value})}
                 >
                 </input>
-              <button type="button" className="btn btn-primary"
-                onClick={this.makeNewTrip}>
+              <button type="button"
+                      className="btn btn-primary"
+                      onClick={this.makeNewTrip}>
                 Add a trip
               </button>
             </div>

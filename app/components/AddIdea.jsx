@@ -41,17 +41,19 @@ export default class AddIdea extends Component {
     startDate: '', // Used for Date Picker
     endDate: '' // Not used for mvp
   }
+
+  componentWillReceiveProps(incoming, outgoing) {
+    this.listenTo(incoming.ideasRef || 'test')
+  }
+
   componentDidMount() {
     this.setState({
       state: this.defaultState
     })
   }
+
   componentWillUnmount() {
     this.unsubscribe && this.unsubscribe()
-  }
-
-  componentWillReceiveProps(incoming, outgoing) {
-    this.listenTo(incoming.ideasRef || 'test')
   }
 
   listenTo(ref) {
@@ -89,10 +91,11 @@ export default class AddIdea extends Component {
       })
     this.setState(this.defaultState)
   }
+
   calculateDefaultDuration() {
-    return this.state.startDate 
+    return this.state.startDate
       ?
-      moment(this.state.startDate).add(1, 'days') 
+      moment(this.state.startDate).add(1, 'days')
       :
       moment().add(1, 'days')
   }
@@ -105,6 +108,7 @@ export default class AddIdea extends Component {
       })
     }
   }
+
   // Note: this handleChangeStart is bound to AddIdea.
   handleChangeStart = (startDate) => {
     this.setState({
@@ -118,8 +122,9 @@ export default class AddIdea extends Component {
       <form onSubmit={this.postIdeaToDB}>
         <div className="container">
           <div className="form-horizontal row"
-                style={{ display: 'flex',
-                          alignItems: 'center'}}>
+                style={{ 
+                  display: 'flex',
+                  alignItems: 'center'}}>
             <div className="col-md-3">
               <label>New Idea: </label>
               <div style={{ color: 'lightSlateGray' }} >

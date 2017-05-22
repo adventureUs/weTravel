@@ -16,16 +16,16 @@ export default class AddBuddyModal extends Component {
     this.closeModal = this.closeModal.bind(this)
   }
 
+  componentWillReceiveProps(incoming, outgoing) {
+    this.listenTo(incoming.tripRef.child('pendingBuddies'))
+  }
+
   componentDidMount() {
     this.listenTo(this.props.tripRef.child('pendingBuddies'))
   }
 
   componentWillUnmount() {
     this.unsubscribe && this.unsubscribe()
-  }
-
-  componentWillReceiveProps(incoming, outgoing) {
-    this.listenTo(incoming.tripRef.child('pendingBuddies'))
   }
 
   listenTo(ref) {

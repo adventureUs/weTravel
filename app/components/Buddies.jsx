@@ -16,6 +16,13 @@ export default class extends React.Component {
       copied: '',
     }
   }
+
+  componentWillReceiveProps(incoming, outgoing) {
+    // When the props sent to us by our parent component change,
+    // start listening to the new firebase reference.
+    this.listenTo(incoming.tripRef.child('buddies')) // this ref is undefined
+  }
+
   componentDidMount() {
     this.listenTo(this.props.tripRef.child('buddies'))
   }
@@ -23,19 +30,12 @@ export default class extends React.Component {
   componentWillUnmount() {
     this.unsubscribe && this.unsubscribe()
   }
-  componentWillReceiveProps(incoming, outgoing) {
-    // When the props sent to us by our parent component change,
-    // start listening to the new firebase reference.
-    this.listenTo(incoming.tripRef.child('buddies')) // this ref is undefined
-    // this.listenTo(incoming.tripsRef.child(tripId))
-  }
+
   listenTo(ref) {
     if (this.unsubscribe) this.unsubscribe()
     const listener = ref.on('value', snapshot => {
+    // changed to an object
       var buddies = {}
-      // for (var buddy in snapshot.val())
-      // { buddies.push({[buddy]: snapshot.val()[buddy]}) }
-      // changed to an object
       this.setState({ buddies: snapshot.val() })
     })
     this.unsubscribe = () => ref.off('value', listener)
@@ -78,7 +78,7 @@ export default class extends React.Component {
       </tr>
     )
   }
-  
+
   render() {
     return (
       <div className='well'>
