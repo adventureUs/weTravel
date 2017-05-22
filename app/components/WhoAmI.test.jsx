@@ -36,9 +36,6 @@ describe('<WhoAmI/>', () => {
       expect(root.text()).to.contain('Anonymous')
     })
 
-    it('displays a Login component', () => {
-      expect(root.find(Login)).to.have.length(1)
-    })
   })
 
   describe('when a user is logged in', () => {
