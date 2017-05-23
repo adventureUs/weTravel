@@ -11,7 +11,7 @@ Created by <a href="https://github.com/AllisonAV">Allison Alexanders</a>, <a hre
 
 Powered by Firebase and React.js
 
-Current features
+Current functionality
 -----------------
 - Multiple users can share one trip where they can:
   - Chat in realtime with other users
