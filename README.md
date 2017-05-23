@@ -26,7 +26,6 @@ Known issues
 - [ ] Users can 'like' an idea indefintely and cannot 'unlike' an idea
 - [ ] Currently no security check to see if a new user is on the 'pending buddies' list before being added on to a trip
 - [ ] Users can delete any idea, regardless of whether they created the idea or not
-- [ ] React prematurely closes forms while they are in use if another user is concurrently updating the same information
 - [ ] Refactoring needed to separate concerns into more succinct functions and wrapper React components
 
 
