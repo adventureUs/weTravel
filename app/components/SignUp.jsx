@@ -53,6 +53,9 @@ export default class extends React.Component {
             const queryString = window.location.search
             queryString ? addToTrip(user, queryString) : createNewUserAndTrip(user)
           })
+          .catch(error => {
+            window.alert(error)
+          })
       }
     } else {
       window.alert('Please fill in both your email and password')
