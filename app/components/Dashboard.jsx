@@ -27,12 +27,12 @@ export default class Dashboard extends Component {
   render() {
     return (
       <div>
-          <div className="row">
-            <div className="col col-md-3">
-              <Chat
-              userId={this.props.userId}
-              tripRef={this.props.tripRef}/>
-            </div>
+        <div className="row">
+          <div className="col col-md-3">
+            <Chat
+            userId={this.props.userId}
+            tripRef={this.props.tripRef}/>
+          </div>
           <div className="col col-md-9 background-white">
             <div className='tabsAndViews'>
               <TabsAndViews
@@ -45,7 +45,7 @@ export default class Dashboard extends Component {
                 />
             </div>
           </div>
-          </div>
+        </div>
       </div>
     )
   }
