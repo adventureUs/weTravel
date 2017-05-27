@@ -7,7 +7,7 @@ adventureUs is a place where you can virtually meet up with your buddies and pla
 
 [https://adventureus.tech/](https://adventureus.tech/)
 
-Created by <a href="https://github.com/AllisonAV">Allison Alexanders</a>, <a href="https://github.com/TinaHeiligers">Tina Heiligers</a>, <a href="https://github.com/meschreiber">Maria Schreiber, <a href="https://github.com/stefsulzer">Stefanie Sulzer<a/>.
+Created by <a href="https://github.com/AllisonAV">Allison Alexander</a>, <a href="https://github.com/TinaHeiligers">Tina Heiligers</a>, <a href="https://github.com/meschreiber">Maria Schreiber, <a href="https://github.com/stefsulzer">Stefanie Sulzer<a/>.
 
 Powered by Firebase and React.js
 
