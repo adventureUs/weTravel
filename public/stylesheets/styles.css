@@ -65,7 +65,8 @@ https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg
 
 body {
   /*background: url("../mountain-friends.jpeg") no-repeat */
-  background: url("https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg") no-repeat center center fixed;
+  /* background: url("https://static.pexels.com/photos/2029/landing-stage-sea-holiday-vacation.jpg") no-repeat center center fixed;*/
+  background: url("../sea-holiday-vacation.jpeg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
